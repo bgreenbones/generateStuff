@@ -7,6 +7,7 @@
   <MAINGROUP id="J1k6zd" name="generateStuff">
     <GROUP id="{8B6C652A-683F-BB6C-C5BE-5EF0FC3F13E4}" name="Source">
       <GROUP id="{6CE70B51-C216-6DFF-9C57-C552B6D4AD21}" name="Rhythm">
+        <FILE id="cKBVMP" name="Latin.cpp" compile="1" resource="0" file="Source/Rhythm/Latin.cpp"/>
         <FILE id="tEiwWo" name="Rhythm.cpp" compile="1" resource="0" file="Source/Rhythm/Rhythm.cpp"/>
         <FILE id="rrkwR1" name="Rhythm.hpp" compile="0" resource="0" file="Source/Rhythm/Rhythm.hpp"/>
       </GROUP>
