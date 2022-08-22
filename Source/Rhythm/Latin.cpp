@@ -9,7 +9,9 @@
 #include "Rhythm.hpp"
 
 Sequence Rhythm::randomCascara(float pDisplace, float pDouble) {
-    float pulse = 1.0, displacement = 0.5;
+//    float pulse = 1.0, displacement = 0.5;
+    float displacement = this->subdivision;
+    float pulse = displacement * 2;
 //    float pulse = 0.5, displacement = 0.25; // todo: choose pulse and subdivisions based on tempo and time sig and stuff?
     Sequence cascara = pulseAndDisplace(pulse, displacement, pDisplace, pDouble);
     const short accentVelocity = 120; // todo: move these out somewhere else.

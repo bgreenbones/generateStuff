@@ -16,7 +16,8 @@ bool Generator::initialized() {
 }
 
 template<typename T> // todo: put in common utility module?
-void initializeCollection(vector<reference_wrapper<T>> &collection) {
+//void initializeCollection(vector<reference_wrapper<T>> &collection) {
+void initializeCollection(vector<T> &collection) {
     if (collection.size() <= 0) {
         T t = T();
         collection.push_back(t);
@@ -24,7 +25,8 @@ void initializeCollection(vector<reference_wrapper<T>> &collection) {
     return;
 }
 
-vector<reference_wrapper<Sequence>> Generator::initialSequences() {
+//vector<reference_wrapper<Sequence>> Generator::initialSequences() {
+vector<Sequence> Generator::initialSequences() {
     return { cascaraSequence, claveSequence };
 };
 

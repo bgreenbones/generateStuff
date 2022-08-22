@@ -6,6 +6,10 @@
               pluginManufacturer="bgreenbones">
   <MAINGROUP id="J1k6zd" name="generateStuff">
     <GROUP id="{8B6C652A-683F-BB6C-C5BE-5EF0FC3F13E4}" name="Source">
+      <FILE id="jWsXrw" name="Heuristic.cpp" compile="1" resource="0" file="Source/Heuristic.cpp"/>
+      <FILE id="xONxbQ" name="Heuristic.hpp" compile="0" resource="0" file="Source/Heuristic.hpp"/>
+      <FILE id="s1FQa2" name="Constraint.hpp" compile="0" resource="0" file="Source/Constraint.hpp"/>
+      <FILE id="fgJeti" name="Constraint.cpp" compile="1" resource="0" file="Source/Constraint.cpp"/>
       <GROUP id="{6CE70B51-C216-6DFF-9C57-C552B6D4AD21}" name="Rhythm">
         <FILE id="cKBVMP" name="Latin.cpp" compile="1" resource="0" file="Source/Rhythm/Latin.cpp"/>
         <FILE id="tEiwWo" name="Rhythm.cpp" compile="1" resource="0" file="Source/Rhythm/Rhythm.cpp"/>

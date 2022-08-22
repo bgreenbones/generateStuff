@@ -22,9 +22,12 @@ using namespace std;
 class Generator
 {
 public:
-    vector<reference_wrapper<Sequence>> sequences;
-    vector<reference_wrapper<Rhythm>> rhythms;
-    vector<reference_wrapper<Phrase>> phrases;
+//    vector<reference_wrapper<Sequence>> sequences;
+//    vector<reference_wrapper<Rhythm>> rhythms;
+//    vector<reference_wrapper<Phrase>> phrases;
+    vector<Sequence> sequences;
+    vector<Rhythm> rhythms;
+    vector<Phrase> phrases;
     
     Generator() {
         sequences = initialSequences();
@@ -41,7 +44,8 @@ public:
     Playable cascara();
     Playable claveFromCascara();
 private:
-    vector<reference_wrapper<Sequence>> initialSequences();
+//    vector<reference_wrapper<Sequence>> initialSequences();
+    vector<Sequence> initialSequences();
 };
 
 #endif /* Generator_hpp */

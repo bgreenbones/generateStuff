@@ -35,10 +35,29 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     claveFromCascaraButton.setName("claveFromCascara");
     addAndMakeVisible (&claveFromCascaraButton);
     claveFromCascaraButton.addListener(this);
+
+    for (float subDiv = 1; subDiv <= 9; subDiv++) {
+        int subDivIndex = subDiv - 1;
+        auto pSubDivButton = subDivButtons[subDivIndex];
+        int subdivisionGroupId = 1832; // just some number
+        pSubDivButton->setRadioGroupId(subdivisionGroupId);
+        pSubDivButton->setClickingTogglesState(true);
+        addAndMakeVisible(pSubDivButton);
+        pSubDivButton->setToggleState(false, juce::dontSendNotification);
+        subDivButtons[subDivIndex]->onClick = [this, subDiv] { updateSubdivisionState (1.0 / subDiv); };
+    }
+    int defaultSubdivisionIndex = (int) (1.0 / audioProcessor.generator.rhythms[0].subdivision) - 1;
+    subDivButtons[defaultSubdivisionIndex]->setToggleState(true, juce::dontSendNotification);
+}
+
+void GenerateStuffAudioProcessorEditor::updateSubdivisionState(float subdivision) {
+    audioProcessor.generator.rhythms[0].subdivision = subdivision;
 }
 
 GenerateStuffAudioProcessorEditor::~GenerateStuffAudioProcessorEditor()
 {
+    subDivButtons.clear();
+    subDivButtons.shrink_to_fit();
 }
 
 //==============================================================================
@@ -56,9 +75,36 @@ void GenerateStuffAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
-    probabilityOfDouble.setBounds (40, 30, 20, getHeight() - 60);
-    generatePhrase.setBounds (70, 30, 40, getHeight() - 60);
-    claveFromCascaraButton.setBounds (120, 30, 40, getHeight() - 60);
+    int xPadding = 40;
+    int yPadding = 30;
+//    int width = getWidth() - 2 * xPadding;
+    int height = getHeight() - 2 * yPadding;
+    int spaceBetweenControls = 10;
+    int sliderWidth = 20;
+    int buttonWidth = 40;
+    
+    int xCursor = xPadding;
+    int yCursor = yPadding;
+    
+    probabilityOfDouble.setBounds (xCursor, yCursor, sliderWidth, height);
+    xCursor += sliderWidth + spaceBetweenControls;
+    
+    int buttonHeight = (height - spaceBetweenControls) / 2;
+    generatePhrase.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
+    yCursor += buttonHeight + spaceBetweenControls;
+    claveFromCascaraButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
+    xCursor += buttonWidth + spaceBetweenControls;
+    yCursor = yPadding;
+    
+    short spaceBetweenSubDivButtons = 5;
+    int totalSpaceBetweenSubDivButtons = spaceBetweenSubDivButtons * ((int) subDivButtons.size() - 1);
+    buttonHeight = (height - totalSpaceBetweenSubDivButtons) / subDivButtons.size();
+    for (auto i = 0;
+         i < subDivButtons.size();
+         i++) {
+        subDivButtons[i]->setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
+        yCursor += buttonHeight + spaceBetweenSubDivButtons;
+    }
     
 }
 
