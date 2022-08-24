@@ -8,6 +8,10 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include <string>
+#include <stdexcept>
+
+using namespace std;
 
 //==============================================================================
 GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateStuffAudioProcessor& p)
@@ -36,19 +40,49 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     addAndMakeVisible (&claveFromCascaraButton);
     claveFromCascaraButton.addListener(this);
 
-    for (float subDiv = 1; subDiv <= 9; subDiv++) {
-        int subDivIndex = subDiv - 1;
-        auto pSubDivButton = subDivButtons[subDivIndex];
+    for (float subdivisionDenominator = 1; subdivisionDenominator <= 9; subdivisionDenominator++) {
+        int subdivisionIndex = subdivisionDenominator - 1;
+        auto subdivisionButton = subdivisionButtons[subdivisionIndex];
         int subdivisionGroupId = 1832; // just some number
-        pSubDivButton->setRadioGroupId(subdivisionGroupId);
-        pSubDivButton->setClickingTogglesState(true);
-        addAndMakeVisible(pSubDivButton);
-        pSubDivButton->setToggleState(false, juce::dontSendNotification);
-        subDivButtons[subDivIndex]->onClick = [this, subDiv] { updateSubdivisionState (1.0 / subDiv); };
+        subdivisionButton->setRadioGroupId(subdivisionGroupId);
+        subdivisionButton->setClickingTogglesState(true);
+        addAndMakeVisible(subdivisionButton);
+        subdivisionButton->setToggleState(false, juce::dontSendNotification);
+        subdivisionButtons[subdivisionIndex]->onClick = [this, subdivisionDenominator] { updateSubdivisionState (1.0 / subdivisionDenominator); };
     }
     int defaultSubdivisionIndex = (int) (1.0 / audioProcessor.generator.rhythms[0].subdivision) - 1;
-    subDivButtons[defaultSubdivisionIndex]->setToggleState(true, juce::dontSendNotification);
+    subdivisionButtons[defaultSubdivisionIndex]->setToggleState(true, juce::dontSendNotification);
+    
+    phraseLengthBars.setJustification (juce::Justification::centred);
+    phraseLengthBeats.setJustification (juce::Justification::centred);
+    phraseLengthBars.setInputRestrictions (4, juce::String {".1234567890"});
+    phraseLengthBeats.setInputRestrictions (4, juce::String {".1234567890"});
+    addAndMakeVisible (&phraseLengthBars);
+    addAndMakeVisible (&phraseLengthBeats);
+    phraseLengthBars.onTextChange = [this] { updatePhraseLengthState(); };
+    phraseLengthBeats.onTextChange = [this] { updatePhraseLengthState(); };
 }
+
+void GenerateStuffAudioProcessorEditor::updatePhraseLengthState() {
+    float bars = -1;
+    float beats = -1;
+    try {
+        auto barsString = phraseLengthBars.getTextValue().toString().toStdString();
+        bars = stof(barsString);
+    } catch (const invalid_argument& ia) { }
+    try {
+        auto beatsString = phraseLengthBeats.getTextValue().toString().toStdString();
+        beats = stof(beatsString);
+    } catch (const invalid_argument& ia) { }
+
+    if (bars >= 0) {
+        audioProcessor.generator.setPhraseLengthBars(bars);
+    }
+    if (beats >= 0) {
+        audioProcessor.generator.setPhraseLengthBeats(beats);
+    }
+}
+
 
 void GenerateStuffAudioProcessorEditor::updateSubdivisionState(float subdivision) {
     audioProcessor.generator.rhythms[0].subdivision = subdivision;
@@ -56,8 +90,8 @@ void GenerateStuffAudioProcessorEditor::updateSubdivisionState(float subdivision
 
 GenerateStuffAudioProcessorEditor::~GenerateStuffAudioProcessorEditor()
 {
-    subDivButtons.clear();
-    subDivButtons.shrink_to_fit();
+    subdivisionButtons.clear();
+    subdivisionButtons.shrink_to_fit();
 }
 
 //==============================================================================
@@ -97,14 +131,23 @@ void GenerateStuffAudioProcessorEditor::resized()
     yCursor = yPadding;
     
     short spaceBetweenSubDivButtons = 5;
-    int totalSpaceBetweenSubDivButtons = spaceBetweenSubDivButtons * ((int) subDivButtons.size() - 1);
-    buttonHeight = (height - totalSpaceBetweenSubDivButtons) / subDivButtons.size();
+    int totalSpaceBetweenSubDivButtons = spaceBetweenSubDivButtons * ((int) subdivisionButtons.size() - 1);
+    buttonHeight = (height - totalSpaceBetweenSubDivButtons) / subdivisionButtons.size();
     for (auto i = 0;
-         i < subDivButtons.size();
+         i < subdivisionButtons.size();
          i++) {
-        subDivButtons[i]->setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
+        subdivisionButtons[i]->setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
         yCursor += buttonHeight + spaceBetweenSubDivButtons;
     }
+    
+    xCursor += buttonWidth + spaceBetweenControls;
+    yCursor = yPadding;
+    
+    int numberInputWidth = buttonWidth;
+    int numberInputHeight = buttonHeight;
+    phraseLengthBars.setBounds (xCursor, yCursor, numberInputWidth, numberInputHeight);
+    yCursor += numberInputHeight + spaceBetweenControls;
+    phraseLengthBeats.setBounds (xCursor, yCursor, numberInputWidth, numberInputHeight);
     
 }
 

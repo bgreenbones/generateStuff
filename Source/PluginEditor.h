@@ -46,11 +46,14 @@ private:
     juce::TextButton subDivButton7 { "1/7" };
     juce::TextButton subDivButton8 { "1/8" };
     juce::TextButton subDivButton9 { "1/9" };
-    vector<juce::TextButton*> subDivButtons {
+    vector<juce::TextButton*> subdivisionButtons {
         &subDivButton1, &subDivButton2, &subDivButton3, &subDivButton4, &subDivButton5,
         &subDivButton6, &subDivButton7, &subDivButton8, &subDivButton9
     };
     void updateSubdivisionState(float subdivision);
+    juce::TextEditor phraseLengthBars;
+    juce::TextEditor phraseLengthBeats;
+    void updatePhraseLengthState();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GenerateStuffAudioProcessorEditor)
 };

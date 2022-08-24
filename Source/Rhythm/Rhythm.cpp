@@ -27,14 +27,14 @@ Rhythm& Rhythm::operator=(Rhythm other) {
     return *this;
 };
 
-Sequence Rhythm::pulseAndDisplace(
-    float pulse,
-    float displacement, // 1/3 to displace by a triplet, 1/4 for a sixteenth, etc.
-    float pDisplace,
-    float pDouble)
+Sequence Rhythm::pulseAndDisplace(Sequence sequence,
+                                  float pulse,
+                                  float displacement, // 1/3 to displace by a triplet, 1/4 for a sixteenth, etc.
+                                  float pDisplace,
+                                  float pDouble)
 {
-    Sequence rhythm = Sequence();
-    const auto length = rhythm.phrasing.length;
+    Sequence rhythm = Sequence(); // todo: we need to get phrasings that we want into here!
+    const auto length = rhythm.phrasing.length();
     
     bernoulli_distribution displaceCoin(pDisplace);
     bernoulli_distribution doubleCoin(pDouble);

@@ -170,9 +170,15 @@ void GenerateStuffAudioProcessor::updateTimeSignature(juce::Optional<juce::Audio
     auto newTimeSignature = (positionInfo->getTimeSignature())
                              .orFallback(juce::AudioPlayHead::TimeSignature());
     
-    if (newTimeSignature.numerator != timeSignature.numerator ||
+    if (newTimeSignature.numerator != timeSignature.numerator || // todo: shouldn't we be able to just check equality of the TimeSignature objects?
         newTimeSignature.denominator != timeSignature.denominator) {
         timeSignature = newTimeSignature;
+    }
+
+    juce::AudioPlayHead::TimeSignature generatorTimeSignature = generator.getTimeSignature();
+    if (timeSignature.numerator != generatorTimeSignature.numerator ||
+        timeSignature.denominator != generatorTimeSignature.denominator) {
+        generator.setTimeSignature(timeSignature.numerator, timeSignature.denominator);
     }
     
     return;

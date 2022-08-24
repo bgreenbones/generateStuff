@@ -38,10 +38,39 @@ bool Generator::initialize() {
     return initialized();
 }
 
+bool Generator::setPhraseLengthBars(const float bars) {
+    if (phrases.size() <= 0) { return false; } // idk, maybe it could just initialize
+    phrases[0].bars = bars;
+    return true;
+}
+
+bool Generator::setPhraseLengthBeats(const float beats) {
+    if (phrases.size() <= 0) { return false; } // idk, maybe it could just initialize
+    phrases[0].beats = beats;
+    return true;
+}
+
+bool Generator::setTimeSignature(const int numerator, const int denominator) {
+    if (phrases.size() <= 0) { return false; } // idk, maybe it could just initialize
+    juce::AudioPlayHead::TimeSignature timeSignature = juce::AudioPlayHead::TimeSignature();
+    timeSignature.numerator = numerator;
+    timeSignature.denominator = denominator;
+    phrases[0].timeSignature = timeSignature;
+    return true;
+}
+
+juce::AudioPlayHead::TimeSignature Generator::getTimeSignature() {
+    if (!initialize()) { throw exception(); }
+    return phrases[0].timeSignature;
+}
+
 Playable Generator::cascara() {
     if (!initialize()) { throw exception(); }
     Rhythm r = rhythms.front();
-    cascaraSequence = r.randomCascara();
+    Phrase p = phrases.front();
+    cascaraSequence = Sequence(r, p);
+    cascaraSequence = r.randomCascara(cascaraSequence);
+    // todo: check sequences vector to see if this updates those references
     Playable result = Playable(cascaraSequence, cascaraSequence.phrasing, 1);
     return result;
 }

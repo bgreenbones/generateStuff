@@ -9,19 +9,31 @@
 
 Phrase Phrase::defaultPhrase = Phrase();
 
-Phrase::Phrase(float offset, short bar, float length) {
+Phrase::Phrase(float bars, float beats, juce::AudioPlayHead::TimeSignature timeSignature,
+               float offset, short bar) {
+    this->bars = bars;
+    if (beats >= timeSignature.numerator) { throw exception(); }
+    this->beats = beats;
+    this->timeSignature = timeSignature;
     this->offset = offset;
     this->bar = bar;
-    this->length = length; // todo: derive length from time sig, or at least make an arg
 }
 
 Phrase& Phrase::operator=(Phrase other) {
+    swap(bars, other.bars);
+    swap(beats, other.beats);
+    swap(timeSignature, other.timeSignature);
     swap(offset, other.offset);
     swap(bar, other.bar);
-    swap(length, other.length);
     return *this;
 };
 
+float Phrase::length() {
+    float quartersPerBeat = (4.0 / (float) this->timeSignature.denominator);
+    float beatsPerBar = this->timeSignature.numerator;
+    float beats = this->bars * beatsPerBar + this->beats;
+    return beats * quartersPerBeat;
+}
 
 double Phrase::ppqUntilBarStart(double ppqPosition) {
     return (double) bar - ppqPosition;

@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <vector>
 #include <functional>
+#include <JuceHeader.h>
 #include "Sequence.hpp"
 #include "Rhythm/Rhythm.hpp"
 #include "Phrase.hpp"
@@ -43,6 +44,11 @@ public:
     Sequence cascaraSequence, claveSequence;
     Playable cascara();
     Playable claveFromCascara();
+    
+    bool setPhraseLengthBars(const float bars);
+    bool setPhraseLengthBeats(const float beats);
+    bool setTimeSignature(const int numerator, const int denominator);
+    juce::AudioPlayHead::TimeSignature getTimeSignature();
 private:
 //    vector<reference_wrapper<Sequence>> initialSequences();
     vector<Sequence> initialSequences();

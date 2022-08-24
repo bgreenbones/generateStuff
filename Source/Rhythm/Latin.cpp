@@ -8,12 +8,18 @@
 #include <stdio.h>
 #include "Rhythm.hpp"
 
-Sequence Rhythm::randomCascara(float pDisplace, float pDouble) {
+Sequence Rhythm::randomCascara(Sequence cascara,
+                               float pDisplace,
+                               float pDouble) {
 //    float pulse = 1.0, displacement = 0.5;
     float displacement = this->subdivision;
     float pulse = displacement * 2;
 //    float pulse = 0.5, displacement = 0.25; // todo: choose pulse and subdivisions based on tempo and time sig and stuff?
-    Sequence cascara = pulseAndDisplace(pulse, displacement, pDisplace, pDouble);
+    cascara = pulseAndDisplace(cascara,
+                               pulse,
+                               displacement,
+                               pDisplace,
+                               pDouble);
     const short accentVelocity = 120; // todo: move these out somewhere else.
     const short unaccentedVelocity = 60;
     
@@ -32,9 +38,9 @@ Sequence Rhythm::randomCascara(float pDisplace, float pDouble) {
 }
 
 // todo: some way of preventing 0 syncopation from happening
-Sequence Rhythm::randomClave() {
-    Sequence clave = Sequence();
-    const auto length = clave.phrasing.length; // todo: evaluate how we're really deciding these stuffs
+Sequence Rhythm::randomClave(Sequence clave) {
+//    Sequence clave = Sequence();
+    const auto length = clave.phrasing.length(); // todo: evaluate how we're really deciding these stuffs
     clave.rhythm = *this; // todo: evaluate how we're really deciding these stuffs
     const auto subdivision = this->subdivision;
     
@@ -135,7 +141,7 @@ Sequence Rhythm::cascaraFromClave(Sequence clave) {
 Sequence Rhythm::claveFromCascara(Sequence cascara) {
     Sequence clave = Sequence(cascara.rhythm, cascara.phrasing);
     const auto subdivision = clave.rhythm.subdivision;
-    const auto phraseLength = clave.phrasing.length;
+    const auto phraseLength = clave.phrasing.length();
     
     // NEW APPROACH:
     // calculate notes on left and right like other clave method.

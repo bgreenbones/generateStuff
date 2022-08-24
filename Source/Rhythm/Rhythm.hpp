@@ -37,21 +37,21 @@ public:
     // just take a Rhythm as input, Rhythm can take all arguments to any function as members
     // 2. do a chainable interface -  but return a new rhythm each time.
     
-    Sequence pulseAndDisplace(
-        float pulse = 0.5, // in quarter notes
-        float displacement = 0.25, // in quarter notes, later.
-        float pDisplace = 0.5,
-        float pDouble = 0.75); // (for forward displacement, set pDouble = 1 and displacement = 1 - amount to displace forward)
+    Sequence pulseAndDisplace(Sequence sequence,
+                              float pulse = 0.5, // in quarter notes
+                              float displacement = 0.25, // in quarter notes, later.
+                              float pDisplace = 0.5,
+                              float pDouble = 0.75); // (for forward displacement, set pDouble = 1 and displacement = 1 - amount to displace forward)
     Sequence fillInGaps(Sequence rhythmWithGaps);
     Sequence chooseAccents(Sequence monotoneRhythm);
     
     // Latin.cpp
-    Sequence randomCascara(float pDisplace = 0.5, float pDouble = 0.75);
-    Sequence randomClave();
+    Sequence randomCascara(Sequence sequence,
+                           float pDisplace = 0.5,
+                           float pDouble = 0.75);
+    Sequence randomClave(Sequence sequence);
     Sequence cascaraFromClave(Sequence clave);
     Sequence claveFromCascara(Sequence cascara);
-    
-    
 };
 
 #endif /* Rhythm_hpp */
