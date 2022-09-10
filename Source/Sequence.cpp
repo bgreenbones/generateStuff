@@ -5,22 +5,38 @@
 //  Created by Benjamin Greenwood on 8/14/22.
 //
 
-#include "Rhythm/Rhythm.hpp"
+#include "Time/Rhythm.hpp"
 //#include "Phrase.hpp"
 #include "Sequence.hpp"
 
 Sequence& Sequence::operator=(Sequence other) {
+//    notes = other.notes;
+//    rhythm = other.rhythm;
+//    phrasing = other.phrasing;
     swap(notes, other.notes);
     swap(rhythm, other.rhythm);
     swap(phrasing, other.phrasing);
     return *this;
 };
-Sequence::Sequence(): rhythm(Rhythm::defaultRhythm), phrasing(Phrase::defaultPhrase) {}
-Sequence::Sequence(Rhythm &rhythm, Phrase &phrasing): rhythm(rhythm), phrasing(phrasing) {}
+Sequence::Sequence() {
+    this->rhythm = Rhythm();
+    this->phrasing = Phrase();
+}
+Sequence::Sequence(Rhythm rhythm, Phrase phrasing): rhythm(rhythm), phrasing(phrasing) {}
 
 //Note Phrase::firstNote() {
 //    sort(mNotes.begin(), mNotes.end());
 //    return mNotes.at(0);
 //}
 
-//bool addNote(Note note); // todo: implement. keep mNotes in order of note time.
+bool Sequence::addNote(Note note) {
+    if (note.pitch < 0 || note.pitch > 127) {
+        return false;
+    }
+    bool noteFitsInPhrase = note.startTime < phrasing.length();
+    if (noteFitsInPhrase) {
+        notes.push_back(note);
+        sort(notes.begin(), notes.end()); // todo: sort by startTime
+    }
+    return noteFitsInPhrase;
+}

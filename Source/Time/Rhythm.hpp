@@ -14,8 +14,9 @@
 #include <vector>
 #include <random>
 #include "../Note.hpp"
-#include "../Sequence.hpp"
+//#include "../Sequence.hpp"
 
+class Sequence;
 using namespace std;
 
 class Rhythm

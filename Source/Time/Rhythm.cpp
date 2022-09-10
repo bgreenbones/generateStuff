@@ -6,6 +6,7 @@
 //
 
 #include "Rhythm.hpp"
+#include "../Sequence.hpp"
 #include <algorithm>
 #include <random>
 
@@ -34,7 +35,7 @@ Sequence Rhythm::pulseAndDisplace(Sequence sequence,
                                   float pDouble)
 {
     Sequence rhythm = Sequence(); // todo: we need to get phrasings that we want into here!
-    const auto length = rhythm.phrasing.length();
+    const double length = rhythm.phrasing.duration;
     
     bernoulli_distribution displaceCoin(pDisplace);
     bernoulli_distribution doubleCoin(pDouble);
@@ -46,7 +47,7 @@ Sequence Rhythm::pulseAndDisplace(Sequence sequence,
                 Note extraNote = Note();
                 extraNote.startTime = cursor;
                 extraNote.duration = displacement;
-                rhythm.notes.push_back(extraNote);
+                rhythm.addNote(extraNote);
             }
             cursor += displacement;
         }
@@ -54,7 +55,7 @@ Sequence Rhythm::pulseAndDisplace(Sequence sequence,
         Note note = Note();
         note.startTime = cursor;
         note.duration = pulse;
-        rhythm.notes.push_back(note);
+        rhythm.addNote(note);
     }
     
     return rhythm;

@@ -6,6 +6,7 @@
 //
 
 #include "Generator.hpp"
+#include "Misc.h"
 
 
 
@@ -35,41 +36,39 @@ bool Generator::initialize() {
     sequences = initialSequences();
     initializeCollection(this->rhythms);
     initializeCollection(this->phrases);
+    activeRhythm = rhythms[0];
+    activePhrase = phrases[0];
     return initialized();
 }
 
 bool Generator::setPhraseLengthBars(const float bars) {
     if (phrases.size() <= 0) { return false; } // idk, maybe it could just initialize
-    phrases[0].bars = bars;
+    activePhrase.bars = bars;
     return true;
 }
 
 bool Generator::setPhraseLengthBeats(const float beats) {
     if (phrases.size() <= 0) { return false; } // idk, maybe it could just initialize
-    phrases[0].beats = beats;
+    activePhrase.beats = beats;
     return true;
 }
 
 bool Generator::setTimeSignature(const int numerator, const int denominator) {
     if (phrases.size() <= 0) { return false; } // idk, maybe it could just initialize
-    juce::AudioPlayHead::TimeSignature timeSignature = juce::AudioPlayHead::TimeSignature();
-    timeSignature.numerator = numerator;
-    timeSignature.denominator = denominator;
-    phrases[0].timeSignature = timeSignature;
+    activePhrase.timeSignature = TimeSignature(numerator, denominator);
     return true;
 }
 
-juce::AudioPlayHead::TimeSignature Generator::getTimeSignature() {
+TimeSignature Generator::getTimeSignature() {
     if (!initialize()) { throw exception(); }
-    return phrases[0].timeSignature;
+    return activePhrase.timeSignature;
 }
 
 Playable Generator::cascara() {
     if (!initialize()) { throw exception(); }
-    Rhythm r = rhythms.front();
-    Phrase p = phrases.front();
-    cascaraSequence = Sequence(r, p);
-    cascaraSequence = r.randomCascara(cascaraSequence);
+    cascaraSequence = Sequence(activeRhythm, activePhrase);
+    cascaraSequence = activeRhythm.randomCascara(cascaraSequence);
+    cascaraSequence = ornamentSequence(cascaraSequence, { flam, drag, ruff }, tempo);
     // todo: check sequences vector to see if this updates those references
     Playable result = Playable(cascaraSequence, cascaraSequence.phrasing, 1);
     return result;
@@ -78,6 +77,7 @@ Playable Generator::cascara() {
 Playable Generator::claveFromCascara() {
     if (!initialize()) { throw exception(); }
     claveSequence = cascaraSequence.rhythm.claveFromCascara(cascaraSequence);
+    claveSequence = ornamentSequence(claveSequence, { flam, drag, ruff }, tempo);
     Playable result = Playable(claveSequence, claveSequence.phrasing, 2);
     return result;
 }

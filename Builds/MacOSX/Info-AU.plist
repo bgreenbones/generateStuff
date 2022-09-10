@@ -29,7 +29,7 @@
     <array>
       <dict>
         <key>name</key>
-        <string>bgreenbones: generateStuff</string>
+        <string>yourcompany: generateStuff</string>
         <key>description</key>
         <string>generateStuff</string>
         <key>factoryFunction</key>
@@ -39,7 +39,7 @@
         <key>type</key>
         <string>aumi</string>
         <key>subtype</key>
-        <string>Rqoy</string>
+        <string>Mo3w</string>
         <key>version</key>
         <integer>65536</integer>
         <key>resourceUsage</key>

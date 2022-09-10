@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="mO3Wo9" name="generateStuff" projectType="audioplug" useAppConfig="0"
+              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
+              pluginCharacteristicsValue="pluginIsMidiEffectPlugin,pluginProducesMidiOut,pluginWantsMidiIn">
+  <MAINGROUP id="MsxILz" name="generateStuff">
+    <GROUP id="{00999AAF-F7D5-2407-527D-4524909F0912}" name="Source">
+      <GROUP id="{7E9EEBA7-7D3A-0165-A4D4-0B38048879EB}" name="Time">
+        <FILE id="rwfToY" name="Duration.cpp" compile="1" resource="0" file="Source/Time/Duration.cpp"/>
+        <FILE id="qpYMCJ" name="Duration.h" compile="0" resource="0" file="Source/Time/Duration.h"/>
+        <FILE id="Z8gBSg" name="Latin.cpp" compile="1" resource="0" file="Source/Time/Latin.cpp"/>
+        <FILE id="EBEAWQ" name="Phrase.cpp" compile="1" resource="0" file="Source/Time/Phrase.cpp"/>
+        <FILE id="DvWTMc" name="Phrase.hpp" compile="0" resource="0" file="Source/Time/Phrase.hpp"/>
+        <FILE id="sULD8p" name="Rhythm.cpp" compile="1" resource="0" file="Source/Time/Rhythm.cpp"/>
+        <FILE id="PsHNjo" name="Rhythm.hpp" compile="0" resource="0" file="Source/Time/Rhythm.hpp"/>
+        <FILE id="y64dvW" name="Subdivision.cpp" compile="1" resource="0" file="Source/Time/Subdivision.cpp"/>
+        <FILE id="jt7jv0" name="Subdivision.h" compile="0" resource="0" file="Source/Time/Subdivision.h"/>
+        <FILE id="n6jSib" name="TimeTypedefs.h" compile="0" resource="0" file="Source/Time/TimeTypedefs.h"/>
+        <FILE id="as1oLj" name="TimeSignature.cpp" compile="1" resource="0"
+              file="Source/Time/TimeSignature.cpp"/>
+        <FILE id="re9oif" name="TimeSignature.h" compile="0" resource="0" file="Source/Time/TimeSignature.h"/>
+      </GROUP>
+      <FILE id="kFP0O5" name="Constraint.cpp" compile="1" resource="0" file="Source/Constraint.cpp"/>
+      <FILE id="YPjCl5" name="Constraint.hpp" compile="0" resource="0" file="Source/Constraint.hpp"/>
+      <FILE id="q9sIZD" name="Generator.cpp" compile="1" resource="0" file="Source/Generator.cpp"/>
+      <FILE id="po8Vvx" name="Generator.hpp" compile="0" resource="0" file="Source/Generator.hpp"/>
+      <FILE id="IqXoVd" name="Heuristic.cpp" compile="1" resource="0" file="Source/Heuristic.cpp"/>
+      <FILE id="dIkQax" name="Heuristic.hpp" compile="0" resource="0" file="Source/Heuristic.hpp"/>
+      <FILE id="NdGeUC" name="HostSettings.cpp" compile="1" resource="0"
+            file="Source/HostSettings.cpp"/>
+      <FILE id="kzYUPH" name="HostSettings.h" compile="0" resource="0" file="Source/HostSettings.h"/>
+      <FILE id="lX1f8c" name="Misc.cpp" compile="1" resource="0" file="Source/Misc.cpp"/>
+      <FILE id="cVh7ht" name="Misc.h" compile="0" resource="0" file="Source/Misc.h"/>
+      <FILE id="BZF26X" name="Note.cpp" compile="1" resource="0" file="Source/Note.cpp"/>
+      <FILE id="uF8Cts" name="Note.hpp" compile="0" resource="0" file="Source/Note.hpp"/>
+      <FILE id="PAFLHx" name="Playable.cpp" compile="1" resource="0" file="Source/Playable.cpp"/>
+      <FILE id="KqKfYW" name="Playable.hpp" compile="0" resource="0" file="Source/Playable.hpp"/>
+      <FILE id="RFls1u" name="PluginEditor.cpp" compile="1" resource="0"
+            file="Source/PluginEditor.cpp"/>
+      <FILE id="Aj4u7Y" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+      <FILE id="cf7fQF" name="PluginProcessor.cpp" compile="1" resource="0"
+            file="Source/PluginProcessor.cpp"/>
+      <FILE id="Xm7vUK" name="PluginProcessor.h" compile="0" resource="0"
+            file="Source/PluginProcessor.h"/>
+      <FILE id="NaviHW" name="Probability.cpp" compile="1" resource="0" file="Source/Probability.cpp"/>
+      <FILE id="ve3L5v" name="Probability.h" compile="0" resource="0" file="Source/Probability.h"/>
+      <FILE id="xRvf6p" name="Sequence.cpp" compile="1" resource="0" file="Source/Sequence.cpp"/>
+      <FILE id="zA9x7n" name="Sequence.hpp" compile="0" resource="0" file="Source/Sequence.hpp"/>
+    </GROUP>
+  </MAINGROUP>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="generateStuff2"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="generateStuff2"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_basics" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+</JUCERPROJECT>

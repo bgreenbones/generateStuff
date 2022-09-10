@@ -8,6 +8,7 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "HostSettings.h"
 
 //==============================================================================
 GenerateStuffAudioProcessor::GenerateStuffAudioProcessor()
@@ -167,18 +168,27 @@ void GenerateStuffAudioProcessor::clave() {
 
 void GenerateStuffAudioProcessor::updateTimeSignature(juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo)
 {
-    auto newTimeSignature = (positionInfo->getTimeSignature())
+    auto newTimeSignatureJuce = (positionInfo->getTimeSignature())
                              .orFallback(juce::AudioPlayHead::TimeSignature());
     
-    if (newTimeSignature.numerator != timeSignature.numerator || // todo: shouldn't we be able to just check equality of the TimeSignature objects?
-        newTimeSignature.denominator != timeSignature.denominator) {
-        timeSignature = newTimeSignature;
+//    if (newTimeSignature.numerator != timeSignature.numerator || // todo: shouldn't we be able to just check equality of the TimeSignature objects?
+//        newTimeSignature.denominator != timeSignature.denominator) {
+    if (newTimeSignatureJuce != timeSignature) {
+        timeSignature = newTimeSignatureJuce;
     }
 
-    juce::AudioPlayHead::TimeSignature generatorTimeSignature = generator.getTimeSignature();
-    if (timeSignature.numerator != generatorTimeSignature.numerator ||
-        timeSignature.denominator != generatorTimeSignature.denominator) {
-        generator.setTimeSignature(timeSignature.numerator, timeSignature.denominator);
+//    TimeSignature generatorTimeSignature = generator.getTimeSignature();
+//    if (timeSignature.numerator != generatorTimeSignature.numerator ||
+//        timeSignature.denominator != generatorTimeSignature.denominator) {
+//        generator.setTimeSignature(timeSignature.numerator, timeSignature.denominator);
+//    }
+//
+    TimeSignature newTimeSignature = TimeSignature(newTimeSignatureJuce.numerator, newTimeSignatureJuce.denominator);
+//    if (HostSettings::instance().getTimeSignature().numerator != newTimeSignature.numerator ||
+//        HostSettings::instance().getTimeSignature().denominator != newTimeSignature.denominator) {
+    if (HostSettings::instance().getTimeSignature() != newTimeSignature) {
+        HostSettings::instance().setTimeSignature(newTimeSignature);
+//        Phrase::defaultPhrase = Phrase(); // todo: ugh how do we do things that are initialized the processor?
     }
     
     return;
@@ -190,6 +200,10 @@ void GenerateStuffAudioProcessor::updateBpm(juce::Optional<juce::AudioPlayHead::
     if (newBpm != this->bpm) {
         bpm = newBpm;
         samplesPerBeat = mSamplesPerMinute / bpm;
+    }
+    
+    if (newBpm != generator.tempo) {
+        generator.tempo = newBpm;
     }
     
     return;
@@ -233,7 +247,7 @@ void GenerateStuffAudioProcessor::playPlayables(
                         
                         if (loop != no_loop) {
                             if (loop.ppqStart <= ppqTime) {
-                                return (loop.ppqEnd - ppqPosition + ppqTime - loop.ppqStart) * samplesPerBeat + 1;
+                                return (loop.ppqEnd - ppqPosition + ppqTime - loop.ppqStart) * samplesPerBeat + 2; // + 2 ? I guess we're adding two + 1s demonstrated below?
                             }
                         }
                     }
@@ -277,6 +291,20 @@ void GenerateStuffAudioProcessor::playPlayables(
 void GenerateStuffAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
     buffer.clear();
+    if (!midiMessages.isEmpty()) {
+        midiMessages.clear();
+    }
+    
+    
+//    Beats exampleBeats = 6.0;
+//    Quarters exampleQuarters = 3.0;
+//    Bars canIDoThis = exampleBeats + exampleQuarters;
+//    Duration beatsnbars = Bars(1) + Beats(2);
+//    Duration copyConstructed = Duration(beatsnbars);
+//
+//    double correctLength = canIDoThis;
+    
+//    Phrase newPhrase = Phrase();
 
     auto playhead = getPlayHead();
     auto positionInfo = playhead->getPosition();

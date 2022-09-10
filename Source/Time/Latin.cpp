@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include "Rhythm.hpp"
+#include "../Sequence.hpp"
 
 Sequence Rhythm::randomCascara(Sequence cascara,
                                float pDisplace,
@@ -32,6 +33,7 @@ Sequence Rhythm::randomCascara(Sequence cascara,
         } else {
             noteIt->accent = true;
             noteIt->velocity = accentVelocity;
+            noteIt->ornamented = 0.5;
         }
     }
     return cascara;
@@ -116,7 +118,7 @@ Sequence Rhythm::randomClave(Sequence clave) {
                 notePosition += note.duration;
             }
             
-            clave.notes.push_back(note);
+            clave.addNote(note);
         }
     } while (constraintsBroken);
     
@@ -214,8 +216,9 @@ Sequence Rhythm::claveFromCascara(Sequence cascara) {
                         note.startTime = noteIt->startTime;
                         note.accent = true;
                         note.duration = 1; // todo: method to fill out durations between notes
+                        note.ornamented = 0.5; // todo: don't just make accented notes ornamented.
                         notesNeededOnLeft--;
-                        clave.notes.push_back(note);
+                        clave.addNote(note);
                     }
                 } else {
                     constraintsBroken = true;
@@ -229,8 +232,9 @@ Sequence Rhythm::claveFromCascara(Sequence cascara) {
                         note.startTime = noteIt->startTime;
                         note.accent = true;
                         note.duration = 1; // todo: method to fill out durations between notes
+                        note.ornamented = 0.5;
                         notesNeededOnRight--;
-                        clave.notes.push_back(note);
+                        clave.addNote(note);
                     }
                 }
             }

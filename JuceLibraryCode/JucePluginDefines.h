@@ -47,7 +47,7 @@
  #define JucePlugin_Desc                   "generateStuff"
 #endif
 #ifndef  JucePlugin_Manufacturer
- #define JucePlugin_Manufacturer           "bgreenbones"
+ #define JucePlugin_Manufacturer           "yourcompany"
 #endif
 #ifndef  JucePlugin_ManufacturerWebsite
  #define JucePlugin_ManufacturerWebsite    "www.yourcompany.com"
@@ -59,7 +59,7 @@
  #define JucePlugin_ManufacturerCode       0x4d616e75
 #endif
 #ifndef  JucePlugin_PluginCode
- #define JucePlugin_PluginCode             0x52716f79
+ #define JucePlugin_PluginCode             0x4d6f3377
 #endif
 #ifndef  JucePlugin_IsSynth
  #define JucePlugin_IsSynth                0
@@ -137,7 +137,7 @@
  #define JucePlugin_IAASubType             JucePlugin_PluginCode
 #endif
 #ifndef  JucePlugin_IAAName
- #define JucePlugin_IAAName                "bgreenbones: generateStuff"
+ #define JucePlugin_IAAName                "yourcompany: generateStuff"
 #endif
 #ifndef  JucePlugin_VSTNumMidiInputs
  #define JucePlugin_VSTNumMidiInputs       16

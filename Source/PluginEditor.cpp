@@ -61,6 +61,10 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     addAndMakeVisible (&phraseLengthBeats);
     phraseLengthBars.onTextChange = [this] { updatePhraseLengthState(); };
     phraseLengthBeats.onTextChange = [this] { updatePhraseLengthState(); };
+    juce::String barsString = juce::String::formatted("%.2f", audioProcessor.generator.activePhrase.bars);
+    juce::String beatsString = juce::String::formatted("%.2f", audioProcessor.generator.activePhrase.beats);
+    phraseLengthBars.setText(barsString);
+    phraseLengthBeats.setText(beatsString);
 }
 
 void GenerateStuffAudioProcessorEditor::updatePhraseLengthState() {
@@ -85,7 +89,7 @@ void GenerateStuffAudioProcessorEditor::updatePhraseLengthState() {
 
 
 void GenerateStuffAudioProcessorEditor::updateSubdivisionState(float subdivision) {
-    audioProcessor.generator.rhythms[0].subdivision = subdivision;
+    audioProcessor.generator.activeRhythm.subdivision = subdivision;
 }
 
 GenerateStuffAudioProcessorEditor::~GenerateStuffAudioProcessorEditor()

@@ -11,6 +11,7 @@
 #define Note_hpp
 
 #include <stdio.h>
+#include "Probability.h"
 
 #endif /* Note_hpp */
 
@@ -26,7 +27,10 @@ public:
     short velocity; // todo: use juce types for unsigned shorts and others?
     float startTime; // in quarter notes
     float duration; // in quarter notes
-    bool accent;
+//    bool accent; // todo: make these probabilities!!!
+    Probability accent;
+    Probability ornamented;
+    bool ornament;
     // todo: other expressions for ccs
     
     bool operator< (const Note &other) const { return startTime < other.startTime; }

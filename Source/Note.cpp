@@ -17,4 +17,6 @@ Note::Note(short pitch,
     this->startTime = startTime;
     this->duration = duration;
     this->accent = false;
+    this->ornamented = false;
+    this->ornament = false;
 }

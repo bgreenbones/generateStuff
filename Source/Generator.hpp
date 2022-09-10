@@ -14,8 +14,8 @@
 #include <functional>
 #include <JuceHeader.h>
 #include "Sequence.hpp"
-#include "Rhythm/Rhythm.hpp"
-#include "Phrase.hpp"
+#include "Time/Rhythm.hpp"
+#include "Time/Phrase.hpp"
 #include "Playable.hpp"
 
 using namespace std;
@@ -29,6 +29,9 @@ public:
     vector<Sequence> sequences;
     vector<Rhythm> rhythms;
     vector<Phrase> phrases;
+    Rhythm activeRhythm;
+    Phrase activePhrase;
+    float tempo;
     
     Generator() {
         sequences = initialSequences();
@@ -36,6 +39,7 @@ public:
         rhythms.push_back(rhythm);
         Phrase phrase = Phrase();
         phrases.push_back(phrase);
+        tempo = 120;
     }
     
     bool initialized();
@@ -48,7 +52,7 @@ public:
     bool setPhraseLengthBars(const float bars);
     bool setPhraseLengthBeats(const float beats);
     bool setTimeSignature(const int numerator, const int denominator);
-    juce::AudioPlayHead::TimeSignature getTimeSignature();
+    TimeSignature getTimeSignature();
 private:
 //    vector<reference_wrapper<Sequence>> initialSequences();
     vector<Sequence> initialSequences();

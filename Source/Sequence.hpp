@@ -12,21 +12,22 @@
 
 #include <vector>
 #include "Note.hpp"
-#include "Phrase.hpp"
+#include "Time/Rhythm.hpp"
+#include "Time/Phrase.hpp"
 
-class Rhythm;
+//class Rhythm;
 using namespace std;
 
 class Sequence
 {
 public:
     Sequence();
-    Sequence(Rhythm &rhythm, Phrase &phrasing);
+    Sequence(Rhythm rhythm, Phrase phrasing);
     Sequence& operator=(Sequence other);
     
     vector<Note> notes; // todo: make private and access through methods that keep it sorted?
-    Rhythm &rhythm;
-    Phrase &phrasing;
+    Rhythm rhythm;
+    Phrase phrasing;
     bool addNote(Note toAdd);
 };
 

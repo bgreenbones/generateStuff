@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 #include "Sequence.hpp"
-#include "Phrase.hpp"
+#include "Time/Phrase.hpp"
 
 class Playable {
 public:
