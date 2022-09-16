@@ -2,17 +2,24 @@
 
 <JUCERPROJECT id="mO3Wo9" name="generateStuff" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
-              pluginCharacteristicsValue="pluginIsMidiEffectPlugin,pluginProducesMidiOut,pluginWantsMidiIn">
+              pluginCharacteristicsValue="pluginIsMidiEffectPlugin,pluginProducesMidiOut,pluginWantsMidiIn"
+              cppLanguageStandard="17">
   <MAINGROUP id="MsxILz" name="generateStuff">
     <GROUP id="{00999AAF-F7D5-2407-527D-4524909F0912}" name="Source">
+      <GROUP id="{E84D5FE5-051D-49D6-86AD-21D645F5CBC0}" name="Sequence">
+        <GROUP id="{DAAC1CF5-B5A7-DBE1-2457-B61E6B07A312}" name="Rhythm">
+          <FILE id="No4I9r" name="Latin.cpp" compile="1" resource="0" file="Source/Sequence/Rhythm/Latin.cpp"/>
+          <FILE id="p8wtXv" name="Rhythm.cpp" compile="1" resource="0" file="Source/Sequence/Rhythm/Rhythm.cpp"/>
+        </GROUP>
+        <FILE id="iOGOg4" name="Ornamentation.cpp" compile="1" resource="0"
+              file="Source/Sequence/Ornamentation.cpp"/>
+        <FILE id="YOlQHL" name="Sequence.cpp" compile="1" resource="0" file="Source/Sequence/Sequence.cpp"/>
+        <FILE id="XQ9aNi" name="Sequence.hpp" compile="0" resource="0" file="Source/Sequence/Sequence.hpp"/>
+      </GROUP>
       <GROUP id="{7E9EEBA7-7D3A-0165-A4D4-0B38048879EB}" name="Time">
+        <FILE id="RsQGR1" name="TimedEvent.h" compile="0" resource="0" file="Source/Time/TimedEvent.h"/>
         <FILE id="rwfToY" name="Duration.cpp" compile="1" resource="0" file="Source/Time/Duration.cpp"/>
         <FILE id="qpYMCJ" name="Duration.h" compile="0" resource="0" file="Source/Time/Duration.h"/>
-        <FILE id="Z8gBSg" name="Latin.cpp" compile="1" resource="0" file="Source/Time/Latin.cpp"/>
-        <FILE id="EBEAWQ" name="Phrase.cpp" compile="1" resource="0" file="Source/Time/Phrase.cpp"/>
-        <FILE id="DvWTMc" name="Phrase.hpp" compile="0" resource="0" file="Source/Time/Phrase.hpp"/>
-        <FILE id="sULD8p" name="Rhythm.cpp" compile="1" resource="0" file="Source/Time/Rhythm.cpp"/>
-        <FILE id="PsHNjo" name="Rhythm.hpp" compile="0" resource="0" file="Source/Time/Rhythm.hpp"/>
         <FILE id="y64dvW" name="Subdivision.cpp" compile="1" resource="0" file="Source/Time/Subdivision.cpp"/>
         <FILE id="jt7jv0" name="Subdivision.h" compile="0" resource="0" file="Source/Time/Subdivision.h"/>
         <FILE id="n6jSib" name="TimeTypedefs.h" compile="0" resource="0" file="Source/Time/TimeTypedefs.h"/>
@@ -31,9 +38,7 @@
       <FILE id="kzYUPH" name="HostSettings.h" compile="0" resource="0" file="Source/HostSettings.h"/>
       <FILE id="lX1f8c" name="Misc.cpp" compile="1" resource="0" file="Source/Misc.cpp"/>
       <FILE id="cVh7ht" name="Misc.h" compile="0" resource="0" file="Source/Misc.h"/>
-      <FILE id="BZF26X" name="Note.cpp" compile="1" resource="0" file="Source/Note.cpp"/>
       <FILE id="uF8Cts" name="Note.hpp" compile="0" resource="0" file="Source/Note.hpp"/>
-      <FILE id="PAFLHx" name="Playable.cpp" compile="1" resource="0" file="Source/Playable.cpp"/>
       <FILE id="KqKfYW" name="Playable.hpp" compile="0" resource="0" file="Source/Playable.hpp"/>
       <FILE id="RFls1u" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
@@ -44,8 +49,6 @@
             file="Source/PluginProcessor.h"/>
       <FILE id="NaviHW" name="Probability.cpp" compile="1" resource="0" file="Source/Probability.cpp"/>
       <FILE id="ve3L5v" name="Probability.h" compile="0" resource="0" file="Source/Probability.h"/>
-      <FILE id="xRvf6p" name="Sequence.cpp" compile="1" resource="0" file="Source/Sequence.cpp"/>
-      <FILE id="zA9x7n" name="Sequence.hpp" compile="0" resource="0" file="Source/Sequence.hpp"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>

@@ -99,15 +99,16 @@ void GenerateStuffAudioProcessor::prepareToPlay (double sampleRate, int samplesP
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
-    mSampleRate = sampleRate;
-    mSamplesPerBlock = samplesPerBlock;
+    this->mSampleRate = sampleRate;
+    samplesPerMinute = sampleRate * 60;
+    this->mSmplesPerBlock = samplesPerBlock;
     
     auto playhead = getPlayHead();
-    auto positionInfo = playhead->getPosition();
-    bpm = (positionInfo->getBpm()).orFallback(120);
-    
-    mSamplesPerMinute = mSampleRate * 60;
-    samplesPerBeat = mSamplesPerMinute / bpm;
+    if (playhead != nullptr) {
+        auto positionInfo = playhead->getPosition();
+        HostSettings::instance().setTempo((positionInfo->getBpm()).orFallback(120));
+        samplesPerBeat = samplesPerMinute / HostSettings::instance().getTempo();
+    }
 }
 
 void GenerateStuffAudioProcessor::releaseResources()
@@ -170,25 +171,10 @@ void GenerateStuffAudioProcessor::updateTimeSignature(juce::Optional<juce::Audio
 {
     auto newTimeSignatureJuce = (positionInfo->getTimeSignature())
                              .orFallback(juce::AudioPlayHead::TimeSignature());
-    
-//    if (newTimeSignature.numerator != timeSignature.numerator || // todo: shouldn't we be able to just check equality of the TimeSignature objects?
-//        newTimeSignature.denominator != timeSignature.denominator) {
-    if (newTimeSignatureJuce != timeSignature) {
-        timeSignature = newTimeSignatureJuce;
-    }
 
-//    TimeSignature generatorTimeSignature = generator.getTimeSignature();
-//    if (timeSignature.numerator != generatorTimeSignature.numerator ||
-//        timeSignature.denominator != generatorTimeSignature.denominator) {
-//        generator.setTimeSignature(timeSignature.numerator, timeSignature.denominator);
-//    }
-//
     TimeSignature newTimeSignature = TimeSignature(newTimeSignatureJuce.numerator, newTimeSignatureJuce.denominator);
-//    if (HostSettings::instance().getTimeSignature().numerator != newTimeSignature.numerator ||
-//        HostSettings::instance().getTimeSignature().denominator != newTimeSignature.denominator) {
     if (HostSettings::instance().getTimeSignature() != newTimeSignature) {
         HostSettings::instance().setTimeSignature(newTimeSignature);
-//        Phrase::defaultPhrase = Phrase(); // todo: ugh how do we do things that are initialized the processor?
     }
     
     return;
@@ -197,13 +183,9 @@ void GenerateStuffAudioProcessor::updateBpm(juce::Optional<juce::AudioPlayHead::
 {
     auto newBpm = (positionInfo->getBpm()).orFallback(120);
     
-    if (newBpm != this->bpm) {
-        bpm = newBpm;
-        samplesPerBeat = mSamplesPerMinute / bpm;
-    }
-    
-    if (newBpm != generator.tempo) {
-        generator.tempo = newBpm;
+    if (newBpm != HostSettings::instance().getTempo()) {
+        HostSettings::instance().setTempo(newBpm);
+        samplesPerBeat = samplesPerMinute / newBpm;
     }
     
     return;
@@ -214,23 +196,20 @@ void GenerateStuffAudioProcessor::playPlayables(
         juce::MidiBuffer& midiMessages)
 {
     
-//    double ppqLastBarStart = (positionInfo->getPpqPositionOfLastBarStart()).orFallback(0);
     const double ppqPosition = (positionInfo->getPpqPosition()).orFallback(0);
-//    float barPosition = ppqPosition - ppqLastBarStart;
-//    float ppqFraction = ppqPosition - floor(ppqPosition);
-//    double noteTime = (1.0 - ppqFraction) * mSamplesPerBeat;
     for (auto playableIt = playQueue.begin(); playableIt < playQueue.end(); ++playableIt) {
         Playable playable = *playableIt;
         Sequence sequence = playable.sequence;
-        Phrase phrase = playable.phrase;
+//        Phrase phrase = playable.phrase;
         int midiChannel = playable.midiChannel;
         
         for (auto noteIt = sequence.notes.begin(); noteIt != sequence.notes.end(); ++noteIt) {
             Note note = *noteIt;
             
-            float ppqBarInQuarters = timeSignature.numerator * (4.0 / (float) timeSignature.denominator);
             
-            double noteOnTimeInQuarters = phrase.bar * ppqBarInQuarters + phrase.offset + note.startTime; // todo: this doesn't work right if we have time signature changes
+//            float ppqBarInQuarters = HostSettings::instance().getTimeSignature().barLengthInQuarters();
+//            double noteOnTimeInQuarters = phrase.bar * ppqBarInQuarters + phrase.offset + note.startTime; // todo: this doesn't work right if we have time signature changes
+            double noteOnTimeInQuarters = sequence.startTime + note.startTime;
             double noteOffTimeInQuarters = noteOnTimeInQuarters + note.duration;
             
             function <float(float)> bufferTimeFromPpqTime = [&](float ppqTime) -> float {
@@ -258,7 +237,7 @@ void GenerateStuffAudioProcessor::playPlayables(
             function<bool(float)> isPpqTimeInBuffer = [&](float ppqTime) -> bool {
                 float bufferTime = bufferTimeFromPpqTime(ppqTime);
     //            return 0 <= bufferTime && bufferTime < mSamplesPerBlock;
-                return 0 < bufferTime && bufferTime <= mSamplesPerBlock; // todo: get actual lowest and highest indexes for the buffer instead of these guesses
+                return 0 < bufferTime && bufferTime <= mSmplesPerBlock; // todo: get actual lowest and highest indexes for the buffer instead of these guesses
             };
             
             if (isPpqTimeInBuffer(noteOnTimeInQuarters)) {
@@ -294,25 +273,27 @@ void GenerateStuffAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
     if (!midiMessages.isEmpty()) {
         midiMessages.clear();
     }
-    
-    
-//    Beats exampleBeats = 6.0;
-//    Quarters exampleQuarters = 3.0;
-//    Bars canIDoThis = exampleBeats + exampleQuarters;
-//    Duration beatsnbars = Bars(1) + Beats(2);
-//    Duration copyConstructed = Duration(beatsnbars);
-//
-//    double correctLength = canIDoThis;
-    
-//    Phrase newPhrase = Phrase();
 
     auto playhead = getPlayHead();
-    auto positionInfo = playhead->getPosition();
-    
-    updateTimeSignature(positionInfo);
-    updateBpm(positionInfo);
-
-    playPlayables(positionInfo, midiMessages);
+    if (playhead != nullptr) {
+        auto positionInfo = playhead->getPosition();
+        updateTimeSignature(positionInfo);
+        updateBpm(positionInfo);
+        auto isPlaying = positionInfo->getIsPlaying();
+        if (isPlaying) {
+            playPlayables(positionInfo, midiMessages);
+        } else {
+            for (int pitch = 0; pitch <= 127; pitch ++) { // yikes. for now this is the only thing that turns off note on messages when we stop playing
+                for (int midiChannel = 1; midiChannel <= 16; midiChannel++) {
+                    auto noteOff = juce::MidiMessage::noteOff (midiChannel, pitch, (juce::uint8) 1);
+                    bool success = midiMessages.addEvent (noteOff, 0);
+                    if (!success) {
+                        throw exception();
+                    }
+                }
+            }
+        }
+    }
     
     juce::ScopedNoDenormals noDenormals;
      // In case we have more outputs than inputs, this code clears any output
@@ -336,6 +317,7 @@ bool GenerateStuffAudioProcessor::hasEditor() const
 juce::AudioProcessorEditor* GenerateStuffAudioProcessor::createEditor()
 {
     return new GenerateStuffAudioProcessorEditor (*this);
+//    return new juce::GenericAudioProcessorEditor (*this);
 }
 
 //==============================================================================
@@ -350,6 +332,33 @@ void GenerateStuffAudioProcessor::setStateInformation (const void* data, int siz
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+}
+
+juce::AudioProcessorValueTreeState::ParameterLayout GenerateStuffAudioProcessor::createParameterLayout() {
+    juce::AudioProcessorValueTreeState::ParameterLayout layout;
+    
+    layout.add(make_unique<juce::AudioParameterFloat>(
+                                                      "Probability",
+                                                      "Probability",
+                                                      juce::NormalisableRange<float>(0.f, 1.f, 0.01f, 1.f),
+                                                      0.2f
+                                                      ));
+    
+    juce::StringArray subdivisionStrings;
+    for (int i = 1; i <= 9; i++) {
+        juce::String subdivisionString;
+        subdivisionString << "1/";
+        subdivisionString << i;
+        subdivisionStrings.add(subdivisionString);
+    }
+    layout.add(make_unique<juce::AudioParameterChoice>(
+                                                      "Subdivision",
+                                                      "Subdivision",
+                                                      subdivisionStrings,
+                                                      0
+                                                      ));
+    
+    return layout;
 }
 
 //==============================================================================

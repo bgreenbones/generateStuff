@@ -50,7 +50,7 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
         subdivisionButton->setToggleState(false, juce::dontSendNotification);
         subdivisionButtons[subdivisionIndex]->onClick = [this, subdivisionDenominator] { updateSubdivisionState (1.0 / subdivisionDenominator); };
     }
-    int defaultSubdivisionIndex = (int) (1.0 / audioProcessor.generator.rhythms[0].subdivision) - 1;
+    int defaultSubdivisionIndex = (int) (1.0 / Generator::defaultSubdivision) - 1; // todo: set this
     subdivisionButtons[defaultSubdivisionIndex]->setToggleState(true, juce::dontSendNotification);
     
     phraseLengthBars.setJustification (juce::Justification::centred);
@@ -61,8 +61,8 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     addAndMakeVisible (&phraseLengthBeats);
     phraseLengthBars.onTextChange = [this] { updatePhraseLengthState(); };
     phraseLengthBeats.onTextChange = [this] { updatePhraseLengthState(); };
-    juce::String barsString = juce::String::formatted("%.2f", audioProcessor.generator.activePhrase.bars);
-    juce::String beatsString = juce::String::formatted("%.2f", audioProcessor.generator.activePhrase.beats);
+    juce::String barsString = juce::String::formatted("%.2f", Generator::defaultBars);
+    juce::String beatsString = juce::String::formatted("%.2f", Generator::defaultBeats);
     phraseLengthBars.setText(barsString);
     phraseLengthBeats.setText(beatsString);
 }
@@ -89,7 +89,7 @@ void GenerateStuffAudioProcessorEditor::updatePhraseLengthState() {
 
 
 void GenerateStuffAudioProcessorEditor::updateSubdivisionState(float subdivision) {
-    audioProcessor.generator.activeRhythm.subdivision = subdivision;
+    audioProcessor.generator.setSubdivision(subdivision);
 }
 
 GenerateStuffAudioProcessorEditor::~GenerateStuffAudioProcessorEditor()

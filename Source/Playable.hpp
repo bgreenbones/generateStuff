@@ -11,17 +11,11 @@
 
 #include <stdio.h>
 #include "Sequence.hpp"
-#include "Time/Phrase.hpp"
 
 class Playable {
 public:
-    Playable(Sequence &sequence, Phrase &phrase, short midiChannel) {
-        this->sequence = sequence;
-        this->phrase = phrase;
-        this->midiChannel = midiChannel;
-    };
-    Sequence sequence; // actual content
-    Phrase phrase; // scheduling info
+    Playable(Sequence sequence, short midiChannel): sequence(sequence), midiChannel(midiChannel) { };
+    Sequence sequence;
     short midiChannel;
 };
 

@@ -38,6 +38,7 @@ public:
     Probability operator/(Probability other);
     Probability operator/(double other);
     explicit operator bool() const;
+    operator double() const;
 private:
     double guard(double value);
     double value;

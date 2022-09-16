@@ -14,8 +14,6 @@
 #include <functional>
 #include <JuceHeader.h>
 #include "Sequence.hpp"
-#include "Time/Rhythm.hpp"
-#include "Time/Phrase.hpp"
 #include "Playable.hpp"
 
 using namespace std;
@@ -23,39 +21,24 @@ using namespace std;
 class Generator
 {
 public:
-//    vector<reference_wrapper<Sequence>> sequences;
-//    vector<reference_wrapper<Rhythm>> rhythms;
-//    vector<reference_wrapper<Phrase>> phrases;
-    vector<Sequence> sequences;
-    vector<Rhythm> rhythms;
-    vector<Phrase> phrases;
-    Rhythm activeRhythm;
-    Phrase activePhrase;
-    float tempo;
-    
-    Generator() {
-        sequences = initialSequences();
-        Rhythm rhythm = Rhythm();
-        rhythms.push_back(rhythm);
-        Phrase phrase = Phrase();
-        phrases.push_back(phrase);
-        tempo = 120;
-    }
-    
-    bool initialized();
-    bool initialize();
-    
     Sequence cascaraSequence, claveSequence;
+    constexpr static float const defaultSubdivision = 1./2.;
+    constexpr static float const defaultBars = 2;
+    constexpr static float const defaultBeats = 0;
+    Bars phraseLengthBars = defaultBars;
+    Beats phraseLengthBeats = defaultBeats;
+    Position phraseStartTime = 0;
+    Subdivision subdivision = Subdivision(Beats(defaultSubdivision), phraseStartTime, phraseLength());
+    
+    Generator() {}
+    
+    Duration phraseLength() { return Bars(phraseLengthBars) + Beats(phraseLengthBeats); }
     Playable cascara();
     Playable claveFromCascara();
-    
+    bool setSubdivision(const float subdivision);
     bool setPhraseLengthBars(const float bars);
     bool setPhraseLengthBeats(const float beats);
-    bool setTimeSignature(const int numerator, const int denominator);
-    TimeSignature getTimeSignature();
 private:
-//    vector<reference_wrapper<Sequence>> initialSequences();
-    vector<Sequence> initialSequences();
 };
 
 #endif /* Generator_hpp */

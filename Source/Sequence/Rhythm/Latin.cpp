@@ -6,21 +6,18 @@
 //
 
 #include <stdio.h>
-#include "Rhythm.hpp"
-#include "../Sequence.hpp"
+#include "Sequence.hpp"
 
-Sequence Rhythm::randomCascara(Sequence cascara,
-                               float pDisplace,
-                               float pDouble) {
+Sequence Sequence::randomCascara(Probability pDisplace,
+                                 Probability pDouble) const {
 //    float pulse = 1.0, displacement = 0.5;
-    float displacement = this->subdivision;
-    float pulse = displacement * 2;
+//    float displacement = this->subdivision;
+//    float pulse = displacement * 2;
 //    float pulse = 0.5, displacement = 0.25; // todo: choose pulse and subdivisions based on tempo and time sig and stuff?
-    cascara = pulseAndDisplace(cascara,
-                               pulse,
-                               displacement,
-                               pDisplace,
-                               pDouble);
+
+    Duration displacement(this->primarySubdivision());
+    Duration pulse(displacement * 2.);
+    Sequence cascara = this->pulseAndDisplace(pulse, displacement, pDisplace, pDouble);
     const short accentVelocity = 120; // todo: move these out somewhere else.
     const short unaccentedVelocity = 60;
     
@@ -40,11 +37,15 @@ Sequence Rhythm::randomCascara(Sequence cascara,
 }
 
 // todo: some way of preventing 0 syncopation from happening
-Sequence Rhythm::randomClave(Sequence clave) {
-//    Sequence clave = Sequence();
-    const auto length = clave.phrasing.length(); // todo: evaluate how we're really deciding these stuffs
-    clave.rhythm = *this; // todo: evaluate how we're really deciding these stuffs
-    const auto subdivision = this->subdivision;
+Sequence Sequence::randomClave() const {
+//    const auto length = clave.phrasing.length(); // todo: evaluate how we're really deciding these stuffs
+//    clave.rhythm = *this; // todo: evaluate how we're really deciding these stuffs
+//    const auto subdivision = this->subdivision;
+//    const auto subdivision = clave.subdivision;
+
+    Sequence clave(*this);
+    const double length = clave.duration;
+    const auto subdivision = clave.primarySubdivision();
     
     int minNoteLengthInSubdivisions = 2; // todo: parameterizing these would be fun
     int maxNoteLengthInSubdivisions = 4;
@@ -101,20 +102,20 @@ Sequence Rhythm::randomClave(Sequence clave) {
             note.startTime = notePosition;
             // note doesn't fall within its side, scrap it and try again
             if ((noteInd < notesOnLeft && note.startTime >= sideLength) ||
-                (noteInd >= notesOnLeft && (note.startTime < sideLength || note.startTime >= length))) {
+                (noteInd >= notesOnLeft && (note.startTime < sideLength || note.startTime >= (double) length))) {
                 constraintsBroken = true;
                 break;
             }
             
             if (noteInd == numNotes - 1) { // last note
                 note.duration = (length - note.startTime) + clave.notes.front().startTime;
-                if (note.duration < minNoteLength || // last note is bad length
-                    note.duration > maxNoteLength) {
+                if (note.duration < (double) minNoteLength || // last note is bad length
+                    note.duration > (double) maxNoteLength) {
                     constraintsBroken = true;
                     break;
                 }
             } else {
-                note.duration = randomNoteLengthInSubdivisions(gen) * subdivision;
+                note.duration = randomNoteLengthInSubdivisions(clave.gen) * subdivision;
                 notePosition += note.duration;
             }
             
@@ -126,8 +127,14 @@ Sequence Rhythm::randomClave(Sequence clave) {
 }
 
 
-Sequence Rhythm::cascaraFromClave(Sequence clave) {
-    Sequence cascara = Sequence(clave.rhythm, clave.phrasing);
+Sequence Sequence::cascaraFromClave() const {
+//    Sequence cascara = Sequence(clave.rhythm, clave.phrasing);
+    
+    bool isClave = true; // todo: how do we know
+    if (!isClave) {
+        throw exception();
+    }
+    Sequence cascara(*this);
 
     // maybe 2/3 - 3/4 of cascara accents end up being clave notes - the rest fall right next to clave notes. actually acheive these ratios - don't just use them as probabilities that you don't enforce.
     
@@ -140,10 +147,20 @@ Sequence Rhythm::cascaraFromClave(Sequence clave) {
     return cascara;
 }
 
-Sequence Rhythm::claveFromCascara(Sequence cascara) {
-    Sequence clave = Sequence(cascara.rhythm, cascara.phrasing);
-    const auto subdivision = clave.rhythm.subdivision;
-    const auto phraseLength = clave.phrasing.length();
+Sequence Sequence::claveFromCascara() const {
+//    Sequence clave = Sequence(cascara.rhythm, cascara.phrasing);
+    
+    bool isCascara = true; // todo: how do we know
+    if (!isCascara) {
+        throw exception();
+    }
+    Sequence cascara(*this); // for readability
+    Sequence clave(*this);
+    clave.notes.clear();
+//    const auto subdivision = clave.rhythm.subdivision;
+    const auto subdivision = clave.primarySubdivision();
+//    const auto phraseLength = clave.phrasing.length();
+    const auto phraseLength = clave.duration;
     
     // NEW APPROACH:
     // calculate notes on left and right like other clave method.
@@ -243,8 +260,8 @@ Sequence Rhythm::claveFromCascara(Sequence cascara) {
             
             if (notesNeededOnRight == 0) { // last note
                 clave.notes.back().duration = (phraseLength - note.startTime) + clave.notes.front().startTime;
-                if (clave.notes.back().duration < minNoteLength || // last note is bad length
-                    clave.notes.back().duration > maxNoteLength) {
+                if (clave.notes.back().duration < (double) minNoteLength || // last note is bad length
+                    clave.notes.back().duration > (double) maxNoteLength) {
                     constraintsBroken = true;
                     break;
                 }

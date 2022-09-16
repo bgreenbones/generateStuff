@@ -45,3 +45,4 @@ Probability Probability::operator*(double other) { return *this * Probability(ot
 Probability Probability::operator/(Probability other) { return Probability(this->value / other.value); }
 Probability Probability::operator/(double other) { return *this / Probability(other); }
 Probability::operator bool() const { return (rand() % 100) <= this->value * 100; } // todo: finer resolution
+Probability::operator double() const { return value; }

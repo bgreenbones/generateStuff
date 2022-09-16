@@ -79,28 +79,28 @@ vector<Note> placeOrnament(Note ornamented, Ornament ornament) {
     return ornamentNotes;
 }
 
-vector<Note> placeOrnamentSimple(Note accentNote, OrnamentSimple ornamentSimple, Time time) {
-    Ornament ornament = getOrnament(ornamentSimple, time.tempo);
+vector<Note> placeOrnamentSimple(Note accentNote, OrnamentSimple ornamentSimple) {
+    Ornament ornament = getOrnament(ornamentSimple, HostSettings::instance().getTempo());
     return placeOrnament(accentNote, ornament);
 }
-
-Sequence ornamentSequence(Sequence sequence, vector<OrnamentSimple> possibleOrnaments, float tempo, vector<float> probabilities) {
-    vector<Note> ornaments = { };
-    for (auto noteIt = sequence.notes.begin(); noteIt < sequence.notes.end(); noteIt++) {
-        if (noteIt->ornamented) {
-            OrnamentSimple ornament = possibleOrnaments[rand() % possibleOrnaments.size()]; // todo: use probabilities map
-            vector<Note> noteOrnament = placeOrnamentSimple(*noteIt, ornament, (Time) { .tempo = tempo });
-            ornaments.insert(ornaments.end(), noteOrnament.begin(), noteOrnament.end());
-        }
-    }
-    
-    for (auto noteIt = ornaments.begin(); noteIt < ornaments.end(); noteIt++) {
-        sequence.addNote(*noteIt);
-    }
-    
-    return sequence;
-}
-
-Sequence ornamentSequence(Sequence sequence, OrnamentSimple ornament, float tempo) {
-    return ornamentSequence(sequence, vector<OrnamentSimple> { ornament }, tempo);
-}
+//
+//Sequence ornamentSequence(Sequence sequence, vector<OrnamentSimple> possibleOrnaments, float tempo, vector<float> probabilities) {
+//    vector<Note> ornaments = { };
+//    for (auto noteIt = sequence.notes.begin(); noteIt < sequence.notes.end(); noteIt++) {
+//        if (noteIt->ornamented) {
+//            OrnamentSimple ornament = possibleOrnaments[rand() % possibleOrnaments.size()]; // todo: use probabilities map
+//            vector<Note> noteOrnament = placeOrnamentSimple(*noteIt, ornament, (Time) { .tempo = tempo });
+//            ornaments.insert(ornaments.end(), noteOrnament.begin(), noteOrnament.end());
+//        }
+//    }
+//    
+//    for (auto noteIt = ornaments.begin(); noteIt < ornaments.end(); noteIt++) {
+//        sequence.addNote(*noteIt);
+//    }
+//    
+//    return sequence;
+//}
+//
+//Sequence ornamentSequence(Sequence sequence, OrnamentSimple ornament, float tempo) {
+//    return ornamentSequence(sequence, vector<OrnamentSimple> { ornament }, tempo);
+//}

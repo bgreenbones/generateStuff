@@ -10,7 +10,10 @@
 
 #pragma once
 
-#import "TimeTypedefs.h"
+typedef float tempo;
+typedef double beats; // depends on time signature
+typedef double bars; // depends on time signature
+typedef double quarters; // always measured in quarters
 
 class TimeSignature {
 public:
