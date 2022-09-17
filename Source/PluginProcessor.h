@@ -34,10 +34,9 @@ public:
     float probabilityOfDouble;
     Generator generator;
     vector<Playable> playQueue;
+    bool noteOffIssued;
     
     void queuePlayable(Playable playable);
-    void cascara();
-    void clave();
     //=============================================================================
     
     

@@ -10,23 +10,19 @@
 
 #pragma once
 #include "TimedEvent.h"
-//#include "TimeTypedefs.h"
 
 class Subdivision: public Duration, public TimedEvent {
 private:
-    bool guard() {
-        if ((this->duration % *this) != 0.0) {
-            throw exception();
-        }
-        return true;
-    }
+
 public:
-    Subdivision(): Duration(), TimedEvent() {}
     Subdivision(Duration divisionLength, Position startTime, Duration span):
-        Duration(divisionLength), TimedEvent(startTime, span) { guard(); };
-//    Subdivision operator=(const double other): TimedEvent( {
+        Duration(divisionLength), TimedEvent(startTime, span) { };
+    Subdivision(Duration divisionLength):
+        Duration(divisionLength), TimedEvent(0, Bars(1)) { };
+    Subdivision(): Duration(), TimedEvent() {}
+//    Subdivision operator=(const double other) {
 //        this->timeSignature = HostSettings::instance().getTimeSignature();
-//        this->value = other;
+//        this->value = Beats(other).asQuarters();
 //        return *this;
 //    }
 };

@@ -12,21 +12,13 @@
 
 #include <vector>
 #include "Note.hpp"
-//#include "Sequence.hpp"
-#include "Time/TimeTypedefs.h"
+
+
 
 using namespace std;
 
-// just a place to define static functions that we can eventually organize into classes
-// because why just make everything a class
-
-//typedef struct Time {
-//    TimeSignature timeSignature;
-//    duration duration;
-//    short startTime;
-//    float subdivision;
-//    float tempo;
-//} Time;
+// just a place to define static functions and play around with things
+// before working them into more final designs
 
 
 

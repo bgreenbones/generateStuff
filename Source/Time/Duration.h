@@ -58,8 +58,8 @@ public:
     Duration operator*(const double other) { return Duration(this->value * other, this->timeSignature); }
     Duration operator/(const Duration other) { return Duration(this->asQuarters() / other.asQuarters(), this->timeSignature); }
     Duration operator/(const double other) { return Duration(this->value / other, this->timeSignature); }
-    Duration operator%(const Duration other) { return Duration(fmodf(this->asQuarters(), other.asQuarters()), this->timeSignature); }
-    Duration operator%(const double other) { return Duration(fmodf(this->value, other), this->timeSignature); }
+//    Duration operator%(const Duration other) { return Duration(fmodf(this->asQuarters(), other.asQuarters()), this->timeSignature); }
+//    Duration operator%(const double other) { return Duration(fmodf(this->value, other), this->timeSignature); }
 //    Duration& operator++() { return (*this) + 1.0; }
     Duration operator++(int) { return (*this) + 1.0; }
 //    Duration& operator--() { return &((*this) - 1.0); }

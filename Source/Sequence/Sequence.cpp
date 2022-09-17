@@ -7,8 +7,6 @@
 
 #include "Sequence.hpp"
 
-
-
 bool Sequence::addNote(Note note) {
     if (note.pitch < 0 || note.pitch > 127) {
         return false;

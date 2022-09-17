@@ -30,15 +30,29 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     addAndMakeVisible (&probabilityOfDouble);
     probabilityOfDouble.addListener(this);
     
-    generatePhrase.setTitle("Cascara");
-    generatePhrase.setName("randomCascara"); // todo: use vars
-    addAndMakeVisible (&generatePhrase);
-    generatePhrase.addListener(this);
+    juce::String cascaraName = "random cascara";
+    juce::String claveName = "random clave";
+    juce::String claveFromCascaraName = "clave from cascara";
+    juce::String cascaraFromClaveName = "cascara from clave";
+    randomCascaraButton.setTitle(cascaraName);
+    randomCascaraButton.setName(cascaraName);
+    addAndMakeVisible (&randomCascaraButton);
+    randomCascaraButton.addListener(this);
     
-    claveFromCascaraButton.setTitle("Clave");
-    claveFromCascaraButton.setName("claveFromCascara");
+    randomClaveButton.setTitle(claveName);
+    randomClaveButton.setName(claveName);
+    addAndMakeVisible (&randomClaveButton);
+    randomClaveButton.addListener(this);
+    
+    claveFromCascaraButton.setTitle(claveFromCascaraName);
+    claveFromCascaraButton.setName(claveFromCascaraName);
     addAndMakeVisible (&claveFromCascaraButton);
     claveFromCascaraButton.addListener(this);
+    
+    cascaraFromClaveButton.setTitle(cascaraFromClaveName);
+    cascaraFromClaveButton.setName(cascaraFromClaveName);
+    addAndMakeVisible (&claveFromCascaraButton);
+    cascaraFromClaveButton.addListener(this);
 
     for (float subdivisionDenominator = 1; subdivisionDenominator <= 9; subdivisionDenominator++) {
         int subdivisionIndex = subdivisionDenominator - 1;
@@ -48,9 +62,9 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
         subdivisionButton->setClickingTogglesState(true);
         addAndMakeVisible(subdivisionButton);
         subdivisionButton->setToggleState(false, juce::dontSendNotification);
-        subdivisionButtons[subdivisionIndex]->onClick = [this, subdivisionDenominator] { updateSubdivisionState (1.0 / subdivisionDenominator); };
+        subdivisionButton->onClick = [=] { updateSubdivisionState (1.f / subdivisionDenominator); };
     }
-    int defaultSubdivisionIndex = (int) (1.0 / Generator::defaultSubdivision) - 1; // todo: set this
+    int defaultSubdivisionIndex = (int) (1.0 / audioProcessor.generator.subdivision.asBeats()) - 1; // todo: set this
     subdivisionButtons[defaultSubdivisionIndex]->setToggleState(true, juce::dontSendNotification);
     
     phraseLengthBars.setJustification (juce::Justification::centred);
@@ -128,7 +142,13 @@ void GenerateStuffAudioProcessorEditor::resized()
     xCursor += sliderWidth + spaceBetweenControls;
     
     int buttonHeight = (height - spaceBetweenControls) / 2;
-    generatePhrase.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
+    randomCascaraButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
+    yCursor += buttonHeight + spaceBetweenControls;
+    claveFromCascaraButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
+    xCursor += buttonWidth + spaceBetweenControls;
+    yCursor = yPadding;
+    
+    randomClaveButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
     yCursor += buttonHeight + spaceBetweenControls;
     claveFromCascaraButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
     xCursor += buttonWidth + spaceBetweenControls;
@@ -163,17 +183,25 @@ void GenerateStuffAudioProcessorEditor::sliderValueChanged (juce::Slider* slider
 void GenerateStuffAudioProcessorEditor::buttonClicked (juce::Button *button)
 {
     auto buttonName = button->getName();
-    auto generatePhraseName = generatePhrase.getName();
-    auto claveFromCascaraButtonName = claveFromCascaraButton.getName();
+    auto randomCascaraName = randomCascaraButton.getName();
+    auto claveFromCascaraName = claveFromCascaraButton.getName();
+    auto randomClaveName = randomClaveButton.getName();
+    auto cascaraFromClaveName = cascaraFromClaveButton.getName();
     
-    auto buttonEqualsGen = button->getName().equalsIgnoreCase(generatePhrase.getName());
-    auto buttonEqualsClave = button->getName().equalsIgnoreCase(claveFromCascaraButton.getName());
     
-    if (buttonEqualsGen) {
-        audioProcessor.cascara();
-    } else if (buttonEqualsClave) {
-        audioProcessor.clave();
+    auto isCascaraButton = buttonName.equalsIgnoreCase(randomCascaraName);
+    auto isClaveButton = buttonName.equalsIgnoreCase(randomClaveName);
+    auto isClaveFromCascaraButton = buttonName.equalsIgnoreCase(claveFromCascaraName);
+    auto isCascaraFromClaveButton = buttonName.equalsIgnoreCase(cascaraFromClaveName);
+    
+    if (isCascaraButton) {
+        audioProcessor.queuePlayable(audioProcessor.generator.cascara());
+    } else if (isClaveButton) {
+        audioProcessor.queuePlayable(audioProcessor.generator.clave());
+    } else if (isClaveFromCascaraButton) {
+        audioProcessor.queuePlayable(audioProcessor.generator.claveFromCascara());
+    } else if (isCascaraFromClaveButton) {
+        audioProcessor.queuePlayable(audioProcessor.generator.cascaraFromClave());
     }
-    
 }
 

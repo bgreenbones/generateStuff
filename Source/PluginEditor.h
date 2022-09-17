@@ -35,7 +35,9 @@ private:
     GenerateStuffAudioProcessor& audioProcessor;
     
     juce::Slider probabilityOfDouble;
-    juce::TextButton generatePhrase;
+    juce::TextButton randomCascaraButton;
+    juce::TextButton randomClaveButton;
+    juce::TextButton cascaraFromClaveButton;
     juce::TextButton claveFromCascaraButton;
     juce::TextButton subDivButton1 { "1/1" };
     juce::TextButton subDivButton2 { "1/2" };

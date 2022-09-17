@@ -25,6 +25,7 @@ GenerateStuffAudioProcessor::GenerateStuffAudioProcessor()
 {
     this->generator = Generator();
     this->playQueue = vector<Playable>();
+    this->noteOffIssued = true;
 }
 
 GenerateStuffAudioProcessor::~GenerateStuffAudioProcessor()
@@ -109,6 +110,8 @@ void GenerateStuffAudioProcessor::prepareToPlay (double sampleRate, int samplesP
         HostSettings::instance().setTempo((positionInfo->getBpm()).orFallback(120));
         samplesPerBeat = samplesPerMinute / HostSettings::instance().getTempo();
     }
+    
+    this->noteOffIssued = true;
 }
 
 void GenerateStuffAudioProcessor::releaseResources()
@@ -155,17 +158,6 @@ void GenerateStuffAudioProcessor::queuePlayable(Playable playable) {
     playQueue.push_back(playable);
     return;
 }
-
-void GenerateStuffAudioProcessor::cascara() {
-    queuePlayable(generator.cascara());
-    return;
-}
-
-void GenerateStuffAudioProcessor::clave() {
-    queuePlayable(generator.claveFromCascara());
-    return;
-}
-
 
 void GenerateStuffAudioProcessor::updateTimeSignature(juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo)
 {
@@ -281,14 +273,18 @@ void GenerateStuffAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
         updateBpm(positionInfo);
         auto isPlaying = positionInfo->getIsPlaying();
         if (isPlaying) {
+            noteOffIssued = false;
             playPlayables(positionInfo, midiMessages);
         } else {
-            for (int pitch = 0; pitch <= 127; pitch ++) { // yikes. for now this is the only thing that turns off note on messages when we stop playing
-                for (int midiChannel = 1; midiChannel <= 16; midiChannel++) {
-                    auto noteOff = juce::MidiMessage::noteOff (midiChannel, pitch, (juce::uint8) 1);
-                    bool success = midiMessages.addEvent (noteOff, 0);
-                    if (!success) {
-                        throw exception();
+            if (!noteOffIssued) {
+                noteOffIssued = true;
+                for (int pitch = 0; pitch <= 127; pitch ++) { // yikes. for now this is the only thing that turns off note on messages when we stop playing
+                    for (int midiChannel = 1; midiChannel <= 16; midiChannel++) {
+                        auto noteOff = juce::MidiMessage::noteOff (midiChannel, pitch, (juce::uint8) 1);
+                        bool success = midiMessages.addEvent (noteOff, 0);
+                        if (!success) {
+                            throw exception();
+                        }
                     }
                 }
             }

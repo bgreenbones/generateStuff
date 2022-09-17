@@ -42,6 +42,24 @@ Playable Generator::cascara() {
     return result;
 }
 
+Playable Generator::clave() {
+    this->claveSequence = Sequence(subdivision, phraseStartTime, phraseLength())
+        .randomClave();
+    Playable result = Playable(this->claveSequence, 2);
+    return result;
+}
+
+Playable Generator::cascaraFromClave() {
+    if (claveSequence.notes.empty()) {
+        this->clave();
+    }
+    this->cascaraSequence = claveSequence.cascaraFromClave();
+//        .addOrnaments({ flam, drag, ruff }, HostSettings::instance().getTempo());
+    Playable result = Playable(this->cascaraSequence, 1);
+    return result;
+}
+
+
 Playable Generator::claveFromCascara() {
     auto tempSeq = cascaraSequence.claveFromCascara();
     claveSequence = tempSeq;
