@@ -32,20 +32,21 @@ bool Generator::setPhraseLengthBeats(const float beats) {
 
 Playable Generator::cascara() {
 //    cascaraSequence
-    auto tempSeq = Sequence(subdivision, phraseStartTime, phraseLength())
+    auto tempSequence = Sequence(subdivision, phraseStartTime, phraseLength())
         .randomCascara();
 //        .addOrnaments({ flam, drag, ruff }, HostSettings::instance().getTempo());
-    cascaraSequence = tempSeq;
+    cascaraSequence = tempSequence;
 //    tempSeq = tempSeq
 //        .addOrnaments({ flam, drag, ruff }, HostSettings::instance().getTempo());
-    Playable result = Playable(tempSeq, 1);
+    Playable result = Playable(tempSequence, 1);
     return result;
 }
 
 Playable Generator::clave() {
-    this->claveSequence = Sequence(subdivision, phraseStartTime, phraseLength())
+    auto tempSequence = Sequence(subdivision, phraseStartTime, phraseLength())
         .randomClave();
-    Playable result = Playable(this->claveSequence, 2);
+    this->claveSequence = tempSequence;
+    Playable result = Playable(tempSequence, 2);
     return result;
 }
 
@@ -53,18 +54,20 @@ Playable Generator::cascaraFromClave() {
     if (claveSequence.notes.empty()) {
         this->clave();
     }
-    this->cascaraSequence = claveSequence.cascaraFromClave();
+    
+    auto tempSequence = claveSequence.cascaraFromClave();
 //        .addOrnaments({ flam, drag, ruff }, HostSettings::instance().getTempo());
-    Playable result = Playable(this->cascaraSequence, 1);
+    this->cascaraSequence = tempSequence;
+    Playable result = Playable(tempSequence, 1);
     return result;
 }
 
 
 Playable Generator::claveFromCascara() {
-    auto tempSeq = cascaraSequence.claveFromCascara();
-    claveSequence = tempSeq;
-    tempSeq = tempSeq
-        .addOrnaments({ flam, drag, ruff }, HostSettings::instance().getTempo());
-    Playable result = Playable(tempSeq, 2);
+    auto tempSequence = cascaraSequence.claveFromCascara();
+    claveSequence = tempSequence;
+//    tempSeq = tempSeq
+//        .addOrnaments({ flam, drag, ruff }, HostSettings::instance().getTempo());
+    Playable result = Playable(tempSequence, 2);
     return result;
 }

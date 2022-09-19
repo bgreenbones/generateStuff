@@ -51,7 +51,7 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     
     cascaraFromClaveButton.setTitle(cascaraFromClaveName);
     cascaraFromClaveButton.setName(cascaraFromClaveName);
-    addAndMakeVisible (&claveFromCascaraButton);
+    addAndMakeVisible (&cascaraFromClaveButton);
     cascaraFromClaveButton.addListener(this);
 
     for (float subdivisionDenominator = 1; subdivisionDenominator <= 9; subdivisionDenominator++) {
@@ -150,7 +150,7 @@ void GenerateStuffAudioProcessorEditor::resized()
     
     randomClaveButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
     yCursor += buttonHeight + spaceBetweenControls;
-    claveFromCascaraButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
+    cascaraFromClaveButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
     xCursor += buttonWidth + spaceBetweenControls;
     yCursor = yPadding;
     

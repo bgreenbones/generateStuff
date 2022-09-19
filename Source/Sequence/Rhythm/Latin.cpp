@@ -6,6 +6,7 @@
 //
 
 #include <stdio.h>
+#include <JuceHeader.h>
 #include "Sequence.hpp"
 
 Sequence Sequence::randomCascara(Probability pDisplace,
@@ -132,9 +133,139 @@ Sequence Sequence::cascaraFromClave() const {
     
     bool isClave = true; // todo: how do we know
     if (!isClave) {
-        throw exception();
+//        throw exception();
+        DBG ("not a clave. can't generate cascara from it");
     }
     Sequence cascara(*this);
+    cascara.notes.clear();
+    Duration subdivision = cascara.primarySubdivision();
+    Duration pulse = subdivision * 2.;
+    
+    if (this->notes.size() <= 0) {
+        DBG ("no notes to generate a cascara from");
+        return cascara;
+    }
+    
+    cascara.addNote(this->notes.front());
+    for (auto noteIt = this->notes.begin();
+         noteIt != --this->notes.end();
+         noteIt++)
+    {
+        auto nextNote = noteIt + 1;
+        
+        Duration timeBetweenNotes;
+        if (nextNote == this->notes.end()) {
+            nextNote = this->notes.begin();
+            timeBetweenNotes = nextNote->startTime + this->duration - noteIt->startTime;
+        } else {
+            timeBetweenNotes = nextNote->startTime - noteIt->startTime;
+        }
+        
+        double subdivisionsBetweenNotes = timeBetweenNotes.asBeats() / subdivision.asBeats();
+        
+        Note lastCascaraNote = cascara.notes.back();
+        Duration timeSinceLastCascaraNote = lastCascaraNote.startTime - noteIt->startTime;
+        double subdivisionsSinceCascaraNote = timeSinceLastCascaraNote.asBeats() / subdivision.asBeats();
+        
+        Note note = Note();
+//        note.accent = true;
+//        note.duration = 1; // todo: method to fill out durations between notes
+//        note.ornamented = 0.5; // todo: don't just make accented notes ornamented.
+        
+        
+        if (subdivisionsBetweenNotes == 2.) {
+            if (subdivisionsSinceCascaraNote == 0.) { // x . x
+            } else if (subdivisionsSinceCascaraNote == 1.0) {
+                if (rand() % 2) { // . x x
+                    note.startTime = lastCascaraNote.startTime + subdivision * 2.;
+                    note.duration = subdivision;
+                } else { // x . x
+                    note.startTime = noteIt->startTime;
+                    note.duration = subdivision * 2.;
+                }
+                cascara.addNote(note);
+            } else {
+                DBG ("cascara has some weird note lengths??");
+            }
+            Note nextCascaraNote = *nextNote;
+            cascara.addNote(nextCascaraNote);
+        } else if (subdivisionsBetweenNotes == 3.) {
+            if (subdivisionsSinceCascaraNote == 0.) { // this note already hit. just add next note.
+                auto choice = rand() % 3;
+                if (choice == 0) { // x x . x
+                    note.startTime = lastCascaraNote.startTime + subdivision;
+                    cascara.addNote(note);
+                    Note nextCascaraNote = *nextNote;
+                    cascara.addNote(nextCascaraNote);
+                } else if (choice == 1) { // x . x x
+                    note.startTime = lastCascaraNote.startTime + pulse;
+                    cascara.addNote(note);
+                    Note nextCascaraNote = *nextNote;
+                    cascara.addNote(nextCascaraNote);
+                } else if (choice == 2) { // x . x . misses next note!!
+                    note.startTime = lastCascaraNote.startTime + pulse;
+                    note.duration = pulse;
+                    cascara.addNote(note);
+                }
+            } else if (subdivisionsSinceCascaraNote == 1.0) {
+                // only one option: . x . x
+                note.startTime = lastCascaraNote.startTime + pulse;
+                note.duration = pulse;
+                cascara.addNote(note);
+                Note nextCascaraNote = *nextNote;
+                cascara.addNote(nextCascaraNote);
+            } else {
+                DBG ("cascara has some weird note lengths??");
+            }
+        } else if (subdivisionsBetweenNotes == 4.) {
+            if (subdivisionsSinceCascaraNote == 0.) { // this note already hit.
+                auto choice = rand() % 2;
+                if (choice == 0) { // x . x . x
+                    note.startTime = lastCascaraNote.startTime + pulse;
+                    note.duration = pulse;
+                    cascara.addNote(note);
+                    Note nextCascaraNote = *nextNote;
+                    cascara.addNote(nextCascaraNote);
+                } else if (choice == 1) { // x x . x x
+                    note.startTime = lastCascaraNote.startTime + subdivision;
+                    note.duration = pulse;
+                    cascara.addNote(note);
+                    Note anotherNote = Note();
+                    anotherNote.startTime = note.startTime + pulse;
+                    anotherNote.duration = subdivision;
+                    cascara.addNote(anotherNote);
+                    Note nextCascaraNote = *nextNote;
+                    cascara.addNote(nextCascaraNote);
+                }
+            } else if (subdivisionsSinceCascaraNote == 1.0) {
+                note.startTime = lastCascaraNote.startTime + pulse;
+                auto choice = rand() % 2;
+                if (choice == 0) { // // . x x . x
+                    note.duration = subdivision;
+                    cascara.addNote(note);
+                    Note anotherNote = Note();
+                    anotherNote.startTime = note.startTime + subdivision;
+                    anotherNote.duration = pulse;
+                    cascara.addNote(anotherNote);
+                    Note nextCascaraNote = *nextNote;
+                    cascara.addNote(nextCascaraNote);
+                } else if (choice == 1) { // . x . x x
+                    note.duration = pulse;
+                    cascara.addNote(note);
+                    Note anotherNote = Note();
+                    anotherNote.startTime = note.startTime + pulse;
+                    anotherNote.duration = subdivision;
+                    cascara.addNote(anotherNote);
+                    Note nextCascaraNote = *nextNote;
+                    cascara.addNote(nextCascaraNote);
+                }
+            } else {
+                DBG ("cascara has some weird note lengths??");
+            }
+        } else {
+            DBG ("weird amount of subdivisions between notes in clave.");
+        }
+    }
 
     // maybe 2/3 - 3/4 of cascara accents end up being clave notes - the rest fall right next to clave notes. actually acheive these ratios - don't just use them as probabilities that you don't enforce.
     
