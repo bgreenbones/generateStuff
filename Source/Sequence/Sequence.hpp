@@ -18,10 +18,7 @@
 #include "Subdivision.h"
 #include "Misc.h"
 
-//class Rhythm;
 using namespace std;
-
-
 
 template<class T> // must be TimedEvent
 vector<T> byPosition(vector<T> events, Position position) {
@@ -112,6 +109,8 @@ public:
     // Ornament stuff
     Sequence addOrnaments(vector<OrnamentSimple> possibleOrnaments, float tempo, vector<float> probabilities =  { }) const;
     Sequence addOrnaments(OrnamentSimple ornament, float tempo) const;
+    
+    static Sequence parseMininotation(char sequenceString[], Subdivision subdivision);
 };
 
 

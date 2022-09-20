@@ -38,6 +38,7 @@
       <FILE id="lX1f8c" name="Misc.cpp" compile="1" resource="0" file="Source/Misc.cpp"/>
       <FILE id="cVh7ht" name="Misc.h" compile="0" resource="0" file="Source/Misc.h"/>
       <FILE id="uF8Cts" name="Note.hpp" compile="0" resource="0" file="Source/Note.hpp"/>
+      <FILE id="cI7sZr" name="Note.cpp" compile="1" resource="0" file="Source/Note.cpp"/>
       <FILE id="KqKfYW" name="Playable.hpp" compile="0" resource="0" file="Source/Playable.hpp"/>
       <FILE id="RFls1u" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>

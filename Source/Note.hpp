@@ -19,21 +19,42 @@
 class Note: public TimedEvent
 {
 public:
-    Note(short pitch = 60,
-         short velocity = 100,
-         float startTime = 0, // in quarter notes
-         float duration = 1): // in quarter notes
-    TimedEvent(Position(startTime), Duration(duration)), pitch(pitch), velocity(velocity), accent(false), ornamented(false), ornament(false) { }
+    Note(int pitch,
+         int velocity,
+         Position startTime,
+         Duration duration):
+    TimedEvent(Position(startTime), Duration(duration)), pitch(pitch), velocity(velocity), accented(false), ornamented(false), isOrnament(false) { }
     
+    Note(int pitch = 60,
+         int velocity = 70,
+         double startTime = 0, // in quarter notes
+         double duration = 1): // in quarter notes
+    Note(pitch, velocity, Position(startTime), Duration(duration)) { }
+    Note(Position startTime, Duration duration): Note(60, 70, startTime, duration) { }
     
-    short pitch; // todo: use my C pitch definitions
-    short velocity; // todo: use juce types for unsigned shorts and others?
-//    float startTime; // in quarter notes
-//    float duration; // in quarter notes
-//    bool accent; // todo: make these probabilities!!!
-    Probability accent;
+    static int accentVelocity;
+    
+    Note operator+(const Duration duration);
+    Note operator+(const Note pitch);
+    
+    Note displace(Duration toDisplaceBy, bool forwards = true);
+    Note accent() {
+        Note modified = Note(*this);
+        modified.accented = 1.0;
+        modified.velocity = accentVelocity;
+        return modified;
+    };
+    Note ornament() {
+        Note modified = Note(*this);
+        modified.ornamented = 1.0;
+        return modified;
+    }
+    
+    int pitch; // todo: use my C pitch definitions
+    int velocity; // todo: use juce types for unsigned shorts and others?
+    Probability accented;
     Probability ornamented;
-    bool ornament;
+    bool isOrnament;
     // todo: other expressions for ccs
     
     bool operator< (const Note &other) const { return startTime < other.startTime; }

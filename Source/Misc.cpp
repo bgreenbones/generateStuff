@@ -72,7 +72,7 @@ vector<Note> placeOrnament(Note ornamented, Ornament ornament) {
         ornamentNote.startTime = ornamented.startTime + ornament.placement * noteLength * (float) notesLeft;
         ornamentNote.duration = noteLength;
         ornamentNote.velocity = ornamented.velocity / 2.0; // make more dynamic
-        ornamentNote.ornament = true; // todo: this, probably
+        ornamentNote.isOrnament = true; // todo: this, probably
         ornamentNotes.push_back(ornamentNote);
     }
     

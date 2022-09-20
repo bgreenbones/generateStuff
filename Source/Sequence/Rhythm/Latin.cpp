@@ -29,7 +29,7 @@ Sequence Sequence::randomCascara(Probability pDisplace,
         if (note.duration == displacement) { // beginning of a double
             noteIt->velocity = unaccentedVelocity;
         } else {
-            noteIt->accent = true;
+            noteIt->accented = true;
             noteIt->velocity = accentVelocity;
             noteIt->ornamented = 0.5;
         }
@@ -362,7 +362,7 @@ Sequence Sequence::claveFromCascara() const {
                 if (isNoteOnLeft) {
                     if (rand() % 2) { // todo: check previous note's time and make it more likely the longer it gets, and definitely not if it's 1 subdivision since last note
                         note.startTime = noteIt->startTime;
-                        note.accent = true;
+                        note.accented = true;
                         note.duration = 1; // todo: method to fill out durations between notes
                         note.ornamented = 0.5; // todo: don't just make accented notes ornamented.
                         notesNeededOnLeft--;
@@ -378,7 +378,7 @@ Sequence Sequence::claveFromCascara() const {
                 if (!isNoteOnLeft) {
                     if (rand() % 2) { // todo: check previous note's time and make it more likely the longer it gets, and definitely not if it's 1 subdivision since last note
                         note.startTime = noteIt->startTime;
-                        note.accent = true;
+                        note.accented = true;
                         note.duration = 1; // todo: method to fill out durations between notes
                         note.ornamented = 0.5;
                         notesNeededOnRight--;

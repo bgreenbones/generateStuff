@@ -64,6 +64,11 @@ public:
     Duration operator++(int) { return (*this) + 1.0; }
 //    Duration& operator--() { return &((*this) - 1.0); }
     Duration operator--(int) { return (*this) - 1.0; }
+    
+    Duration& operator+=(const Duration& other){
+          this->value += other.value;
+          return *this;
+    }
 
     beats asBeats() const { return timeSignature.beatsPerQuarter() * this->asQuarters(); }
     bars asBars() const { return this->asQuarters() / timeSignature.barLengthInQuarters(); }
