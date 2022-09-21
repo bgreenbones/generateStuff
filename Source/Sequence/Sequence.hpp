@@ -81,14 +81,20 @@ public:
     
     vector<Note> notes;
     vector<Subdivision> subdivisions;
+    
     Subdivision primarySubdivision() const { return longest<Subdivision>(subdivisions); }
     
 //    vector<Note>::iterator begin() { return notes.begin(); }
 //    vector<Note>::iterator end() { return notes.end(); }
 //    Rhythm rhythm;
 //    Phrase phrasing;
+    template <class T>
+    static void addTimedEvent(T toAdd, vector<T>& eventList);
     bool addNote(Note toAdd);
-    
+    bool addSubdivision(Subdivision toAdd);
+    template <class T>
+    vector<T> concatEvents(vector<T> eventList, vector<T> otherList);
+    Sequence concat(Sequence other);
     
     // Rhythmic thing.
     Sequence pulseAndDisplace(Duration pulse = 0.5,
@@ -110,24 +116,8 @@ public:
     Sequence addOrnaments(vector<OrnamentSimple> possibleOrnaments, float tempo, vector<float> probabilities =  { }) const;
     Sequence addOrnaments(OrnamentSimple ornament, float tempo) const;
     
+    // Mininotation stuff
     static Sequence parseMininotation(char sequenceString[], Subdivision subdivision);
 };
-
-
-
-
-//vector<Note> one = {};
-//vector<Note> two = byPosition<Note>(one, 1);
-
-//
-//class Sequence: public TimedEvent
-//{
-//public:
-//    Sequence();
-//    Sequence& operator=(Sequence other);
-//
-//    vector<TimedEvent> sequenced;
-//    bool addItem(TimedEvent toAdd);
-//};
 
 #endif /* Sequence_hpp */

@@ -8,20 +8,56 @@
 #include "Sequence.hpp"
 #include <JuceHeader.h>
 
+template <class T>
+void Sequence::addTimedEvent(T toAdd, vector<T>& eventList) {
+    eventList.push_back(toAdd);
+    sort(eventList.begin(),
+         eventList.end(),
+         [](T const &a, T const &b) { return a.startTime < b.startTime; });
+}
 
 
-bool Sequence::addNote(Note note) {
-    if (note.pitch < 0 || note.pitch > 127) {
+bool Sequence::addNote(Note toAdd) {
+    if (toAdd.pitch < 0 || toAdd.pitch > 127) {
         return false;
     }
     //    bool noteFitsInPhrase = note.startTime < (double) phrasing.length();
-    bool noteFitsInPhrase = this->containsPartially(note);
-    if (noteFitsInPhrase) {
-        notes.push_back(note);
-        sort(notes.begin(), notes.end()); // todo: sort by startTime
+    bool fitsInPhrase = this->containsPartially(toAdd);
+    if (fitsInPhrase) {
+        addTimedEvent<Note>(toAdd, notes);
+//        notes.push_back(note);
+//        sort(notes.begin(), notes.end()); // todo: sort by startTime
     }
-    return noteFitsInPhrase;
+    return fitsInPhrase;
+//    return addTimedEvent<Note>(toAdd, notes);
 }
+
+bool Sequence::addSubdivision(Subdivision toAdd) {
+    bool fitsInPhrase = this->containsPartially(toAdd);
+    if (fitsInPhrase) {
+        addTimedEvent<Subdivision>(toAdd, subdivisions);
+    }
+    return fitsInPhrase;
+}
+
+template <class T>
+vector<T> Sequence::concatEvents(vector<T> eventList, vector<T> otherList) {
+    for (auto iter = otherList.begin(); iter < otherList.end(); iter++) {
+        iter->startTime += duration;
+        addTimedEvent<T>(*iter, eventList);
+    }
+    return eventList;
+}
+
+Sequence Sequence::concat(Sequence other) {
+    Sequence sequence(*this);
+    
+    sequence.notes = concatEvents<Note>(sequence.notes, other.notes);
+    sequence.subdivisions = concatEvents<Subdivision>(sequence.subdivisions, other.subdivisions);
+    sequence.duration += other.duration;
+    
+    return sequence;
+} // todo: now do one that concats starting at the end of the last note in the phrase...instead of the whole duration...
 
 
 
