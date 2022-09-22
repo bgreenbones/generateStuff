@@ -92,9 +92,10 @@ public:
     static void addTimedEvent(T toAdd, vector<T>& eventList);
     bool addNote(Note toAdd);
     bool addSubdivision(Subdivision toAdd);
+    void tieSubdivisions();
     template <class T>
-    vector<T> concatEvents(vector<T> eventList, vector<T> otherList);
-    Sequence concat(Sequence other);
+    vector<T> concatEvents(vector<T> eventList, vector<T> otherList) const;
+    Sequence concat(Sequence other, bool useLastNote = false, bool keepDuration = false) const;
     
     // Rhythmic thing.
     Sequence pulseAndDisplace(Duration pulse = 0.5,

@@ -41,7 +41,7 @@ bool Sequence::addSubdivision(Subdivision toAdd) {
 }
 
 template <class T>
-vector<T> Sequence::concatEvents(vector<T> eventList, vector<T> otherList) {
+vector<T> Sequence::concatEvents(vector<T> eventList, vector<T> otherList) const {
     for (auto iter = otherList.begin(); iter < otherList.end(); iter++) {
         iter->startTime += duration;
         addTimedEvent<T>(*iter, eventList);
@@ -49,15 +49,79 @@ vector<T> Sequence::concatEvents(vector<T> eventList, vector<T> otherList) {
     return eventList;
 }
 
-Sequence Sequence::concat(Sequence other) {
+void Sequence::tieSubdivisions() {
+    if (subdivisions.size() <= 1) {
+        return;
+    }
+    bool tryAgain = false;
+    vector<Subdivision> newSubdivisions;
+    for (auto subdivIt = subdivisions.begin(); subdivIt < subdivisions.end() - 1; subdivIt++) {
+        auto otherSubdivIt = subdivIt + 1;
+        if (subdivIt->asQuarters() == otherSubdivIt->asQuarters() && subdivIt->endTime() == otherSubdivIt->startTime) {
+            newSubdivisions.push_back(Subdivision(subdivIt->asQuarters(), subdivIt->startTime, subdivIt->duration + otherSubdivIt->duration));
+            tryAgain = true;
+        }
+    }
+    this->subdivisions = newSubdivisions;
+    if (tryAgain) {
+        tieSubdivisions();
+    }
+}
+
+template <class T>
+vector<T> chopAfterDuration(vector<T> toChop, Duration duration) {
+    if (toChop.empty()) {
+        return toChop;
+    }
+    
+    vector<T> chopped;
+    copy_if (toChop.begin(),
+             toChop.end(),
+             back_inserter(chopped),
+             [duration](T t){return t.startTime < duration;} );
+    
+    if (chopped.empty()) {
+        return chopped;
+    }
+    
+    T &last = chopped.back();
+    if (last.endTime() > duration) {
+        last.duration = duration - last.startTime;
+    }
+    
+    return chopped;
+}
+
+Sequence Sequence::concat(Sequence other, bool useLastNote, bool keepDuration) const {
+    // todo: what if i just want to concat subdivisions?
     Sequence sequence(*this);
+    Duration durationToPersist = sequence.duration;
+    
+    if (useLastNote) {
+        if (sequence.notes.empty()) {
+            sequence.duration = 0;
+        } else {
+            Note lastNote = sequence.notes.back();
+            sequence.duration = lastNote.startTime + lastNote.duration;
+        }
+        
+        sequence.subdivisions = chopAfterDuration<Subdivision>(sequence.subdivisions, sequence.duration);
+    }
     
     sequence.notes = concatEvents<Note>(sequence.notes, other.notes);
     sequence.subdivisions = concatEvents<Subdivision>(sequence.subdivisions, other.subdivisions);
     sequence.duration += other.duration;
     
+    if (keepDuration) {
+        sequence.duration = durationToPersist;
+        sequence.notes = chopAfterDuration<Note>(sequence.notes, sequence.duration);
+        sequence.subdivisions = chopAfterDuration<Subdivision>(sequence.subdivisions, sequence.duration);
+    }
+    
+    sequence.tieSubdivisions();
+    
     return sequence;
-} // todo: now do one that concats starting at the end of the last note in the phrase...instead of the whole duration...
+}
 
 
 
@@ -97,7 +161,7 @@ namespace mininotation {
     }
 }
 
-Sequence parseMininotation(char sequenceString[], Subdivision subdivision) {
+Sequence Sequence::parseMininotation(char sequenceString[], Subdivision subdivision) {
     size_t sequenceLength = subdivision.asQuarters() * mininotation::getLength(sequenceString);
     Sequence sequence = Sequence(subdivision, 0, Duration(sequenceLength));
     

@@ -179,6 +179,11 @@ Sequence Sequence::cascaraFromClave() const {
                 if (rand() % 2) { // . x x
                     note.startTime = lastCascaraNote.startTime + subdivision * 2.;
                     note.duration = subdivision;
+                    
+                    auto cascaraCopy = cascara;
+                    cascaraCopy.concat(Sequence::parseMininotation(".xx", subdivision));
+                    // todo: compare results of this against the other way.
+                    // hopefully they are equivalent.
                 } else { // x . x
                     note.startTime = noteIt->startTime;
                     note.duration = subdivision * 2.;
