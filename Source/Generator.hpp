@@ -41,6 +41,11 @@ public:
     bool setSubdivision(const float subdivision);
     bool setPhraseLengthBars(const float bars);
     bool setPhraseLengthBeats(const float beats);
+    void updateTimeSignature() {
+        subdivision.updateTimeSignature();
+        cascaraSequence.updateTimeSignature();
+        claveSequence.updateTimeSignature();
+    }
 private:
 };
 

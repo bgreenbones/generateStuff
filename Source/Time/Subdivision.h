@@ -20,6 +20,11 @@ public:
     Subdivision(Duration divisionLength):
         Duration(divisionLength), TimedEvent(0, Bars(1)) { };
     Subdivision(): Duration(), TimedEvent() {}
+    
+    void updateTimeSignature() {
+        timeSignature = HostSettings::instance().getTimeSignature();
+        TimedEvent::updateTimeSignature();
+    }
 //    Subdivision operator=(const double other) {
 //        this->timeSignature = HostSettings::instance().getTimeSignature();
 //        this->value = Beats(other).asQuarters();

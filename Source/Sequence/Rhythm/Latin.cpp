@@ -175,18 +175,29 @@ Sequence Sequence::cascaraFromClave() const {
         
         if (subdivisionsBetweenNotes == 2.) {
             if (subdivisionsSinceCascaraNote == 0.) { // x . x
+                auto cascaraCopy = cascara;
+                auto newNotes = Sequence::parseMininotation("x.x", subdivision);
+                cascaraCopy = cascaraCopy.concat(newNotes, true, true);
+                int i = 0;
             } else if (subdivisionsSinceCascaraNote == 1.0) {
                 if (rand() % 2) { // . x x
                     note.startTime = lastCascaraNote.startTime + subdivision * 2.;
                     note.duration = subdivision;
                     
                     auto cascaraCopy = cascara;
-                    cascaraCopy.concat(Sequence::parseMininotation(".xx", subdivision));
+                    auto newNotes = Sequence::parseMininotation(".xx", subdivision);
+                    cascaraCopy = cascaraCopy.concat(newNotes, true, true);
+                    int i = 0;
                     // todo: compare results of this against the other way.
                     // hopefully they are equivalent.
                 } else { // x . x
                     note.startTime = noteIt->startTime;
                     note.duration = subdivision * 2.;
+                    
+                    auto cascaraCopy = cascara;
+                    auto newNotes = Sequence::parseMininotation("x.x", subdivision);
+                    cascaraCopy = cascaraCopy.concat(newNotes, true, true);
+                    int i = 0;
                 }
                 cascara.addNote(note);
             } else {

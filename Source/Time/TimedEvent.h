@@ -17,14 +17,19 @@ public:
     Position startTime;
     Duration duration;
     
-    TimedEvent() { }
     TimedEvent(Position startTime, Duration duration): startTime(startTime), duration(duration) { }
+    TimedEvent(): TimedEvent(0, 1) { }
     TimedEvent(TimedEvent const& other): startTime(other.startTime), duration(other.duration) { }
     TimedEvent& operator=(TimedEvent other) {
         swap(startTime, other.startTime);
         swap(duration, other.duration);
         return *this;
     };
+    
+    void updateTimeSignature() {
+        startTime.timeSignature = HostSettings::instance().getTimeSignature();
+        duration.timeSignature = HostSettings::instance().getTimeSignature();
+    }
     
     Position endTime() {
         return this->startTime + this->duration;

@@ -31,6 +31,7 @@ bool Generator::setPhraseLengthBeats(const float beats) {
 }
 
 Playable Generator::cascara() {
+    updateTimeSignature();
 //    cascaraSequence
     auto tempSequence = Sequence(subdivision, phraseStartTime, phraseLength())
         .randomCascara();
@@ -43,6 +44,7 @@ Playable Generator::cascara() {
 }
 
 Playable Generator::clave() {
+    updateTimeSignature();
     auto tempSequence = Sequence(subdivision, phraseStartTime, phraseLength())
         .randomClave();
     this->claveSequence = tempSequence;
@@ -51,6 +53,7 @@ Playable Generator::clave() {
 }
 
 Playable Generator::cascaraFromClave() {
+    updateTimeSignature();
     if (claveSequence.notes.empty()) {
         this->clave();
     }
@@ -64,6 +67,7 @@ Playable Generator::cascaraFromClave() {
 
 
 Playable Generator::claveFromCascara() {
+    updateTimeSignature();
     auto tempSequence = cascaraSequence.claveFromCascara();
     claveSequence = tempSequence;
 //    tempSeq = tempSeq

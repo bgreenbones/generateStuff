@@ -8,6 +8,18 @@
 #include "Sequence.hpp"
 #include <JuceHeader.h>
 
+
+void Sequence::updateTimeSignature() {
+    TimedEvent::updateTimeSignature();
+    for (auto subdiv = subdivisions.begin(); subdiv < subdivisions.end(); subdiv++) {
+        subdiv->updateTimeSignature();
+    }
+    for (auto note = notes.begin(); note < notes.end(); note++) {
+        note->updateTimeSignature();
+    }
+}
+
+
 template <class T>
 void Sequence::addTimedEvent(T toAdd, vector<T>& eventList) {
     eventList.push_back(toAdd);
@@ -94,6 +106,9 @@ vector<T> chopAfterDuration(vector<T> toChop, Duration duration) {
 
 Sequence Sequence::concat(Sequence other, bool useLastNote, bool keepDuration) const {
     // todo: what if i just want to concat subdivisions?
+    // this currently destroys subdivision sequences (but preserves a single lengthy subdivision.
+    // I imagine that later, and for other expressions we want to sequence,
+    // we will want to have a concat method that can only concat some particular vectors...
     Sequence sequence(*this);
     Duration durationToPersist = sequence.duration;
     
@@ -114,8 +129,10 @@ Sequence Sequence::concat(Sequence other, bool useLastNote, bool keepDuration) c
     
     if (keepDuration) {
         sequence.duration = durationToPersist;
-        sequence.notes = chopAfterDuration<Note>(sequence.notes, sequence.duration);
-        sequence.subdivisions = chopAfterDuration<Subdivision>(sequence.subdivisions, sequence.duration);
+        sequence.notes = chopAfterDuration<Note>(sequence.notes, durationToPersist);
+        sequence.subdivisions = chopAfterDuration<Subdivision>(sequence.subdivisions, durationToPersist);
+        Subdivision &lastSubdiv = sequence.subdivisions.back();
+        lastSubdiv.duration = durationToPersist - lastSubdiv.startTime; // keep subdivisions info covering the whole span.
     }
     
     sequence.tieSubdivisions();
@@ -162,11 +179,11 @@ namespace mininotation {
 }
 
 Sequence Sequence::parseMininotation(char sequenceString[], Subdivision subdivision) {
-    size_t sequenceLength = subdivision.asQuarters() * mininotation::getLength(sequenceString);
+    double sequenceLength = subdivision.asQuarters() * (double) mininotation::getLength(sequenceString);
     Sequence sequence = Sequence(subdivision, 0, Duration(sequenceLength));
-    
+
     Position startTime = 0;
-    for(int i = 0; i < strlen(sequenceString); i++) {
+    for(int i = 0; i < mininotation::getLength(sequenceString); i++) {
         char symbol = sequenceString[i];
     
         if (!mininotation::isInNotation(symbol)) {

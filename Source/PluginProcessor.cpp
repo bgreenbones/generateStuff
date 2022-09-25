@@ -167,6 +167,7 @@ void GenerateStuffAudioProcessor::updateTimeSignature(juce::Optional<juce::Audio
     TimeSignature newTimeSignature = TimeSignature(newTimeSignatureJuce.numerator, newTimeSignatureJuce.denominator);
     if (HostSettings::instance().getTimeSignature() != newTimeSignature) {
         HostSettings::instance().setTimeSignature(newTimeSignature);
+        generator.updateTimeSignature();
     }
     
     return;

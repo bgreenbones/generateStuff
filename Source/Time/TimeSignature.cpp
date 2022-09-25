@@ -44,7 +44,7 @@ TimeSignature TimeSignature::operator=(TimeSignature other) {
 //}
 
 TimeSignature::TimeSignature() {
-    this->numerator = 4;
+    this->numerator = 5;
     this->denominator = 4;
 }
 

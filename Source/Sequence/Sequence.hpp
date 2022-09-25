@@ -83,6 +83,7 @@ public:
     vector<Subdivision> subdivisions;
     
     Subdivision primarySubdivision() const { return longest<Subdivision>(subdivisions); }
+    void updateTimeSignature();
     
 //    vector<Note>::iterator begin() { return notes.begin(); }
 //    vector<Note>::iterator end() { return notes.end(); }
