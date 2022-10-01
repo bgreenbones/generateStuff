@@ -17,28 +17,53 @@ Sequence Sequence::pulseAndDisplace(Duration pulse,
 {
     const Duration length(duration);
     Sequence resultSequence(*this);
-    
     resultSequence.notes.clear();
     
     bernoulli_distribution displaceCoin(pDisplace);
     bernoulli_distribution doubleCoin(pDouble);
-    for (float cursor = 0; cursor < length; cursor += pulse) {
-        bool displace = displaceCoin(resultSequence.gen);
-        if (displace) {
-            bool displaceWithDouble = doubleCoin(resultSequence.gen);
-            if (displaceWithDouble) {
-                Note extraNote = Note();
-                extraNote.startTime = cursor;
-                extraNote.duration = displacement;
-                resultSequence.addNote(extraNote);
+//    for (float cursor = 0; cursor < length; cursor += pulse) {
+//        bool displace = displaceCoin(resultSequence.gen);
+//        if (displace) {
+//            bool displaceWithDouble = doubleCoin(resultSequence.gen);
+//            if (displaceWithDouble) {
+//                Note extraNote = Note();
+//                extraNote.startTime = cursor;
+//                extraNote.duration = displacement;
+//                resultSequence.addNote(extraNote);
+//            }
+//            cursor += displacement;
+//        }
+//        Note note = Note();
+//        note.startTime = cursor;
+//        note.duration = pulse;
+//        resultSequence.addNote(note);
+//    }
+    
+    // generate
+    Note currentNote = resultSequence.notes.size() > 0 ? resultSequence.notes.back() : Note(Position(0), Duration(0));
+    do {
+        if (displaceCoin(resultSequence.gen)) {
+            if (doubleCoin(resultSequence.gen)) {
+                resultSequence = resultSequence.concat(parseMininotation("x", displacement), true, true);
             }
-            cursor += displacement;
         }
-        
-        Note note = Note();
-        note.startTime = cursor;
-        note.duration = pulse;
-        resultSequence.addNote(note);
+        resultSequence = resultSequence.concat(parseMininotation("x", pulse), true, true);
+        currentNote = resultSequence.notes.size() > 0 ? resultSequence.notes.back() : Note(Position(0), Duration(0));
+    } while (currentNote.endTime() < length);
+    
+    // clean up.
+    Note &lastNote = resultSequence.notes.back();
+    while (lastNote.startTime >= length) {
+        DBG ("added too many notes...???");
+        resultSequence.notes.pop_back();
+        lastNote = resultSequence.notes.back();
+    }
+    if (lastNote.endTime() > length) {
+        Duration lastNoteLength = length - lastNote.startTime;
+        lastNote.duration = lastNoteLength;
+    }
+    if (lastNote.endTime() != length) {
+        DBG ("sequence doesn't end at right time...");
     }
     
     return resultSequence;

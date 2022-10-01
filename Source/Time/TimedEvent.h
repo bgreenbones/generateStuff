@@ -27,8 +27,11 @@ public:
     };
     
     void updateTimeSignature() {
+        bars numBars = duration.wholeBars();
+        beats beatsInLastBar = duration.beatsInLastBar();
         startTime.timeSignature = HostSettings::instance().getTimeSignature();
         duration.timeSignature = HostSettings::instance().getTimeSignature();
+        duration = Bars(numBars) + Beats(beatsInLastBar);
     }
     
     Position endTime() {

@@ -119,7 +119,7 @@ public:
     Sequence addOrnaments(OrnamentSimple ornament, float tempo) const;
     
     // Mininotation stuff
-    static Sequence parseMininotation(char sequenceString[], Subdivision subdivision);
+    static Sequence parseMininotation(std::string sequenceString, Subdivision subdivision);
 };
 
 #endif /* Sequence_hpp */

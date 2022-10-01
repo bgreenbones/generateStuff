@@ -25,8 +25,7 @@ Sequence Sequence::randomCascara(Probability pDisplace,
     for (auto noteIt = cascara.notes.begin();
          noteIt != cascara.notes.end();
          noteIt++) {
-        Note note = *noteIt;
-        if (note.duration == displacement) { // beginning of a double
+        if (noteIt->duration == displacement) { // beginning of a double
             noteIt->velocity = unaccentedVelocity;
         } else {
             noteIt->accented = true;
@@ -99,6 +98,14 @@ Sequence Sequence::randomClave() const {
         clave.notes = vector<Note>();
         float notePosition = (rand() % maxNoteLengthInSubdivisions) * subdivision;
         for (int noteInd = 0; noteInd < numNotes; noteInd++) {
+//            std::string notation = "X";
+//            auto setNotationLength = [&notation](int notationLength) {
+//                for (int i = 1; i < notationLength; i++) {
+//                    notation.append(".");
+//                }
+//            }
+//            auto noteLength = randomNoteLengthInSubdivisions(clave.gen);
+//            setNotationLength(noteLength);
             Note note = Note();
             note.startTime = notePosition;
             // note doesn't fall within its side, scrap it and try again
@@ -129,8 +136,6 @@ Sequence Sequence::randomClave() const {
 
 
 Sequence Sequence::cascaraFromClave() const {
-//    Sequence cascara = Sequence(clave.rhythm, clave.phrasing);
-    
     bool isClave = true; // todo: how do we know
     if (!isClave) {
 //        throw exception();
@@ -139,16 +144,18 @@ Sequence Sequence::cascaraFromClave() const {
     Sequence cascara(*this);
     cascara.notes.clear();
     Duration subdivision = cascara.primarySubdivision();
-    Duration pulse = subdivision * 2.;
     
     if (this->notes.size() <= 0) {
         DBG ("no notes to generate a cascara from");
         return cascara;
     }
     
-    cascara.addNote(this->notes.front());
+    Note firstCascaraNote = this->notes.front();
+    firstCascaraNote.duration = subdivision;
+    cascara.addNote(firstCascaraNote);
+    
     for (auto noteIt = this->notes.begin();
-         noteIt != --this->notes.end();
+         noteIt < this->notes.end() - 1;
          noteIt++)
     {
         auto nextNote = noteIt + 1;
@@ -161,119 +168,55 @@ Sequence Sequence::cascaraFromClave() const {
             timeBetweenNotes = nextNote->startTime - noteIt->startTime;
         }
         
-        double subdivisionsBetweenNotes = timeBetweenNotes.asBeats() / subdivision.asBeats();
+        double subdivisionsBetweenClaveNotes = timeBetweenNotes.asBeats() / subdivision.asBeats();
         
         Note lastCascaraNote = cascara.notes.back();
-        Duration timeSinceLastCascaraNote = lastCascaraNote.startTime - noteIt->startTime;
-        double subdivisionsSinceCascaraNote = timeSinceLastCascaraNote.asBeats() / subdivision.asBeats();
+        Duration timeSinceLastCascaraNote = noteIt->startTime - lastCascaraNote.startTime;
+        double subdivisionsSinceLastCascaraNote = timeSinceLastCascaraNote.asBeats() / subdivision.asBeats();
         
-        Note note = Note();
-//        note.accent = true;
-//        note.duration = 1; // todo: method to fill out durations between notes
-//        note.ornamented = 0.5; // todo: don't just make accented notes ornamented.
-        
-        
-        if (subdivisionsBetweenNotes == 2.) {
-            if (subdivisionsSinceCascaraNote == 0.) { // x . x
-                auto cascaraCopy = cascara;
-                auto newNotes = Sequence::parseMininotation("x.x", subdivision);
-                cascaraCopy = cascaraCopy.concat(newNotes, true, true);
-                int i = 0;
-            } else if (subdivisionsSinceCascaraNote == 1.0) {
+        Sequence newNotes;
+        if (subdivisionsBetweenClaveNotes == 2.) {
+            if (subdivisionsSinceLastCascaraNote == 0.) { // x . x
+                newNotes = Sequence::parseMininotation("~x", subdivision);
+            } else if (subdivisionsSinceLastCascaraNote == 1.0) {
                 if (rand() % 2) { // . x x
-                    note.startTime = lastCascaraNote.startTime + subdivision * 2.;
-                    note.duration = subdivision;
-                    
-                    auto cascaraCopy = cascara;
-                    auto newNotes = Sequence::parseMininotation(".xx", subdivision);
-                    cascaraCopy = cascaraCopy.concat(newNotes, true, true);
-                    int i = 0;
-                    // todo: compare results of this against the other way.
-                    // hopefully they are equivalent.
+                    newNotes = Sequence::parseMininotation("~xx", subdivision);
                 } else { // x . x
-                    note.startTime = noteIt->startTime;
-                    note.duration = subdivision * 2.;
-                    
-                    auto cascaraCopy = cascara;
-                    auto newNotes = Sequence::parseMininotation("x.x", subdivision);
-                    cascaraCopy = cascaraCopy.concat(newNotes, true, true);
-                    int i = 0;
+                    newNotes = Sequence::parseMininotation("x~x", subdivision);
                 }
-                cascara.addNote(note);
             } else {
                 DBG ("cascara has some weird note lengths??");
             }
-            Note nextCascaraNote = *nextNote;
-            cascara.addNote(nextCascaraNote);
-        } else if (subdivisionsBetweenNotes == 3.) {
-            if (subdivisionsSinceCascaraNote == 0.) { // this note already hit. just add next note.
+        } else if (subdivisionsBetweenClaveNotes == 3.) {
+            if (subdivisionsSinceLastCascaraNote == 0.) { // this note already hit. just add next note.
                 auto choice = rand() % 3;
                 if (choice == 0) { // x x . x
-                    note.startTime = lastCascaraNote.startTime + subdivision;
-                    cascara.addNote(note);
-                    Note nextCascaraNote = *nextNote;
-                    cascara.addNote(nextCascaraNote);
+                    newNotes = Sequence::parseMininotation("x~x", subdivision);
                 } else if (choice == 1) { // x . x x
-                    note.startTime = lastCascaraNote.startTime + pulse;
-                    cascara.addNote(note);
-                    Note nextCascaraNote = *nextNote;
-                    cascara.addNote(nextCascaraNote);
+                    newNotes = Sequence::parseMininotation("~xx", subdivision);
                 } else if (choice == 2) { // x . x . misses next note!!
-                    note.startTime = lastCascaraNote.startTime + pulse;
-                    note.duration = pulse;
-                    cascara.addNote(note);
+                    newNotes = Sequence::parseMininotation("~x~", subdivision);
                 }
-            } else if (subdivisionsSinceCascaraNote == 1.0) {
+            } else if (subdivisionsSinceLastCascaraNote == 1.0) {
                 // only one option: . x . x
-                note.startTime = lastCascaraNote.startTime + pulse;
-                note.duration = pulse;
-                cascara.addNote(note);
-                Note nextCascaraNote = *nextNote;
-                cascara.addNote(nextCascaraNote);
+                newNotes = Sequence::parseMininotation("~x~x", subdivision);
             } else {
                 DBG ("cascara has some weird note lengths??");
             }
-        } else if (subdivisionsBetweenNotes == 4.) {
-            if (subdivisionsSinceCascaraNote == 0.) { // this note already hit.
+        } else if (subdivisionsBetweenClaveNotes == 4.) {
+            if (subdivisionsSinceLastCascaraNote == 0.) { // this note already hit.
                 auto choice = rand() % 2;
                 if (choice == 0) { // x . x . x
-                    note.startTime = lastCascaraNote.startTime + pulse;
-                    note.duration = pulse;
-                    cascara.addNote(note);
-                    Note nextCascaraNote = *nextNote;
-                    cascara.addNote(nextCascaraNote);
+                    newNotes = Sequence::parseMininotation("~x~x", subdivision);
                 } else if (choice == 1) { // x x . x x
-                    note.startTime = lastCascaraNote.startTime + subdivision;
-                    note.duration = pulse;
-                    cascara.addNote(note);
-                    Note anotherNote = Note();
-                    anotherNote.startTime = note.startTime + pulse;
-                    anotherNote.duration = subdivision;
-                    cascara.addNote(anotherNote);
-                    Note nextCascaraNote = *nextNote;
-                    cascara.addNote(nextCascaraNote);
+                    newNotes = Sequence::parseMininotation("x~xx", subdivision);
                 }
-            } else if (subdivisionsSinceCascaraNote == 1.0) {
-                note.startTime = lastCascaraNote.startTime + pulse;
+            } else if (subdivisionsSinceLastCascaraNote == 1.0) {
                 auto choice = rand() % 2;
                 if (choice == 0) { // // . x x . x
-                    note.duration = subdivision;
-                    cascara.addNote(note);
-                    Note anotherNote = Note();
-                    anotherNote.startTime = note.startTime + subdivision;
-                    anotherNote.duration = pulse;
-                    cascara.addNote(anotherNote);
-                    Note nextCascaraNote = *nextNote;
-                    cascara.addNote(nextCascaraNote);
+                    newNotes = Sequence::parseMininotation("~xx~x", subdivision);
                 } else if (choice == 1) { // . x . x x
-                    note.duration = pulse;
-                    cascara.addNote(note);
-                    Note anotherNote = Note();
-                    anotherNote.startTime = note.startTime + pulse;
-                    anotherNote.duration = subdivision;
-                    cascara.addNote(anotherNote);
-                    Note nextCascaraNote = *nextNote;
-                    cascara.addNote(nextCascaraNote);
+                    newNotes = Sequence::parseMininotation("~x~xx", subdivision);
                 }
             } else {
                 DBG ("cascara has some weird note lengths??");
@@ -281,8 +224,212 @@ Sequence Sequence::cascaraFromClave() const {
         } else {
             DBG ("weird amount of subdivisions between notes in clave.");
         }
-    }
+        cascara = cascara.concat(newNotes, true, true);
 
+        return cascara;
+    }
+    
+//    This was code from cascaraToClave that was used to test the mininotation stuff.
+//
+//    Note lastCascaraNoteToCompare = cascaraToCompare.notes.back();
+//    Duration timeSinceLastCascaraNoteToCompare = noteIt->startTime - lastCascaraNoteToCompare.startTime;
+//    double subdivisionsSinceLastCascaraNoteToCompare = timeSinceLastCascaraNoteToCompare.asBeats() / subdivision.asBeats();
+//
+//    Note note = Note();
+////        note.accent = true;
+////        note.duration = 1; // todo: method to fill out durations between notes
+////        note.ornamented = 0.5; // todo: don't just make accented notes ornamented.
+//
+//
+//    if (lastCascaraNote.startTime != lastCascaraNoteToCompare.startTime) {
+//        DBG ("last notes differ");
+//    }
+//
+//    if (subdivisionsSinceLastCascaraNote != subdivisionsSinceLastCascaraNoteToCompare) {
+//        DBG ("time differences differ");
+//    }
+//
+//
+//    Sequence newNotes;
+//    if (subdivisionsBetweenClaveNotes == 2.) {
+//        if (subdivisionsSinceLastCascaraNote == 0.) { // x . x
+//            newNotes = Sequence::parseMininotation("~x", subdivision);
+//            branch = 0;
+//        } else if (subdivisionsSinceLastCascaraNote == 1.0) {
+//            if (rand() % 2) { // . x x
+//                newNotes = Sequence::parseMininotation("~xx", subdivision);
+//
+//                note.startTime = lastCascaraNote.startTime + subdivision * 2.;
+//                note.duration = subdivision;
+//                cascaraToCompare.addNote(note);
+//
+//                branch = 1;
+//            } else { // x . x
+//                newNotes = Sequence::parseMininotation("x~x", subdivision);
+//
+//                note.startTime = noteIt->startTime;
+//                note.duration = subdivision * 2.;
+//                cascaraToCompare.addNote(note);
+//
+//                branch = 2;
+//            }
+//        } else {
+//            DBG ("cascara has some weird note lengths??");
+//        }
+//        Note nextCascaraNote = *nextNote;
+//        cascaraToCompare.addNote(nextCascaraNote);
+//    } else if (subdivisionsBetweenClaveNotes == 3.) {
+//        if (subdivisionsSinceLastCascaraNote == 0.) { // this note already hit. just add next note.
+//            auto choice = rand() % 3;
+//            if (choice == 0) { // x x . x
+//                newNotes = Sequence::parseMininotation("x~x", subdivision);
+//
+//                note.startTime = lastCascaraNote.startTime + subdivision;
+//                cascaraToCompare.addNote(note);
+//                Note nextCascaraNote = *nextNote;
+//                cascaraToCompare.addNote(nextCascaraNote);
+//
+//                branch = 3;
+//            } else if (choice == 1) { // x . x x
+//                newNotes = Sequence::parseMininotation("~xx", subdivision);
+//
+//                note.startTime = lastCascaraNote.startTime + pulse;
+//                cascaraToCompare.addNote(note);
+//                Note nextCascaraNote = *nextNote;
+//                cascaraToCompare.addNote(nextCascaraNote);
+//
+//                branch = 4;
+//            } else if (choice == 2) { // x . x . misses next note!!
+//                newNotes = Sequence::parseMininotation("~x~", subdivision);
+//
+//                note.startTime = lastCascaraNote.startTime + pulse;
+//                note.duration = pulse;
+//                cascaraToCompare.addNote(note);
+//
+//                branch = 5;
+//            }
+//        } else if (subdivisionsSinceLastCascaraNote == 1.0) {
+//            // only one option: . x . x
+//            newNotes = Sequence::parseMininotation("~x~x", subdivision);
+//
+//            note.startTime = lastCascaraNote.startTime + pulse;
+//            note.duration = pulse;
+//            cascaraToCompare.addNote(note);
+//            Note nextCascaraNote = *nextNote;
+//            cascaraToCompare.addNote(nextCascaraNote);
+//
+//            branch = 6;
+//        } else {
+//            DBG ("cascara has some weird note lengths??");
+//        }
+//    } else if (subdivisionsBetweenClaveNotes == 4.) {
+//        if (subdivisionsSinceLastCascaraNote == 0.) { // this note already hit.
+//            auto choice = rand() % 2;
+//            if (choice == 0) { // x . x . x
+//                newNotes = Sequence::parseMininotation("~x~x", subdivision);
+//
+//                note.startTime = lastCascaraNote.startTime + pulse;
+//                note.duration = pulse;
+//                cascaraToCompare.addNote(note);
+//                Note nextCascaraNote = *nextNote;
+//                cascaraToCompare.addNote(nextCascaraNote);
+//
+//                branch = 7;
+//            } else if (choice == 1) { // x x . x x
+//                newNotes = Sequence::parseMininotation("x~xx", subdivision);
+//
+//                note.startTime = lastCascaraNote.startTime + subdivision;
+//                note.duration = pulse;
+//                cascaraToCompare.addNote(note);
+//                Note anotherNote = Note();
+//                anotherNote.startTime = note.startTime + pulse;
+//                anotherNote.duration = subdivision;
+//                cascaraToCompare.addNote(anotherNote);
+//                Note nextCascaraNote = *nextNote;
+//                cascaraToCompare.addNote(nextCascaraNote);
+//
+//                branch = 8;
+//            }
+//        } else if (subdivisionsSinceLastCascaraNote == 1.0) {
+//            note.startTime = lastCascaraNote.startTime + pulse;
+//            auto choice = rand() % 2;
+//            if (choice == 0) { // // . x x . x
+//                newNotes = Sequence::parseMininotation("~xx~x", subdivision);
+//
+//                note.duration = subdivision;
+//                cascaraToCompare.addNote(note);
+//                Note anotherNote = Note();
+//                anotherNote.startTime = note.startTime + subdivision;
+//                anotherNote.duration = pulse;
+//                cascaraToCompare.addNote(anotherNote);
+//                Note nextCascaraNote = *nextNote;
+//                cascaraToCompare.addNote(nextCascaraNote);
+//
+//                branch = 9;
+//            } else if (choice == 1) { // . x . x x
+//                newNotes = Sequence::parseMininotation("~x~xx", subdivision);
+//
+//                note.duration = pulse;
+//                cascaraToCompare.addNote(note);
+//                Note anotherNote = Note();
+//                anotherNote.startTime = note.startTime + pulse;
+//                anotherNote.duration = subdivision;
+//                cascaraToCompare.addNote(anotherNote);
+//                Note nextCascaraNote = *nextNote;
+//                cascaraToCompare.addNote(nextCascaraNote);
+//
+//                branch = 10;
+//            }
+//        } else {
+//            DBG ("cascara has some weird note lengths??");
+//        }
+//    } else {
+//        DBG ("weird amount of subdivisions between notes in clave.");
+//    }
+//    cascara = cascara.concat(newNotes, true, true);
+//
+//
+//    if (cascara.notes.size() != cascaraToCompare.notes.size()) {
+//        DBG ("different number of notes");
+//    }
+//
+//    bool allNotesHaveMatch = true;
+//    for (auto cascaraNote : cascara.notes) {
+//        bool match = false;
+//        for (auto compareNote : cascaraToCompare.notes) {
+//            match = match || cascaraNote.startTime == compareNote.startTime;
+//        }
+//        allNotesHaveMatch = allNotesHaveMatch && match;
+//    }
+//
+//    if (!allNotesHaveMatch) {
+//        DBG ("not all notes in mininotation way have match in old way");
+//    }
+//
+//    bool allNotesHaveMatch2 = true;
+//    for (auto cascaraNote : cascaraToCompare.notes) {
+//        bool match = false;
+//        for (auto compareNote : cascara.notes) {
+//            match = match || cascaraNote.startTime == compareNote.startTime;
+//        }
+//        allNotesHaveMatch2 = allNotesHaveMatch2 && match;
+//    }
+//
+//    if (!allNotesHaveMatch2) {
+//        DBG ("not all notes in old way have match in mininotationw way");
+//    }
+//
+//    if (cascara.notes.size() != cascaraToCompare.notes.size() ||
+//        !allNotesHaveMatch ||
+//        !allNotesHaveMatch2) {
+//        problemBranches.push_back(branch);
+//    }
+    
+
+    
+    
+    
+    
     // maybe 2/3 - 3/4 of cascara accents end up being clave notes - the rest fall right next to clave notes. actually acheive these ratios - don't just use them as probabilities that you don't enforce.
     
     // connect length 4 with multiple length 2 or two doubles in a row.

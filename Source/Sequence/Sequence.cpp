@@ -74,8 +74,8 @@ void Sequence::tieSubdivisions() {
             tryAgain = true;
         }
     }
-    this->subdivisions = newSubdivisions;
     if (tryAgain) {
+        this->subdivisions = newSubdivisions;
         tieSubdivisions();
     }
 }
@@ -86,20 +86,28 @@ vector<T> chopAfterDuration(vector<T> toChop, Duration duration) {
         return toChop;
     }
     
-    vector<T> chopped;
+    vector<T> filtered;
     copy_if (toChop.begin(),
              toChop.end(),
-             back_inserter(chopped),
-             [duration](T t){return t.startTime < duration;} );
+             back_inserter(filtered),
+             [duration](T &t) { return t.startTime <= duration; });
     
-    if (chopped.empty()) {
-        return chopped;
+    
+    
+    if (filtered.empty()) {
+        return filtered;
     }
     
-    T &last = chopped.back();
-    if (last.endTime() > duration) {
-        last.duration = duration - last.startTime;
-    }
+    vector<T> chopped;
+    transform(filtered.begin(),
+              filtered.end(),
+              back_inserter(chopped),
+              [duration](T &t) {
+                bool tooLong = t.endTime() > duration;
+                if (tooLong) {
+                    t.duration =  duration - t.startTime;
+                }
+                return t; });
     
     return chopped;
 }
@@ -112,6 +120,10 @@ Sequence Sequence::concat(Sequence other, bool useLastNote, bool keepDuration) c
     Sequence sequence(*this);
     Duration durationToPersist = sequence.duration;
     
+    if (sequence.subdivisions.size() == 0) {
+        DBG ("how did we get here");
+    }
+    
     if (useLastNote) {
         if (sequence.notes.empty()) {
             sequence.duration = 0;
@@ -123,14 +135,17 @@ Sequence Sequence::concat(Sequence other, bool useLastNote, bool keepDuration) c
         sequence.subdivisions = chopAfterDuration<Subdivision>(sequence.subdivisions, sequence.duration);
     }
     
-    sequence.notes = concatEvents<Note>(sequence.notes, other.notes);
-    sequence.subdivisions = concatEvents<Subdivision>(sequence.subdivisions, other.subdivisions);
+    sequence.notes = sequence.concatEvents<Note>(sequence.notes, other.notes);
+    sequence.subdivisions = sequence.concatEvents<Subdivision>(sequence.subdivisions, other.subdivisions);
     sequence.duration += other.duration;
     
     if (keepDuration) {
         sequence.duration = durationToPersist;
         sequence.notes = chopAfterDuration<Note>(sequence.notes, durationToPersist);
         sequence.subdivisions = chopAfterDuration<Subdivision>(sequence.subdivisions, durationToPersist);
+        if (sequence.subdivisions.size() == 0) {
+            DBG ("how did we get here");
+        }
         Subdivision &lastSubdiv = sequence.subdivisions.back();
         lastSubdiv.duration = durationToPersist - lastSubdiv.startTime; // keep subdivisions info covering the whole span.
     }
@@ -173,14 +188,14 @@ namespace mininotation {
         return isIn(symbol, noteSymbols);
     }
 
-    size_t getLength(char sequenceString[]) {
-        return strlen(sequenceString);
+    size_t getLength(std::string sequenceString) {
+        return sequenceString.size();
     }
 }
 
-Sequence Sequence::parseMininotation(char sequenceString[], Subdivision subdivision) {
+Sequence Sequence::parseMininotation(std::string sequenceString, Subdivision subdivision) {
     double sequenceLength = subdivision.asQuarters() * (double) mininotation::getLength(sequenceString);
-    Sequence sequence = Sequence(subdivision, 0, Duration(sequenceLength));
+    Sequence sequence = Sequence(subdivision, 0, Quarters(sequenceLength));
 
     Position startTime = 0;
     for(int i = 0; i < mininotation::getLength(sequenceString); i++) {

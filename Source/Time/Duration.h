@@ -11,6 +11,7 @@
 #pragma once
 
 //#include <stdio.h>
+#include <JuceHeader.h>
 #include "TimeSignature.h"
 #include <algorithm>
 #include <math.h>
@@ -25,7 +26,9 @@ class Quarters;
 class Duration {
 private:
     bool guard() {
-        if (value < 0) { throw exception(); }
+        if (value < 0) {
+            DBG ("negative duration value...");
+        }
         return true;
     }
 public:
@@ -33,7 +36,7 @@ public:
     Duration(double value, TimeSignature timeSignature): timeSignature(timeSignature), value(value) { guard(); }
     Duration(double value): Duration(value, HostSettings::instance().getTimeSignature()) {}
     
-    Duration(Duration const& other): Duration(other.value, other.timeSignature) {}
+//    Duration(Duration const& other): Duration(other.value, other.timeSignature) {}
     Duration operator=(Duration other) {
       swap(value, other.value);
       swap(timeSignature, other.timeSignature);
@@ -70,6 +73,8 @@ public:
           return *this;
     }
 
+    beats beatsInLastBar() const { return asBeats() - wholeBars() * timeSignature.numerator; }
+    bars wholeBars() const { return floor(asBars()); }
     beats asBeats() const { return timeSignature.beatsPerQuarter() * this->asQuarters(); }
     bars asBars() const { return this->asQuarters() / timeSignature.barLengthInQuarters(); }
     quarters asQuarters() const { return this->value; }
