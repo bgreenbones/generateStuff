@@ -7,14 +7,17 @@
   <MAINGROUP id="MsxILz" name="generateStuff">
     <GROUP id="{00999AAF-F7D5-2407-527D-4524909F0912}" name="Source">
       <GROUP id="{E84D5FE5-051D-49D6-86AD-21D645F5CBC0}" name="Sequence">
+        <FILE id="aCmneZ" name="Mininotation.h" compile="0" resource="0" file="Source/Sequence/Mininotation.h"/>
+        <FILE id="bKQjFW" name="Sequence.cpp" compile="1" resource="0" file="Source/Sequence/Sequence.cpp"/>
+        <FILE id="oZ2iVA" name="Sequence.h" compile="0" resource="0" file="Source/Sequence/Sequence.h"/>
+        <FILE id="sipKuL" name="Phrase.cpp" compile="1" resource="0" file="Source/Sequence/Phrase.cpp"/>
+        <FILE id="KHfI2V" name="Phrase.hpp" compile="0" resource="0" file="Source/Sequence/Phrase.hpp"/>
         <GROUP id="{DAAC1CF5-B5A7-DBE1-2457-B61E6B07A312}" name="Rhythm">
           <FILE id="No4I9r" name="Latin.cpp" compile="1" resource="0" file="Source/Sequence/Rhythm/Latin.cpp"/>
           <FILE id="p8wtXv" name="Rhythm.cpp" compile="1" resource="0" file="Source/Sequence/Rhythm/Rhythm.cpp"/>
         </GROUP>
         <FILE id="iOGOg4" name="Ornamentation.cpp" compile="1" resource="0"
               file="Source/Sequence/Ornamentation.cpp"/>
-        <FILE id="YOlQHL" name="Sequence.cpp" compile="1" resource="0" file="Source/Sequence/Sequence.cpp"/>
-        <FILE id="XQ9aNi" name="Sequence.hpp" compile="0" resource="0" file="Source/Sequence/Sequence.hpp"/>
       </GROUP>
       <GROUP id="{7E9EEBA7-7D3A-0165-A4D4-0B38048879EB}" name="Time">
         <FILE id="RsQGR1" name="TimedEvent.h" compile="0" resource="0" file="Source/Time/TimedEvent.h"/>

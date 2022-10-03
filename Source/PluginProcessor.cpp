@@ -192,17 +192,17 @@ void GenerateStuffAudioProcessor::playPlayables(
     const double ppqPosition = (positionInfo->getPpqPosition()).orFallback(0);
     for (auto playableIt = playQueue.begin(); playableIt < playQueue.end(); ++playableIt) {
         Playable playable = *playableIt;
-        Sequence sequence = playable.sequence;
+        Phrase phrase = playable.phrase;
 //        Phrase phrase = playable.phrase;
         int midiChannel = playable.midiChannel;
         
-        for (auto noteIt = sequence.notes.begin(); noteIt != sequence.notes.end(); ++noteIt) {
+        for (auto noteIt = phrase.notes.begin(); noteIt != phrase.notes.end(); ++noteIt) {
             Note note = *noteIt;
             
             
 //            float ppqBarInQuarters = HostSettings::instance().getTimeSignature().barLengthInQuarters();
 //            double noteOnTimeInQuarters = phrase.bar * ppqBarInQuarters + phrase.offset + note.startTime; // todo: this doesn't work right if we have time signature changes
-            double noteOnTimeInQuarters = sequence.startTime + note.startTime;
+            double noteOnTimeInQuarters = phrase.startTime + note.startTime;
             double noteOffTimeInQuarters = noteOnTimeInQuarters + note.duration;
             
             function <float(float)> bufferTimeFromPpqTime = [&](float ppqTime) -> float {

@@ -15,7 +15,7 @@
 class Constraint
 {
     // this guy should be/have a function with signature:
-    //   bool constraint(Sequence seq);
-    // the function tells us if the sequence satisfies requirements by which we want to generate stuff,
+    //   bool constraint(Phrase phr);
+    // the function tells us if the phrase satisfies requirements by which we want to generate stuff,
     // like are notes consonant or is the rhythm funky or stuff like that.
 };

@@ -76,5 +76,5 @@ typedef enum OrnamentSimple {
 Ornament getOrnament(OrnamentSimple ornamentSimple, float tempo);
 vector<Note> placeOrnament(Note ornamented, Ornament ornament);
 vector<Note> placeOrnamentSimple(Note ornamented, OrnamentSimple ornament);
-//Sequence ornamentSequence(Sequence sequence, vector<OrnamentSimple> possibleOrnaments, float tempo, vector<float> probabilities =  { });
-//Sequence ornamentSequence(Sequence sequence, OrnamentSimple ornament, float tempo);
+//Phrase ornamentPhrase(Phrase phrase, vector<OrnamentSimple> possibleOrnaments, float tempo, vector<float> probabilities =  { });
+//Phrase ornamentPhrase(Phrase phrase, OrnamentSimple ornament, float tempo);

@@ -32,46 +32,46 @@ bool Generator::setPhraseLengthBeats(const float beats) {
 
 Playable Generator::cascara() {
     updateTimeSignature();
-//    cascaraSequence
-    auto tempSequence = Sequence(subdivision, phraseStartTime, phraseLength())
+//    cascaraPhrase
+    auto tempPhrase = Phrase(subdivision, phraseStartTime, phraseLength())
         .randomCascara();
 //        .addOrnaments({ flam, drag, ruff }, HostSettings::instance().getTempo());
-    cascaraSequence = tempSequence;
+    cascaraPhrase = tempPhrase;
 //    tempSeq = tempSeq
 //        .addOrnaments({ flam, drag, ruff }, HostSettings::instance().getTempo());
-    Playable result = Playable(tempSequence, 1);
+    Playable result = Playable(tempPhrase, 1);
     return result;
 }
 
 Playable Generator::clave() {
     updateTimeSignature();
-    auto tempSequence = Sequence(subdivision, phraseStartTime, phraseLength())
+    auto tempPhrase = Phrase(subdivision, phraseStartTime, phraseLength())
         .randomClave();
-    this->claveSequence = tempSequence;
-    Playable result = Playable(tempSequence, 2);
+    this->clavePhrase = tempPhrase;
+    Playable result = Playable(tempPhrase, 2);
     return result;
 }
 
 Playable Generator::cascaraFromClave() {
     updateTimeSignature();
-    if (claveSequence.notes.empty()) {
+    if (clavePhrase.notes.empty()) {
         this->clave();
     }
     
-    auto tempSequence = claveSequence.cascaraFromClave();
+    auto tempPhrase = clavePhrase.cascaraFromClave();
 //        .addOrnaments({ flam, drag, ruff }, HostSettings::instance().getTempo());
-    this->cascaraSequence = tempSequence;
-    Playable result = Playable(tempSequence, 1);
+    this->cascaraPhrase = tempPhrase;
+    Playable result = Playable(tempPhrase, 1);
     return result;
 }
 
 
 Playable Generator::claveFromCascara() {
     updateTimeSignature();
-    auto tempSequence = cascaraSequence.claveFromCascara();
-    claveSequence = tempSequence;
+    auto tempPhrase = cascaraPhrase.claveFromCascara();
+    clavePhrase = tempPhrase;
 //    tempSeq = tempSeq
 //        .addOrnaments({ flam, drag, ruff }, HostSettings::instance().getTempo());
-    Playable result = Playable(tempSequence, 2);
+    Playable result = Playable(tempPhrase, 2);
     return result;
 }

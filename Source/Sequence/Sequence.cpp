@@ -1,103 +1,100 @@
-//
-//  Sequence.cpp
-//  generateStuff - All
-//
-//  Created by Benjamin Greenwood on 8/14/22.
-//
+/*
+  ==============================================================================
 
-#include "Sequence.hpp"
+    Sequence.cpp
+    Created: 2 Oct 2022 6:38:09pm
+    Author:  Benjamin Greenwood
+
+  ==============================================================================
+*/
+
+#include "Sequence.h"
 #include <JuceHeader.h>
+#include "Mininotation.h"
 
-
-void Sequence::updateTimeSignature() {
-    TimedEvent::updateTimeSignature();
-    for (auto subdiv = subdivisions.begin(); subdiv < subdivisions.end(); subdiv++) {
-        subdiv->updateTimeSignature();
-    }
-    for (auto note = notes.begin(); note < notes.end(); note++) {
-        note->updateTimeSignature();
+template <class T>
+void Sequence<T>::updateTimeSignature() {
+//    TimedEvent::updateTimeSignature();
+    for (auto event = events.begin(); event < events.end(); event++) {
+        event->updateTimeSignature();
     }
 }
 
 
 template <class T>
-void Sequence::addTimedEvent(T toAdd, vector<T>& eventList) {
-    eventList.push_back(toAdd);
-    sort(eventList.begin(),
-         eventList.end(),
+bool Sequence<T>::add(T toAdd) {
+    if (this->monophonic) {
+        vector<T> bad_examples;
+        copy_if(events.begin(),
+                events.end(),
+                back_inserter(bad_examples),
+                [toAdd](T t) { toAdd.containsPartially(t) || t.containsPartially(toAdd); });
+        if (bad_examples) {
+            DBG ("trying to add timed event where other events are in its way");
+            return false;
+        }
+    }
+    
+    events.push_back(toAdd);
+    sort(events.begin(),
+         events.end(),
          [](T const &a, T const &b) { return a.startTime < b.startTime; });
-}
-
-
-bool Sequence::addNote(Note toAdd) {
-    if (toAdd.pitch < 0 || toAdd.pitch > 127) {
-        return false;
-    }
-    //    bool noteFitsInPhrase = note.startTime < (double) phrasing.length();
-    bool fitsInPhrase = this->containsPartially(toAdd);
-    if (fitsInPhrase) {
-        addTimedEvent<Note>(toAdd, notes);
-//        notes.push_back(note);
-//        sort(notes.begin(), notes.end()); // todo: sort by startTime
-    }
-    return fitsInPhrase;
-//    return addTimedEvent<Note>(toAdd, notes);
-}
-
-bool Sequence::addSubdivision(Subdivision toAdd) {
-    bool fitsInPhrase = this->containsPartially(toAdd);
-    if (fitsInPhrase) {
-        addTimedEvent<Subdivision>(toAdd, subdivisions);
-    }
-    return fitsInPhrase;
+    
+    return true;
 }
 
 template <class T>
-vector<T> Sequence::concatEvents(vector<T> eventList, vector<T> otherList) const {
-    for (auto iter = otherList.begin(); iter < otherList.end(); iter++) {
-        iter->startTime += duration;
-        addTimedEvent<T>(*iter, eventList);
+bool Sequence<T>::concat(Sequence<T> other, bool useLast) {
+    Duration endTime = useLast ? this->events.back().endTime() : parent.duration;
+    for (auto iter = other.begin(); iter < other.end(); iter++) {
+        iter->startTime += endTime;
+        if (!(this->add(*iter))) {
+            DBG("problem concatenating sequences");
+            return false;
+        }
     }
-    return eventList;
+    return true;
 }
 
-void Sequence::tieSubdivisions() {
-    if (subdivisions.size() <= 1) {
+template <class T>
+void Sequence<T>::tie() {
+    if (events.size() <= 1) {
         return;
     }
     bool tryAgain = false;
-    vector<Subdivision> newSubdivisions;
-    for (auto subdivIt = subdivisions.begin(); subdivIt < subdivisions.end() - 1; subdivIt++) {
-        auto otherSubdivIt = subdivIt + 1;
-        if (subdivIt->asQuarters() == otherSubdivIt->asQuarters() && subdivIt->endTime() == otherSubdivIt->startTime) {
-            newSubdivisions.push_back(Subdivision(subdivIt->asQuarters(), subdivIt->startTime, subdivIt->duration + otherSubdivIt->duration));
+    vector<T> tiedEvents;
+    for (auto event = events.begin(); event < events.end() - 1; event++) {
+        auto otherEvent = event + 1;
+        if (event.equalsExcludingTime(otherEvent)) {
+            T tiedEvent(event);
+            tiedEvent.startTime = event->startTime;
+            tiedEvent.duration = event->duration + otherEvent.duration;
+            tiedEvents.push_back(tiedEvent);
             tryAgain = true;
         }
     }
     if (tryAgain) {
-        this->subdivisions = newSubdivisions;
-        tieSubdivisions();
+        this->events = tiedEvents;
+        this->tie();
     }
 }
 
 template <class T>
-vector<T> chopAfterDuration(vector<T> toChop, Duration duration) {
-    if (toChop.empty()) {
-        return toChop;
+bool Sequence<T>::chopAfterDuration(Duration duration) {
+    if (events.empty()) {
+        return true;
     }
-    
+
     vector<T> filtered;
-    copy_if (toChop.begin(),
-             toChop.end(),
+    copy_if (events.begin(),
+             events.end(),
              back_inserter(filtered),
              [duration](T &t) { return t.startTime <= duration; });
-    
-    
-    
+
     if (filtered.empty()) {
-        return filtered;
+        return true;
     }
-    
+
     vector<T> chopped;
     transform(filtered.begin(),
               filtered.end(),
@@ -108,121 +105,35 @@ vector<T> chopAfterDuration(vector<T> toChop, Duration duration) {
                     t.duration =  duration - t.startTime;
                 }
                 return t; });
-    
-    return chopped;
+
+    this->events = chopped;
+    return true;
 }
 
-Sequence Sequence::concat(Sequence other, bool useLastNote, bool keepDuration) const {
-    // todo: what if i just want to concat subdivisions?
-    // this currently destroys subdivision sequences (but preserves a single lengthy subdivision.
-    // I imagine that later, and for other expressions we want to sequence,
-    // we will want to have a concat method that can only concat some particular vectors...
-    Sequence sequence(*this);
-    Duration durationToPersist = sequence.duration;
-    
-    if (sequence.subdivisions.size() == 0) {
-        DBG ("how did we get here");
-    }
-    
-    if (useLastNote) {
-        if (sequence.notes.empty()) {
-            sequence.duration = 0;
-        } else {
-            Note lastNote = sequence.notes.back();
-            sequence.duration = lastNote.startTime + lastNote.duration;
-        }
-        
-        sequence.subdivisions = chopAfterDuration<Subdivision>(sequence.subdivisions, sequence.duration);
-    }
-    
-    sequence.notes = sequence.concatEvents<Note>(sequence.notes, other.notes);
-    sequence.subdivisions = sequence.concatEvents<Subdivision>(sequence.subdivisions, other.subdivisions);
-    sequence.duration += other.duration;
-    
-    if (keepDuration) {
-        sequence.duration = durationToPersist;
-        sequence.notes = chopAfterDuration<Note>(sequence.notes, durationToPersist);
-        sequence.subdivisions = chopAfterDuration<Subdivision>(sequence.subdivisions, durationToPersist);
-        if (sequence.subdivisions.size() == 0) {
-            DBG ("how did we get here");
-        }
-        Subdivision &lastSubdiv = sequence.subdivisions.back();
-        lastSubdiv.duration = durationToPersist - lastSubdiv.startTime; // keep subdivisions info covering the whole span.
-    }
-    
-    sequence.tieSubdivisions();
-    
-    return sequence;
-}
-
-
-
-namespace mininotation {
-    char note = 'x';
-    char accentNote = 'X';
-    char rest = '~';
-    char sustain = '.';
-
-    char symbols[4] = {
-        note, accentNote, rest, sustain
-    };
-
-    char noteSymbols[2] = {
-        note, accentNote
-    };
-
-    bool isIn(char symbol, char array[]) {
-        for (int i = 0; i < strlen(array); i++) {
-            if (symbol == array[i]) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    bool isInNotation(char symbol) {
-        return isIn(symbol, symbols);
-    }
-
-    bool isNote(char symbol) {
-        return isIn(symbol, noteSymbols);
-    }
-
-    size_t getLength(std::string sequenceString) {
-        return sequenceString.size();
-    }
-}
-
-Sequence Sequence::parseMininotation(std::string sequenceString, Subdivision subdivision) {
-    double sequenceLength = subdivision.asQuarters() * (double) mininotation::getLength(sequenceString);
-    Sequence sequence = Sequence(subdivision, 0, Quarters(sequenceLength));
-
+template <class T>
+Sequence<T> Sequence<T>::parseMininotation(std::string phraseString, Subdivision subdivision) {
+    Sequence<T> result;
     Position startTime = 0;
-    for(int i = 0; i < mininotation::getLength(sequenceString); i++) {
-        char symbol = sequenceString[i];
-    
-        if (!mininotation::isInNotation(symbol)) {
-           DBG ("misuse of mininotation");
-        }
+    for(int i = 0; i < mininotation::getLength(phraseString); i++) {
+        char symbol = phraseString[i];
 
-        if (mininotation::isNote(symbol)) {
-            Note toAdd(startTime, subdivision);
-            
-            if (symbol == mininotation::accentNote) {
-                toAdd = toAdd.accent();
-            }
-            
-            sequence.addNote(toAdd);
+        if (!mininotation::isInNotation(symbol)) {
+            DBG ("misuse of mininotation");
+            continue;
         }
         
         if (symbol == mininotation::sustain) {
-            if (!sequence.notes.empty()) {
-                sequence.notes.back().duration += subdivision;
+            if (!result.events.empty()) {
+                result.events.back().duration += subdivision;
             }
+            continue;
         }
-        
+
+        T toAdd(startTime, subdivision); // todo: implement class-specific interpretations of mininotation symbols
+        result.add(toAdd);
+
         startTime += subdivision;
     }
-    
-    return sequence;
+
+    return result;
 }

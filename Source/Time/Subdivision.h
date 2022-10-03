@@ -21,10 +21,23 @@ public:
         Duration(divisionLength), TimedEvent(0, Bars(1)) { };
     Subdivision(): Duration(), TimedEvent() {}
     
+    Subdivision& operator=(Subdivision const other) {
+        Duration::operator=(other);
+        this->duration = other.duration;
+        this->startTime = other.startTime;
+        return *this;
+    };
+    
+    bool equalsExcludingTime(TimedEvent &other) {
+        DBG("Not implemented yet");
+        return false;
+    }
+
     void updateTimeSignature() {
         timeSignature = HostSettings::instance().getTimeSignature();
         TimedEvent::updateTimeSignature();
     }
+    
 //    Subdivision operator=(const double other) {
 //        this->timeSignature = HostSettings::instance().getTimeSignature();
 //        this->value = Beats(other).asQuarters();

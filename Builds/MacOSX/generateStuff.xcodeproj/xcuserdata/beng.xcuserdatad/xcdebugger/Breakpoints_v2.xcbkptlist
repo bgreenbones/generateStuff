@@ -96,7 +96,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "225"
             endingLineNumber = "225"
-            landmarkName = "Sequence::cascaraFromClave()"
+            landmarkName = "Phrase::cascaraFromClave()"
             landmarkType = "7">
             <Locations>
                <Location
@@ -144,7 +144,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "222"
             endingLineNumber = "222"
-            landmarkName = "Sequence::cascaraFromClave()"
+            landmarkName = "Phrase::cascaraFromClave()"
             landmarkType = "7">
             <Locations>
                <Location
@@ -192,7 +192,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "204"
             endingLineNumber = "204"
-            landmarkName = "Sequence::cascaraFromClave()"
+            landmarkName = "Phrase::cascaraFromClave()"
             landmarkType = "7">
             <Locations>
                <Location
@@ -240,7 +240,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "188"
             endingLineNumber = "188"
-            landmarkName = "Sequence::cascaraFromClave()"
+            landmarkName = "Phrase::cascaraFromClave()"
             landmarkType = "7">
             <Locations>
                <Location
@@ -288,7 +288,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "210"
             endingLineNumber = "210"
-            landmarkName = "Sequence::cascaraFromClave()"
+            landmarkName = "Phrase::cascaraFromClave()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -304,7 +304,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "212"
             endingLineNumber = "212"
-            landmarkName = "Sequence::cascaraFromClave()"
+            landmarkName = "Phrase::cascaraFromClave()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -320,7 +320,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "217"
             endingLineNumber = "217"
-            landmarkName = "Sequence::cascaraFromClave()"
+            landmarkName = "Phrase::cascaraFromClave()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -336,7 +336,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "219"
             endingLineNumber = "219"
-            landmarkName = "Sequence::cascaraFromClave()"
+            landmarkName = "Phrase::cascaraFromClave()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -352,7 +352,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "202"
             endingLineNumber = "202"
-            landmarkName = "Sequence::cascaraFromClave()"
+            landmarkName = "Phrase::cascaraFromClave()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -368,7 +368,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "196"
             endingLineNumber = "196"
-            landmarkName = "Sequence::cascaraFromClave()"
+            landmarkName = "Phrase::cascaraFromClave()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -384,7 +384,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "194"
             endingLineNumber = "194"
-            landmarkName = "Sequence::cascaraFromClave()"
+            landmarkName = "Phrase::cascaraFromClave()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -400,7 +400,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "185"
             endingLineNumber = "185"
-            landmarkName = "Sequence::cascaraFromClave()"
+            landmarkName = "Phrase::cascaraFromClave()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -416,7 +416,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "183"
             endingLineNumber = "183"
-            landmarkName = "Sequence::cascaraFromClave()"
+            landmarkName = "Phrase::cascaraFromClave()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -432,7 +432,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "180"
             endingLineNumber = "180"
-            landmarkName = "Sequence::cascaraFromClave()"
+            landmarkName = "Phrase::cascaraFromClave()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -448,7 +448,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "66"
             endingLineNumber = "66"
-            landmarkName = "Sequence::pulseAndDisplace(pulse, displacement, pDisplace, pDouble)"
+            landmarkName = "Phrase::pulseAndDisplace(pulse, displacement, pDisplace, pDouble)"
             landmarkType = "7">
             <Locations>
                <Location
@@ -496,7 +496,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "62"
             endingLineNumber = "62"
-            landmarkName = "Sequence::pulseAndDisplace(pulse, displacement, pDisplace, pDouble)"
+            landmarkName = "Phrase::pulseAndDisplace(pulse, displacement, pDisplace, pDouble)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -512,7 +512,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "57"
             endingLineNumber = "57"
-            landmarkName = "Sequence::pulseAndDisplace(pulse, displacement, pDisplace, pDouble)"
+            landmarkName = "Phrase::pulseAndDisplace(pulse, displacement, pDisplace, pDouble)"
             landmarkType = "7">
             <Locations>
                <Location
@@ -551,65 +551,81 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "ADFD1F84-389E-4E23-9317-8C1AAA4AC036"
+            uuid = "852E9399-D811-4ECD-9610-D0013BF21747"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "147"
-            endingLineNumber = "147"
-            landmarkName = "Sequence::concat(other, useLastNote, keepDuration)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "ADFD1F84-389E-4E23-9317-8C1AAA4AC036 - cb00a7ecbde34d83"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Sequence::concat(Sequence, bool, bool) const"
-                  moduleName = "generateStuff2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "152"
-                  endingLineNumber = "152"
-                  offsetFromSymbolStart = "1080">
-               </Location>
-               <Location
-                  uuid = "ADFD1F84-389E-4E23-9317-8C1AAA4AC036 - cb00a7ecbde34d83"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Sequence::concat(Sequence, bool, bool) const"
-                  moduleName = "generateStuff2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "152"
-                  endingLineNumber = "152"
-                  offsetFromSymbolStart = "1092">
-               </Location>
-            </Locations>
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "add(toAdd)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "02182C9A-F6C7-4022-B3A2-90FEA4C53DE2"
+            uuid = "3D5390AF-4046-40C9-924F-3545307DB23F"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
-            landmarkName = "Sequence::concat(other, useLastNote, keepDuration)"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "concat(other, useLast)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3B91F89E-FCF0-405F-8A06-980C1B54D613"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Note.hpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
+            landmarkName = "equalsExcludingTime(other)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "24FE023C-EB5E-4E75-8CFC-52920A1B5E09"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Sequence/Phrase.hpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
+            landmarkName = "equalsExcludingTime(other)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0975DCC9-8E59-4DDE-AD5B-7F491925361A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Sequence/Sequence.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
+            landmarkName = "parseMininotation(phraseString, subdivision)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

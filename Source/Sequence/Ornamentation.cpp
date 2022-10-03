@@ -8,14 +8,14 @@
   ==============================================================================
 */
 
-#include "Sequence.hpp"
+#include "Phrase.hpp"
 
-Sequence Sequence::addOrnaments(vector<OrnamentSimple> possibleOrnaments, float tempo, vector<float> probabilities) const{
+Phrase Phrase::addOrnaments(vector<OrnamentSimple> possibleOrnaments, float tempo, vector<float> probabilities) const{
     bool isAlreadyOrnamented = false; // todo: know this somehow
     if (isAlreadyOrnamented) {
         throw exception();
     }
-    Sequence ornamented = (*this);
+    Phrase ornamented = (*this);
     for (auto noteIt = notes.begin(); noteIt < notes.end(); noteIt++) {
         if (noteIt->ornamented) {
             OrnamentSimple ornament = possibleOrnaments[rand() % possibleOrnaments.size()]; // todo: use probabilities map
@@ -26,6 +26,6 @@ Sequence Sequence::addOrnaments(vector<OrnamentSimple> possibleOrnaments, float 
     return ornamented;
 }
 
-Sequence Sequence::addOrnaments(OrnamentSimple ornament, float tempo) const {
+Phrase Phrase::addOrnaments(OrnamentSimple ornament, float tempo) const {
     return addOrnaments(vector<OrnamentSimple> { ornament }, tempo);
 }

@@ -84,9 +84,9 @@ vector<Note> placeOrnamentSimple(Note accentNote, OrnamentSimple ornamentSimple)
     return placeOrnament(accentNote, ornament);
 }
 //
-//Sequence ornamentSequence(Sequence sequence, vector<OrnamentSimple> possibleOrnaments, float tempo, vector<float> probabilities) {
+//Phrase ornamentPhrase(Phrase phrase, vector<OrnamentSimple> possibleOrnaments, float tempo, vector<float> probabilities) {
 //    vector<Note> ornaments = { };
-//    for (auto noteIt = sequence.notes.begin(); noteIt < sequence.notes.end(); noteIt++) {
+//    for (auto noteIt = phrase.notes.begin(); noteIt < phrase.notes.end(); noteIt++) {
 //        if (noteIt->ornamented) {
 //            OrnamentSimple ornament = possibleOrnaments[rand() % possibleOrnaments.size()]; // todo: use probabilities map
 //            vector<Note> noteOrnament = placeOrnamentSimple(*noteIt, ornament, (Time) { .tempo = tempo });
@@ -95,12 +95,12 @@ vector<Note> placeOrnamentSimple(Note accentNote, OrnamentSimple ornamentSimple)
 //    }
 //    
 //    for (auto noteIt = ornaments.begin(); noteIt < ornaments.end(); noteIt++) {
-//        sequence.addNote(*noteIt);
+//        phrase.addNote(*noteIt);
 //    }
 //    
-//    return sequence;
+//    return phrase;
 //}
 //
-//Sequence ornamentSequence(Sequence sequence, OrnamentSimple ornament, float tempo) {
-//    return ornamentSequence(sequence, vector<OrnamentSimple> { ornament }, tempo);
+//Phrase ornamentPhrase(Phrase phrase, OrnamentSimple ornament, float tempo) {
+//    return ornamentPhrase(phrase, vector<OrnamentSimple> { ornament }, tempo);
 //}

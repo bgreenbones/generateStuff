@@ -10,12 +10,12 @@
 #define Playable_hpp
 
 #include <stdio.h>
-#include "Sequence.hpp"
+#include "Phrase.hpp"
 
 class Playable {
 public:
-    Playable(Sequence sequence, short midiChannel): sequence(sequence), midiChannel(midiChannel) { };
-    Sequence sequence;
+    Playable(Phrase phrase, short midiChannel): phrase(phrase), midiChannel(midiChannel) { };
+    Phrase phrase;
     short midiChannel;
 };
 

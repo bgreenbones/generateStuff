@@ -7,9 +7,9 @@
 
 #include <stdio.h>
 #include <JuceHeader.h>
-#include "Sequence.hpp"
+#include "Phrase.hpp"
 
-Sequence Sequence::randomCascara(Probability pDisplace,
+Phrase Phrase::randomCascara(Probability pDisplace,
                                  Probability pDouble) const {
 //    float pulse = 1.0, displacement = 0.5;
 //    float displacement = this->subdivision;
@@ -18,7 +18,7 @@ Sequence Sequence::randomCascara(Probability pDisplace,
 
     Duration displacement(this->primarySubdivision());
     Duration pulse(displacement * 2.);
-    Sequence cascara = this->pulseAndDisplace(pulse, displacement, pDisplace, pDouble);
+    Phrase cascara = this->pulseAndDisplace(pulse, displacement, pDisplace, pDouble);
     const short accentVelocity = 120; // todo: move these out somewhere else.
     const short unaccentedVelocity = 60;
     
@@ -37,13 +37,13 @@ Sequence Sequence::randomCascara(Probability pDisplace,
 }
 
 // todo: some way of preventing 0 syncopation from happening
-Sequence Sequence::randomClave() const {
+Phrase Phrase::randomClave() const {
 //    const auto length = clave.phrasing.length(); // todo: evaluate how we're really deciding these stuffs
 //    clave.rhythm = *this; // todo: evaluate how we're really deciding these stuffs
 //    const auto subdivision = this->subdivision;
 //    const auto subdivision = clave.subdivision;
 
-    Sequence clave(*this);
+    Phrase clave(*this);
     const double length = clave.duration;
     const auto subdivision = clave.primarySubdivision();
     
@@ -135,13 +135,13 @@ Sequence Sequence::randomClave() const {
 }
 
 
-Sequence Sequence::cascaraFromClave() const {
+Phrase Phrase::cascaraFromClave() const {
     bool isClave = true; // todo: how do we know
     if (!isClave) {
 //        throw exception();
         DBG ("not a clave. can't generate cascara from it");
     }
-    Sequence cascara(*this);
+    Phrase cascara(*this);
     cascara.notes.clear();
     Duration subdivision = cascara.primarySubdivision();
     
@@ -174,15 +174,15 @@ Sequence Sequence::cascaraFromClave() const {
         Duration timeSinceLastCascaraNote = noteIt->startTime - lastCascaraNote.startTime;
         double subdivisionsSinceLastCascaraNote = timeSinceLastCascaraNote.asBeats() / subdivision.asBeats();
         
-        Sequence newNotes;
+        Phrase newNotes;
         if (subdivisionsBetweenClaveNotes == 2.) {
             if (subdivisionsSinceLastCascaraNote == 0.) { // x . x
-                newNotes = Sequence::parseMininotation("~x", subdivision);
+                newNotes = Phrase::parseMininotation("~x", subdivision);
             } else if (subdivisionsSinceLastCascaraNote == 1.0) {
                 if (rand() % 2) { // . x x
-                    newNotes = Sequence::parseMininotation("~xx", subdivision);
+                    newNotes = Phrase::parseMininotation("~xx", subdivision);
                 } else { // x . x
-                    newNotes = Sequence::parseMininotation("x~x", subdivision);
+                    newNotes = Phrase::parseMininotation("x~x", subdivision);
                 }
             } else {
                 DBG ("cascara has some weird note lengths??");
@@ -191,15 +191,15 @@ Sequence Sequence::cascaraFromClave() const {
             if (subdivisionsSinceLastCascaraNote == 0.) { // this note already hit. just add next note.
                 auto choice = rand() % 3;
                 if (choice == 0) { // x x . x
-                    newNotes = Sequence::parseMininotation("x~x", subdivision);
+                    newNotes = Phrase::parseMininotation("x~x", subdivision);
                 } else if (choice == 1) { // x . x x
-                    newNotes = Sequence::parseMininotation("~xx", subdivision);
+                    newNotes = Phrase::parseMininotation("~xx", subdivision);
                 } else if (choice == 2) { // x . x . misses next note!!
-                    newNotes = Sequence::parseMininotation("~x~", subdivision);
+                    newNotes = Phrase::parseMininotation("~x~", subdivision);
                 }
             } else if (subdivisionsSinceLastCascaraNote == 1.0) {
                 // only one option: . x . x
-                newNotes = Sequence::parseMininotation("~x~x", subdivision);
+                newNotes = Phrase::parseMininotation("~x~x", subdivision);
             } else {
                 DBG ("cascara has some weird note lengths??");
             }
@@ -207,16 +207,16 @@ Sequence Sequence::cascaraFromClave() const {
             if (subdivisionsSinceLastCascaraNote == 0.) { // this note already hit.
                 auto choice = rand() % 2;
                 if (choice == 0) { // x . x . x
-                    newNotes = Sequence::parseMininotation("~x~x", subdivision);
+                    newNotes = Phrase::parseMininotation("~x~x", subdivision);
                 } else if (choice == 1) { // x x . x x
-                    newNotes = Sequence::parseMininotation("x~xx", subdivision);
+                    newNotes = Phrase::parseMininotation("x~xx", subdivision);
                 }
             } else if (subdivisionsSinceLastCascaraNote == 1.0) {
                 auto choice = rand() % 2;
                 if (choice == 0) { // // . x x . x
-                    newNotes = Sequence::parseMininotation("~xx~x", subdivision);
+                    newNotes = Phrase::parseMininotation("~xx~x", subdivision);
                 } else if (choice == 1) { // . x . x x
-                    newNotes = Sequence::parseMininotation("~x~xx", subdivision);
+                    newNotes = Phrase::parseMininotation("~x~xx", subdivision);
                 }
             } else {
                 DBG ("cascara has some weird note lengths??");
@@ -250,14 +250,14 @@ Sequence Sequence::cascaraFromClave() const {
 //    }
 //
 //
-//    Sequence newNotes;
+//    Phrase newNotes;
 //    if (subdivisionsBetweenClaveNotes == 2.) {
 //        if (subdivisionsSinceLastCascaraNote == 0.) { // x . x
-//            newNotes = Sequence::parseMininotation("~x", subdivision);
+//            newNotes = Phrase::parseMininotation("~x", subdivision);
 //            branch = 0;
 //        } else if (subdivisionsSinceLastCascaraNote == 1.0) {
 //            if (rand() % 2) { // . x x
-//                newNotes = Sequence::parseMininotation("~xx", subdivision);
+//                newNotes = Phrase::parseMininotation("~xx", subdivision);
 //
 //                note.startTime = lastCascaraNote.startTime + subdivision * 2.;
 //                note.duration = subdivision;
@@ -265,7 +265,7 @@ Sequence Sequence::cascaraFromClave() const {
 //
 //                branch = 1;
 //            } else { // x . x
-//                newNotes = Sequence::parseMininotation("x~x", subdivision);
+//                newNotes = Phrase::parseMininotation("x~x", subdivision);
 //
 //                note.startTime = noteIt->startTime;
 //                note.duration = subdivision * 2.;
@@ -282,7 +282,7 @@ Sequence Sequence::cascaraFromClave() const {
 //        if (subdivisionsSinceLastCascaraNote == 0.) { // this note already hit. just add next note.
 //            auto choice = rand() % 3;
 //            if (choice == 0) { // x x . x
-//                newNotes = Sequence::parseMininotation("x~x", subdivision);
+//                newNotes = Phrase::parseMininotation("x~x", subdivision);
 //
 //                note.startTime = lastCascaraNote.startTime + subdivision;
 //                cascaraToCompare.addNote(note);
@@ -291,7 +291,7 @@ Sequence Sequence::cascaraFromClave() const {
 //
 //                branch = 3;
 //            } else if (choice == 1) { // x . x x
-//                newNotes = Sequence::parseMininotation("~xx", subdivision);
+//                newNotes = Phrase::parseMininotation("~xx", subdivision);
 //
 //                note.startTime = lastCascaraNote.startTime + pulse;
 //                cascaraToCompare.addNote(note);
@@ -300,7 +300,7 @@ Sequence Sequence::cascaraFromClave() const {
 //
 //                branch = 4;
 //            } else if (choice == 2) { // x . x . misses next note!!
-//                newNotes = Sequence::parseMininotation("~x~", subdivision);
+//                newNotes = Phrase::parseMininotation("~x~", subdivision);
 //
 //                note.startTime = lastCascaraNote.startTime + pulse;
 //                note.duration = pulse;
@@ -310,7 +310,7 @@ Sequence Sequence::cascaraFromClave() const {
 //            }
 //        } else if (subdivisionsSinceLastCascaraNote == 1.0) {
 //            // only one option: . x . x
-//            newNotes = Sequence::parseMininotation("~x~x", subdivision);
+//            newNotes = Phrase::parseMininotation("~x~x", subdivision);
 //
 //            note.startTime = lastCascaraNote.startTime + pulse;
 //            note.duration = pulse;
@@ -326,7 +326,7 @@ Sequence Sequence::cascaraFromClave() const {
 //        if (subdivisionsSinceLastCascaraNote == 0.) { // this note already hit.
 //            auto choice = rand() % 2;
 //            if (choice == 0) { // x . x . x
-//                newNotes = Sequence::parseMininotation("~x~x", subdivision);
+//                newNotes = Phrase::parseMininotation("~x~x", subdivision);
 //
 //                note.startTime = lastCascaraNote.startTime + pulse;
 //                note.duration = pulse;
@@ -336,7 +336,7 @@ Sequence Sequence::cascaraFromClave() const {
 //
 //                branch = 7;
 //            } else if (choice == 1) { // x x . x x
-//                newNotes = Sequence::parseMininotation("x~xx", subdivision);
+//                newNotes = Phrase::parseMininotation("x~xx", subdivision);
 //
 //                note.startTime = lastCascaraNote.startTime + subdivision;
 //                note.duration = pulse;
@@ -354,7 +354,7 @@ Sequence Sequence::cascaraFromClave() const {
 //            note.startTime = lastCascaraNote.startTime + pulse;
 //            auto choice = rand() % 2;
 //            if (choice == 0) { // // . x x . x
-//                newNotes = Sequence::parseMininotation("~xx~x", subdivision);
+//                newNotes = Phrase::parseMininotation("~xx~x", subdivision);
 //
 //                note.duration = subdivision;
 //                cascaraToCompare.addNote(note);
@@ -367,7 +367,7 @@ Sequence Sequence::cascaraFromClave() const {
 //
 //                branch = 9;
 //            } else if (choice == 1) { // . x . x x
-//                newNotes = Sequence::parseMininotation("~x~xx", subdivision);
+//                newNotes = Phrase::parseMininotation("~x~xx", subdivision);
 //
 //                note.duration = pulse;
 //                cascaraToCompare.addNote(note);
@@ -441,15 +441,15 @@ Sequence Sequence::cascaraFromClave() const {
     return cascara;
 }
 
-Sequence Sequence::claveFromCascara() const {
-//    Sequence clave = Sequence(cascara.rhythm, cascara.phrasing);
+Phrase Phrase::claveFromCascara() const {
+//    Phrase clave = Phrase(cascara.rhythm, cascara.phrasing);
     
     bool isCascara = true; // todo: how do we know
     if (!isCascara) {
         throw exception();
     }
-    Sequence cascara(*this); // for readability
-    Sequence clave(*this);
+    Phrase cascara(*this); // for readability
+    Phrase clave(*this);
     clave.notes.clear();
 //    const auto subdivision = clave.rhythm.subdivision;
     const auto subdivision = clave.primarySubdivision();

@@ -37,6 +37,17 @@ public:
     Note operator+(const Duration duration);
     Note operator+(const Note pitch);
     
+    Note& operator=(Note const other) {
+        this->startTime = other.startTime;
+        this->duration = other.duration;
+        this->pitch = other.pitch;
+        this->velocity = other.velocity;
+        this->accented = other.accented;
+        this->ornamented = other.ornamented;
+        this->isOrnament = other.isOrnament;
+        return *this;
+    };
+    
     Note displace(Duration toDisplaceBy, bool forwards = true);
     Note accent() {
         Note modified = Note(*this);
@@ -59,4 +70,9 @@ public:
     
     bool operator< (const Note &other) const { return startTime < other.startTime; }
     bool operator> (const Note &other) const { return startTime > other.startTime; }
+    
+    bool equalsExcludingTime(TimedEvent &other) {
+        DBG("Not implemented yet");
+        return false;
+    }
 };

@@ -13,7 +13,7 @@
 #include <vector>
 #include <functional>
 #include <JuceHeader.h>
-#include "Sequence.hpp"
+#include "Phrase.hpp"
 #include "Playable.hpp"
 
 using namespace std;
@@ -23,7 +23,7 @@ class Generator
 public:
     Generator() {}
 
-    Sequence cascaraSequence, claveSequence;
+    Phrase cascaraPhrase, clavePhrase;
     constexpr static float const defaultSubdivision = 1./2.;
     constexpr static float const defaultBars = 2;
     constexpr static float const defaultBeats = 0;
@@ -43,8 +43,8 @@ public:
     bool setPhraseLengthBeats(const float beats);
     void updateTimeSignature() {
         subdivision.updateTimeSignature();
-        cascaraSequence.updateTimeSignature();
-        claveSequence.updateTimeSignature();
+        cascaraPhrase.updateTimeSignature();
+        clavePhrase.updateTimeSignature();
     }
 private:
 };
