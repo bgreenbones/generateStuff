@@ -10,23 +10,25 @@
 
 #pragma once
 
+#ifndef mininotation_h
+#define mininotation_H
 
+class Mininotation {
+public:
+    static const char note = 'x';
+    static const char accentNote = 'X';
+    static const char rest = '~';
+    static const char sustain = '.';
 
-namespace mininotation {
-    char note = 'x';
-    char accentNote = 'X';
-    char rest = '~';
-    char sustain = '.';
-
-    char symbols[4] = {
+    static constexpr char symbols[4] = {
         note, accentNote, rest, sustain
     };
 
-    char noteSymbols[2] = {
+    static constexpr char noteSymbols[2] = {
         note, accentNote
     };
 
-    bool isIn(char symbol, char array[]) {
+    static bool isIn(const char symbol, const char array[]) {
         for (int i = 0; i < strlen(array); i++) {
             if (symbol == array[i]) {
                 return true;
@@ -35,15 +37,17 @@ namespace mininotation {
         return false;
     }
 
-    bool isInNotation(char symbol) {
-        return isIn(symbol, symbols);
+    static bool isInNotation(const char symbol) {
+        return isIn(symbol, &*symbols);
     }
 
-    bool isNote(char symbol) {
-        return isIn(symbol, noteSymbols);
+    static bool isNote(const char symbol) {
+        return isIn(symbol, &*noteSymbols);
     }
 
-    size_t getLength(std::string phraseString) {
+    static size_t getLength(std::string const phraseString) {
         return phraseString.size();
     }
-}
+};
+
+# endif

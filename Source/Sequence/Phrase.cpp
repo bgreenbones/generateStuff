@@ -156,28 +156,28 @@ Phrase Phrase::concat(Phrase other, bool useLastNote, bool keepDuration) const {
 }
 
 Phrase Phrase::parseMininotation(std::string phraseString, Subdivision subdivision) {
-    double phraseLength = subdivision.asQuarters() * (double) mininotation::getLength(phraseString);
+    double phraseLength = subdivision.asQuarters() * (double) Mininotation::getLength(phraseString);
     Phrase phrase = Phrase(subdivision, 0, Quarters(phraseLength));
 
     Position startTime = 0;
-    for(int i = 0; i < mininotation::getLength(phraseString); i++) {
+    for(int i = 0; i < Mininotation::getLength(phraseString); i++) {
         char symbol = phraseString[i];
     
-        if (!mininotation::isInNotation(symbol)) {
-           DBG ("misuse of mininotation");
+        if (!Mininotation::isInNotation(symbol)) {
+           DBG ("misuse of Mininotation");
         }
 
-        if (mininotation::isNote(symbol)) {
+        if (Mininotation::isNote(symbol)) {
             Note toAdd(startTime, subdivision);
             
-            if (symbol == mininotation::accentNote) {
+            if (symbol == Mininotation::accentNote) {
                 toAdd = toAdd.accent();
             }
             
             phrase.addNote(toAdd);
         }
         
-        if (symbol == mininotation::sustain) {
+        if (symbol == Mininotation::sustain) {
             if (!phrase.notes.empty()) {
                 phrase.notes.back().duration += subdivision;
             }

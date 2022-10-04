@@ -18,6 +18,7 @@ Phrase Phrase::pulseAndDisplace(Duration pulse,
     const Duration length(duration);
     Phrase resultPhrase(*this);
     resultPhrase.notes.clear();
+    resultPhrase.noteSeq.clear();
     
     bernoulli_distribution displaceCoin(pDisplace);
     bernoulli_distribution doubleCoin(pDouble);
@@ -45,25 +46,38 @@ Phrase Phrase::pulseAndDisplace(Duration pulse,
         if (displaceCoin(resultPhrase.gen)) {
             if (doubleCoin(resultPhrase.gen)) {
                 resultPhrase = resultPhrase.concat(parseMininotation("x", displacement), true, true);
+                resultPhrase.noteSeq.concat(noteSeq.parseMininotation("x", displacement), true);
             }
         }
         resultPhrase = resultPhrase.concat(parseMininotation("x", pulse), true, true);
+        resultPhrase.noteSeq.concat(noteSeq.parseMininotation("x", pulse), true);
         currentNote = resultPhrase.notes.size() > 0 ? resultPhrase.notes.back() : Note(Position(0), Duration(0));
     } while (currentNote.endTime() < length);
     
     // clean up.
     Note &lastNote = resultPhrase.notes.back();
+    Note &otherLastNote = resultPhrase.noteSeq.back();
     while (lastNote.startTime >= length) {
         DBG ("added too many notes...???");
         resultPhrase.notes.pop_back();
         lastNote = resultPhrase.notes.back();
+        
+        resultPhrase.noteSeq.pop_back();
     }
     if (lastNote.endTime() > length) {
         Duration lastNoteLength = length - lastNote.startTime;
         lastNote.duration = lastNoteLength;
     }
+    if (otherLastNote.endTime() > length) {
+        Duration lastNoteLength = length - otherLastNote.startTime;
+        otherLastNote.duration = lastNoteLength;
+    }
     if (lastNote.endTime() != length) {
         DBG ("phrase doesn't end at right time...");
+    }
+    
+    if (!resultPhrase.noteSeq.equals(resultPhrase.notes)) {
+        DBG ("why not?");
     }
     
     return resultPhrase;

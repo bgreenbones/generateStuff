@@ -36,19 +36,19 @@ public:
         duration = Bars(numBars) + Beats(beatsInLastBar);
     }
     
-    Position endTime() {
+    Position endTime() const {
         return this->startTime + this->duration;
     }
     
-    bool contains(Position position) {
+    bool contains(const Position position) const {
         return this->startTime <= position && this->endTime() > position;
     }
     
-    bool containsPartially(TimedEvent &other) {
+    bool containsPartially(const TimedEvent &other) const {
         return this->startTime <= other.startTime && this->endTime() > other.startTime;
     }
     
-    bool containsCompletely(TimedEvent &other) {
+    bool containsCompletely(const TimedEvent &other) const {
         return this->startTime <= other.startTime && this->endTime() >= other.endTime();
     }
     

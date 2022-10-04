@@ -225,8 +225,6 @@ Phrase Phrase::cascaraFromClave() const {
             DBG ("weird amount of subdivisions between notes in clave.");
         }
         cascara = cascara.concat(newNotes, true, true);
-
-        return cascara;
     }
     
 //    This was code from cascaraToClave that was used to test the mininotation stuff.

@@ -6,6 +6,7 @@
   ==============================================================================
 */
 
+#include <algorithm>
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 #include "HostSettings.h"
@@ -26,6 +27,15 @@ GenerateStuffAudioProcessor::GenerateStuffAudioProcessor()
     this->generator = Generator();
     this->playQueue = vector<Playable>();
     this->noteOffIssued = true;
+    
+    this->allNotesOff = vector<juce::MidiMessage>();
+    for (int pitch = 0; pitch <= 127; pitch ++) { // yikes. for now this is the only thing that turns off note on messages when we stop playing
+        for (int midiChannel = 1; midiChannel <= 16; midiChannel++) {
+            auto noteOff = juce::MidiMessage::noteOff (midiChannel, pitch, (juce::uint8) 0);
+            this->allNotesOff.push_back(noteOff);
+        }
+    }
+    
 }
 
 GenerateStuffAudioProcessor::~GenerateStuffAudioProcessor()
@@ -102,7 +112,7 @@ void GenerateStuffAudioProcessor::prepareToPlay (double sampleRate, int samplesP
     // initialisation that you need..
     this->mSampleRate = sampleRate;
     samplesPerMinute = sampleRate * 60;
-    this->mSmplesPerBlock = samplesPerBlock;
+    this->mSamplesPerBlock = samplesPerBlock;
     
     auto playhead = getPlayHead();
     if (playhead != nullptr) {
@@ -112,6 +122,7 @@ void GenerateStuffAudioProcessor::prepareToPlay (double sampleRate, int samplesP
     }
     
     this->noteOffIssued = true;
+    this->currentNoteOff = 0;
 }
 
 void GenerateStuffAudioProcessor::releaseResources()
@@ -230,7 +241,7 @@ void GenerateStuffAudioProcessor::playPlayables(
             function<bool(float)> isPpqTimeInBuffer = [&](float ppqTime) -> bool {
                 float bufferTime = bufferTimeFromPpqTime(ppqTime);
     //            return 0 <= bufferTime && bufferTime < mSamplesPerBlock;
-                return 0 < bufferTime && bufferTime <= mSmplesPerBlock; // todo: get actual lowest and highest indexes for the buffer instead of these guesses
+                return 0 < bufferTime && bufferTime <= mSamplesPerBlock; // todo: get actual lowest and highest indexes for the buffer instead of these guesses
             };
             
             if (isPpqTimeInBuffer(noteOnTimeInQuarters)) {
@@ -275,17 +286,21 @@ void GenerateStuffAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
         auto isPlaying = positionInfo->getIsPlaying();
         if (isPlaying) {
             noteOffIssued = false;
+            currentNoteOff = 0;
             playPlayables(positionInfo, midiMessages);
         } else {
             if (!noteOffIssued) {
-                noteOffIssued = true;
-                for (int pitch = 0; pitch <= 127; pitch ++) { // yikes. for now this is the only thing that turns off note on messages when we stop playing
-                    for (int midiChannel = 1; midiChannel <= 16; midiChannel++) {
-                        auto noteOff = juce::MidiMessage::noteOff (midiChannel, pitch, (juce::uint8) 0);
-                        bool success = midiMessages.addEvent (noteOff, 0);
+                if (currentNoteOff < allNotesOff.size()) {
+                    size_t upperBound = std::min(size_t(currentNoteOff + mSamplesPerBlock), allNotesOff.size());
+                    for (auto i = currentNoteOff; i < upperBound; i++) {
+                        bool success = midiMessages.addEvent(allNotesOff[i], 0);
                         if (!success) {
                             throw exception();
                         }
+                    }
+                    currentNoteOff = upperBound;
+                    if (currentNoteOff >= allNotesOff.size()) {
+                        noteOffIssued = true;
                     }
                 }
             }

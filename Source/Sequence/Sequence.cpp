@@ -11,6 +11,7 @@
 #include "Sequence.h"
 #include <JuceHeader.h>
 #include "Mininotation.h"
+#include "Note.hpp"
 
 template <class T>
 void Sequence<T>::updateTimeSignature() {
@@ -28,8 +29,8 @@ bool Sequence<T>::add(T toAdd) {
         copy_if(events.begin(),
                 events.end(),
                 back_inserter(bad_examples),
-                [toAdd](T t) { toAdd.containsPartially(t) || t.containsPartially(toAdd); });
-        if (bad_examples) {
+                [toAdd](T t) { return toAdd.containsPartially(t) || t.containsPartially(toAdd); });
+        if (bad_examples.size() > 0) {
             DBG ("trying to add timed event where other events are in its way");
             return false;
         }
@@ -45,8 +46,8 @@ bool Sequence<T>::add(T toAdd) {
 
 template <class T>
 bool Sequence<T>::concat(Sequence<T> other, bool useLast) {
-    Duration endTime = useLast ? this->events.back().endTime() : parent.duration;
-    for (auto iter = other.begin(); iter < other.end(); iter++) {
+    Duration endTime = useLast ? this->endTime() : parent->endTime();
+    for (auto iter = other.events.begin(); iter < other.events.end(); iter++) {
         iter->startTime += endTime;
         if (!(this->add(*iter))) {
             DBG("problem concatenating sequences");
@@ -65,10 +66,10 @@ void Sequence<T>::tie() {
     vector<T> tiedEvents;
     for (auto event = events.begin(); event < events.end() - 1; event++) {
         auto otherEvent = event + 1;
-        if (event.equalsExcludingTime(otherEvent)) {
-            T tiedEvent(event);
+        if (event->equalsExcludingTime(*otherEvent)) {
+            T tiedEvent(*event);
             tiedEvent.startTime = event->startTime;
-            tiedEvent.duration = event->duration + otherEvent.duration;
+            tiedEvent.duration = event->duration + otherEvent->duration;
             tiedEvents.push_back(tiedEvent);
             tryAgain = true;
         }
@@ -111,29 +112,32 @@ bool Sequence<T>::chopAfterDuration(Duration duration) {
 }
 
 template <class T>
-Sequence<T> Sequence<T>::parseMininotation(std::string phraseString, Subdivision subdivision) {
+Sequence<T> Sequence<T>::parseMininotation(std::string phraseString, Duration stepLength) {
     Sequence<T> result;
     Position startTime = 0;
-    for(int i = 0; i < mininotation::getLength(phraseString); i++) {
+    for(int i = 0; i < Mininotation::getLength(phraseString); i++) {
         char symbol = phraseString[i];
 
-        if (!mininotation::isInNotation(symbol)) {
+        if (!Mininotation::isInNotation(symbol)) {
             DBG ("misuse of mininotation");
             continue;
         }
         
-        if (symbol == mininotation::sustain) {
+        if (symbol == Mininotation::sustain) {
             if (!result.events.empty()) {
-                result.events.back().duration += subdivision;
+                result.events.back().duration += stepLength;
             }
             continue;
         }
 
-        T toAdd(startTime, subdivision); // todo: implement class-specific interpretations of mininotation symbols
+        T toAdd(startTime, stepLength); // todo: implement class-specific interpretations of mininotation symbols
         result.add(toAdd);
 
-        startTime += subdivision;
+        startTime += stepLength;
     }
 
     return result;
 }
+
+
+template class Sequence<Note>;

@@ -17,6 +17,7 @@
 #include "Note.hpp"
 #include "Subdivision.h"
 #include "Misc.h"
+#include "Sequence.h"
 
 using namespace std;
 
@@ -28,7 +29,7 @@ private:
     }
 public:
     Phrase(Duration subdivision, Position startTime, Duration duration):
-    TimedEvent(startTime, duration) {//}, subdivisions({ Subdivision(subdivision, startTime, duration) }) {
+    TimedEvent(startTime, duration), noteSeq(this) {//}, subdivisions({ Subdivision(subdivision, startTime, duration) }) {
         initialize_random();
         vector<Subdivision> newVec;
         newVec.push_back(Subdivision(subdivision, startTime, duration));
@@ -38,7 +39,7 @@ public:
     Phrase(Duration duration): Phrase(Beats(0.25), 0, duration) {}
     Phrase(): Phrase(Beats(0.25), 0, Bars(2)) {}
 //    Phrase(Rhythm rhythm, Phrase phrasing);
-    Phrase(Phrase const& other): TimedEvent(other), notes(other.notes), subdivisions(other.subdivisions) {
+    Phrase(Phrase const& other): TimedEvent(other), notes(other.notes), noteSeq(other.notes, this), subdivisions(other.subdivisions) {
         initialize_random();
     };
 
@@ -54,7 +55,9 @@ public:
     mt19937 gen;
     
     vector<Note> notes;
+    Sequence<Note> noteSeq;
     vector<Subdivision> subdivisions;
+//    Sequence<Subdivision> subdivSeq;
     
     Subdivision primarySubdivision() const { return longest<Subdivision>(subdivisions); }
     void updateTimeSignature();

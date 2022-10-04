@@ -28,12 +28,14 @@ public:
 
     //==============================================================================
     double mSampleRate;
-    int mSmplesPerBlock;
+    int mSamplesPerBlock;
     double samplesPerBeat;
     double samplesPerMinute;
     float probabilityOfDouble;
     Generator generator;
     vector<Playable> playQueue;
+    vector<juce::MidiMessage> allNotesOff;
+    unsigned long currentNoteOff;
     bool noteOffIssued;
     
     void queuePlayable(Playable playable);
