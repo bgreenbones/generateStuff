@@ -22,8 +22,8 @@ Phrase Phrase::randomCascara(Probability pDisplace,
     const short accentVelocity = 120; // todo: move these out somewhere else.
     const short unaccentedVelocity = 60;
     
-    for (auto noteIt = cascara.notes.begin();
-         noteIt != cascara.notes.end();
+    for (auto noteIt = cascara.noteSeq.begin();
+         noteIt != cascara.noteSeq.end();
          noteIt++) {
         if (noteIt->duration == displacement) { // beginning of a double
             noteIt->velocity = unaccentedVelocity;
@@ -33,6 +33,7 @@ Phrase Phrase::randomCascara(Probability pDisplace,
             noteIt->ornamented = 0.5;
         }
     }
+    cascara.notes = cascara.noteSeq.events;
     return cascara;
 }
 

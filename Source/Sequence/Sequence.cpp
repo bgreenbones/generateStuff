@@ -82,6 +82,18 @@ void Sequence<T>::tie() {
 
 template <class T>
 bool Sequence<T>::chopAfterDuration(Duration duration) {
+    // here's another implementation...is it better? more efficient...
+//    while (lastNote.startTime >= length) {
+//        DBG ("added too many notes...???");
+//        sequence.pop_back();
+//    }
+//
+//    if (lastNote.endTime() > length) {
+//        Duration lastNoteLength = length - lastNote.startTime;
+//        lastNote.duration = lastNoteLength;
+//    }
+    
+    
     if (events.empty()) {
         return true;
     }
@@ -112,16 +124,20 @@ bool Sequence<T>::chopAfterDuration(Duration duration) {
 }
 
 template <class T>
-Sequence<T> Sequence<T>::parseMininotation(std::string phraseString, Duration stepLength) {
+Sequence<T> Sequence<T>::parseMininotation(std::string phraseString, Duration stepLength) { 
     Sequence<T> result;
-    Position startTime = 0;
-    for(int i = 0; i < Mininotation::getLength(phraseString); i++) {
-        char symbol = phraseString[i];
+    
+    auto symbolIter = phraseString.begin();
+    Duration length = stepLength * ((double) Mininotation::getLength(phraseString));
+    for(Position startTime = 0; startTime < length; startTime += stepLength) {
+        char symbol = *symbolIter++;
 
         if (!Mininotation::isInNotation(symbol)) {
             DBG ("misuse of mininotation");
             continue;
         }
+        if (symbol == Mininotation::rest) { continue; }
+        
         
         if (symbol == Mininotation::sustain) {
             if (!result.events.empty()) {
@@ -129,14 +145,24 @@ Sequence<T> Sequence<T>::parseMininotation(std::string phraseString, Duration st
             }
             continue;
         }
-
-        T toAdd(startTime, stepLength); // todo: implement class-specific interpretations of mininotation symbols
-        result.add(toAdd);
-
-        startTime += stepLength;
+        
+        if (Mininotation::isNote(symbol)) {  // todo: implement class-specific interpretations of mininotation symbols
+            T toAdd(startTime, stepLength);
+            
+            if (symbol == Mininotation::accentNote) {
+                toAdd = toAdd.accent();
+            }
+            
+            result.add(toAdd);
+        }
     }
 
     return result;
+}
+
+template <class T>
+bool Sequence<T>::append(std::string phraseString, Duration stepLength) {
+    return this->concat(Sequence<T>::parseMininotation(phraseString, stepLength), true);
 }
 
 

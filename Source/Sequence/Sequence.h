@@ -48,13 +48,17 @@ public:
 
     // Mininotation stuff
     static Sequence parseMininotation(std::string phraseString, Duration stepLength);
+    bool append(std::string phraseString, Duration stepLength);
+    
     
     
     // call throughs...
     void clear() { return events.clear(); }
     void pop_back() { return events.pop_back(); }
     T& back() { return events.back(); }
-    
+    size_t size() { return events.size(); }
+    auto begin() { return events.begin(); }
+    auto end() { return events.end(); }
     
     
     bool equals(vector<T> other) {

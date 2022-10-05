@@ -28,7 +28,7 @@ void Phrase::addTimedEvent(T toAdd, vector<T>& eventList) {
          [](T const &a, T const &b) { return a.startTime < b.startTime; });
 }
 
-
+// TODO: call through to Sequence method. or maybe this just shouldn't exist.
 bool Phrase::addNote(Note toAdd) {
     if (toAdd.pitch < 0 || toAdd.pitch > 127) {
         return false;
@@ -44,6 +44,7 @@ bool Phrase::addNote(Note toAdd) {
 //    return addTimedEvent<Note>(toAdd, notes);
 }
 
+// TODO: call through to Sequence method. or maybe this just shouldn't exist.
 bool Phrase::addSubdivision(Subdivision toAdd) {
     bool fitsInPhrase = this->containsPartially(toAdd);
     if (fitsInPhrase) {
@@ -52,6 +53,7 @@ bool Phrase::addSubdivision(Subdivision toAdd) {
     return fitsInPhrase;
 }
 
+// TODO: call through to Sequence method. or actually this just shouldn't exist.
 template <class T>
 vector<T> Phrase::concatEvents(vector<T> eventList, vector<T> otherList) const {
     for (auto iter = otherList.begin(); iter < otherList.end(); iter++) {
@@ -61,6 +63,7 @@ vector<T> Phrase::concatEvents(vector<T> eventList, vector<T> otherList) const {
     return eventList;
 }
 
+// TODO: call through to Sequence method?? or actually this just shouldn't exist.
 void Phrase::tieSubdivisions() {
     if (subdivisions.size() <= 1) {
         return;
@@ -80,6 +83,7 @@ void Phrase::tieSubdivisions() {
     }
 }
 
+// TODO: call through to Sequence methods? or actually this just shouldn't exist...
 template <class T>
 vector<T> chopAfterDuration(vector<T> toChop, Duration duration) {
     if (toChop.empty()) {
@@ -112,6 +116,7 @@ vector<T> chopAfterDuration(vector<T> toChop, Duration duration) {
     return chopped;
 }
 
+// TODO: call through to Sequence methods
 Phrase Phrase::concat(Phrase other, bool useLastNote, bool keepDuration) const {
     // todo: what if i just want to concat subdivisions?
     // this currently destroys subdivision phrases (but preserves a single lengthy subdivision.
@@ -158,33 +163,39 @@ Phrase Phrase::concat(Phrase other, bool useLastNote, bool keepDuration) const {
 Phrase Phrase::parseMininotation(std::string phraseString, Subdivision subdivision) {
     double phraseLength = subdivision.asQuarters() * (double) Mininotation::getLength(phraseString);
     Phrase phrase = Phrase(subdivision, 0, Quarters(phraseLength));
+    auto noteSequence = Sequence<Note>::parseMininotation(phraseString, subdivision);
 
-    Position startTime = 0;
-    for(int i = 0; i < Mininotation::getLength(phraseString); i++) {
-        char symbol = phraseString[i];
+//    Position startTime = 0;
+//    for(int i = 0; i < Mininotation::getLength(phraseString); i++) {
+//        char symbol = phraseString[i];
+//
+//        if (!Mininotation::isInNotation(symbol)) {
+//           DBG ("misuse of Mininotation");
+//        }
+//
+//        if (Mininotation::isNote(symbol)) {
+//            Note toAdd(startTime, subdivision);
+//
+//            if (symbol == Mininotation::accentNote) {
+//                toAdd = toAdd.accent();
+//            }
+//
+//            phrase.addNote(toAdd);
+//        }
+//
+//        if (symbol == Mininotation::sustain) {
+//            if (!phrase.notes.empty()) {
+//                phrase.notes.back().duration += subdivision;
+//            }
+//        }
+//
+//        startTime += subdivision;
+//    }
     
-        if (!Mininotation::isInNotation(symbol)) {
-           DBG ("misuse of Mininotation");
-        }
-
-        if (Mininotation::isNote(symbol)) {
-            Note toAdd(startTime, subdivision);
-            
-            if (symbol == Mininotation::accentNote) {
-                toAdd = toAdd.accent();
-            }
-            
-            phrase.addNote(toAdd);
-        }
-        
-        if (symbol == Mininotation::sustain) {
-            if (!phrase.notes.empty()) {
-                phrase.notes.back().duration += subdivision;
-            }
-        }
-        
-        startTime += subdivision;
-    }
+//    if (!noteSequence.equals(phrase.notes)) {
+//        DBG ("why not?");
+//    }
     
+    phrase.notes = noteSequence.events;
     return phrase;
 }
