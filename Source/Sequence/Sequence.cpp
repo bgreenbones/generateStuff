@@ -145,15 +145,17 @@ Sequence<T> Sequence<T>::parseMininotation(std::string phraseString, Duration st
             }
             continue;
         }
-        
-        if (Mininotation::isNote(symbol)) {  // todo: implement class-specific interpretations of mininotation symbols
-            T toAdd(startTime, stepLength);
-            
-            if (symbol == Mininotation::accentNote) {
-                toAdd = toAdd.accent();
+
+        if (is_base_of<Note, T>()) { // TODO:  yeah deal with this in better way
+            if (Mininotation::isNote(symbol)) {  // TODO: implement class-specific interpretations of mininotation symbols
+                Note toAdd(startTime, stepLength);
+                
+                if (symbol == Mininotation::accentNote) {
+                    toAdd = toAdd.accent();
+                }
+                
+                result.add(T(toAdd));
             }
-            
-            result.add(toAdd);
         }
     }
 
@@ -167,3 +169,4 @@ bool Sequence<T>::append(std::string phraseString, Duration stepLength) {
 
 
 template class Sequence<Note>;
+template class Sequence<Subdivision>;

@@ -29,17 +29,18 @@ private:
     }
 public:
     Phrase(Duration subdivision, Position startTime, Duration duration):
-    TimedEvent(startTime, duration), noteSeq(this) {//}, subdivisions({ Subdivision(subdivision, startTime, duration) }) {
+    TimedEvent(startTime, duration), notes(this), subdivisions(this) {//}, subdivisions({ Subdivision(subdivision, startTime, duration) }) {
         initialize_random();
-        vector<Subdivision> newVec;
-        newVec.push_back(Subdivision(subdivision, startTime, duration));
-        this->subdivisions = newVec;
+        this->subdivisions.add(Subdivision(subdivision, startTime, duration));
+//        vector<Subdivision> newVec;
+//        newVec.push_back(Subdivision(subdivision, startTime, duration));
+//        this->subdivisions = newVec;
     }
     Phrase(Position startTime, Duration duration): Phrase (Beats(0.25), startTime, duration) {}
     Phrase(Duration duration): Phrase(Beats(0.25), 0, duration) {}
     Phrase(): Phrase(Beats(0.25), 0, Bars(2)) {}
 //    Phrase(Rhythm rhythm, Phrase phrasing);
-    Phrase(Phrase const& other): TimedEvent(other), notes(other.notes), noteSeq(other.notes, this), subdivisions(other.subdivisions) {
+    Phrase(Phrase const& other): TimedEvent(other), notes(other.notes), subdivisions(other.subdivisions) {
         initialize_random();
     };
 
@@ -54,12 +55,10 @@ public:
     random_device rd; // todo: pull this stuff out into a singleton class that everyone uses?
     mt19937 gen;
     
-    vector<Note> notes;
-    Sequence<Note> noteSeq;
-    vector<Subdivision> subdivisions;
-//    Sequence<Subdivision> subdivSeq;
+    Sequence<Note> notes;
+    Sequence<Subdivision> subdivisions;
     
-    Subdivision primarySubdivision() const { return longest<Subdivision>(subdivisions); }
+    Subdivision primarySubdivision() const { return subdivisions.primary(); }
     void updateTimeSignature();
     
     bool equalsExcludingTime(TimedEvent &other) {

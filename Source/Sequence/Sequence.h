@@ -46,19 +46,26 @@ public:
     bool concat(Sequence<T> other, bool useLast = false);
     bool chopAfterDuration(Duration duration);
 
+
     // Mininotation stuff
     static Sequence parseMininotation(std::string phraseString, Duration stepLength);
     bool append(std::string phraseString, Duration stepLength);
     
     
     
-    // call throughs...
+    // call throughs... ... maybe this should just inherit from vector...
     void clear() { return events.clear(); }
     void pop_back() { return events.pop_back(); }
+    T& front() { return events.front(); }
+    T front() const { return events.front(); }
     T& back() { return events.back(); }
-    size_t size() { return events.size(); }
+    T back() const { return events.back(); }
+    size_t size() const { return events.size(); }
+    auto begin() const { return events.begin(); }
     auto begin() { return events.begin(); }
+    auto end() const { return events.end(); }
     auto end() { return events.end(); }
+    bool empty() const { return events.empty(); }
     
     
     bool equals(vector<T> other) {

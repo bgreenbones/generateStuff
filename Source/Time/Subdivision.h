@@ -10,6 +10,7 @@
 
 #pragma once
 #include "TimedEvent.h"
+#include "Note.hpp"
 
 class Subdivision: public Duration, public TimedEvent {
 private:
@@ -19,7 +20,8 @@ public:
         Duration(divisionLength), TimedEvent(startTime, span) { };
     Subdivision(Duration divisionLength):
         Duration(divisionLength), TimedEvent(0, Bars(1)) { };
-    Subdivision(): Duration(), TimedEvent() {}
+    Subdivision(): Duration(), TimedEvent() {};
+    Subdivision(Note todoremovethisafterbetterdealing): Subdivision() { };
     
     Subdivision& operator=(Subdivision const other) {
         Duration::operator=(other);

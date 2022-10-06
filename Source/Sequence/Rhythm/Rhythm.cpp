@@ -17,8 +17,8 @@ Phrase Phrase::pulseAndDisplace(Duration pulse,
 {
     const Duration length(duration);
     Phrase resultPhrase(*this);
-    resultPhrase.noteSeq.clear();
-    Sequence<Note> &sequence = resultPhrase.noteSeq;
+    resultPhrase.notes.clear();
+    Sequence<Note> &sequence = resultPhrase.notes;
     
     bernoulli_distribution displaceCoin(pDisplace);
     auto decideToDisplace = [&]() { return displaceCoin(resultPhrase.gen); };
@@ -45,10 +45,9 @@ Phrase Phrase::pulseAndDisplace(Duration pulse,
     if (sequence.endTime() != length) {
         DBG ("phrase doesn't end at right time...");
     }
-    if (!resultPhrase.noteSeq.equals(sequence.events)) {
+    if (!resultPhrase.notes.equals(sequence.events)) {
         DBG ("why not?");
     }
-    resultPhrase.notes = sequence.events;
     
     return resultPhrase;
 }

@@ -22,8 +22,8 @@ Phrase Phrase::randomCascara(Probability pDisplace,
     const short accentVelocity = 120; // todo: move these out somewhere else.
     const short unaccentedVelocity = 60;
     
-    for (auto noteIt = cascara.noteSeq.begin();
-         noteIt != cascara.noteSeq.end();
+    for (auto noteIt = cascara.notes.begin();
+         noteIt != cascara.notes.end();
          noteIt++) {
         if (noteIt->duration == displacement) { // beginning of a double
             noteIt->velocity = unaccentedVelocity;
@@ -33,7 +33,6 @@ Phrase Phrase::randomCascara(Probability pDisplace,
             noteIt->ornamented = 0.5;
         }
     }
-    cascara.notes = cascara.noteSeq.events;
     return cascara;
 }
 
@@ -96,7 +95,7 @@ Phrase Phrase::randomClave() const {
     bool constraintsBroken = false;
     do {
         constraintsBroken = false;
-        clave.notes = vector<Note>();
+        clave.notes.clear();
         float notePosition = (rand() % maxNoteLengthInSubdivisions) * subdivision;
         for (int noteInd = 0; noteInd < numNotes; noteInd++) {
 //            std::string notation = "X";
@@ -175,15 +174,14 @@ Phrase Phrase::cascaraFromClave() const {
         Duration timeSinceLastCascaraNote = noteIt->startTime - lastCascaraNote.startTime;
         double subdivisionsSinceLastCascaraNote = timeSinceLastCascaraNote.asBeats() / subdivision.asBeats();
         
-        Phrase newNotes;
         if (subdivisionsBetweenClaveNotes == 2.) {
             if (subdivisionsSinceLastCascaraNote == 0.) { // x . x
-                newNotes = Phrase::parseMininotation("~x", subdivision);
+                cascara.notes.append("~x", subdivision);
             } else if (subdivisionsSinceLastCascaraNote == 1.0) {
                 if (rand() % 2) { // . x x
-                    newNotes = Phrase::parseMininotation("~xx", subdivision);
+                    cascara.notes.append("~xx", subdivision);
                 } else { // x . x
-                    newNotes = Phrase::parseMininotation("x~x", subdivision);
+                    cascara.notes.append("x~x", subdivision);
                 }
             } else {
                 DBG ("cascara has some weird note lengths??");
@@ -192,15 +190,15 @@ Phrase Phrase::cascaraFromClave() const {
             if (subdivisionsSinceLastCascaraNote == 0.) { // this note already hit. just add next note.
                 auto choice = rand() % 3;
                 if (choice == 0) { // x x . x
-                    newNotes = Phrase::parseMininotation("x~x", subdivision);
+                    cascara.notes.append("x~x", subdivision);
                 } else if (choice == 1) { // x . x x
-                    newNotes = Phrase::parseMininotation("~xx", subdivision);
+                    cascara.notes.append("~xx", subdivision);
                 } else if (choice == 2) { // x . x . misses next note!!
-                    newNotes = Phrase::parseMininotation("~x~", subdivision);
+                    cascara.notes.append("~x~", subdivision);
                 }
             } else if (subdivisionsSinceLastCascaraNote == 1.0) {
                 // only one option: . x . x
-                newNotes = Phrase::parseMininotation("~x~x", subdivision);
+                cascara.notes.append("~x~x", subdivision);
             } else {
                 DBG ("cascara has some weird note lengths??");
             }
@@ -208,16 +206,16 @@ Phrase Phrase::cascaraFromClave() const {
             if (subdivisionsSinceLastCascaraNote == 0.) { // this note already hit.
                 auto choice = rand() % 2;
                 if (choice == 0) { // x . x . x
-                    newNotes = Phrase::parseMininotation("~x~x", subdivision);
+                    cascara.notes.append("~x~x", subdivision);
                 } else if (choice == 1) { // x x . x x
-                    newNotes = Phrase::parseMininotation("x~xx", subdivision);
+                    cascara.notes.append("x~xx", subdivision);
                 }
             } else if (subdivisionsSinceLastCascaraNote == 1.0) {
                 auto choice = rand() % 2;
                 if (choice == 0) { // // . x x . x
-                    newNotes = Phrase::parseMininotation("~xx~x", subdivision);
+                    cascara.notes.append("~xx~x", subdivision);
                 } else if (choice == 1) { // . x . x x
-                    newNotes = Phrase::parseMininotation("~x~xx", subdivision);
+                    cascara.notes.append("~x~xx", subdivision);
                 }
             } else {
                 DBG ("cascara has some weird note lengths??");
@@ -225,8 +223,22 @@ Phrase Phrase::cascaraFromClave() const {
         } else {
             DBG ("weird amount of subdivisions between notes in clave.");
         }
-        cascara = cascara.concat(newNotes, true, true);
     }
+        
+    // maybe 2/3 - 3/4 of cascara accents end up being clave notes - the rest fall right next to clave notes. actually acheive these ratios - don't just use them as probabilities that you don't enforce.
+    
+    // connect length 4 with multiple length 2 or two doubles in a row.
+    
+    // length 3 can connect with a double on other side but you can also avoid hitting with
+    // the clave when there are notes of length 3. maybe enforce these as ratios:
+    // connecting 3/4s of the time, avoiding hitting together 1/4th
+    
+    return cascara;
+}
+
+
+
+
     
 //    This was code from cascaraToClave that was used to test the mininotation stuff.
 //
@@ -423,22 +435,6 @@ Phrase Phrase::cascaraFromClave() const {
 //        !allNotesHaveMatch2) {
 //        problemBranches.push_back(branch);
 //    }
-    
-
-    
-    
-    
-    
-    // maybe 2/3 - 3/4 of cascara accents end up being clave notes - the rest fall right next to clave notes. actually acheive these ratios - don't just use them as probabilities that you don't enforce.
-    
-    // connect length 4 with multiple length 2 or two doubles in a row.
-    
-    // length 3 can connect with a double on other side but you can also avoid hitting with
-    // the clave when there are notes of length 3. maybe enforce these as ratios:
-    // connecting 3/4s of the time, avoiding hitting together 1/4th
-
-    return cascara;
-}
 
 Phrase Phrase::claveFromCascara() const {
 //    Phrase clave = Phrase(cascara.rhythm, cascara.phrasing);
@@ -507,7 +503,7 @@ Phrase Phrase::claveFromCascara() const {
     do {
         attempts++;
         constraintsBroken = false;
-        clave.notes = vector<Note>();
+        clave.notes.clear();
         short notesNeededOnLeft = notesOnLeft;
         short notesNeededOnRight = notesOnRight;
         if (cascara.notes.size() < notesNeededOnLeft + notesNeededOnRight) { throw exception(); }
