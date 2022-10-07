@@ -21,7 +21,17 @@ public:
     Subdivision(Duration divisionLength):
         Duration(divisionLength), TimedEvent(0, Bars(1)) { };
     Subdivision(): Duration(), TimedEvent() {};
-    Subdivision(Note todoremovethisafterbetterdealing): Subdivision() { };
+    Subdivision(char mininotation, Position startTime, Duration span): Subdivision(Beats(1), startTime, span) {
+        if (Mininotation::isNote(mininotation)) {
+            DBG ("ok, good");
+        } else {
+            DBG ("i think we have to handle this");
+        }
+        
+        if (mininotation == Mininotation::modifiedDefault) {
+            this->durationValueInQuarters /= 2.0; // idfk, i guess this is an interpretation.
+        }
+    }
     
     Subdivision& operator=(Subdivision const other) {
         Duration::operator=(other);

@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include "Time/TimedEvent.h"
 #include "Probability.h"
+#include "Mininotation.h"
 
 #endif /* Note_hpp */
 
@@ -31,6 +32,20 @@ public:
          double duration = 1): // in quarter notes
     Note(pitch, velocity, Position(startTime), Duration(duration)) { }
     Note(Position startTime, Duration duration): Note(60, 70, startTime, duration) { }
+    Note(char mininotation, Position startTime, Duration duration): Note(60, 70, startTime, duration) {
+        if (Mininotation::isNote(mininotation)) {
+            DBG ("ok, good");
+        } else {
+            DBG ("i think we have to handle this");
+        }
+        
+        if (mininotation == Mininotation::modifiedDefault) {
+            accent();
+            if (accented != 1.0) {
+                DBG ("i guess accented() called the const version");
+            }
+        }
+    }
     
     static int accentVelocity;
     
@@ -49,11 +64,16 @@ public:
     };
     
     Note displace(Duration toDisplaceBy, bool forwards = true);
-    Note accent() {
+    Note accent() const {
         Note modified = Note(*this);
         modified.accented = 1.0;
         modified.velocity = accentVelocity;
         return modified;
+    };
+    Note accent() {
+        this->accented = 1.0;
+        this->velocity = accentVelocity;
+        return *this;
     };
     Note ornament() {
         Note modified = Note(*this);

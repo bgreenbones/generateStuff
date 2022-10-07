@@ -146,16 +146,9 @@ Sequence<T> Sequence<T>::parseMininotation(std::string phraseString, Duration st
             continue;
         }
 
-        if (is_base_of<Note, T>()) { // TODO:  yeah deal with this in better way
-            if (Mininotation::isNote(symbol)) {  // TODO: implement class-specific interpretations of mininotation symbols
-                Note toAdd(startTime, stepLength);
-                
-                if (symbol == Mininotation::accentNote) {
-                    toAdd = toAdd.accent();
-                }
-                
-                result.add(T(toAdd));
-            }
+        if (Mininotation::isNote(symbol)) {  // TODO: implement class-specific interpretations of mininotation symbols
+            T toAdd(symbol, startTime, stepLength);
+            result.add(toAdd);
         }
     }
 

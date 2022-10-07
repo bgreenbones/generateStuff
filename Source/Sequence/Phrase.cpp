@@ -7,7 +7,6 @@
 
 #include "Phrase.hpp"
 #include <JuceHeader.h>
-#include "Mininotation.h"
 
 void Phrase::updateTimeSignature() {
     TimedEvent::updateTimeSignature();

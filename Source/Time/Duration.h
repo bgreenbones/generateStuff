@@ -26,19 +26,19 @@ class Quarters;
 class Duration {
 private:
     bool guard() {
-        if (value < 0) {
+        if (durationValueInQuarters < 0) {
             DBG ("negative duration value...");
         }
         return true;
     }
 public:
-    Duration(): timeSignature(HostSettings::instance().getTimeSignature()), value(0) {}
-    Duration(double value, TimeSignature timeSignature): timeSignature(timeSignature), value(value) { guard(); }
+    Duration(): timeSignature(HostSettings::instance().getTimeSignature()), durationValueInQuarters(0) {}
+    Duration(double value, TimeSignature timeSignature): timeSignature(timeSignature), durationValueInQuarters(value) { guard(); }
     Duration(double value): Duration(value, HostSettings::instance().getTimeSignature()) {}
     
 //    Duration(Duration const& other): Duration(other.value, other.timeSignature) {}
     Duration operator=(Duration other) {
-      swap(value, other.value);
+      swap(durationValueInQuarters, other.durationValueInQuarters);
       swap(timeSignature, other.timeSignature);
       return *this;
     }
@@ -58,9 +58,9 @@ public:
     Duration operator+(const double other) { return *this + Duration(other, this->timeSignature); }
     Duration operator-(const Duration other) { return Duration(this->asQuarters() - other.asQuarters(), this->timeSignature); }
     Duration operator-(const double other) { return *this - Duration(other, this->timeSignature); }
-    Duration operator*(const double other) { return Duration(this->value * other, this->timeSignature); }
+    Duration operator*(const double other) { return Duration(this->durationValueInQuarters * other, this->timeSignature); }
     Duration operator/(const Duration other) { return Duration(this->asQuarters() / other.asQuarters(), this->timeSignature); }
-    Duration operator/(const double other) { return Duration(this->value / other, this->timeSignature); }
+    Duration operator/(const double other) { return Duration(this->durationValueInQuarters / other, this->timeSignature); }
 //    Duration operator%(const Duration other) { return Duration(fmodf(this->asQuarters(), other.asQuarters()), this->timeSignature); }
 //    Duration operator%(const double other) { return Duration(fmodf(this->value, other), this->timeSignature); }
 //    Duration& operator++() { return (*this) + 1.0; }
@@ -69,7 +69,7 @@ public:
     Duration operator--(int) { return (*this) - 1.0; }
     
     Duration& operator+=(const Duration& other){
-          this->value += other.value;
+          this->durationValueInQuarters += other.durationValueInQuarters;
           return *this;
     }
 
@@ -77,7 +77,7 @@ public:
     bars wholeBars() const { return floor(asBars()); }
     beats asBeats() const { return timeSignature.beatsPerQuarter() * this->asQuarters(); }
     bars asBars() const { return this->asQuarters() / timeSignature.barLengthInQuarters(); }
-    quarters asQuarters() const { return this->value; }
+    quarters asQuarters() const { return this->durationValueInQuarters; }
 
     operator Beats() const;
     operator Bars() const;
@@ -87,7 +87,7 @@ public:
     
     TimeSignature timeSignature;
 protected:
-    double value; // in quarters, always
+    double durationValueInQuarters; // in quarters, always
 };
 
 typedef Duration Position; // same thing, for now
@@ -101,7 +101,7 @@ public:
     Beats(): Beats(1.0, HostSettings::instance().getTimeSignature()) {}
     Beats operator=(const double other) {
         this->timeSignature = HostSettings::instance().getTimeSignature();
-        this->value = timeSignature.beatsToQuarters(other);
+        this->durationValueInQuarters = timeSignature.beatsToQuarters(other);
         return *this;
     }
 };
@@ -115,7 +115,7 @@ public:
     Bars(): Bars(1.0, HostSettings::instance().getTimeSignature()) {}
     Bars operator=(const double other) {
         this->timeSignature = HostSettings::instance().getTimeSignature();
-        this->value = timeSignature.barsToQuarters(other);
+        this->durationValueInQuarters = timeSignature.barsToQuarters(other);
         return *this;
     }
 };
@@ -129,7 +129,7 @@ public:
     Quarters(): Quarters(1.0, HostSettings::instance().getTimeSignature()) {}
     Quarters operator=(const double other) {
         this->timeSignature = HostSettings::instance().getTimeSignature();
-        this->value = other;
+        this->durationValueInQuarters = other;
         return *this;
     }
 };
