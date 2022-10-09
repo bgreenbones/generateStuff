@@ -57,9 +57,8 @@ public:
 
 
 
-// todo: this shoud be (static) member functions of timedevent??
 template<class T> // must be TimedEvent
-vector<T> byPosition(vector<T> events, Position position) {
+vector<T> byPosition(vector<T> events, Position position) { // todo: remove this in favor of Sequence implementation.
     static_assert(is_base_of<TimedEvent, T>::value, "T not derived from TimedEvent");
     vector<T> result;
     for (auto it = events.begin(); it < events.end(); it++) {

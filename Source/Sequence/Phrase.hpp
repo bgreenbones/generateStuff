@@ -29,7 +29,7 @@ private:
     }
 public:
     Phrase(Duration subdivision, Position startTime, Duration duration):
-    TimedEvent(startTime, duration), notes(this), subdivisions(this) {//}, subdivisions({ Subdivision(subdivision, startTime, duration) }) {
+    TimedEvent(startTime, duration), notes(*this), subdivisions(*this) {//}, subdivisions({ Subdivision(subdivision, startTime, duration) }) {
         initialize_random();
         this->subdivisions.add(Subdivision(subdivision, startTime, duration));
 //        vector<Subdivision> newVec;
@@ -100,7 +100,7 @@ public:
     Phrase addOrnaments(OrnamentSimple ornament, float tempo) const;
     
     // Mininotation stuff
-    static Phrase parseMininotation(std::string phraseString, Subdivision subdivision);
+    Phrase parseMininotation(std::string phraseString, Subdivision subdivision);
     
 
 };

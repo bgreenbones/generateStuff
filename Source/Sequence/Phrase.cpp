@@ -183,7 +183,7 @@ Phrase Phrase::concat(Phrase other, bool useLastNote, bool keepDuration) const {
 Phrase Phrase::parseMininotation(std::string phraseString, Subdivision subdivision) {
     double phraseLength = subdivision.asQuarters() * (double) Mininotation::getLength(phraseString);
     Phrase phrase = Phrase(subdivision, 0, Quarters(phraseLength));
-    auto noteSequence = Sequence<Note>::parseMininotation(phraseString, subdivision);
+    auto noteSequence = notes.parseMininotation(phraseString, subdivision);
 
 //    Position startTime = 0;
 //    for(int i = 0; i < Mininotation::getLength(phraseString); i++) {

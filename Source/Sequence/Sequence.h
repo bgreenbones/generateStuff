@@ -14,6 +14,10 @@
 #include "TimedEvent.h"
 #include "Subdivision.h"
 
+typedef enum PushBehavior {
+    ignore, truncate, wrap
+} PushBehavior;
+
 // maybe this should be an inner class of phrase?
 // right now just will have a reference to its parent phrase.
 // this can encapsulate functionality related to the various vectors inside phrase
@@ -22,34 +26,40 @@ template <typename T>
 class Sequence
 {
 public:
-    Sequence(vector<T> events, TimedEvent *parent): parent(parent), events(events) {}
-    Sequence(TimedEvent *parent): Sequence({}, parent) {}
-    Sequence(): Sequence({}, nullptr) {}
+    Sequence(vector<T> events, TimedEvent& parent): parent(parent), events(events) {}
+    Sequence(TimedEvent &parent): Sequence({}, parent) {}
+//    Sequence(): Sequence({}, nullptr) {}
     Sequence& operator=(Sequence other) {
-        swap(parent, other.parent);
+        swap(monophonic, other.monophonic);
+        this->parent = other.parent;
+//        swap(parent, other.parent);
         swap(events, other.events);
         return *this;
     };
     
-    bool monophonic;
-    TimedEvent *parent;
+    bool monophonic = true;
+    TimedEvent &parent;
     vector<T> events;
     T primary() const { return longest<T>(events); }
+    vector<T> byPosition(Position position) const;
+    
     void updateTimeSignature();
     
     Position endTime() const {
         return events.size() > 0 ? events.back().endTime() : Position(0);
     }
     
-    bool add(T toAdd);
+    bool add(T toAdd, PushBehavior pushBehavior = PushBehavior::ignore);
     void tie();
-    bool concat(Sequence<T> other, bool useLast = false);
+    void legato();
+    bool concat(Sequence<T> other, bool useLast = false, PushBehavior pushBehavior = PushBehavior::ignore);
+    bool insert(Sequence<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore);
     bool chopAfterDuration(Duration duration);
 
 
     // Mininotation stuff
-    static Sequence parseMininotation(std::string phraseString, Duration stepLength);
-    bool append(std::string phraseString, Duration stepLength);
+    Sequence parseMininotation(std::string phraseString, Duration stepLength);
+    bool append(std::string phraseString, Duration stepLength, PushBehavior pushBehavior = PushBehavior::ignore);
     
     
     

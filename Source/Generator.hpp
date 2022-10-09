@@ -37,6 +37,7 @@ public:
     Playable clave();
     Playable claveFromCascara();
     Playable cascaraFromClave();
+    Playable fillClave();
     
     bool setSubdivision(const float subdivision);
     bool setPhraseLengthBars(const float bars);

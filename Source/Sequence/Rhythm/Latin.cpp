@@ -9,6 +9,26 @@
 #include <JuceHeader.h>
 #include "Phrase.hpp"
 
+
+
+void applyCascaraAccents(Sequence<Note> &cascara, Duration displacement) {
+    const short accentVelocity = 120; // todo: move these out somewhere else.
+    const short unaccentedVelocity = 60;
+    
+    for (auto noteIt = cascara.begin();
+         noteIt != cascara.end();
+         noteIt++) {
+        if (noteIt->duration == displacement) { // beginning of a double
+            noteIt->velocity = unaccentedVelocity;
+        } else {
+            noteIt->accented = true;
+            noteIt->velocity = accentVelocity;
+            noteIt->ornamented = 0.5;
+        }
+    }
+}
+
+
 Phrase Phrase::randomCascara(Probability pDisplace,
                                  Probability pDouble) const {
 //    float pulse = 1.0, displacement = 0.5;
@@ -19,20 +39,9 @@ Phrase Phrase::randomCascara(Probability pDisplace,
     Duration displacement(this->primarySubdivision());
     Duration pulse(displacement * 2.);
     Phrase cascara = this->pulseAndDisplace(pulse, displacement, pDisplace, pDouble);
-    const short accentVelocity = 120; // todo: move these out somewhere else.
-    const short unaccentedVelocity = 60;
     
-    for (auto noteIt = cascara.notes.begin();
-         noteIt != cascara.notes.end();
-         noteIt++) {
-        if (noteIt->duration == displacement) { // beginning of a double
-            noteIt->velocity = unaccentedVelocity;
-        } else {
-            noteIt->accented = true;
-            noteIt->velocity = accentVelocity;
-            noteIt->ornamented = 0.5;
-        }
-    }
+    applyCascaraAccents(cascara.notes, displacement);
+    
     return cascara;
 }
 
@@ -90,8 +99,12 @@ Phrase Phrase::randomClave() const {
     
     // choose a random arrangement  of that num notes on each side such that
     // space between any two notes (even across sides, both ways) is 2, 3, or 4
-    uniform_int_distribution<> randomNoteLengthInSubdivisions(minNoteLengthInSubdivisions,
-                                                maxNoteLengthInSubdivisions);
+    std::array<double,17> weights = {0,1,1,3,1,2,2,2,1,2,1,1,1,1,1,1,1}; // three is most likely
+    for (int i = 0; i < minNoteLengthInSubdivisions; i++) { weights[i] = 0; }
+    for (int i = weights.size(); i > maxNoteLengthInSubdivisions; i--) { weights[i] = 0; }
+    std::discrete_distribution<int> randomNoteLengthInSubdivisions (weights.begin(), weights.end());
+//    uniform_int_distribution<> randomNoteLengthInSubdivisions(minNoteLengthInSubdivisions,
+//                                                maxNoteLengthInSubdivisions);
     bool constraintsBroken = false;
     do {
         constraintsBroken = false;
@@ -107,6 +120,7 @@ Phrase Phrase::randomClave() const {
 //            auto noteLength = randomNoteLengthInSubdivisions(clave.gen);
 //            setNotationLength(noteLength);
             Note note = Note();
+            note.velocity = 100;
             note.startTime = notePosition;
             // note doesn't fall within its side, scrap it and try again
             if ((noteInd < notesOnLeft && note.startTime >= sideLength) ||
@@ -123,7 +137,8 @@ Phrase Phrase::randomClave() const {
                     break;
                 }
             } else {
-                note.duration = randomNoteLengthInSubdivisions(clave.gen) * subdivision;
+                auto randomNum = randomNoteLengthInSubdivisions(clave.gen);
+                note.duration = randomNum * subdivision;
                 notePosition += note.duration;
             }
             
@@ -155,7 +170,7 @@ Phrase Phrase::cascaraFromClave() const {
     cascara.addNote(firstCascaraNote);
     
     for (auto noteIt = this->notes.begin();
-         noteIt < this->notes.end() - 1;
+         noteIt < this->notes.end();
          noteIt++)
     {
         auto nextNote = noteIt + 1;
@@ -176,12 +191,12 @@ Phrase Phrase::cascaraFromClave() const {
         
         if (subdivisionsBetweenClaveNotes == 2.) {
             if (subdivisionsSinceLastCascaraNote == 0.) { // x . x
-                cascara.notes.append("~x", subdivision);
+                cascara.notes.append(".x", subdivision, PushBehavior::wrap);
             } else if (subdivisionsSinceLastCascaraNote == 1.0) {
                 if (rand() % 2) { // . x x
-                    cascara.notes.append("~xx", subdivision);
+                    cascara.notes.append(".xx", subdivision, PushBehavior::wrap);
                 } else { // x . x
-                    cascara.notes.append("x~x", subdivision);
+                    cascara.notes.append("x.x", subdivision, PushBehavior::wrap);
                 }
             } else {
                 DBG ("cascara has some weird note lengths??");
@@ -190,15 +205,15 @@ Phrase Phrase::cascaraFromClave() const {
             if (subdivisionsSinceLastCascaraNote == 0.) { // this note already hit. just add next note.
                 auto choice = rand() % 3;
                 if (choice == 0) { // x x . x
-                    cascara.notes.append("x~x", subdivision);
+                    cascara.notes.append("x.x", subdivision, PushBehavior::wrap);
                 } else if (choice == 1) { // x . x x
-                    cascara.notes.append("~xx", subdivision);
+                    cascara.notes.append(".xx", subdivision, PushBehavior::wrap);
                 } else if (choice == 2) { // x . x . misses next note!!
-                    cascara.notes.append("~x~", subdivision);
+                    cascara.notes.append(".x.", subdivision, PushBehavior::wrap);
                 }
             } else if (subdivisionsSinceLastCascaraNote == 1.0) {
                 // only one option: . x . x
-                cascara.notes.append("~x~x", subdivision);
+                cascara.notes.append(".x.x", subdivision, PushBehavior::wrap);
             } else {
                 DBG ("cascara has some weird note lengths??");
             }
@@ -206,16 +221,16 @@ Phrase Phrase::cascaraFromClave() const {
             if (subdivisionsSinceLastCascaraNote == 0.) { // this note already hit.
                 auto choice = rand() % 2;
                 if (choice == 0) { // x . x . x
-                    cascara.notes.append("~x~x", subdivision);
+                    cascara.notes.append(".x.x", subdivision, PushBehavior::wrap);
                 } else if (choice == 1) { // x x . x x
-                    cascara.notes.append("x~xx", subdivision);
+                    cascara.notes.append("x.xx", subdivision, PushBehavior::wrap);
                 }
             } else if (subdivisionsSinceLastCascaraNote == 1.0) {
                 auto choice = rand() % 2;
                 if (choice == 0) { // // . x x . x
-                    cascara.notes.append("~xx~x", subdivision);
+                    cascara.notes.append(".xx.x", subdivision, PushBehavior::wrap);
                 } else if (choice == 1) { // . x . x x
-                    cascara.notes.append("~x~xx", subdivision);
+                    cascara.notes.append(".x.xx", subdivision, PushBehavior::wrap);
                 }
             } else {
                 DBG ("cascara has some weird note lengths??");
@@ -232,6 +247,9 @@ Phrase Phrase::cascaraFromClave() const {
     // length 3 can connect with a double on other side but you can also avoid hitting with
     // the clave when there are notes of length 3. maybe enforce these as ratios:
     // connecting 3/4s of the time, avoiding hitting together 1/4th
+    
+//    cascara.notes.legato();
+    applyCascaraAccents(cascara.notes, subdivision);
     
     return cascara;
 }
@@ -521,7 +539,6 @@ Phrase Phrase::claveFromCascara() const {
                     if (rand() % 2) { // todo: check previous note's time and make it more likely the longer it gets, and definitely not if it's 1 subdivision since last note
                         note.startTime = noteIt->startTime;
                         note.accented = true;
-                        note.duration = 1; // todo: method to fill out durations between notes
                         note.ornamented = 0.5; // todo: don't just make accented notes ornamented.
                         notesNeededOnLeft--;
                         clave.addNote(note);
@@ -537,7 +554,6 @@ Phrase Phrase::claveFromCascara() const {
                     if (rand() % 2) { // todo: check previous note's time and make it more likely the longer it gets, and definitely not if it's 1 subdivision since last note
                         note.startTime = noteIt->startTime;
                         note.accented = true;
-                        note.duration = 1; // todo: method to fill out durations between notes
                         note.ornamented = 0.5;
                         notesNeededOnRight--;
                         clave.addNote(note);
@@ -545,22 +561,32 @@ Phrase Phrase::claveFromCascara() const {
                 }
             }
             
-            // todo: check note length of other notes too
-            
-            if (notesNeededOnRight == 0) { // last note
-                clave.notes.back().duration = (phraseLength - note.startTime) + clave.notes.front().startTime;
-                if (clave.notes.back().duration < (double) minNoteLength || // last note is bad length
-                    clave.notes.back().duration > (double) maxNoteLength) {
-                    constraintsBroken = true;
-                    break;
-                }
-            }
+//
+//            if (notesNeededOnRight == 0) { // last note
+//                clave.notes.back().duration = (phraseLength - note.startTime) + clave.notes.front().startTime;
+//                if (clave.notes.back().duration < (double) minNoteLength || // last note is bad length
+//                    clave.notes.back().duration > (double) maxNoteLength) {
+//                    constraintsBroken = true;
+//                    break;
+//                }
+//            }
         }
         
         if (notesNeededOnLeft > 0 || notesNeededOnRight > 0) {
             constraintsBroken = true;
         }
-        
+                
+        if (!constraintsBroken) {
+            clave.notes.legato();
+            for (auto note : clave.notes.events) {
+                if (note.duration < (double) minNoteLength || // bad length
+                    note.duration > (double) maxNoteLength) {
+                    constraintsBroken = true;
+                    break;
+                }
+            }
+        }
+
         if (attempts > 2000) {
             // give up
             constraintsBroken = false;

@@ -39,6 +39,7 @@ private:
     juce::TextButton randomClaveButton;
     juce::TextButton cascaraFromClaveButton;
     juce::TextButton claveFromCascaraButton;
+    juce::TextButton fillClaveButton;
     juce::TextButton subDivButton1 { "1/1" };
     juce::TextButton subDivButton2 { "1/2" };
     juce::TextButton subDivButton3 { "1/3" };

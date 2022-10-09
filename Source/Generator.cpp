@@ -75,3 +75,10 @@ Playable Generator::claveFromCascara() {
     Playable result = Playable(tempPhrase, 2);
     return result;
 }
+
+Playable Generator::fillClave() {
+    updateTimeSignature();
+    auto tempPhrase = clavePhrase.fillInGaps();
+    Playable result = Playable(tempPhrase, 2);
+    return result;
+}

@@ -34,6 +34,7 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     juce::String claveName = "random clave";
     juce::String claveFromCascaraName = "clave from cascara";
     juce::String cascaraFromClaveName = "cascara from clave";
+    juce::String fillClaveName = "fill clave";
     randomCascaraButton.setTitle(cascaraName);
     randomCascaraButton.setName(cascaraName);
     addAndMakeVisible (&randomCascaraButton);
@@ -53,6 +54,12 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     cascaraFromClaveButton.setName(cascaraFromClaveName);
     addAndMakeVisible (&cascaraFromClaveButton);
     cascaraFromClaveButton.addListener(this);
+    
+    fillClaveButton.setTitle(fillClaveName);
+    fillClaveButton.setName(fillClaveName);
+    addAndMakeVisible (&fillClaveButton);
+    fillClaveButton.addListener(this);
+
 
     for (float subdivisionDenominator = 1; subdivisionDenominator <= 9; subdivisionDenominator++) {
         int subdivisionIndex = subdivisionDenominator - 1;
@@ -154,6 +161,9 @@ void GenerateStuffAudioProcessorEditor::resized()
     xCursor += buttonWidth + spaceBetweenControls;
     yCursor = yPadding;
     
+    fillClaveButton.setBounds (xCursor, yCursor, buttonWidth, height);
+    xCursor += buttonWidth + spaceBetweenControls;
+    
     short spaceBetweenSubDivButtons = 5;
     int totalSpaceBetweenSubDivButtons = spaceBetweenSubDivButtons * ((int) subdivisionButtons.size() - 1);
     buttonHeight = (height - totalSpaceBetweenSubDivButtons) / subdivisionButtons.size();
@@ -187,12 +197,14 @@ void GenerateStuffAudioProcessorEditor::buttonClicked (juce::Button *button)
     auto claveFromCascaraName = claveFromCascaraButton.getName();
     auto randomClaveName = randomClaveButton.getName();
     auto cascaraFromClaveName = cascaraFromClaveButton.getName();
+    auto fillClaveName = fillClaveButton.getName();
     
     
     auto isCascaraButton = buttonName.equalsIgnoreCase(randomCascaraName);
     auto isClaveButton = buttonName.equalsIgnoreCase(randomClaveName);
     auto isClaveFromCascaraButton = buttonName.equalsIgnoreCase(claveFromCascaraName);
     auto isCascaraFromClaveButton = buttonName.equalsIgnoreCase(cascaraFromClaveName);
+    auto isFillClaveButton = buttonName.equalsIgnoreCase(fillClaveName);
     
     if (isCascaraButton) {
         audioProcessor.queuePlayable(audioProcessor.generator.cascara());
@@ -202,6 +214,8 @@ void GenerateStuffAudioProcessorEditor::buttonClicked (juce::Button *button)
         audioProcessor.queuePlayable(audioProcessor.generator.claveFromCascara());
     } else if (isCascaraFromClaveButton) {
         audioProcessor.queuePlayable(audioProcessor.generator.cascaraFromClave());
+    } else if (isFillClaveButton) {
+        audioProcessor.queuePlayable(audioProcessor.generator.fillClave());
     }
 }
 
