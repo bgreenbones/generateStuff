@@ -78,3 +78,6 @@ vector<Note> placeOrnament(Note ornamented, Ornament ornament);
 vector<Note> placeOrnamentSimple(Note ornamented, OrnamentSimple ornament);
 //Phrase ornamentPhrase(Phrase phrase, vector<OrnamentSimple> possibleOrnaments, float tempo, vector<float> probabilities =  { });
 //Phrase ornamentPhrase(Phrase phrase, OrnamentSimple ornament, float tempo);
+
+
+Position quantize(Position toQuantize, Duration quantizeGrid, Position relativeTo = 0);

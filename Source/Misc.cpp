@@ -104,3 +104,13 @@ vector<Note> placeOrnamentSimple(Note accentNote, OrnamentSimple ornamentSimple)
 //Phrase ornamentPhrase(Phrase phrase, OrnamentSimple ornament, float tempo) {
 //    return ornamentPhrase(phrase, vector<OrnamentSimple> { ornament }, tempo);
 //}
+
+
+Position quantize(Position toQuantize, Duration quantizeGrid, Position relativeTo) {
+//    Position smaller = toQuantize < relativeTo ? toQuantize : relativeTo;
+    double temp = toQuantize.asQuarters() - relativeTo.asQuarters();
+    double mod = std::fmod(temp, quantizeGrid.asQuarters());
+    int roundDirection = (mod <= (quantizeGrid.asQuarters() * 0.5)) ? -1 : 1;
+    double quantized = temp + roundDirection * mod;
+    return quantized + relativeTo;
+}
