@@ -53,6 +53,7 @@ public:
     void tie();
     void legato();
     bool concat(Sequence<T> other, bool useLast = false, PushBehavior pushBehavior = PushBehavior::ignore);
+    bool insert(vector<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore);
     bool insert(Sequence<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore);
     bool chopAfterDuration(Duration duration);
 

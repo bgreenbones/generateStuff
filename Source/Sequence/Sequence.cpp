@@ -75,7 +75,7 @@ bool Sequence<T>::concat(Sequence<T> other, bool useLast, PushBehavior pushBehav
 }
 
 template <class T>
-bool Sequence<T>::insert(Sequence<T> other, Position startTime, PushBehavior pushBehavior) {
+bool Sequence<T>::insert(vector<T> other, Position startTime, PushBehavior pushBehavior) {
     for (auto iter = other.begin(); iter < other.end(); iter++) {
             iter->startTime += startTime;
         if (!(this->add(*iter, pushBehavior))) {
@@ -84,6 +84,12 @@ bool Sequence<T>::insert(Sequence<T> other, Position startTime, PushBehavior pus
         }
     }
     return true;
+}
+
+
+template <class T>
+bool Sequence<T>::insert(Sequence<T> other, Position startTime, PushBehavior pushBehavior) {
+    return insert(other.events, startTime, pushBehavior);
 }
 
 template <class T>
@@ -175,31 +181,35 @@ template <class T>
 Sequence<T> Sequence<T>::parseMininotation(std::string phraseString, Duration stepLength) { 
     Sequence<T> result(*this);
     result.clear();
-    
-    auto symbolIter = phraseString.begin();
-    Duration length = stepLength * ((double) Mininotation::getLength(phraseString));
-    for(Position startTime = 0; startTime < length; startTime += stepLength) {
-        char symbol = *symbolIter++;
-
-        if (!Mininotation::isInNotation(symbol)) {
-            DBG ("misuse of mininotation");
-            continue;
-        }
-        if (symbol == Mininotation::rest) { continue; }
-        
-        
-        if (symbol == Mininotation::sustain) {
-            if (!result.events.empty()) {
-                result.events.back().duration += stepLength;
-            }
-            continue;
-        }
-
-        if (Mininotation::isNote(symbol)) {  // TODO: implement class-specific interpretations of mininotation symbols
-            T toAdd(symbol, startTime, stepLength);
-            result.add(toAdd);
-        }
+    vector<T> parsed = Mininotation::parse<T>(phraseString, stepLength);
+    for (T t : parsed) {
+        result.add(t); // might be a better way to get similar result but this will handle duration overflow and stuff.
     }
+//
+//    auto symbolIter = phraseString.begin();
+//    Duration length = stepLength * ((double) Mininotation::getLength(phraseString));
+//    for(Position startTime = 0; startTime < length; startTime += stepLength) {
+//        char symbol = *symbolIter++;
+//
+//        if (!Mininotation::isInNotation(symbol)) {
+//            DBG ("misuse of mininotation");
+//            continue;
+//        }
+//        if (symbol == Mininotation::rest) { continue; }
+//
+//
+//        if (symbol == Mininotation::sustain) {
+//            if (!result.events.empty()) {
+//                result.events.back().duration += stepLength;
+//            }
+//            continue;
+//        }
+//
+//        if (Mininotation::isNote(symbol)) {  // TODO: implement class-specific interpretations of mininotation symbols
+//            T toAdd(symbol, startTime, stepLength);
+//            result.add(toAdd);
+//        }
+//    }
 
     return result;
 }

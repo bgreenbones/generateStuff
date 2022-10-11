@@ -9,6 +9,7 @@
 */
 
 #include "Phrase.hpp"
+#include "Syncopation.h"
 
 Phrase Phrase::addOrnaments(vector<OrnamentSimple> possibleOrnaments, float tempo, vector<float> probabilities) const{
     bool isAlreadyOrnamented = false; // todo: know this somehow
@@ -30,19 +31,56 @@ Phrase Phrase::addOrnaments(OrnamentSimple ornament, float tempo) const {
     return addOrnaments(vector<OrnamentSimple> { ornament }, tempo);
 }
 
+
+
+vector<Note> roll(Duration length, Subdivision subdivision) {
+    double numNotesInFill = length.asQuarters() / subdivision.asQuarters();
+    if (std::fmod(numNotesInFill, 1.) != 0) {
+        DBG ("something's wrong");
+    }
+    
+    vector<Note> roll = Mininotation::parse<Note>(std::string(floor(numNotesInFill), 'x'), subdivision);
+    for (Note &note : roll) {
+        note.velocity = 20; // TODO: give a little variance above and below? crescendo/decrescendo into next note?
+    }
+    return roll;
+}
+
+Phrase Phrase::withRoll(Position start, Position target) const {
+    if (start >= target) {
+        DBG ("bad input to this guy");
+    }
+    
+    Phrase withRoll(*this);
+    
+    
+    auto availableSubdivisions = subdivisions.byPosition(std::fmod(start.asQuarters(), this->duration.asQuarters()));
+    Subdivision subdivision;
+    if (availableSubdivisions.empty()) {
+        DBG ("No subdivisions :(");
+    } else {
+        subdivision = availableSubdivisions[rand() % availableSubdivisions.size()] / ((double)(rand() % 2) + 2);
+    }
+    
+    vector<Note> rollNotes = roll(target - start, subdivision);
+    withRoll.notes.insert(rollNotes, start, PushBehavior::wrap);
+    
+    return withRoll;
+}
+
 Phrase Phrase::fillInGaps() const {
     Phrase filled(*this);
     filled.notes.monophonic = false;
 //    filled.notes.clear(); // TODO: do this optionally and provide notes on a separate channel?
     
     for (auto note = notes.begin(); note < notes.end(); note++) {
-        auto availableSubdivisions = subdivisions.byPosition(note->startTime);
-        Subdivision subdivision;
-        if (availableSubdivisions.empty()) {
-            DBG ("No subdivisions :(");
-        } else {
-            subdivision = availableSubdivisions[rand() % availableSubdivisions.size()] / 2.;
-        }
+//        auto availableSubdivisions = subdivisions.byPosition(note->startTime);
+//        Subdivision subdivision;
+//        if (availableSubdivisions.empty()) {
+//            DBG ("No subdivisions :(");
+//        } else {
+//            subdivision = availableSubdivisions[rand() % availableSubdivisions.size()] / 2.;
+//        }
     
         auto nextNote = note + 1;
         Position targetNoteStartTime;
@@ -53,33 +91,22 @@ Phrase Phrase::fillInGaps() const {
             targetNoteStartTime = nextNote->startTime;
         }
 
-        // TODO: this should be its own roll-to-target-note function? we can make different kinds of fills and have fill-in-gaps select them randomly
-        // options:
-        // XxxxxxxxX
-        // X...xxxxX = syncoptation == even
-        // X.....xxX = syncopation == swing (higher value means starts later)
-        // X.xxxxxxX = syncopation == wonk (higher value means starts earlier)
-        // syncopation amount: 0-1 - 0 results in even, 1 results in no filler notes.
-        typedef enum Syncopation {
-            wonk = -1, even = 0, swing = 1,
-        } Syncopation;
-        Syncopation syncopation = even;
-        double syncopationAmount = 0.5;
+        Syncopation sync(straight, 0.5);
+        auto roughPlaceToStart = sync.getPlacement(note->startTime, targetNoteStartTime);
+        filled = filled.withRoll(roughPlaceToStart, targetNoteStartTime);
+//        auto subdivisionToStart = sync.getPlacement(note->startTime, targetNoteStartTime, subdivision);
         
-        Position centerBetweenNotes = (note->startTime + targetNoteStartTime) / 2.;
-        Position quantizedCenter = quantize(centerBetweenNotes, subdivision, targetNoteStartTime);
-        double syncopationOffset = syncopation * syncopationAmount * (targetNoteStartTime - quantizedCenter);
-        auto subdivisionToStart = quantize(quantizedCenter + syncopationOffset, subdivision, targetNoteStartTime);
-        double numNotesInFill = (targetNoteStartTime - subdivisionToStart).asBeats() / subdivision.asBeats();
-        if (std::fmod(numNotesInFill, 1.) != 0) {
-            DBG ("something's wrong");
-        }
         
-        Sequence<Note> toInsert = filled.notes.parseMininotation(std::string(floor(numNotesInFill), 'x'), subdivision);
-        for (Note &newNote : toInsert) {
-            newNote.velocity = 20; // TODO: give a little variance above and below? crescendo/decrescendo into next note?
-        }
-        filled.notes.insert(toInsert, subdivisionToStart, PushBehavior::wrap);
+//        double numNotesInFill = (target - start).asBeats() / subdivision.asBeats();
+//    //    double numNotesInFill = (targetNoteStartTime - subdivisionToStart).asBeats() / subdivision.asBeats();
+//        if (std::fmod(numNotesInFill, 1.) != 0) {
+//            DBG ("something's wrong");
+//        }
+//
+//        Sequence<Note> toInsert = filled.notes.parseMininotation(std::string(floor(numNotesInFill), 'x'), subdivision);
+//        for (Note &newNote : toInsert) {
+//            newNote.velocity = 20; // TODO: give a little variance above and below? crescendo/decrescendo into next note?
+//        }
     }
     
     return filled;

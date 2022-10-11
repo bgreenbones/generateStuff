@@ -7,6 +7,8 @@
   <MAINGROUP id="MsxILz" name="generateStuff">
     <GROUP id="{00999AAF-F7D5-2407-527D-4524909F0912}" name="Source">
       <GROUP id="{E84D5FE5-051D-49D6-86AD-21D645F5CBC0}" name="Sequence">
+        <FILE id="gRlJlo" name="Mininotation.cpp" compile="1" resource="0"
+              file="Source/Sequence/Mininotation.cpp"/>
         <FILE id="aCmneZ" name="Mininotation.h" compile="0" resource="0" file="Source/Sequence/Mininotation.h"/>
         <FILE id="bKQjFW" name="Sequence.cpp" compile="1" resource="0" file="Source/Sequence/Sequence.cpp"/>
         <FILE id="oZ2iVA" name="Sequence.h" compile="0" resource="0" file="Source/Sequence/Sequence.h"/>
@@ -20,6 +22,8 @@
               file="Source/Sequence/Ornamentation.cpp"/>
       </GROUP>
       <GROUP id="{7E9EEBA7-7D3A-0165-A4D4-0B38048879EB}" name="Time">
+        <FILE id="fjIcpI" name="Syncopation.cpp" compile="1" resource="0" file="Source/Time/Syncopation.cpp"/>
+        <FILE id="fDVALR" name="Syncopation.h" compile="0" resource="0" file="Source/Time/Syncopation.h"/>
         <FILE id="RsQGR1" name="TimedEvent.h" compile="0" resource="0" file="Source/Time/TimedEvent.h"/>
         <FILE id="rwfToY" name="Duration.cpp" compile="1" resource="0" file="Source/Time/Duration.cpp"/>
         <FILE id="qpYMCJ" name="Duration.h" compile="0" resource="0" file="Source/Time/Duration.h"/>

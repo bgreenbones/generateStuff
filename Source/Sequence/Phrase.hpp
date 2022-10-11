@@ -98,6 +98,7 @@ public:
     // Ornament stuff
     Phrase addOrnaments(vector<OrnamentSimple> possibleOrnaments, float tempo, vector<float> probabilities =  { }) const;
     Phrase addOrnaments(OrnamentSimple ornament, float tempo) const;
+    Phrase withRoll(Position start, Position target) const;
     
     // Mininotation stuff
     Phrase parseMininotation(std::string phraseString, Subdivision subdivision);

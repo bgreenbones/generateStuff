@@ -13,6 +13,11 @@
 #ifndef mininotation_h
 #define mininotation_H
 
+#include <vector>
+#include "Duration.h"
+
+using namespace std;
+
 class Mininotation {
 public:
     // TODO: implement values other than defaults
@@ -81,6 +86,9 @@ public:
     static size_t getLength(std::string const phraseString) {
         return phraseString.size();
     }
+    
+    template <class T>
+    static vector<T> parse(std::string phraseString, Duration stepLength);
 };
 
 # endif
