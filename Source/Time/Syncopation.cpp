@@ -18,9 +18,5 @@ Position Syncopation::getPlacement(Position start, Position target) {
 }
 
 Position Syncopation::getPlacement(Position start, Position target, Subdivision subdivision) {
-//    Position centerBetweenNotes = (start + target) / 2.;
-//    Position quantizedCenter = quantize(centerBetweenNotes, subdivision, target);
-//    double syncopationOffset = this->type * this->amount * (target - quantizedCenter);
-//    return quantize(quantizedCenter + syncopationOffset, subdivision, target);
     return quantize(getPlacement(start, target), subdivision, target);
 }

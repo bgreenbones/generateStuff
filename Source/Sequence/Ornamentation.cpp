@@ -10,8 +10,12 @@
 
 #include "Phrase.hpp"
 #include "Syncopation.h"
+#include "Random.h"
 
-Phrase Phrase::addOrnaments(vector<OrnamentSimple> possibleOrnaments, float tempo, vector<float> probabilities) const{
+
+
+
+Phrase Phrase::addOrnaments(vector<OrnamentSimple> possibleOrnaments, vector<float> probabilities) const{
     bool isAlreadyOrnamented = false; // todo: know this somehow
     if (isAlreadyOrnamented) {
         throw exception();
@@ -19,7 +23,8 @@ Phrase Phrase::addOrnaments(vector<OrnamentSimple> possibleOrnaments, float temp
     Phrase ornamented = (*this);
     for (auto noteIt = notes.begin(); noteIt < notes.end(); noteIt++) {
         if (noteIt->ornamented) {
-            OrnamentSimple ornament = possibleOrnaments[rand() % possibleOrnaments.size()]; // todo: use probabilities map
+//            OrnamentSimple ornament = possibleOrnaments[rollDie(possibleOrnaments.size()) - 1]; // todo: use probabilities map
+            OrnamentSimple ornament = draw<OrnamentSimple>(possibleOrnaments); // todo: use probabilities map
             vector<Note> ornamentNotes = placeOrnamentSimple(*noteIt, ornament);
             for_each(ornamentNotes.begin(), ornamentNotes.end(), [&](Note toAdd) -> void { ornamented.addNote(toAdd); });
         }
@@ -27,8 +32,8 @@ Phrase Phrase::addOrnaments(vector<OrnamentSimple> possibleOrnaments, float temp
     return ornamented;
 }
 
-Phrase Phrase::addOrnaments(OrnamentSimple ornament, float tempo) const {
-    return addOrnaments(vector<OrnamentSimple> { ornament }, tempo);
+Phrase Phrase::addOrnaments(OrnamentSimple ornament) const {
+    return addOrnaments(vector<OrnamentSimple> { ornament });
 }
 
 
@@ -59,7 +64,8 @@ Phrase Phrase::withRoll(Position start, Position target) const {
     if (availableSubdivisions.empty()) {
         DBG ("No subdivisions :(");
     } else {
-        subdivision = availableSubdivisions[rand() % availableSubdivisions.size()] / ((double)(rand() % 2) + 2);
+        auto tuplet = (double) uniformInt(2, 4);
+        subdivision = draw<Subdivision>(availableSubdivisions) / tuplet;
     }
     
     vector<Note> rollNotes = roll(target - start, subdivision);
@@ -74,39 +80,28 @@ Phrase Phrase::fillInGaps() const {
 //    filled.notes.clear(); // TODO: do this optionally and provide notes on a separate channel?
     
     for (auto note = notes.begin(); note < notes.end(); note++) {
-//        auto availableSubdivisions = subdivisions.byPosition(note->startTime);
-//        Subdivision subdivision;
-//        if (availableSubdivisions.empty()) {
-//            DBG ("No subdivisions :(");
-//        } else {
-//            subdivision = availableSubdivisions[rand() % availableSubdivisions.size()] / 2.;
-//        }
-    
-        auto nextNote = note + 1;
-        Position targetNoteStartTime;
-        if (nextNote == this->notes.end()) {
-            nextNote = this->notes.begin();
-            targetNoteStartTime = nextNote->startTime + this->duration;
+        if (flipCoin()) {
+            vector<Note> ornamentNotes = placeOrnamentSimple(*note, draw<OrnamentSimple>({ flam, drag, ruff }));
+            for(auto ornamentNote : ornamentNotes) {
+                if(!filled.addNote(ornamentNote)) {
+                    std::cout << "gotta handle notes at the same time in monophonic sequences";
+                } }
         } else {
-            targetNoteStartTime = nextNote->startTime;
+            auto nextNote = note + 1;
+            Position targetNoteStartTime;
+            if (nextNote == this->notes.end()) {
+                nextNote = this->notes.begin();
+                targetNoteStartTime = nextNote->startTime + this->duration;
+            } else {
+                targetNoteStartTime = nextNote->startTime;
+            }
+            
+            Syncopation sync(draw<SyncopationType>({ straight, swing }),
+                             boundedNormal(0, 1));
+            auto roughPlaceToStart = sync.getPlacement(note->startTime, targetNoteStartTime);
+            filled = filled.withRoll(roughPlaceToStart, targetNoteStartTime);
         }
-
-        Syncopation sync(straight, 0.5);
-        auto roughPlaceToStart = sync.getPlacement(note->startTime, targetNoteStartTime);
-        filled = filled.withRoll(roughPlaceToStart, targetNoteStartTime);
-//        auto subdivisionToStart = sync.getPlacement(note->startTime, targetNoteStartTime, subdivision);
         
-        
-//        double numNotesInFill = (target - start).asBeats() / subdivision.asBeats();
-//    //    double numNotesInFill = (targetNoteStartTime - subdivisionToStart).asBeats() / subdivision.asBeats();
-//        if (std::fmod(numNotesInFill, 1.) != 0) {
-//            DBG ("something's wrong");
-//        }
-//
-//        Sequence<Note> toInsert = filled.notes.parseMininotation(std::string(floor(numNotesInFill), 'x'), subdivision);
-//        for (Note &newNote : toInsert) {
-//            newNote.velocity = 20; // TODO: give a little variance above and below? crescendo/decrescendo into next note?
-//        }
     }
     
     return filled;

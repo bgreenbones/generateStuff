@@ -9,6 +9,7 @@
 */
 
 #include "Phrase.hpp"
+#include "Random.h"
 
 Phrase Phrase::pulseAndDisplace(Duration pulse,
                                   Duration displacement, // 1/3 to displace by a triplet, 1/4 for a sixteenth, etc.
@@ -20,10 +21,8 @@ Phrase Phrase::pulseAndDisplace(Duration pulse,
     resultPhrase.notes.clear();
     Sequence<Note> &sequence = resultPhrase.notes;
     
-    bernoulli_distribution displaceCoin(pDisplace);
-    auto decideToDisplace = [&]() { return displaceCoin(resultPhrase.gen); };
-    bernoulli_distribution doubleCoin(pDouble);
-    auto decideToDouble = [&]() { return doubleCoin(resultPhrase.gen); };
+    auto decideToDisplace = [&]() { return flipWeightedCoin(pDisplace); };
+    auto decideToDouble = [&]() { return flipWeightedCoin(pDouble); };
     
     
 // VERSION 3:

@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <JuceHeader.h>
 #include "Phrase.hpp"
-
+#include "Random.h"
 
 
 void applyCascaraAccents(Sequence<Note> &cascara, Duration displacement) {
@@ -68,15 +68,14 @@ Phrase Phrase::randomClave() const {
     auto sideLength = length / 2.0;
     int maxNumNotes = floor(length / minNoteLength);
     int minNumNotes = ceil(length / maxNoteLength);
-    const auto numNotesRange = maxNumNotes - minNumNotes;
-    auto numNotesTemp = (rand() % numNotesRange) + minNumNotes; // todo: parameterize, but keep random option
+    auto numNotesTemp = uniformInt(minNumNotes, maxNumNotes); // todo: parameterize, but keep random option
     if (numNotesTemp % 2 == 0) { // force odd nums for 2-3, 3-2, 3-4, 4-3, etc.
         if (numNotesTemp + 1 > maxNumNotes) {
             numNotesTemp--;
         } else if (numNotesTemp - 1 < minNumNotes) {
             numNotesTemp++;
         } else {
-            if (rand() % 3) { // more likely to subtract - gives more space to rhythms
+            if (rollDie(3) != 1) { // more likely to subtract - gives more space to rhythms
                 numNotesTemp--;
             } else {
                 numNotesTemp++;
@@ -87,7 +86,7 @@ Phrase Phrase::randomClave() const {
     
     // choose which side gets how many notes
     // one rule: can't have same # on each side
-    bool moreOnLeft = rand() % 2;
+    bool moreOnLeft = flipCoin();
     auto notesOnLeft = floor (float(numNotes) / 2.0);
     auto notesOnRight = ceil (float(numNotes) / 2.0);
     if (moreOnLeft) {
@@ -109,7 +108,7 @@ Phrase Phrase::randomClave() const {
     do {
         constraintsBroken = false;
         clave.notes.clear();
-        float notePosition = (rand() % maxNoteLengthInSubdivisions) * subdivision;
+        float notePosition = subdivision * (rollDie(maxNoteLengthInSubdivisions) - 1);
         for (int noteInd = 0; noteInd < numNotes; noteInd++) {
 //            std::string notation = "X";
 //            auto setNotationLength = [&notation](int notationLength) {
@@ -137,7 +136,7 @@ Phrase Phrase::randomClave() const {
                     break;
                 }
             } else {
-                auto randomNum = randomNoteLengthInSubdivisions(clave.gen);
+                auto randomNum = randomNoteLengthInSubdivisions(getGen());
                 note.duration = randomNum * subdivision;
                 notePosition += note.duration;
             }
@@ -193,7 +192,7 @@ Phrase Phrase::cascaraFromClave() const {
             if (subdivisionsSinceLastCascaraNote == 0.) { // x . x
                 cascara.notes.append(".x", subdivision, PushBehavior::wrap);
             } else if (subdivisionsSinceLastCascaraNote == 1.0) {
-                if (rand() % 2) { // . x x
+                if (flipCoin()) { // . x x
                     cascara.notes.append(".xx", subdivision, PushBehavior::wrap);
                 } else { // x . x
                     cascara.notes.append("x.x", subdivision, PushBehavior::wrap);
@@ -203,12 +202,12 @@ Phrase Phrase::cascaraFromClave() const {
             }
         } else if (subdivisionsBetweenClaveNotes == 3.) {
             if (subdivisionsSinceLastCascaraNote == 0.) { // this note already hit. just add next note.
-                auto choice = rand() % 3;
-                if (choice == 0) { // x x . x
+                auto choice = rollDie(3);
+                if (choice == 1) { // x x . x
                     cascara.notes.append("x.x", subdivision, PushBehavior::wrap);
-                } else if (choice == 1) { // x . x x
+                } else if (choice == 2) { // x . x x
                     cascara.notes.append(".xx", subdivision, PushBehavior::wrap);
-                } else if (choice == 2) { // x . x . misses next note!!
+                } else if (choice == 3) { // x . x . misses next note!!
                     cascara.notes.append(".x.", subdivision, PushBehavior::wrap);
                 }
             } else if (subdivisionsSinceLastCascaraNote == 1.0) {
@@ -219,17 +218,15 @@ Phrase Phrase::cascaraFromClave() const {
             }
         } else if (subdivisionsBetweenClaveNotes == 4.) {
             if (subdivisionsSinceLastCascaraNote == 0.) { // this note already hit.
-                auto choice = rand() % 2;
-                if (choice == 0) { // x . x . x
+                if (flipCoin()) { // x . x . x
                     cascara.notes.append(".x.x", subdivision, PushBehavior::wrap);
-                } else if (choice == 1) { // x x . x x
+                } else { // x x . x x
                     cascara.notes.append("x.xx", subdivision, PushBehavior::wrap);
                 }
             } else if (subdivisionsSinceLastCascaraNote == 1.0) {
-                auto choice = rand() % 2;
-                if (choice == 0) { // // . x x . x
+                if (flipCoin()) { // // . x x . x
                     cascara.notes.append(".xx.x", subdivision, PushBehavior::wrap);
-                } else if (choice == 1) { // . x . x x
+                } else { // . x . x x
                     cascara.notes.append(".x.xx", subdivision, PushBehavior::wrap);
                 }
             } else {
@@ -486,14 +483,14 @@ Phrase Phrase::claveFromCascara() const {
     int minNumNotes = ceil(phraseLength / maxNoteLength);
     auto numNotesRange = maxNumNotes - minNumNotes;
     if (numNotesRange <= 0) { throw exception(); }
-    auto numNotes = (rand() % numNotesRange) + minNumNotes; // todo: parameterize, but keep random option
+    auto numNotes = uniformInt(minNumNotes, maxNumNotes); // todo: parameterize, but keep random option
     if (numNotes % 2 == 0) { // force odd nums for 2-3, 3-2, 3-4, 4-3, etc.
         if (numNotes + 1 > maxNumNotes) {
             numNotes--;
         } else if (numNotes - 1 < minNumNotes) {
             numNotes++;
         } else {
-            if (rand() % 3) { // more likely to subtract - gives more space to rhythms
+            if (rollDie(3) == 1) { // more likely to subtract - gives more space to rhythms
                 numNotes--;
             } else {
                 numNotes++;
@@ -504,7 +501,7 @@ Phrase Phrase::claveFromCascara() const {
     
     // choose which side gets how many notes
     // one rule: can't have same # on each side
-    bool moreOnLeft = rand() % 2;
+    bool moreOnLeft = flipCoin();
     auto notesOnLeft = floor (float(numNotes) / 2.0);
     auto notesOnRight = ceil (float(numNotes) / 2.0);
     if (moreOnLeft) {
@@ -536,7 +533,7 @@ Phrase Phrase::claveFromCascara() const {
             Note note = Note();
             if (notesNeededOnLeft > 0) {
                 if (isNoteOnLeft) {
-                    if (rand() % 2) { // todo: check previous note's time and make it more likely the longer it gets, and definitely not if it's 1 subdivision since last note
+                    if (flipCoin()) { // todo: check previous note's time and make it more likely the longer it gets, and definitely not if it's 1 subdivision since last note
                         note.startTime = noteIt->startTime;
                         note.accented = true;
                         note.ornamented = 0.5; // todo: don't just make accented notes ornamented.
@@ -551,7 +548,7 @@ Phrase Phrase::claveFromCascara() const {
             
             if (notesNeededOnRight > 0) {
                 if (!isNoteOnLeft) {
-                    if (rand() % 2) { // todo: check previous note's time and make it more likely the longer it gets, and definitely not if it's 1 subdivision since last note
+                    if (flipCoin()) { // todo: check previous note's time and make it more likely the longer it gets, and definitely not if it's 1 subdivision since last note
                         note.startTime = noteIt->startTime;
                         note.accented = true;
                         note.ornamented = 0.5;

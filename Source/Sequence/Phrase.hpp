@@ -23,14 +23,9 @@ using namespace std;
 
 class Phrase: public TimedEvent
 {
-private:
-    void initialize_random() {
-        gen = mt19937(rd());
-    }
 public:
     Phrase(Duration subdivision, Position startTime, Duration duration):
     TimedEvent(startTime, duration), notes(*this), subdivisions(*this) {//}, subdivisions({ Subdivision(subdivision, startTime, duration) }) {
-        initialize_random();
         this->subdivisions.add(Subdivision(subdivision, startTime, duration));
 //        vector<Subdivision> newVec;
 //        newVec.push_back(Subdivision(subdivision, startTime, duration));
@@ -40,20 +35,14 @@ public:
     Phrase(Duration duration): Phrase(Beats(0.25), 0, duration) {}
     Phrase(): Phrase(Beats(0.25), 0, Bars(2)) {}
 //    Phrase(Rhythm rhythm, Phrase phrasing);
-    Phrase(Phrase const& other): TimedEvent(other), notes(other.notes), subdivisions(other.subdivisions) {
-        initialize_random();
-    };
+    Phrase(Phrase const& other): TimedEvent(other), notes(other.notes), subdivisions(other.subdivisions) {};
 
     Phrase& operator=(Phrase other) {
         TimedEvent::operator=(other);
-        initialize_random();
         swap(notes, other.notes);
         swap(subdivisions, other.subdivisions);
         return *this;
     };
-
-    random_device rd; // todo: pull this stuff out into a singleton class that everyone uses?
-    mt19937 gen;
     
     Sequence<Note> notes;
     Sequence<Subdivision> subdivisions;
@@ -96,8 +85,8 @@ public:
     
     
     // Ornament stuff
-    Phrase addOrnaments(vector<OrnamentSimple> possibleOrnaments, float tempo, vector<float> probabilities =  { }) const;
-    Phrase addOrnaments(OrnamentSimple ornament, float tempo) const;
+    Phrase addOrnaments(vector<OrnamentSimple> possibleOrnaments, vector<float> probabilities =  { }) const;
+    Phrase addOrnaments(OrnamentSimple ornament) const;
     Phrase withRoll(Position start, Position target) const;
     
     // Mininotation stuff

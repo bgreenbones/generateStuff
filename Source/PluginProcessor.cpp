@@ -36,6 +36,7 @@ GenerateStuffAudioProcessor::GenerateStuffAudioProcessor()
         }
     }
     
+    srand((int) time(0));
 }
 
 GenerateStuffAudioProcessor::~GenerateStuffAudioProcessor()
