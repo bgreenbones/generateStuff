@@ -84,10 +84,10 @@ public:
     Phrase claveFromCascara() const;
     
     
-    // Ornament stuff
+    // Ornament stuff - TODO: i don't think these really belong in Phrase class
     Phrase addOrnaments(vector<OrnamentSimple> possibleOrnaments, vector<float> probabilities =  { }) const;
     Phrase addOrnaments(OrnamentSimple ornament) const;
-    Phrase withRoll(Position start, Position target) const;
+    Phrase withRoll(Position start, Position target, Association association) const;
     
     // Mininotation stuff
     Phrase parseMininotation(std::string phraseString, Subdivision subdivision);

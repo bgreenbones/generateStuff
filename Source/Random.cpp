@@ -24,7 +24,7 @@ std::mt19937 &getGen() {
 }
 
 int uniformInt(int min, int max) {
-    if (min >= max) {
+    if (min > max) {
         std::cout << "nonsensical random call";
     }
     int possibleNumbers = max - min + 1;
@@ -33,7 +33,7 @@ int uniformInt(int min, int max) {
 }
 
 int rollDie(int sides) {
-    if (sides <= 1) {
+    if (sides < 1) {
         std::cout << "nonsensical random call";
     }
     return uniformInt(1, sides);
@@ -55,8 +55,9 @@ double boundedNormal(double min, double max, double thickness) { // thickness = 
         std::cout << "nonsensical random call";
     }
     double mean = (min + max) / 2.;
-    double denominator = (1 - thickness) * 5 + 1; // max is 6 ... 3 std devs to either side gives 99% of results
-    double stdDev = (max - min) / denominator;
+//    double denominator = (1 - thickness) * 5 + 1; // max is 6 ... 3 std devs to either side gives 99% of results
+//    double stdDev = (max - min) / denominator;
+    double stdDev = ((max - min) - 1) * thickness + 1;
     double choice = normal_distribution<double>(mean, stdDev)(gen);
     return std::max(std::min(choice, max), min);
 }
@@ -66,10 +67,13 @@ template <class T>
 T draw(std::vector<T> hat) {
     if (hat.size() == 0) {
         std::cout << "real problem here";
+        return T();
     }
-    return hat[rollDie((int) hat.size() - 1)];
+    return hat[rollDie((int) hat.size()) - 1];
 }
 
 template OrnamentSimple draw<OrnamentSimple>(std::vector<OrnamentSimple> hat);
 template Subdivision draw<Subdivision>(std::vector<Subdivision> hat);
 template SyncopationType draw<SyncopationType>(std::vector<SyncopationType> hat);
+template Association draw<Association>(std::vector<Association> hat);
+template Note draw<Note>(std::vector<Note> hat);

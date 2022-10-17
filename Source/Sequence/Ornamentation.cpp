@@ -23,7 +23,6 @@ Phrase Phrase::addOrnaments(vector<OrnamentSimple> possibleOrnaments, vector<flo
     Phrase ornamented = (*this);
     for (auto noteIt = notes.begin(); noteIt < notes.end(); noteIt++) {
         if (noteIt->ornamented) {
-//            OrnamentSimple ornament = possibleOrnaments[rollDie(possibleOrnaments.size()) - 1]; // todo: use probabilities map
             OrnamentSimple ornament = draw<OrnamentSimple>(possibleOrnaments); // todo: use probabilities map
             vector<Note> ornamentNotes = placeOrnamentSimple(*noteIt, ornament);
             for_each(ornamentNotes.begin(), ornamentNotes.end(), [&](Note toAdd) -> void { ornamented.addNote(toAdd); });
@@ -37,7 +36,7 @@ Phrase Phrase::addOrnaments(OrnamentSimple ornament) const {
 }
 
 
-
+int rollVelocity = 40;
 vector<Note> roll(Duration length, Subdivision subdivision) {
     double numNotesInFill = length.asQuarters() / subdivision.asQuarters();
     if (std::fmod(numNotesInFill, 1.) != 0) {
@@ -46,31 +45,50 @@ vector<Note> roll(Duration length, Subdivision subdivision) {
     
     vector<Note> roll = Mininotation::parse<Note>(std::string(floor(numNotesInFill), 'x'), subdivision);
     for (Note &note : roll) {
-        note.velocity = 20; // TODO: give a little variance above and below? crescendo/decrescendo into next note?
+        note.pitch += 12; // TODO: idk
+        note.isOrnament = true;
+        note.velocity = rollVelocity; // TODO: give a little variance above and below? crescendo/decrescendo into next note?
     }
     return roll;
 }
 
-Phrase Phrase::withRoll(Position start, Position target) const {
+
+
+
+// TODO: pick up and rebound can refer to other structures too...not just rolls....
+Phrase Phrase::withRoll(Position start, Position target, Association association) const {
     if (start >= target) {
         DBG ("bad input to this guy");
     }
     
     Phrase withRoll(*this);
+    double tuplet = (double) uniformInt(2, 4);
+    Duration subdivision = subdivisions.drawByPosition(start % this->duration) / tuplet;
     
-    
-    auto availableSubdivisions = subdivisions.byPosition(std::fmod(start.asQuarters(), this->duration.asQuarters()));
-    Subdivision subdivision;
-    if (availableSubdivisions.empty()) {
-        DBG ("No subdivisions :(");
-    } else {
-        auto tuplet = (double) uniformInt(2, 4);
-        subdivision = draw<Subdivision>(availableSubdivisions) / tuplet;
+    vector<Note> rollNotes;
+    switch (association) {
+        case pickup:
+            start = quantize(start, subdivision, target);
+            rollNotes = roll(target - start, subdivision);
+            rollNotes = applyDynamics(rollNotes, 1, rollVelocity); // crescendo
+            break;
+        case rebound:
+            start += subdivision;
+            target = quantize(target, subdivision, start);
+            rollNotes = roll(target - start, subdivision);
+            rollNotes = applyDynamics(rollNotes, rollVelocity, 1); // decrescendo
+            break;
+        default:
+            cout << "you added more associations without thinking about this.";
+            break;
     }
     
-    vector<Note> rollNotes = roll(target - start, subdivision);
-    withRoll.notes.insert(rollNotes, start, PushBehavior::wrap);
     
+    if (start >= target) {
+        DBG ("input to this guy was made bad.");
+    }
+    
+    withRoll.notes.insert(rollNotes, start, PushBehavior::wrap);
     return withRoll;
 }
 
@@ -80,13 +98,14 @@ Phrase Phrase::fillInGaps() const {
 //    filled.notes.clear(); // TODO: do this optionally and provide notes on a separate channel?
     
     for (auto note = notes.begin(); note < notes.end(); note++) {
-        if (flipCoin()) {
-            vector<Note> ornamentNotes = placeOrnamentSimple(*note, draw<OrnamentSimple>({ flam, drag, ruff }));
-            for(auto ornamentNote : ornamentNotes) {
-                if(!filled.addNote(ornamentNote)) {
-                    std::cout << "gotta handle notes at the same time in monophonic sequences";
-                } }
-        } else {
+//        if (flipCoin()) {
+//            vector<Note> ornamentNotes = placeOrnamentSimple(*note, draw<OrnamentSimple>({ flam, drag, ruff }));
+//            for(auto ornamentNote : ornamentNotes) {
+//                if(!filled.addNote(ornamentNote)) {
+//                    std::cout << "gotta handle notes at the same time in monophonic sequences";
+//                }
+//            }
+//        } else {
             auto nextNote = note + 1;
             Position targetNoteStartTime;
             if (nextNote == this->notes.end()) {
@@ -96,13 +115,15 @@ Phrase Phrase::fillInGaps() const {
                 targetNoteStartTime = nextNote->startTime;
             }
             
-            Syncopation sync(draw<SyncopationType>({ straight, swing }),
-                             boundedNormal(0, 1));
-            auto roughPlaceToStart = sync.getPlacement(note->startTime, targetNoteStartTime);
-            filled = filled.withRoll(roughPlaceToStart, targetNoteStartTime);
+            Association association = draw<Association>({ pickup, rebound });
+            Syncopation sync(association == pickup ? wonk : swing, boundedNormal(0, 1, 0.5)); // going for long rolls, for now.
+            Position roughPlace = sync.getPlacement(note->startTime, targetNoteStartTime);
+//            Position roughPlace = boundedNormal(note->startTime, targetNoteStartTime, 0.5);
+            Position start = association == pickup ? roughPlace : note->startTime;
+            Position end = association == rebound ? roughPlace : targetNoteStartTime;
+            filled = filled.withRoll(start, end, association);
         }
-        
-    }
+//    }
     
     return filled;
 }

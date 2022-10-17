@@ -12,6 +12,7 @@
 #include <JuceHeader.h>
 #include "Mininotation.h"
 #include "Note.hpp"
+#include "Random.h"
 
 template <class T>
 void Sequence<T>::updateTimeSignature() {
@@ -230,6 +231,39 @@ vector<T> Sequence<T>::byPosition(Position position) const {
     }
     return result;
 };
+
+template<class T>
+T Sequence<T>::drawByPosition(Position position) const {
+    auto available = this->byPosition(position);
+    Subdivision subdivision;
+    if (available.empty()) {
+        DBG ("Nothing to draw from :(");
+        return T();
+    }
+    return draw<T>(available);
+}
+
+
+std::string doubleToString(double d) {
+    char s[20];
+    sprintf(s,"%.2f",d);
+    return std::string(s);
+}
+
+template<class T>
+std::string Sequence<T>::getStartTimesString() {
+    std::string startTimesString;
+    std::string delimiter(", ");
+    
+    for (auto eventIt = this->events.begin(); eventIt < this->events.end(); eventIt++) {
+        startTimesString.append(doubleToString(eventIt->startTime.asBeats()));
+        if (eventIt + 1 != this->events.end()) {
+          startTimesString.append(delimiter);
+        }
+    }
+    
+    return startTimesString;
+}
 
 
 template class Sequence<Note>;

@@ -10,7 +10,7 @@
 
 #pragma once
 
-
+#include <string>
 #include "TimedEvent.h"
 #include "Subdivision.h"
 
@@ -42,6 +42,7 @@ public:
     vector<T> events;
     T primary() const { return longest<T>(events); }
     vector<T> byPosition(Position position) const;
+    T drawByPosition(Position position) const;
     
     void updateTimeSignature();
     
@@ -62,6 +63,8 @@ public:
     Sequence parseMininotation(std::string phraseString, Duration stepLength);
     bool append(std::string phraseString, Duration stepLength, PushBehavior pushBehavior = PushBehavior::ignore);
     
+    // 'visualization' / debugging
+    std::string getStartTimesString();
     
     
     // call throughs... ... maybe this should just inherit from vector...

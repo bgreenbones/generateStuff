@@ -61,16 +61,19 @@ public:
     Duration operator*(const double other) { return Duration(this->durationValueInQuarters * other, this->timeSignature); }
     Duration operator/(const Duration other) { return Duration(this->asQuarters() / other.asQuarters(), this->timeSignature); }
     Duration operator/(const double other) { return Duration(this->durationValueInQuarters / other, this->timeSignature); }
-//    Duration operator%(const Duration other) { return Duration(fmodf(this->asQuarters(), other.asQuarters()), this->timeSignature); }
-//    Duration operator%(const double other) { return Duration(fmodf(this->value, other), this->timeSignature); }
+    Duration operator%(const Duration other) { return Duration(fmodf(this->asQuarters(), other.asQuarters()), this->timeSignature); }
+    Duration operator%(const double other) { return Duration(fmodf(this->asQuarters(), other), this->timeSignature); }
 //    Duration& operator++() { return (*this) + 1.0; }
     Duration operator++(int) { return (*this) + 1.0; }
 //    Duration& operator--() { return &((*this) - 1.0); }
     Duration operator--(int) { return (*this) - 1.0; }
-    
-    Duration& operator+=(const Duration& other){
-          this->durationValueInQuarters += other.durationValueInQuarters;
-          return *this;
+    Duration operator+=(Duration other) {
+      this->durationValueInQuarters += other.asQuarters();
+      return *this;
+    }
+    Duration operator-=(Duration other) {
+      this->durationValueInQuarters -= other.asQuarters();
+      return *this;
     }
 
     beats beatsInLastBar() const { return asBeats() - wholeBars() * timeSignature.numerator; }

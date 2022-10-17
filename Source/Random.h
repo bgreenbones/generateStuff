@@ -20,5 +20,5 @@ bool flipCoin();
 bool flipWeightedCoin(double pTrue);
 double boundedNormal(double min, double max, double thickness = 0);
 
-template <class T>
+template <typename T>
 T draw(std::vector<T> hat);

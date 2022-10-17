@@ -78,7 +78,8 @@ Playable Generator::claveFromCascara() {
 
 Playable Generator::fillClave() {
     updateTimeSignature();
-    auto tempPhrase = clavePhrase.fillInGaps();
-    Playable result = Playable(tempPhrase, 2);
+    auto filled = clavePhrase.fillInGaps();
+    std::string startTimes = filled.notes.getStartTimesString();
+    Playable result = Playable(filled, 2);
     return result;
 }

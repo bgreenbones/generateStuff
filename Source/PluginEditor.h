@@ -35,11 +35,22 @@ private:
     GenerateStuffAudioProcessor& audioProcessor;
     
     juce::Slider probabilityOfDouble;
-    juce::TextButton randomCascaraButton;
-    juce::TextButton randomClaveButton;
-    juce::TextButton cascaraFromClaveButton;
-    juce::TextButton claveFromCascaraButton;
-    juce::TextButton fillClaveButton;
+    juce::TextButton randomCascaraButton { "casc "};
+    juce::TextButton randomClaveButton { "clav" };
+    juce::TextButton cascaraFromClaveButton { "clv->cas" };
+    juce::TextButton claveFromCascaraButton { "cas->clv" };
+    juce::TextButton selectCascaraButton { "casc" };
+    juce::TextButton selectClaveButton { "clav" };
+    juce::TextButton addRollsButton { "rolls" };
+    juce::Slider rollProbability;
+    juce::Slider rollAssociation;
+    juce::Slider rollLength;
+    juce::TextButton addOrnamentsButton { "orns" };
+    juce::TextButton flamButton { "flam" };
+    juce::TextButton dragButton { "drag" };
+    juce::TextButton ruffButton { "ruff" };
+    juce::Slider ornamentProbability;
+    juce::Slider ornamentBreadth;
     juce::TextButton subDivButton1 { "1/1" };
     juce::TextButton subDivButton2 { "1/2" };
     juce::TextButton subDivButton3 { "1/3" };
@@ -58,5 +69,9 @@ private:
     juce::TextEditor phraseLengthBeats;
     void updatePhraseLengthState();
 
+    int xPadding = 20;
+    int yPadding = 20;
+    int decorationDividerX = -1;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GenerateStuffAudioProcessorEditor)
 };

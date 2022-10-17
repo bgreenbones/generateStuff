@@ -79,5 +79,18 @@ vector<Note> placeOrnamentSimple(Note ornamented, OrnamentSimple ornament);
 //Phrase ornamentPhrase(Phrase phrase, vector<OrnamentSimple> possibleOrnaments, float tempo, vector<float> probabilities =  { });
 //Phrase ornamentPhrase(Phrase phrase, OrnamentSimple ornament, float tempo);
 
-
 Position quantize(Position toQuantize, Duration quantizeGrid, Position relativeTo = 0);
+
+typedef enum Association {
+    pickup, rebound
+} Association;
+
+
+
+
+// shaping - want to be generic over pitch, velocity, pressure, generic CC, uhhhh note length, uh,, other stuff, idk
+vector<Note> applyDynamics(vector<Note> source,
+                           int originVelocity,
+                           int targetVelocity);
+
+
