@@ -14,13 +14,21 @@
 
 
 
-
+//        if (flipCoin()) {
+//            vector<Note> ornamentNotes = placeOrnamentSimple(*note, draw<OrnamentSimple>({ flam, drag, ruff }));
+//            for(auto ornamentNote : ornamentNotes) {
+//                if(!filled.addNote(ornamentNote)) {
+//                    std::cout << "gotta handle notes at the same time in monophonic sequences";
+//                }
+//            }
+//        } else {
 Phrase Phrase::addOrnaments(vector<OrnamentSimple> possibleOrnaments, vector<float> probabilities) const{
     bool isAlreadyOrnamented = false; // todo: know this somehow
     if (isAlreadyOrnamented) {
         throw exception();
     }
     Phrase ornamented = (*this);
+    ornamented.notes.clear();
     for (auto noteIt = notes.begin(); noteIt < notes.end(); noteIt++) {
         if (noteIt->ornamented) {
             OrnamentSimple ornament = draw<OrnamentSimple>(possibleOrnaments); // todo: use probabilities map
@@ -92,38 +100,29 @@ Phrase Phrase::withRoll(Position start, Position target, Association association
     return withRoll;
 }
 
-Phrase Phrase::fillInGaps() const {
+Phrase Phrase::fillWithRolls() const {
     Phrase filled(*this);
     filled.notes.monophonic = false;
-//    filled.notes.clear(); // TODO: do this optionally and provide notes on a separate channel?
+    filled.notes.clear();
     
     for (auto note = notes.begin(); note < notes.end(); note++) {
-//        if (flipCoin()) {
-//            vector<Note> ornamentNotes = placeOrnamentSimple(*note, draw<OrnamentSimple>({ flam, drag, ruff }));
-//            for(auto ornamentNote : ornamentNotes) {
-//                if(!filled.addNote(ornamentNote)) {
-//                    std::cout << "gotta handle notes at the same time in monophonic sequences";
-//                }
-//            }
-//        } else {
-            auto nextNote = note + 1;
-            Position targetNoteStartTime;
-            if (nextNote == this->notes.end()) {
-                nextNote = this->notes.begin();
-                targetNoteStartTime = nextNote->startTime + this->duration;
-            } else {
-                targetNoteStartTime = nextNote->startTime;
-            }
-            
-            Association association = draw<Association>({ pickup, rebound });
-            Syncopation sync(association == pickup ? wonk : swing, boundedNormal(0, 1, 0.5)); // going for long rolls, for now.
-            Position roughPlace = sync.getPlacement(note->startTime, targetNoteStartTime);
-//            Position roughPlace = boundedNormal(note->startTime, targetNoteStartTime, 0.5);
-            Position start = association == pickup ? roughPlace : note->startTime;
-            Position end = association == rebound ? roughPlace : targetNoteStartTime;
-            filled = filled.withRoll(start, end, association);
+        auto nextNote = note + 1;
+        Position targetNoteStartTime;
+        if (nextNote == this->notes.end()) {
+            nextNote = this->notes.begin();
+            targetNoteStartTime = nextNote->startTime + this->duration;
+        } else {
+            targetNoteStartTime = nextNote->startTime;
         }
-//    }
+        
+        Association association = draw<Association>({ pickup, rebound });
+        Syncopation sync(association == pickup ? wonk : swing, boundedNormal(0, 1, 0.5)); // going for long rolls, for now.
+        Position roughPlace = sync.getPlacement(note->startTime, targetNoteStartTime);
+//            Position roughPlace = boundedNormal(note->startTime, targetNoteStartTime, 0.5);
+        Position start = association == pickup ? roughPlace : note->startTime;
+        Position end = association == rebound ? roughPlace : targetNoteStartTime;
+        filled = filled.withRoll(start, end, association);
+    }
     
     return filled;
 }

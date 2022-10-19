@@ -73,7 +73,7 @@ public:
                               Duration displacement = 0.25,
                               Probability pDisplace = 0.5,
                               Probability pDouble = 0.75) const; // (for forward displacement, set pDouble = 1 and displacement = 1 - amount to displace forward)
-    Phrase fillInGaps() const;
+    Phrase fillWithRolls() const;
     Phrase chooseAccents() const;
     
     // Latin.cpp

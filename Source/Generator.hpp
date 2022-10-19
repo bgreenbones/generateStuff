@@ -33,12 +33,18 @@ public:
     Subdivision subdivision = Subdivision(Beats(defaultSubdivision), phraseStartTime, phraseLength());
     Duration phraseLength() { return Bars(phraseLengthBars) + Beats(phraseLengthBeats); }
     
+    int cascaraChannel = 1;
+    int claveChannel = 2;
+    
     Playable cascara();
     Playable clave();
     Playable claveFromCascara();
     Playable cascaraFromClave();
-    Playable fillClave();
-    
+    Playable rollCascara();
+    Playable rollClave();
+    Playable ornamentCascara(bool flams, bool drags, bool ruffs);
+    Playable ornamentClave(bool flams, bool drags, bool ruffs);
+
     bool setSubdivision(const float subdivision);
     bool setPhraseLengthBars(const float bars);
     bool setPhraseLengthBeats(const float beats);

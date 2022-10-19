@@ -19,7 +19,7 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (600, 300);
+    setSize (800, 300);
     
     probabilityOfDouble.setSliderStyle (juce::Slider::LinearBarVertical);
     probabilityOfDouble.setRange (0.0, 1.0, 0.01);
@@ -55,10 +55,11 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     addAndMakeVisible (&cascaraFromClaveButton);
     cascaraFromClaveButton.addListener(this);
     
-    addRollsButton.setTitle(fillClaveName);
-    addRollsButton.setName(fillClaveName);
+    addRollsButton.onClick = [this]() {
+        selectCascaraButton.isEnabled() ?
+        audioProcessor.queuePlayable(cascaraRollsKey, audioProcessor.generator.rollCascara()) :
+        audioProcessor.queuePlayable(claveRollsKey, audioProcessor.generator.rollClave()); };
     addAndMakeVisible (&addRollsButton);
-    addRollsButton.addListener(this);
 
     int subdivisionGroupId = 1832; // just some number
     for (float subdivisionDenominator = 1; subdivisionDenominator <= 9; subdivisionDenominator++) {
@@ -86,19 +87,35 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     phraseLengthBars.setText(barsString);
     phraseLengthBeats.setText(beatsString);
     
+    
+    clearCascaraButton.onClick = [this]() {audioProcessor.removePlayable(cascaraKey); };
+    addAndMakeVisible(&clearCascaraButton);
+    clearClaveButton.onClick = [this]() {audioProcessor.removePlayable(claveKey); };
+    addAndMakeVisible(&clearClaveButton);
+    clearRollsButton.onClick = [this]() {
+        selectCascaraButton.isEnabled() ?
+        audioProcessor.removePlayable(cascaraRollsKey) :
+        audioProcessor.removePlayable(claveRollsKey); };
+    addAndMakeVisible(&clearRollsButton);
+    clearOrnamentsButton.onClick = [this]() {        selectCascaraButton.isEnabled() ?
+        audioProcessor.removePlayable(cascaraOrnamentsKey) :
+        audioProcessor.removePlayable(claveOrnamentsKey); };
+    addAndMakeVisible(&clearOrnamentsButton);
+    
+
     auto testOnClick = [] { return; };
 //    auto testOnClick = [&] { audioProcessor.queuePlayable(audioProcessor.generator.claveFromCascara()); };
     int selectRhythmGroupId = 98374; // random
     selectCascaraButton.setRadioGroupId(selectRhythmGroupId);
     selectCascaraButton.setClickingTogglesState(true);
     selectCascaraButton.setToggleState(false, juce::dontSendNotification);
-    selectCascaraButton.onClick = [this]() { audioProcessor.queuePlayable(audioProcessor.generator.cascara()); };
+//    selectCascaraButton.onClick = [this]() { audioProcessor.queuePlayable(cascaraKey, audioProcessor.generator.cascara()); };
     addAndMakeVisible (&selectCascaraButton);
     
     selectClaveButton.setRadioGroupId(selectRhythmGroupId);
     selectClaveButton.setClickingTogglesState(true);
     selectClaveButton.setToggleState(false, juce::dontSendNotification);
-    selectClaveButton.onClick = testOnClick;
+//    selectClaveButton.onClick = testOnClick;
     addAndMakeVisible(&selectClaveButton);
     
     rollProbability.onValueChange = testOnClick;
@@ -107,7 +124,7 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     rollProbability.setRange (0.0, 1.0, 0.01);
     rollProbability.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
     rollProbability.setPopupDisplayEnabled (true, false, this);
-    rollProbability.setTextValueSuffix ("p(roll)");
+    rollProbability.setTextValueSuffix (" p(roll)");
     rollProbability.setValue(1.0);
     
     rollAssociation.onValueChange = testOnClick;
@@ -116,7 +133,7 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     rollAssociation.setRange (0.0, 1.0, 0.01);
     rollAssociation.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
     rollAssociation.setPopupDisplayEnabled (true, false, this);
-    rollAssociation.setTextValueSuffix ("roll association");
+    rollAssociation.setTextValueSuffix (" roll association");
     rollAssociation.setValue(0.5);
     
     rollLength.onValueChange = testOnClick;
@@ -125,11 +142,9 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     rollLength.setRange (0.0, 1.0, 0.01);
     rollLength.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
     rollLength.setPopupDisplayEnabled (true, false, this);
-    rollLength.setTextValueSuffix ("roll length");
+    rollLength.setTextValueSuffix (" roll length");
     rollLength.setValue(0.5);
     
-    addOrnamentsButton.onClick = testOnClick;
-    addAndMakeVisible(&addOrnamentsButton);
     flamButton.setClickingTogglesState(true);
     flamButton.setToggleState(false, juce::dontSendNotification);
     flamButton.onClick = testOnClick;
@@ -142,6 +157,13 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     ruffButton.setToggleState(false, juce::dontSendNotification);
     ruffButton.onClick = testOnClick;
     addAndMakeVisible(&ruffButton);
+    addOrnamentsButton.onClick = [this]() {
+        selectCascaraButton.isEnabled() ?
+        audioProcessor.queuePlayable(cascaraOrnamentsKey,
+                                     audioProcessor.generator.ornamentCascara(flamButton.isEnabled(), dragButton.isEnabled(), ruffButton.isEnabled())) :
+        audioProcessor.queuePlayable(claveOrnamentsKey,
+                                     audioProcessor.generator.ornamentClave(flamButton.isEnabled(), dragButton.isEnabled(), ruffButton.isEnabled())); };
+    addAndMakeVisible(&addOrnamentsButton);
 
     ornamentProbability.onValueChange = testOnClick;
     addAndMakeVisible(&ornamentProbability);
@@ -149,7 +171,7 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     ornamentProbability.setRange (0.0, 1.0, 0.01);
     ornamentProbability.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
     ornamentProbability.setPopupDisplayEnabled (true, false, this);
-    ornamentProbability.setTextValueSuffix ("ornament probability");
+    ornamentProbability.setTextValueSuffix (" ornament probability");
     ornamentProbability.setValue(0.3);
     
     ornamentBreadth.onValueChange = testOnClick;
@@ -158,7 +180,7 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     ornamentBreadth.setRange (0.0, 1.0, 0.01);
     ornamentBreadth.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
     ornamentBreadth.setPopupDisplayEnabled (true, false, this);
-    ornamentBreadth.setTextValueSuffix ("ornament breadth");
+    ornamentBreadth.setTextValueSuffix (" ornament breadth");
     ornamentBreadth.setValue(0.2);
 }
 
@@ -215,9 +237,12 @@ void GenerateStuffAudioProcessorEditor::resized()
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
     int height = getHeight() - 2 * yPadding;
+    int width = getWidth() - 2 * xPadding;
     int spaceBetweenControls = 10;
     int sliderWidth = 20;
-    int buttonWidth = 40;
+    int numSliders = 6;
+    int buttonColumns = 8;
+    int buttonWidth = (width - numSliders * sliderWidth - spaceBetweenControls * (numSliders + buttonColumns)) / buttonColumns;
     
     int xCursor = xPadding;
     int yCursor = yPadding;
@@ -262,6 +287,12 @@ void GenerateStuffAudioProcessorEditor::resized()
     xCursor += buttonWidth + spaceBetweenControls;
     yCursor = yPadding;
     
+    clearCascaraButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
+    yCursor += buttonHeight + spaceBetweenControls;
+    clearClaveButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
+    xCursor += buttonWidth + spaceBetweenControls;
+    yCursor = yPadding;
+    
     decorationDividerX = xCursor;
     xCursor += spaceBetweenControls;
 
@@ -278,8 +309,12 @@ void GenerateStuffAudioProcessorEditor::resized()
     rollLength.setBounds (xCursor, yCursor, sliderWidth, height);
     xCursor += sliderWidth + spaceBetweenControls;
     
-    addRollsButton.setBounds (xCursor, yCursor, buttonWidth, height);
+    addRollsButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
+    yCursor += buttonHeight + spaceBetweenControls;
+    clearRollsButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
     xCursor += buttonWidth + spaceBetweenControls;
+    yCursor = yPadding;
+    
     
     buttonHeight = getButtonHeight(3);
     flamButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
@@ -294,8 +329,12 @@ void GenerateStuffAudioProcessorEditor::resized()
     xCursor += sliderWidth + spaceBetweenControls;
     ornamentBreadth.setBounds (xCursor, yCursor, sliderWidth, height);
     xCursor += sliderWidth + spaceBetweenControls;
-    addOrnamentsButton.setBounds (xCursor, yCursor, buttonWidth, height);
+    
+    addOrnamentsButton.setBounds (xCursor, yCursor, buttonWidth, getButtonHeight(2));
+    yCursor += getButtonHeight(2) + spaceBetweenControls;
+    clearOrnamentsButton.setBounds (xCursor, yCursor, buttonWidth, getButtonHeight(2));
     xCursor += buttonWidth + spaceBetweenControls;
+    yCursor = yPadding;
     
 }
 
@@ -311,24 +350,20 @@ void GenerateStuffAudioProcessorEditor::buttonClicked (juce::Button *button)
     auto claveFromCascaraName = claveFromCascaraButton.getName();
     auto randomClaveName = randomClaveButton.getName();
     auto cascaraFromClaveName = cascaraFromClaveButton.getName();
-    auto fillClaveName = addRollsButton.getName();
     
     auto isCascaraButton = buttonName.equalsIgnoreCase(randomCascaraName);
     auto isClaveButton = buttonName.equalsIgnoreCase(randomClaveName);
     auto isClaveFromCascaraButton = buttonName.equalsIgnoreCase(claveFromCascaraName);
     auto isCascaraFromClaveButton = buttonName.equalsIgnoreCase(cascaraFromClaveName);
-    auto isFillClaveButton = buttonName.equalsIgnoreCase(fillClaveName);
     
     if (isCascaraButton) {
-        audioProcessor.queuePlayable(audioProcessor.generator.cascara());
+        audioProcessor.queuePlayable(cascaraKey, audioProcessor.generator.cascara());
     } else if (isClaveButton) {
-        audioProcessor.queuePlayable(audioProcessor.generator.clave());
+        audioProcessor.queuePlayable(claveKey, audioProcessor.generator.clave());
     } else if (isClaveFromCascaraButton) {
-        audioProcessor.queuePlayable(audioProcessor.generator.claveFromCascara());
+        audioProcessor.queuePlayable(claveKey, audioProcessor.generator.claveFromCascara());
     } else if (isCascaraFromClaveButton) {
-        audioProcessor.queuePlayable(audioProcessor.generator.cascaraFromClave());
-    } else if (isFillClaveButton) {
-        audioProcessor.queuePlayable(audioProcessor.generator.fillClave());
+        audioProcessor.queuePlayable(cascaraKey, audioProcessor.generator.cascaraFromClave());
     }
 }
 

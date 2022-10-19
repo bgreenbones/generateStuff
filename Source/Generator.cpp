@@ -32,14 +32,10 @@ bool Generator::setPhraseLengthBeats(const float beats) {
 
 Playable Generator::cascara() {
     updateTimeSignature();
-//    cascaraPhrase
     auto tempPhrase = Phrase(subdivision, phraseStartTime, phraseLength())
         .randomCascara();
-//        .addOrnaments({ flam, drag, ruff }, HostSettings::instance().getTempo());
     cascaraPhrase = tempPhrase;
-//    tempSeq = tempSeq
-//        .addOrnaments({ flam, drag, ruff }, HostSettings::instance().getTempo());
-    Playable result = Playable(tempPhrase, 1);
+    Playable result = Playable(tempPhrase, cascaraChannel);
     return result;
 }
 
@@ -48,7 +44,7 @@ Playable Generator::clave() {
     auto tempPhrase = Phrase(subdivision, phraseStartTime, phraseLength())
         .randomClave();
     this->clavePhrase = tempPhrase;
-    Playable result = Playable(tempPhrase, 2);
+    Playable result = Playable(tempPhrase, claveChannel);
     return result;
 }
 
@@ -59,9 +55,8 @@ Playable Generator::cascaraFromClave() {
     }
     
     auto tempPhrase = clavePhrase.cascaraFromClave();
-//        .addOrnaments({ flam, drag, ruff }, HostSettings::instance().getTempo());
     this->cascaraPhrase = tempPhrase;
-    Playable result = Playable(tempPhrase, 1);
+    Playable result = Playable(tempPhrase, cascaraChannel);
     return result;
 }
 
@@ -70,16 +65,35 @@ Playable Generator::claveFromCascara() {
     updateTimeSignature();
     auto tempPhrase = cascaraPhrase.claveFromCascara();
     clavePhrase = tempPhrase;
-//    tempSeq = tempSeq
-//        .addOrnaments({ flam, drag, ruff }, HostSettings::instance().getTempo());
-    Playable result = Playable(tempPhrase, 2);
+    Playable result = Playable(tempPhrase, claveChannel);
     return result;
 }
 
-Playable Generator::fillClave() {
+Playable Generator::rollCascara() {
     updateTimeSignature();
-    auto filled = clavePhrase.fillInGaps();
-    std::string startTimes = filled.notes.getStartTimesString();
-    Playable result = Playable(filled, 2);
+    return Playable(cascaraPhrase.fillWithRolls(), cascaraChannel);
+}
+
+Playable Generator::rollClave() {
+    updateTimeSignature();
+    return Playable(clavePhrase.fillWithRolls(), cascaraChannel);
+}
+
+
+vector<OrnamentSimple> getOrnamentVector(bool flams, bool drags, bool ruffs) {
+    vector<OrnamentSimple> result;
+    if (flams) { result.push_back(flam); }
+    if (drags) { result.push_back(drag); }
+    if (ruffs) { result.push_back(ruff); }
     return result;
+}
+
+Playable Generator::ornamentCascara(bool flams, bool drags, bool ruffs) {
+    updateTimeSignature();
+    return Playable(cascaraPhrase.addOrnaments(getOrnamentVector(flams, drags, ruffs)), cascaraChannel);
+}
+
+Playable Generator::ornamentClave(bool flams, bool drags, bool ruffs) {
+    updateTimeSignature();
+    return Playable(clavePhrase.addOrnaments(getOrnamentVector(flams, drags, ruffs)), cascaraChannel);
 }

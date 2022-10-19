@@ -39,13 +39,17 @@ private:
     juce::TextButton randomClaveButton { "clav" };
     juce::TextButton cascaraFromClaveButton { "clv->cas" };
     juce::TextButton claveFromCascaraButton { "cas->clv" };
+    juce::TextButton clearCascaraButton { "clear casc" };
+    juce::TextButton clearClaveButton { "clear clave" };
     juce::TextButton selectCascaraButton { "casc" };
     juce::TextButton selectClaveButton { "clav" };
     juce::TextButton addRollsButton { "rolls" };
+    juce::TextButton clearRollsButton { "clearRolls" };
     juce::Slider rollProbability;
     juce::Slider rollAssociation;
     juce::Slider rollLength;
     juce::TextButton addOrnamentsButton { "orns" };
+    juce::TextButton clearOrnamentsButton { "clear orns" };
     juce::TextButton flamButton { "flam" };
     juce::TextButton dragButton { "drag" };
     juce::TextButton ruffButton { "ruff" };
@@ -72,6 +76,13 @@ private:
     int xPadding = 20;
     int yPadding = 20;
     int decorationDividerX = -1;
+    
+    string cascaraKey = "cascara";
+    string cascaraRollsKey = "cascaraRolls";
+    string cascaraOrnamentsKey = "cascaraOrnaments";
+    string claveKey = "clave";
+    string claveRollsKey = "claveRolls";
+    string claveOrnamentsKey = "claveOrnaments";
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GenerateStuffAudioProcessorEditor)
 };

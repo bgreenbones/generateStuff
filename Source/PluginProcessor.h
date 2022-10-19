@@ -33,12 +33,15 @@ public:
     double samplesPerMinute;
     float probabilityOfDouble;
     Generator generator;
-    vector<Playable> playQueue;
+//    vector<Playable> playQueue;
+    map<string, Playable> playQueue;
     vector<juce::MidiMessage> allNotesOff;
     unsigned long currentNoteOff;
     bool noteOffIssued;
     
-    void queuePlayable(Playable playable);
+    void removePlayable(string id);
+    void queuePlayable(string id, Playable playable);
+//    void queuePlayable(Playable playable);
     //=============================================================================
     
     

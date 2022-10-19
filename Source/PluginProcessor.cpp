@@ -25,7 +25,7 @@ GenerateStuffAudioProcessor::GenerateStuffAudioProcessor()
 #endif
 {
     this->generator = Generator();
-    this->playQueue = vector<Playable>();
+    this->playQueue = map<string, Playable>();
     this->noteOffIssued = true;
     
     this->allNotesOff = vector<juce::MidiMessage>();
@@ -158,18 +158,25 @@ bool GenerateStuffAudioProcessor::isBusesLayoutSupported (const BusesLayout& lay
 }
 #endif
 
-
-void GenerateStuffAudioProcessor::queuePlayable(Playable playable) {
-    for (auto it = playQueue.begin(); it < playQueue.end();) {
-        if ((*it).midiChannel == playable.midiChannel) {
-            playQueue.erase(it);
-        } else {
-            ++it;
-        }
-    }
-    playQueue.push_back(playable);
-    return;
+void GenerateStuffAudioProcessor::removePlayable(string id) {
+    playQueue.erase(id);
 }
+
+void GenerateStuffAudioProcessor::queuePlayable(string id, Playable playable) {
+    playQueue.emplace(id, playable);
+}
+
+//void GenerateStuffAudioProcessor::queuePlayable(Playable playable) {
+//    for (auto it = playQueue.begin(); it < playQueue.end();) {
+//        if ((*it).midiChannel == playable.midiChannel) {
+//            playQueue.erase(it);
+//        } else {
+//            ++it;
+//        }
+//    }
+//    playQueue.push_back(playable);
+//    return;
+//}
 
 void GenerateStuffAudioProcessor::updateTimeSignature(juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo)
 {
@@ -202,8 +209,9 @@ void GenerateStuffAudioProcessor::playPlayables(
 {
     
     const double ppqPosition = (positionInfo->getPpqPosition()).orFallback(0);
-    for (auto playableIt = playQueue.begin(); playableIt < playQueue.end(); ++playableIt) {
-        Playable playable = *playableIt;
+    for (auto playableIt = playQueue.begin(); playableIt != playQueue.end(); ++playableIt) {
+//        Playable playable = *playableIt;
+        Playable playable = playableIt->second;
         Phrase phrase = playable.phrase;
 //        Phrase phrase = playable.phrase;
         int midiChannel = playable.midiChannel;
