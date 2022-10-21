@@ -11,6 +11,8 @@
 #include "Random.h"
 
 
+Probability ornamentProbabilityClave = 0.75;
+
 void applyCascaraAccents(Sequence<Note> &cascara, Duration displacement) {
     const short accentVelocity = 120; // todo: move these out somewhere else.
     const short unaccentedVelocity = 60;
@@ -140,7 +142,8 @@ Phrase Phrase::randomClave() const {
                 note.duration = randomNum * subdivision;
                 notePosition += note.duration;
             }
-            
+            note.accented = true;
+            note.ornamented = ornamentProbabilityClave;
             clave.addNote(note);
         }
     } while (constraintsBroken);
@@ -536,7 +539,7 @@ Phrase Phrase::claveFromCascara() const {
                     if (flipCoin()) { // todo: check previous note's time and make it more likely the longer it gets, and definitely not if it's 1 subdivision since last note
                         note.startTime = noteIt->startTime;
                         note.accented = true;
-                        note.ornamented = 0.5; // todo: don't just make accented notes ornamented.
+                        note.ornamented = ornamentProbabilityClave;
                         notesNeededOnLeft--;
                         clave.addNote(note);
                     }
@@ -551,7 +554,7 @@ Phrase Phrase::claveFromCascara() const {
                     if (flipCoin()) { // todo: check previous note's time and make it more likely the longer it gets, and definitely not if it's 1 subdivision since last note
                         note.startTime = noteIt->startTime;
                         note.accented = true;
-                        note.ornamented = 0.5;
+                        note.ornamented = ornamentProbabilityClave;
                         notesNeededOnRight--;
                         clave.addNote(note);
                     }

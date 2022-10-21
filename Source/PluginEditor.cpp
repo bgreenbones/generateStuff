@@ -56,7 +56,7 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     cascaraFromClaveButton.addListener(this);
     
     addRollsButton.onClick = [this]() {
-        selectCascaraButton.isEnabled() ?
+        selectCascaraButton.getToggleState() ?
         audioProcessor.queuePlayable(cascaraRollsKey, audioProcessor.generator.rollCascara()) :
         audioProcessor.queuePlayable(claveRollsKey, audioProcessor.generator.rollClave()); };
     addAndMakeVisible (&addRollsButton);
@@ -74,6 +74,10 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     int defaultSubdivisionIndex = (int) (1.0 / audioProcessor.generator.subdivision.asBeats()) - 1; // todo: set this
     subdivisionButtons[defaultSubdivisionIndex]->setToggleState(true, juce::dontSendNotification);
     
+    phraseLengthBarsLabel.setText("bars", juce::dontSendNotification);
+    phraseLengthBeatsLabel.setText("beats", juce::dontSendNotification);
+    phraseLengthBarsLabel.attachToComponent(&phraseLengthBars, true);
+    phraseLengthBeatsLabel.attachToComponent(&phraseLengthBeats, true);
     phraseLengthBars.setJustification (juce::Justification::centred);
     phraseLengthBeats.setJustification (juce::Justification::centred);
     phraseLengthBars.setInputRestrictions (4, juce::String {".1234567890"});
@@ -87,17 +91,42 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     phraseLengthBars.setText(barsString);
     phraseLengthBeats.setText(beatsString);
     
+    displaceLabel.setText("displace", juce::dontSendNotification);
+    startBarLabel.setText("start", juce::dontSendNotification);
+    stopBarLabel.setText("stop", juce::dontSendNotification);
+    displaceLabel.attachToComponent(&displace, true);
+    startBarLabel.attachToComponent(&startBar, true);
+    stopBarLabel.attachToComponent(&stopBar, true);
+    
+    displace.setJustification (juce::Justification::centred);
+    startBar.setJustification (juce::Justification::centred);
+    stopBar.setJustification (juce::Justification::centred);
+    displace.setInputRestrictions (4, juce::String {".1234567890"});
+    startBar.setInputRestrictions (4, juce::String {".1234567890"});
+    stopBar.setInputRestrictions (4, juce::String {".1234567890"});
+    addAndMakeVisible (&displace);
+    addAndMakeVisible (&startBar);
+    addAndMakeVisible (&stopBar);
+
+    regenRolls.setClickingTogglesState(true);
+    regenRolls.setToggleState(false, juce::dontSendNotification);
+    regenOrnaments.setClickingTogglesState(true);
+    regenOrnaments.setToggleState(false, juce::dontSendNotification);
+    regenRolls.onClick = []() {};
+    regenOrnaments.onClick = []() {};
+    addAndMakeVisible (&regenRolls);
+    addAndMakeVisible (&regenOrnaments);
     
     clearCascaraButton.onClick = [this]() {audioProcessor.removePlayable(cascaraKey); };
     addAndMakeVisible(&clearCascaraButton);
     clearClaveButton.onClick = [this]() {audioProcessor.removePlayable(claveKey); };
     addAndMakeVisible(&clearClaveButton);
     clearRollsButton.onClick = [this]() {
-        selectCascaraButton.isEnabled() ?
+        selectCascaraButton.getToggleState() ?
         audioProcessor.removePlayable(cascaraRollsKey) :
         audioProcessor.removePlayable(claveRollsKey); };
     addAndMakeVisible(&clearRollsButton);
-    clearOrnamentsButton.onClick = [this]() {        selectCascaraButton.isEnabled() ?
+    clearOrnamentsButton.onClick = [this]() {        selectCascaraButton.getToggleState() ?
         audioProcessor.removePlayable(cascaraOrnamentsKey) :
         audioProcessor.removePlayable(claveOrnamentsKey); };
     addAndMakeVisible(&clearOrnamentsButton);
@@ -158,11 +187,11 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     ruffButton.onClick = testOnClick;
     addAndMakeVisible(&ruffButton);
     addOrnamentsButton.onClick = [this]() {
-        selectCascaraButton.isEnabled() ?
+        selectCascaraButton.getToggleState() ?
         audioProcessor.queuePlayable(cascaraOrnamentsKey,
-                                     audioProcessor.generator.ornamentCascara(flamButton.isEnabled(), dragButton.isEnabled(), ruffButton.isEnabled())) :
+                                     audioProcessor.generator.ornamentCascara(flamButton.getToggleState(), dragButton.getToggleState(), ruffButton.getToggleState())) :
         audioProcessor.queuePlayable(claveOrnamentsKey,
-                                     audioProcessor.generator.ornamentClave(flamButton.isEnabled(), dragButton.isEnabled(), ruffButton.isEnabled())); };
+                                     audioProcessor.generator.ornamentClave(flamButton.getToggleState(), dragButton.getToggleState(), ruffButton.getToggleState())); };
     addAndMakeVisible(&addOrnamentsButton);
 
     ornamentProbability.onValueChange = testOnClick;
@@ -241,23 +270,51 @@ void GenerateStuffAudioProcessorEditor::resized()
     int spaceBetweenControls = 10;
     int sliderWidth = 20;
     int numSliders = 6;
-    int buttonColumns = 8;
+    int buttonColumns = 10;
     int buttonWidth = (width - numSliders * sliderWidth - spaceBetweenControls * (numSliders + buttonColumns)) / buttonColumns;
     
     int xCursor = xPadding;
     int yCursor = yPadding;
     
-    short spaceBetweenSubDivButtons = 2;
-    int numberOfPhraseLengthInputs = 2;
+    short spaceBetweenSubDivButtons = 4;
     int totalSpaceBetweenSubDivButtons = spaceBetweenSubDivButtons * ((int) subdivisionButtons.size() - 1);
-    int subDivButtonHeight = (height - totalSpaceBetweenSubDivButtons) / (subdivisionButtons.size() + numberOfPhraseLengthInputs);
+    int subDivButtonHeight = (height - totalSpaceBetweenSubDivButtons) / (subdivisionButtons.size());
     
     int numberInputWidth = buttonWidth;
-    int numberInputHeight = subDivButtonHeight;
-    phraseLengthBars.setBounds (xCursor, yCursor, numberInputWidth, numberInputHeight);
-    yCursor += numberInputHeight + spaceBetweenSubDivButtons;
-    phraseLengthBeats.setBounds (xCursor, yCursor, numberInputWidth, numberInputHeight);
-    yCursor += numberInputHeight + spaceBetweenSubDivButtons;
+    short spaceBetween1stRowElements = 4;
+    int firstColumnRows = 7;
+    int totalSpaceBetweenElements1stRow = spaceBetween1stRowElements * (firstColumnRows - 1);
+    int firstColumnElementHeight = (height - totalSpaceBetweenElements1stRow) / firstColumnRows;
+    
+    
+    phraseLengthBarsLabel.setBounds (xCursor - numberInputWidth, yCursor, numberInputWidth, firstColumnElementHeight);
+    yCursor += firstColumnElementHeight + spaceBetween1stRowElements;
+    phraseLengthBeatsLabel.setBounds (xCursor - numberInputWidth, yCursor, numberInputWidth, firstColumnElementHeight);
+    yCursor += firstColumnElementHeight + spaceBetween1stRowElements;
+    displaceLabel.setBounds (xCursor - numberInputWidth, yCursor, numberInputWidth, firstColumnElementHeight);
+    yCursor += firstColumnElementHeight + spaceBetween1stRowElements;
+    startBarLabel.setBounds (xCursor - numberInputWidth, yCursor, numberInputWidth, firstColumnElementHeight);
+    yCursor += firstColumnElementHeight + spaceBetween1stRowElements;
+    stopBarLabel.setBounds (xCursor - numberInputWidth, yCursor, numberInputWidth, firstColumnElementHeight);
+    yCursor += firstColumnElementHeight + spaceBetween1stRowElements;
+    regenRolls.setBounds (xCursor + spaceBetweenControls, yCursor, numberInputWidth * 2, firstColumnElementHeight);
+    yCursor += firstColumnElementHeight + spaceBetween1stRowElements;
+    regenOrnaments.setBounds (xCursor + spaceBetweenControls, yCursor, numberInputWidth * 2, firstColumnElementHeight);
+    xCursor += numberInputWidth + spaceBetweenControls;
+    yCursor = yPadding;
+    
+    phraseLengthBars.setBounds (xCursor, yCursor, numberInputWidth, firstColumnElementHeight);
+    yCursor += firstColumnElementHeight + spaceBetween1stRowElements;
+    phraseLengthBeats.setBounds (xCursor, yCursor, numberInputWidth, firstColumnElementHeight);
+    yCursor += firstColumnElementHeight + spaceBetween1stRowElements;
+    
+    displace.setBounds (xCursor, yCursor, numberInputWidth, firstColumnElementHeight);
+    yCursor += firstColumnElementHeight + spaceBetween1stRowElements;
+    startBar.setBounds (xCursor, yCursor, numberInputWidth, firstColumnElementHeight);
+    yCursor += firstColumnElementHeight + spaceBetween1stRowElements;
+    stopBar.setBounds (xCursor, yCursor, numberInputWidth, firstColumnElementHeight);
+    xCursor += numberInputWidth + spaceBetweenControls;
+    yCursor = yPadding;
     
 //    buttonHeight = (height - totalSpaceBetweenSubDivButtons) / subdivisionButtons.size();
     for (auto i = 0;

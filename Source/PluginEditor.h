@@ -68,9 +68,21 @@ private:
         &subDivButton1, &subDivButton2, &subDivButton3, &subDivButton4, &subDivButton5,
         &subDivButton6, &subDivButton7, &subDivButton8, &subDivButton9
     };
-    void updateSubdivisionState(float subdivision);
+    // 1st column
+    juce::Label phraseLengthBarsLabel;
+    juce::Label phraseLengthBeatsLabel;
     juce::TextEditor phraseLengthBars;
     juce::TextEditor phraseLengthBeats;
+    juce::Label displaceLabel; // displace beats
+    juce::TextEditor displace;
+    juce::Label startBarLabel; // start bar
+    juce::TextEditor startBar;
+    juce::Label stopBarLabel; // stop bar / just go forever? / loop going forward in timeline?
+    juce::TextEditor stopBar;
+    juce::TextButton regenRolls { "regen rolls" }; // re-gen rolls on loop
+    juce::TextButton regenOrnaments { "regen orns" }; // re-gen ornaments on loop
+
+    void updateSubdivisionState(float subdivision);
     void updatePhraseLengthState();
 
     int xPadding = 20;
