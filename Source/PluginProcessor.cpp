@@ -25,6 +25,9 @@ GenerateStuffAudioProcessor::GenerateStuffAudioProcessor()
 #endif
 {
     this->generator = Generator();
+    this->displacement = 0;
+    this->startingBar = 1;
+    this->stoppingBar = (Bars) (this->startingBar + generator.phraseLength());
     this->playQueue = map<string, Playable>();
     this->noteOffIssued = true;
     
@@ -166,6 +169,23 @@ void GenerateStuffAudioProcessor::queuePlayable(string id, Playable playable) {
     playQueue.emplace(id, playable);
 }
 
+
+void GenerateStuffAudioProcessor::setDisplacement(Beats displacement){
+    this->displacement = displacement;
+    return;
+}
+void GenerateStuffAudioProcessor::setStartBar(Bars startingBar){
+    if (startingBar >= this->stoppingBar) return;
+    if (startingBar < Bars(1)) return;
+    this->startingBar = startingBar;
+    return;
+}
+void GenerateStuffAudioProcessor::setStopBar(Bars stoppingBar){
+    if (this->startingBar >= stoppingBar) return;
+    this->stoppingBar = stoppingBar;
+    return;
+}
+
 //void GenerateStuffAudioProcessor::queuePlayable(Playable playable) {
 //    for (auto it = playQueue.begin(); it < playQueue.end();) {
 //        if ((*it).midiChannel == playable.midiChannel) {
@@ -222,7 +242,16 @@ void GenerateStuffAudioProcessor::playPlayables(
             
 //            float ppqBarInQuarters = HostSettings::instance().getTimeSignature().barLengthInQuarters();
 //            double noteOnTimeInQuarters = phrase.bar * ppqBarInQuarters + phrase.offset + note.startTime; // todo: this doesn't work right if we have time signature changes
-            double noteOnTimeInQuarters = phrase.startTime + note.startTime;
+            Bars playPeriod = this->stoppingBar - this->startingBar;
+            double loopStart = this->startingBar - Bars(1);
+            double loopEnd = this->stoppingBar -Bars(1);
+            double noteOnTimeInQuarters = loopStart + ((this->displacement + phrase.startTime + note.startTime) % playPeriod);
+            while (ppqPosition > noteOnTimeInQuarters) { // might as well set it to be in the future
+                noteOnTimeInQuarters += phrase.duration;
+            }
+            if (noteOnTimeInQuarters > loopEnd) { // but don't go too far in the future, we've set an end bar
+                noteOnTimeInQuarters = (Bars(noteOnTimeInQuarters - loopStart) % playPeriod) + loopStart;
+            }
             double noteOffTimeInQuarters = noteOnTimeInQuarters + note.duration;
             
             function <float(float)> bufferTimeFromPpqTime = [&](float ppqTime) -> float {

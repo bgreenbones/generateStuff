@@ -90,10 +90,18 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     juce::String beatsString = juce::String::formatted("%.2f", Generator::defaultBeats);
     phraseLengthBars.setText(barsString);
     phraseLengthBeats.setText(beatsString);
+    phraseLengthBars.onFocusLost = [this] {
+        juce::String phraseLengthString = juce::String::formatted("%.2f", this->audioProcessor.generator.phraseLengthBars.asBars());
+        phraseLengthBars.setText(phraseLengthString);
+    };
+    phraseLengthBeats.onFocusLost = [this] {
+        juce::String phraseLengthString = juce::String::formatted("%.2f", this->audioProcessor.generator.phraseLengthBeats.asBeats());
+        phraseLengthBeats.setText(phraseLengthString);
+    };
     
-    displaceLabel.setText("displace", juce::dontSendNotification);
-    startBarLabel.setText("start", juce::dontSendNotification);
-    stopBarLabel.setText("stop", juce::dontSendNotification);
+    displaceLabel.setText("displace (beats)", juce::dontSendNotification);
+    startBarLabel.setText("start (bar)", juce::dontSendNotification);
+    stopBarLabel.setText("stop (bar)", juce::dontSendNotification);
     displaceLabel.attachToComponent(&displace, true);
     startBarLabel.attachToComponent(&startBar, true);
     stopBarLabel.attachToComponent(&stopBar, true);
@@ -104,9 +112,31 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     displace.setInputRestrictions (4, juce::String {".1234567890"});
     startBar.setInputRestrictions (4, juce::String {".1234567890"});
     stopBar.setInputRestrictions (4, juce::String {".1234567890"});
+    displace.onTextChange = [this] { updateDisplacementState(); };
+    startBar.onTextChange = [this] { updateStartingBarState(); };
+    stopBar.onTextChange = [this] { updateStoppingBarState(); };
+    displace.onFocusLost = [this] {
+        juce::String displaceString = juce::String::formatted("%.2f", this->audioProcessor.displacement.asBeats());
+        displace.setText(displaceString);
+    };
+    startBar.onFocusLost = [this] {
+        juce::String startBarString = juce::String::formatted("%.2f", this->audioProcessor.startingBar.asBars());
+        startBar.setText(startBarString);
+    };
+    stopBar.onFocusLost = [this] {
+        juce::String stopBarString = juce::String::formatted("%.2f", this->audioProcessor.stoppingBar.asBars());
+        stopBar.setText(stopBarString);
+    };
+    
     addAndMakeVisible (&displace);
     addAndMakeVisible (&startBar);
     addAndMakeVisible (&stopBar);
+    juce::String displaceString = juce::String::formatted("%.2f", audioProcessor.displacement.asBeats());
+    juce::String startBarString = juce::String::formatted("%.2f", audioProcessor.startingBar.asBars());
+    juce::String stopBarString = juce::String::formatted("%.2f", audioProcessor.stoppingBar.asBars());
+    displace.setText(displaceString);
+    startBar.setText(startBarString);
+    stopBar.setText(stopBarString);
 
     regenRolls.setClickingTogglesState(true);
     regenRolls.setToggleState(false, juce::dontSendNotification);
@@ -219,11 +249,15 @@ void GenerateStuffAudioProcessorEditor::updatePhraseLengthState() {
     try {
         auto barsString = phraseLengthBars.getTextValue().toString().toStdString();
         bars = stof(barsString);
-    } catch (const invalid_argument& ia) { }
+    } catch (const invalid_argument& ia) {
+        return;
+    }
     try {
         auto beatsString = phraseLengthBeats.getTextValue().toString().toStdString();
         beats = stof(beatsString);
-    } catch (const invalid_argument& ia) { }
+    } catch (const invalid_argument& ia) {
+        return;
+    }
 
     if (bars >= 0) {
         audioProcessor.generator.setPhraseLengthBars(bars);
@@ -233,6 +267,38 @@ void GenerateStuffAudioProcessorEditor::updatePhraseLengthState() {
     }
 }
 
+void GenerateStuffAudioProcessorEditor::updateDisplacementState() {
+    Beats displacement;
+    try {
+        displacement = stof(displace.getText().toStdString());
+    } catch (const invalid_argument& ia) {
+        return;
+    }
+    audioProcessor.setDisplacement(displacement);
+    return;
+}
+
+void GenerateStuffAudioProcessorEditor::updateStartingBarState() {
+    Bars startingBar;
+    try {
+        startingBar = stof(startBar.getText().toStdString());
+    } catch (const invalid_argument& ia) {
+        return;
+    }
+    audioProcessor.setStartBar(startingBar);
+    return;
+}
+
+void GenerateStuffAudioProcessorEditor::updateStoppingBarState() {
+    Bars stoppingBar;
+    try {
+        stoppingBar = stof(stopBar.getText().toStdString());
+    } catch (const invalid_argument& ia) {
+        return;
+    }
+    audioProcessor.setStopBar(stoppingBar);
+    return;
+}
 
 void GenerateStuffAudioProcessorEditor::updateSubdivisionState(float subdivision) {
     audioProcessor.generator.setSubdivision(subdivision);

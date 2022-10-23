@@ -30,8 +30,8 @@
             filePath = "../../Source/PluginProcessor.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "189"
-            endingLineNumber = "189"
+            startingLineNumber = "209"
+            endingLineNumber = "209"
             landmarkName = "GenerateStuffAudioProcessor::updateTimeSignature(positionInfo)"
             landmarkType = "7">
          </BreakpointContent>
@@ -100,7 +100,7 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "395BC70B-7CE3-4853-B7C7-5826ACFBFD82 - 1f29b476469eeaef"
+                  uuid = "395BC70B-7CE3-4853-B7C7-5826ACFBFD82 - 1f29b476469ee90c"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -110,12 +110,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Rhythm/Latin.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "236"
-                  endingLineNumber = "236"
+                  startingLineNumber = "239"
+                  endingLineNumber = "239"
                   offsetFromSymbolStart = "3008">
                </Location>
                <Location
-                  uuid = "395BC70B-7CE3-4853-B7C7-5826ACFBFD82 - 1f29b476469eeaef"
+                  uuid = "395BC70B-7CE3-4853-B7C7-5826ACFBFD82 - 1f29b476469ee90c"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -125,8 +125,8 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Rhythm/Latin.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "236"
-                  endingLineNumber = "236"
+                  startingLineNumber = "239"
+                  endingLineNumber = "239"
                   offsetFromSymbolStart = "3020">
                </Location>
             </Locations>
@@ -148,7 +148,7 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "3203E4EC-147E-4FD5-8782-3DE067BD1FAF - 1f29b476469eea4a"
+                  uuid = "3203E4EC-147E-4FD5-8782-3DE067BD1FAF - 1f29b476469eeaef"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -158,12 +158,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Rhythm/Latin.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "233"
-                  endingLineNumber = "233"
+                  startingLineNumber = "236"
+                  endingLineNumber = "236"
                   offsetFromSymbolStart = "2908">
                </Location>
                <Location
-                  uuid = "3203E4EC-147E-4FD5-8782-3DE067BD1FAF - 1f29b476469eea4a"
+                  uuid = "3203E4EC-147E-4FD5-8782-3DE067BD1FAF - 1f29b476469eeaef"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -173,8 +173,8 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Rhythm/Latin.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "233"
-                  endingLineNumber = "233"
+                  startingLineNumber = "236"
+                  endingLineNumber = "236"
                   offsetFromSymbolStart = "2920">
                </Location>
             </Locations>
@@ -196,7 +196,7 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "8221E2B1-C155-423A-8475-733DF55319F0 - 1f29b476469eec7a"
+                  uuid = "8221E2B1-C155-423A-8475-733DF55319F0 - 1f29b476469eec9f"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -206,12 +206,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Rhythm/Latin.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "217"
-                  endingLineNumber = "217"
+                  startingLineNumber = "220"
+                  endingLineNumber = "220"
                   offsetFromSymbolStart = "2280">
                </Location>
                <Location
-                  uuid = "8221E2B1-C155-423A-8475-733DF55319F0 - 1f29b476469eec7a"
+                  uuid = "8221E2B1-C155-423A-8475-733DF55319F0 - 1f29b476469eec9f"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -221,8 +221,8 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Rhythm/Latin.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "217"
-                  endingLineNumber = "217"
+                  startingLineNumber = "220"
+                  endingLineNumber = "220"
                   offsetFromSymbolStart = "2292">
                </Location>
             </Locations>
@@ -244,7 +244,7 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "76CB27F3-0A7F-4C81-96B8-1CC7709D3691 - 1f29b476469eee6a"
+                  uuid = "76CB27F3-0A7F-4C81-96B8-1CC7709D3691 - 1f29b476469eee8f"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -254,12 +254,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Rhythm/Latin.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "201"
-                  endingLineNumber = "201"
+                  startingLineNumber = "204"
+                  endingLineNumber = "204"
                   offsetFromSymbolStart = "1624">
                </Location>
                <Location
-                  uuid = "76CB27F3-0A7F-4C81-96B8-1CC7709D3691 - 1f29b476469eee6a"
+                  uuid = "76CB27F3-0A7F-4C81-96B8-1CC7709D3691 - 1f29b476469eee8f"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -269,8 +269,8 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Rhythm/Latin.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "201"
-                  endingLineNumber = "201"
+                  startingLineNumber = "204"
+                  endingLineNumber = "204"
                   offsetFromSymbolStart = "1636">
                </Location>
             </Locations>
@@ -1171,8 +1171,8 @@
             filePath = "../../Source/PluginEditor.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "191"
-            endingLineNumber = "191"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
             landmarkName = "GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor(p)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1187,9 +1187,25 @@
             filePath = "../../Source/PluginEditor.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "193"
-            endingLineNumber = "193"
+            startingLineNumber = "223"
+            endingLineNumber = "223"
             landmarkName = "GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor(p)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "01F69342-3578-4C2B-947B-77BCCDD2049F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/PluginProcessor.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "178"
+            endingLineNumber = "178"
+            landmarkName = "GenerateStuffAudioProcessor::setStartBar(startingBar)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

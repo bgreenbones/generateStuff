@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "Generator.hpp"
+#include "Duration.h"
 
 
 //==============================================================================
@@ -41,6 +42,13 @@ public:
     
     void removePlayable(string id);
     void queuePlayable(string id, Playable playable);
+    
+    void setDisplacement(Beats displacement);
+    void setStartBar(Bars startingBar);
+    void setStopBar(Bars stoppingBar);
+    Beats displacement;
+    Bars startingBar;
+    Bars stoppingBar;
 //    void queuePlayable(Playable playable);
     //=============================================================================
     

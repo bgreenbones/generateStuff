@@ -84,6 +84,9 @@ private:
 
     void updateSubdivisionState(float subdivision);
     void updatePhraseLengthState();
+    void updateDisplacementState();
+    void updateStartingBarState();
+    void updateStoppingBarState();
 
     int xPadding = 20;
     int yPadding = 20;
