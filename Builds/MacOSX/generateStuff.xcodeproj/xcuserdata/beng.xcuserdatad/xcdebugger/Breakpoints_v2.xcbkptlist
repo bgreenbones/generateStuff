@@ -412,8 +412,8 @@
             filePath = "../../Source/Sequence/Phrase.hpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
             landmarkName = "equalsExcludingTime(other)"
             landmarkType = "7">
             <Locations>
@@ -746,8 +746,8 @@
             filePath = "../../Source/Sequence/Ornamentation.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
             landmarkName = "Phrase::withRoll(start, target, association)"
             landmarkType = "7">
             <Locations>
@@ -904,8 +904,8 @@
             filePath = "../../Source/Random.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
             landmarkName = "draw(hat)"
             landmarkType = "9">
             <Locations>
@@ -1029,8 +1029,8 @@
             filePath = "../../Source/Sequence/Ornamentation.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
             landmarkName = "Phrase::withRoll(start, target, association)"
             landmarkType = "7">
             <Locations>
@@ -1077,8 +1077,8 @@
             filePath = "../../Source/Sequence/Ornamentation.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
             landmarkName = "Phrase::withRoll(start, target, association)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1171,8 +1171,8 @@
             filePath = "../../Source/PluginEditor.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "221"
-            endingLineNumber = "221"
+            startingLineNumber = "230"
+            endingLineNumber = "230"
             landmarkName = "GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor(p)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1187,8 +1187,8 @@
             filePath = "../../Source/PluginEditor.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "223"
-            endingLineNumber = "223"
+            startingLineNumber = "232"
+            endingLineNumber = "232"
             landmarkName = "GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor(p)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1207,6 +1207,22 @@
             endingLineNumber = "178"
             landmarkName = "GenerateStuffAudioProcessor::setStartBar(startingBar)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4A27DC38-B16F-4D54-A608-C9E6F8336112"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Random.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
+            landmarkName = "boundedNormal(min, max, thickness, skew)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

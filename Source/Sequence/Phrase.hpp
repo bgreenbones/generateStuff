@@ -1,6 +1,6 @@
 //
-//  Phrase.hpp
 //  generateStuff - All
+//  Phrase.hpp
 //
 //  Created by Benjamin Greenwood on 8/14/22.
 //
@@ -18,6 +18,8 @@
 #include "Subdivision.h"
 #include "Misc.h"
 #include "Sequence.h"
+#include "Syncopation.h"
+#include "Random.h"
 
 using namespace std;
 
@@ -73,7 +75,8 @@ public:
                               Duration displacement = 0.25,
                               Probability pDisplace = 0.5,
                               Probability pDouble = 0.75) const; // (for forward displacement, set pDouble = 1 and displacement = 1 - amount to displace forward)
-    Phrase fillWithRolls() const;
+    Phrase fillWithRolls(Probability associationProb,
+                         Probability rollLengthProb) const;
     Phrase chooseAccents() const;
     
     // Latin.cpp

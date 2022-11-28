@@ -32,6 +32,7 @@ bool Generator::setPhraseLengthBeats(const float beats) {
 
 Playable Generator::cascara() {
     updateTimeSignature();
+    
     auto tempPhrase = Phrase(subdivision, phraseStartTime, phraseLength())
         .randomCascara();
     cascaraPhrase = tempPhrase;
@@ -41,6 +42,7 @@ Playable Generator::cascara() {
 
 Playable Generator::clave() {
     updateTimeSignature();
+    
     auto tempPhrase = Phrase(subdivision, phraseStartTime, phraseLength())
         .randomClave();
     this->clavePhrase = tempPhrase;
@@ -50,6 +52,7 @@ Playable Generator::clave() {
 
 Playable Generator::cascaraFromClave() {
     updateTimeSignature();
+    
     if (clavePhrase.notes.empty()) {
         this->clave();
     }
@@ -63,20 +66,25 @@ Playable Generator::cascaraFromClave() {
 
 Playable Generator::claveFromCascara() {
     updateTimeSignature();
+    
     auto tempPhrase = cascaraPhrase.claveFromCascara();
     clavePhrase = tempPhrase;
     Playable result = Playable(tempPhrase, claveChannel);
     return result;
 }
 
-Playable Generator::rollCascara() {
+Playable Generator::rollCascara(Probability associationProb,
+                                Probability rollLengthProb) {
     updateTimeSignature();
-    return Playable(cascaraPhrase.fillWithRolls(), cascaraChannel);
+    
+    return Playable(cascaraPhrase.fillWithRolls(associationProb, rollLengthProb), cascaraChannel);
 }
 
-Playable Generator::rollClave() {
+Playable Generator::rollClave(Probability associationProb,
+                              Probability rollLengthProb) {
     updateTimeSignature();
-    return Playable(clavePhrase.fillWithRolls(), cascaraChannel);
+    
+    return Playable(clavePhrase.fillWithRolls(associationProb, rollLengthProb), cascaraChannel);
 }
 
 

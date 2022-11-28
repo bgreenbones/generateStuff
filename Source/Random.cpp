@@ -51,7 +51,7 @@ bool flipWeightedCoin(double pTrue) {
 }
 
 double boundedNormal(double min, double max, double thickness) { // thickness = 0-1
-    if (min >= max) {
+    if (min >= max || thickness < 0 || thickness > 1) {
         std::cout << "nonsensical random call";
     }
     double mean = (min + max) / 2.;
@@ -61,6 +61,16 @@ double boundedNormal(double min, double max, double thickness) { // thickness = 
     double choice = normal_distribution<double>(mean, stdDev)(gen);
     return std::max(std::min(choice, max), min);
 }
+
+double boundedNormal(double min, double max, double thickness, double skew) { // skew: 0.5 - 1 skews greater and 0 - 0.5 skews less than
+    if (skew < 0 || skew > 1) {
+        std::cout << "nonsensical skew value in random call";
+    }
+    double unskewed = boundedNormal(min, max, thickness);
+    double skewed = (unskewed - min) * skew * 2. + min;
+    return std::max(std::min(skewed, max), min);
+}
+    
 
 
 template <class T>

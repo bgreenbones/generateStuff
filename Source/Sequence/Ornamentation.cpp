@@ -9,7 +9,6 @@
 */
 
 #include "Phrase.hpp"
-#include "Syncopation.h"
 #include "Random.h"
 
 
@@ -100,7 +99,8 @@ Phrase Phrase::withRoll(Position start, Position target, Association association
     return withRoll;
 }
 
-Phrase Phrase::fillWithRolls() const {
+Phrase Phrase::fillWithRolls(Probability associationProb,
+                             Probability rollLengthProb) const {
     Phrase filled(*this);
     filled.notes.monophonic = false;
     filled.notes.clear();
@@ -115,8 +115,13 @@ Phrase Phrase::fillWithRolls() const {
             targetNoteStartTime = nextNote->startTime;
         }
         
-        Association association = draw<Association>({ pickup, rebound });
-        Syncopation sync(association == pickup ? wonk : swing, boundedNormal(0, 1, 0.5)); // going for long rolls, for now.
+        //        Association association = associationValue >= 0.5 ? pickup : rebound;
+        //        double syncopationAmount = abs(associationValue - 0.5) * 2;
+        //        Association association = draw<Association>({ pickup, rebound });
+        //        Syncopation sync(association == pickup ? wonk : swing, boundedNormal(0, 1, 0.5)); // going for long rolls, for now.
+        Association association = flipWeightedCoin(associationProb) ? pickup : rebound;
+        double syncopationAmount = boundedNormal(0, 1, 0.35, rollLengthProb);
+        Syncopation sync(association == pickup ? wonk : swing, syncopationAmount);
         Position roughPlace = sync.getPlacement(note->startTime, targetNoteStartTime);
 //            Position roughPlace = boundedNormal(note->startTime, targetNoteStartTime, 0.5);
         Position start = association == pickup ? roughPlace : note->startTime;

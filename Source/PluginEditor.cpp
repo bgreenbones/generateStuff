@@ -56,9 +56,19 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     cascaraFromClaveButton.addListener(this);
     
     addRollsButton.onClick = [this]() {
+        double associationProb = Probability(rollAssociation.getValue());
+        double rollLengthProb = Probability(rollLength.getValue());
+
+//        Association association = associationValue >= 0.5 ? pickup : rebound;
+//        double syncopationAmount = abs(associationValue - 0.5) * 2;
+//        Syncopation sync(association == pickup ? wonk : swing, syncopationAmount);
+
+//        Association association = draw<Association>({ pickup, rebound });
+//        Syncopation sync(association == pickup ? wonk : swing, boundedNormal(0, 1, 0.5));
+
         selectCascaraButton.getToggleState() ?
-        audioProcessor.queuePlayable(cascaraRollsKey, audioProcessor.generator.rollCascara()) :
-        audioProcessor.queuePlayable(claveRollsKey, audioProcessor.generator.rollClave()); };
+        audioProcessor.queuePlayable(cascaraRollsKey, audioProcessor.generator.rollCascara(associationProb, rollLengthProb)) :
+        audioProcessor.queuePlayable(claveRollsKey, audioProcessor.generator.rollClave(associationProb, rollLengthProb)); };
     addAndMakeVisible (&addRollsButton);
 
     int subdivisionGroupId = 1832; // just some number
@@ -186,13 +196,12 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     rollProbability.setTextValueSuffix (" p(roll)");
     rollProbability.setValue(1.0);
     
-    rollAssociation.onValueChange = testOnClick;
     addAndMakeVisible(&rollAssociation);
     rollAssociation.setSliderStyle (juce::Slider::LinearBarVertical);
     rollAssociation.setRange (0.0, 1.0, 0.01);
     rollAssociation.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
     rollAssociation.setPopupDisplayEnabled (true, false, this);
-    rollAssociation.setTextValueSuffix (" roll association");
+    rollAssociation.setTextValueSuffix (" roll association / swing");
     rollAssociation.setValue(0.5);
     
     rollLength.onValueChange = testOnClick;

@@ -15,6 +15,7 @@
 #include <JuceHeader.h>
 #include "Phrase.hpp"
 #include "Playable.hpp"
+#include "Syncopation.h"
 
 using namespace std;
 
@@ -40,8 +41,8 @@ public:
     Playable clave();
     Playable claveFromCascara();
     Playable cascaraFromClave();
-    Playable rollCascara();
-    Playable rollClave();
+    Playable rollCascara(Probability associationProb, Probability rollLengthProb);
+    Playable rollClave(Probability associationProb, Probability rollLengthProb);
     Playable ornamentCascara(bool flams, bool drags, bool ruffs);
     Playable ornamentClave(bool flams, bool drags, bool ruffs);
 
