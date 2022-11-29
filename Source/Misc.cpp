@@ -12,7 +12,7 @@
 #include <random>
 
 
-beats flamishLength (float tempo) {
+beats flamishLength (double tempo, double breadth) {
     // at like 60-100 bpm, flams are like a 64th note behind the target note?
     // at higher tempos, they're like a 32nd, down to like a 16th up in the 300bpm range??
     float highTempo = 300; // bpm
@@ -29,7 +29,7 @@ beats flamishLength (float tempo) {
     return length;
 }
 
-Ornament flamish (OrnamentSimple ornamentSimple, float tempo) {
+Ornament flamish (OrnamentSimple ornamentSimple, double tempo, double breadth) {
     return Ornament {
         .placement = ahead,
         .griddedness = gridFree,
@@ -42,17 +42,17 @@ Ornament flamish (OrnamentSimple ornamentSimple, float tempo) {
             }
         },
         .numNotes = (unsigned short) ornamentSimple,
-        .length = flamishLength (tempo),
+        .length = flamishLength (tempo, breadth),
     };
 }
 
-Ornament getOrnament(OrnamentSimple ornamentSimple, float tempo) {
+Ornament getOrnament(OrnamentSimple ornamentSimple, double tempo, double breadth) {
     Ornament result;
     switch (ornamentSimple) {
         case flam:
         case drag:
         case ruff:
-            result = flamish (ornamentSimple, tempo);
+            result = flamish (ornamentSimple, tempo, breadth);
             break;
         case flamA:
             break;
@@ -61,49 +61,29 @@ Ornament getOrnament(OrnamentSimple ornamentSimple, float tempo) {
     }
     return result;
 }
-
-vector<Note> placeOrnament(Note ornamented, Ornament ornament) {
-//    Beats noteLength = ornament.length / (float) ornament.numNotes;
-    beats noteLength = ornament.length;
-    
-    vector<Note> ornamentNotes = {};
-    for (unsigned short notesLeft = ornament.numNotes; notesLeft > 0; notesLeft--) {
-        Note ornamentNote = Note();
-        ornamentNote.startTime = ornamented.startTime + ornament.placement * noteLength * (float) notesLeft;
-        ornamentNote.duration = noteLength;
-        ornamentNote.velocity = ornamented.velocity / 2.0; // make more dynamic
-        ornamentNote.isOrnament = true; // todo: this, probably
-        ornamentNote.pitch += 7;
-        ornamentNotes.push_back(ornamentNote);
-    }
-    
-    return ornamentNotes;
-}
-
-vector<Note> placeOrnamentSimple(Note accentNote, OrnamentSimple ornamentSimple) {
-    Ornament ornament = getOrnament(ornamentSimple, HostSettings::instance().getTempo());
-    return placeOrnament(accentNote, ornament);
-}
 //
-//Phrase ornamentPhrase(Phrase phrase, vector<OrnamentSimple> possibleOrnaments, float tempo, vector<float> probabilities) {
-//    vector<Note> ornaments = { };
-//    for (auto noteIt = phrase.notes.begin(); noteIt < phrase.notes.end(); noteIt++) {
-//        if (noteIt->ornamented) {
-//            OrnamentSimple ornament = possibleOrnaments[rand() % possibleOrnaments.size()]; // todo: use probabilities map
-//            vector<Note> noteOrnament = placeOrnamentSimple(*noteIt, ornament, (Time) { .tempo = tempo });
-//            ornaments.insert(ornaments.end(), noteOrnament.begin(), noteOrnament.end());
-//        }
+//vector<Note> placeOrnament(Note ornamented, Ornament ornament) {
+////    Beats noteLength = ornament.length / (float) ornament.numNotes;
+//    beats noteLength = ornament.length;
+//
+//    vector<Note> ornamentNotes = {};
+//    for (int notesLeft = ornament.numNotes; notesLeft > 0; notesLeft--) {
+//        Note ornamentNote = Note();
+//        ornamentNote.startTime = ornamented.startTime + ornament.placement * noteLength * notesLeft;
+//        ornamentNote.duration = noteLength;
+//        ornamentNote.velocity = ornamented.velocity / 2.0; // make more dynamic
+//        ornamentNote.isOrnament = true; // todo: this, probably
+//        ornamentNote.pitch += 7;
+//        ornamentNotes.push_back(ornamentNote);
 //    }
-//    
-//    for (auto noteIt = ornaments.begin(); noteIt < ornaments.end(); noteIt++) {
-//        phrase.addNote(*noteIt);
-//    }
-//    
-//    return phrase;
+//
+//    return ornamentNotes;
 //}
 //
-//Phrase ornamentPhrase(Phrase phrase, OrnamentSimple ornament, float tempo) {
-//    return ornamentPhrase(phrase, vector<OrnamentSimple> { ornament }, tempo);
+//vector<Note> placeOrnamentSimple(Note primaryNote, OrnamentSimple ornamentSimple, double breadth) {
+//    double tempo = HostSettings::instance().getTempo();
+//    Ornament ornament = getOrnament(ornamentSimple, tempo, breadth);
+//    return placeOrnament(primaryNote, ornament);
 //}
 
 

@@ -41,10 +41,10 @@ public:
     Playable clave();
     Playable claveFromCascara();
     Playable cascaraFromClave();
-    Playable rollCascara(Probability associationProb, Probability rollLengthProb);
-    Playable rollClave(Probability associationProb, Probability rollLengthProb);
-    Playable ornamentCascara(bool flams, bool drags, bool ruffs);
-    Playable ornamentClave(bool flams, bool drags, bool ruffs);
+    Playable rollCascara(Probability rollProb, Probability associationProb, Probability rollLengthProb);
+    Playable rollClave(Probability rollProb, Probability associationProb, Probability rollLengthProb);
+    Playable ornamentCascara(Probability prob, double breadth, bool flams, bool drags, bool ruffs);
+    Playable ornamentClave(Probability prob, double breadth, bool flams, bool drags, bool ruffs);
 
     bool setSubdivision(const float subdivision);
     bool setPhraseLengthBars(const float bars);

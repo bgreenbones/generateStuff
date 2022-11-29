@@ -56,6 +56,7 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     cascaraFromClaveButton.addListener(this);
     
     addRollsButton.onClick = [this]() {
+        double rollProb = Probability(rollProbability.getValue());
         double associationProb = Probability(rollAssociation.getValue());
         double rollLengthProb = Probability(rollLength.getValue());
 
@@ -67,8 +68,8 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
 //        Syncopation sync(association == pickup ? wonk : swing, boundedNormal(0, 1, 0.5));
 
         selectCascaraButton.getToggleState() ?
-        audioProcessor.queuePlayable(cascaraRollsKey, audioProcessor.generator.rollCascara(associationProb, rollLengthProb)) :
-        audioProcessor.queuePlayable(claveRollsKey, audioProcessor.generator.rollClave(associationProb, rollLengthProb)); };
+        audioProcessor.queuePlayable(cascaraRollsKey, audioProcessor.generator.rollCascara(rollProb, associationProb, rollLengthProb)) :
+        audioProcessor.queuePlayable(claveRollsKey, audioProcessor.generator.rollClave(rollProb, associationProb, rollLengthProb)); };
     addAndMakeVisible (&addRollsButton);
 
     int subdivisionGroupId = 1832; // just some number
@@ -187,7 +188,6 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
 //    selectClaveButton.onClick = testOnClick;
     addAndMakeVisible(&selectClaveButton);
     
-    rollProbability.onValueChange = testOnClick;
     addAndMakeVisible(&rollProbability);
     rollProbability.setSliderStyle (juce::Slider::LinearBarVertical);
     rollProbability.setRange (0.0, 1.0, 0.01);
@@ -215,25 +215,27 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     
     flamButton.setClickingTogglesState(true);
     flamButton.setToggleState(false, juce::dontSendNotification);
-    flamButton.onClick = testOnClick;
     addAndMakeVisible(&flamButton);
     dragButton.setClickingTogglesState(true);
     dragButton.setToggleState(false, juce::dontSendNotification);
-    dragButton.onClick = testOnClick;
     addAndMakeVisible(&dragButton);
     ruffButton.setClickingTogglesState(true);
     ruffButton.setToggleState(false, juce::dontSendNotification);
-    ruffButton.onClick = testOnClick;
     addAndMakeVisible(&ruffButton);
     addOrnamentsButton.onClick = [this]() {
+        Probability prob = ornamentProbability.getValue();
+        double breadth = ornamentBreadth.getValue();
+        bool flams = flamButton.getToggleState();
+        bool drags = dragButton.getToggleState();
+        bool ruffs = ruffButton.getToggleState();
+        
         selectCascaraButton.getToggleState() ?
         audioProcessor.queuePlayable(cascaraOrnamentsKey,
-                                     audioProcessor.generator.ornamentCascara(flamButton.getToggleState(), dragButton.getToggleState(), ruffButton.getToggleState())) :
+                                     audioProcessor.generator.ornamentCascara(prob, breadth, flams, drags, ruffs)) :
         audioProcessor.queuePlayable(claveOrnamentsKey,
-                                     audioProcessor.generator.ornamentClave(flamButton.getToggleState(), dragButton.getToggleState(), ruffButton.getToggleState())); };
+                                     audioProcessor.generator.ornamentClave(prob, breadth, flams, drags, ruffs)); };
     addAndMakeVisible(&addOrnamentsButton);
 
-    ornamentProbability.onValueChange = testOnClick;
     addAndMakeVisible(&ornamentProbability);
     ornamentProbability.setSliderStyle (juce::Slider::LinearBarVertical);
     ornamentProbability.setRange (0.0, 1.0, 0.01);
@@ -242,14 +244,13 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     ornamentProbability.setTextValueSuffix (" ornament probability");
     ornamentProbability.setValue(0.3);
     
-    ornamentBreadth.onValueChange = testOnClick;
     addAndMakeVisible(&ornamentBreadth);
     ornamentBreadth.setSliderStyle (juce::Slider::LinearBarVertical);
-    ornamentBreadth.setRange (0.0, 1.0, 0.01);
+    ornamentBreadth.setRange (0.0, 4.0, 0.01);
     ornamentBreadth.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
     ornamentBreadth.setPopupDisplayEnabled (true, false, this);
     ornamentBreadth.setTextValueSuffix (" ornament breadth");
-    ornamentBreadth.setValue(0.2);
+    ornamentBreadth.setValue(1.0);
 }
 
 void GenerateStuffAudioProcessorEditor::updatePhraseLengthState() {

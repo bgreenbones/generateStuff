@@ -20,6 +20,7 @@
           <FILE id="No4I9r" name="Latin.cpp" compile="1" resource="0" file="Source/Sequence/Rhythm/Latin.cpp"/>
           <FILE id="p8wtXv" name="Rhythm.cpp" compile="1" resource="0" file="Source/Sequence/Rhythm/Rhythm.cpp"/>
         </GROUP>
+        <FILE id="jAc6L1" name="Ornamentation.h" compile="0" resource="0" file="Source/Sequence/Ornamentation.h"/>
         <FILE id="iOGOg4" name="Ornamentation.cpp" compile="1" resource="0"
               file="Source/Sequence/Ornamentation.cpp"/>
       </GROUP>

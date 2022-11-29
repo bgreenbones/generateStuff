@@ -73,18 +73,20 @@ Playable Generator::claveFromCascara() {
     return result;
 }
 
-Playable Generator::rollCascara(Probability associationProb,
+Playable Generator::rollCascara(Probability rollProb,
+                                Probability associationProb,
                                 Probability rollLengthProb) {
     updateTimeSignature();
     
-    return Playable(cascaraPhrase.fillWithRolls(associationProb, rollLengthProb), cascaraChannel);
+    return Playable(cascaraPhrase.fillWithRolls(rollProb, associationProb, rollLengthProb), cascaraChannel);
 }
 
-Playable Generator::rollClave(Probability associationProb,
+Playable Generator::rollClave(Probability rollProb,
+                              Probability associationProb,
                               Probability rollLengthProb) {
     updateTimeSignature();
     
-    return Playable(clavePhrase.fillWithRolls(associationProb, rollLengthProb), cascaraChannel);
+    return Playable(clavePhrase.fillWithRolls(rollProb, associationProb, rollLengthProb), cascaraChannel);
 }
 
 
@@ -96,12 +98,14 @@ vector<OrnamentSimple> getOrnamentVector(bool flams, bool drags, bool ruffs) {
     return result;
 }
 
-Playable Generator::ornamentCascara(bool flams, bool drags, bool ruffs) {
+Playable Generator::ornamentCascara(Probability prob, double breadth, bool flams, bool drags, bool ruffs) {
     updateTimeSignature();
-    return Playable(cascaraPhrase.addOrnaments(getOrnamentVector(flams, drags, ruffs)), cascaraChannel);
+    auto possibleOrnaments = getOrnamentVector(flams, drags, ruffs);
+    return Playable(cascaraPhrase.addOrnaments(possibleOrnaments, prob, breadth), cascaraChannel);
 }
 
-Playable Generator::ornamentClave(bool flams, bool drags, bool ruffs) {
+Playable Generator::ornamentClave(Probability prob, double breadth, bool flams, bool drags, bool ruffs) {
+    auto possibleOrnaments = getOrnamentVector(flams, drags, ruffs);
     updateTimeSignature();
-    return Playable(clavePhrase.addOrnaments(getOrnamentVector(flams, drags, ruffs)), cascaraChannel);
+    return Playable(clavePhrase.addOrnaments(possibleOrnaments, prob, breadth), cascaraChannel);
 }

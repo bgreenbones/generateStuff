@@ -117,6 +117,7 @@
 		60E5AFC64838F0622C453415 /* AudioToolbox.framework */ /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		62712CF5169698B8D1CB2D2C /* include_juce_audio_plugin_client_AU_2.mm */ /* include_juce_audio_plugin_client_AU_2.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_audio_plugin_client_AU_2.mm; path = ../../JuceLibraryCode/include_juce_audio_plugin_client_AU_2.mm; sourceTree = SOURCE_ROOT; };
 		63E374D88BF2DD5A47B6300B /* Syncopation.h */ /* Syncopation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Syncopation.h; path = ../../Source/Time/Syncopation.h; sourceTree = SOURCE_ROOT; };
+		652CF13B6846446BC15E9DAF /* Ornamentation.h */ /* Ornamentation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Ornamentation.h; path = ../../Source/Sequence/Ornamentation.h; sourceTree = SOURCE_ROOT; };
 		66B7B7773B75FC077B21EF86 /* Phrase.hpp */ /* Phrase.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Phrase.hpp; path = ../../Source/Sequence/Phrase.hpp; sourceTree = SOURCE_ROOT; };
 		6BAB5E26DBF2572DC1F7A668 /* Mininotation.h */ /* Mininotation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Mininotation.h; path = ../../Source/Sequence/Mininotation.h; sourceTree = SOURCE_ROOT; };
 		722471A91491497C691C1895 /* include_juce_audio_plugin_client_Standalone.cpp */ /* include_juce_audio_plugin_client_Standalone.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = include_juce_audio_plugin_client_Standalone.cpp; path = ../../JuceLibraryCode/include_juce_audio_plugin_client_Standalone.cpp; sourceTree = SOURCE_ROOT; };
@@ -421,6 +422,7 @@
 				233BB7DAA399028109846C2F,
 				66B7B7773B75FC077B21EF86,
 				B63F58993A23C5E249F849E4,
+				652CF13B6846446BC15E9DAF,
 				B181144971E0C017E1F3AE82,
 			);
 			name = Sequence;

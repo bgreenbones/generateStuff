@@ -75,7 +75,8 @@ public:
                               Duration displacement = 0.25,
                               Probability pDisplace = 0.5,
                               Probability pDouble = 0.75) const; // (for forward displacement, set pDouble = 1 and displacement = 1 - amount to displace forward)
-    Phrase fillWithRolls(Probability associationProb,
+    Phrase fillWithRolls(Probability rollProb,
+                         Probability associationProb,
                          Probability rollLengthProb) const;
     Phrase chooseAccents() const;
     
@@ -88,8 +89,8 @@ public:
     
     
     // Ornament stuff - TODO: i don't think these really belong in Phrase class
-    Phrase addOrnaments(vector<OrnamentSimple> possibleOrnaments, vector<float> probabilities =  { }) const;
-    Phrase addOrnaments(OrnamentSimple ornament) const;
+    Phrase addOrnaments(vector<OrnamentSimple> possibleOrnaments, Probability prob, double breadth, vector<float> probabilities =  { }) const;
+    Phrase addOrnaments(OrnamentSimple ornament, Probability prob, double breadth) const;
     Phrase withRoll(Position start, Position target, Association association) const;
     
     // Mininotation stuff

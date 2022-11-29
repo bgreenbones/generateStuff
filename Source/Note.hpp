@@ -14,6 +14,7 @@
 #include "Time/TimedEvent.h"
 #include "Probability.h"
 #include "Mininotation.h"
+#include "Ornamentation.h"
 
 #endif /* Note_hpp */
 
@@ -70,16 +71,18 @@ public:
         modified.velocity = accentVelocity;
         return modified;
     };
-    Note accent() {
-        this->accented = 1.0;
-        this->velocity = accentVelocity;
-        return *this;
-    };
-    Note ornament() {
+//    Note accent() {
+//        this->accented = 1.0;
+//        this->velocity = accentVelocity;
+//        return *this;
+//    };
+    Note ornament() const {
         Note modified = Note(*this);
         modified.ornamented = 1.0;
         return modified;
     }
+    
+    vector<Note> placeOrnament(OrnamentSimple ornamentSimple, double breadth) const;
     
     int pitch; // todo: use my C pitch definitions
     int velocity; // todo: use juce types for unsigned shorts and others?

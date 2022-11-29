@@ -21,7 +21,7 @@
 //                }
 //            }
 //        } else {
-Phrase Phrase::addOrnaments(vector<OrnamentSimple> possibleOrnaments, vector<float> probabilities) const{
+Phrase Phrase::addOrnaments(vector<OrnamentSimple> possibleOrnaments, Probability prob, double breadth, vector<float> probabilities) const{
     bool isAlreadyOrnamented = false; // todo: know this somehow
     if (isAlreadyOrnamented) {
         throw exception();
@@ -29,17 +29,18 @@ Phrase Phrase::addOrnaments(vector<OrnamentSimple> possibleOrnaments, vector<flo
     Phrase ornamented = (*this);
     ornamented.notes.clear();
     for (auto noteIt = notes.begin(); noteIt < notes.end(); noteIt++) {
-        if (noteIt->ornamented) {
-            OrnamentSimple ornament = draw<OrnamentSimple>(possibleOrnaments); // todo: use probabilities map
-            vector<Note> ornamentNotes = placeOrnamentSimple(*noteIt, ornament);
-            for_each(ornamentNotes.begin(), ornamentNotes.end(), [&](Note toAdd) -> void { ornamented.addNote(toAdd); });
+        if (!noteIt->ornamented || !prob) {
+            continue;
         }
+        OrnamentSimple ornament = draw<OrnamentSimple>(possibleOrnaments); // todo: use probabilities map
+        vector<Note> ornamentNotes = noteIt->placeOrnament(ornament, breadth);
+        for_each(ornamentNotes.begin(), ornamentNotes.end(), [&](Note toAdd) -> void { ornamented.addNote(toAdd); });
     }
     return ornamented;
 }
 
-Phrase Phrase::addOrnaments(OrnamentSimple ornament) const {
-    return addOrnaments(vector<OrnamentSimple> { ornament });
+Phrase Phrase::addOrnaments(OrnamentSimple ornament, Probability prob, double breadth) const {
+    return addOrnaments(vector<OrnamentSimple> { ornament }, prob, breadth);
 }
 
 
@@ -99,13 +100,18 @@ Phrase Phrase::withRoll(Position start, Position target, Association association
     return withRoll;
 }
 
-Phrase Phrase::fillWithRolls(Probability associationProb,
+Phrase Phrase::fillWithRolls(Probability rollProb,
+                             Probability associationProb,
                              Probability rollLengthProb) const {
     Phrase filled(*this);
     filled.notes.monophonic = false;
     filled.notes.clear();
     
     for (auto note = notes.begin(); note < notes.end(); note++) {
+        if (!rollProb) {
+            continue;
+        }
+
         auto nextNote = note + 1;
         Position targetNoteStartTime;
         if (nextNote == this->notes.end()) {
