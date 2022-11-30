@@ -11,37 +11,16 @@
 #pragma once
 
 #include "TimeSignature.h"
-
-typedef enum Placement {
-    ahead = -1, onTop = 0, behind = 1
-} Placement;
-
-typedef enum DynamicShape {
-    cresc, steady, decresc
-} DynamicShape;
-
-typedef enum DynamicLevel {
-    pppp, ppp, pp, p, mp, mf, f, ff, fff, ffff
-} DynamicLevel;
-
-typedef struct DynamicRange {
-    DynamicLevel high;
-    DynamicLevel low;
-    DynamicLevel median;
-} DynamicRange;
-
-typedef struct Dynamics {
-    DynamicShape shape;
-    DynamicRange range;
-} Dynamics;
+#include "Dynamics.h"
+#include "Timing.h"
 
 //typedef enum OrnamentPlacement {
 //    leading, trailing
 //} OrnamentPlacement;
 
-typedef enum Griddedness {
-    gridFree, loose, gridded
-} Griddedness;
+typedef enum Association {
+    pickup, rebound
+} Association;
 
 typedef enum OrnamentContent {
     even, buzz, ornament,

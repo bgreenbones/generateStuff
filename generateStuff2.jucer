@@ -25,6 +25,8 @@
               file="Source/Sequence/Ornamentation.cpp"/>
       </GROUP>
       <GROUP id="{7E9EEBA7-7D3A-0165-A4D4-0B38048879EB}" name="Time">
+        <FILE id="KsrwWQ" name="Timing.cpp" compile="1" resource="0" file="Source/Time/Timing.cpp"/>
+        <FILE id="Occ053" name="Timing.h" compile="0" resource="0" file="Source/Time/Timing.h"/>
         <FILE id="fjIcpI" name="Syncopation.cpp" compile="1" resource="0" file="Source/Time/Syncopation.cpp"/>
         <FILE id="fDVALR" name="Syncopation.h" compile="0" resource="0" file="Source/Time/Syncopation.h"/>
         <FILE id="RsQGR1" name="TimedEvent.h" compile="0" resource="0" file="Source/Time/TimedEvent.h"/>
@@ -38,6 +40,8 @@
       </GROUP>
       <FILE id="kFP0O5" name="Constraint.cpp" compile="1" resource="0" file="Source/Constraint.cpp"/>
       <FILE id="YPjCl5" name="Constraint.hpp" compile="0" resource="0" file="Source/Constraint.hpp"/>
+      <FILE id="YXLH5e" name="Dynamics.cpp" compile="1" resource="0" file="Source/Dynamics.cpp"/>
+      <FILE id="TUNeUu" name="Dynamics.h" compile="0" resource="0" file="Source/Dynamics.h"/>
       <FILE id="q9sIZD" name="Generator.cpp" compile="1" resource="0" file="Source/Generator.cpp"/>
       <FILE id="po8Vvx" name="Generator.hpp" compile="0" resource="0" file="Source/Generator.hpp"/>
       <FILE id="IqXoVd" name="Heuristic.cpp" compile="1" resource="0" file="Source/Heuristic.cpp"/>

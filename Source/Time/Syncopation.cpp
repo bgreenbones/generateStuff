@@ -20,3 +20,5 @@ Position Syncopation::getPlacement(Position start, Position target) {
 Position Syncopation::getPlacement(Position start, Position target, Subdivision subdivision) {
     return quantize(getPlacement(start, target), subdivision, target);
 }
+
+

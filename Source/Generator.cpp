@@ -6,8 +6,6 @@
 //
 
 #include "Generator.hpp"
-#include "Misc.h"
-
 
 bool Generator::setSubdivision(const float subdivision) {
     this->subdivision = Subdivision(Beats(subdivision), phraseStartTime, phraseLength());

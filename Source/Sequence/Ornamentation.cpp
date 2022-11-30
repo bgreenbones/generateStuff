@@ -10,6 +10,57 @@
 
 #include "Phrase.hpp"
 #include "Random.h"
+#include "Dynamics.h"
+
+beats flamishLength (double tempo, double breadth) {
+    // at like 60-100 bpm, flams are like a 64th note behind the target note?
+    // at higher tempos, they're like a 32nd, down to like a 16th up in the 300bpm range??
+    float highTempo = 300; // bpm
+    float lowTempo = 50;
+    float flamDistanceAtHighTempo = 1.0 / 8.0;
+    float flamDistanceAtLowTempo = 1.0 / 24.0;
+    float slope = (highTempo - lowTempo) / (flamDistanceAtHighTempo - flamDistanceAtLowTempo);
+    float length = ((tempo - lowTempo) / slope) + flamDistanceAtLowTempo;
+    
+//    float notesInOrnament = (float) ornament;
+//    flamDistance = flamDistance / notesInOrnament; // todo: not sold on this math
+    // todo: add randomness
+    // todo: account for multiple stroke flams like ruffs and drags
+    return length;
+}
+
+Ornament flamish (OrnamentSimple ornamentSimple, double tempo, double breadth) {
+    return Ornament {
+        .placement = ahead,
+        .griddedness = gridFree,
+        .content = even,
+        .dynamics = Dynamics {
+            .shape = steady,
+            .range = DynamicRange {
+                .high = p,
+                .low = pp,
+            }
+        },
+        .numNotes = (unsigned short) ornamentSimple,
+        .length = flamishLength (tempo, breadth),
+    };
+}
+
+Ornament getOrnament(OrnamentSimple ornamentSimple, double tempo, double breadth) {
+    Ornament result;
+    switch (ornamentSimple) {
+        case flam:
+        case drag:
+        case ruff:
+            result = flamish (ornamentSimple, tempo, breadth);
+            break;
+        case flamA:
+            break;
+        case cheese:
+            break;
+    }
+    return result;
+}
 
 
 
@@ -59,8 +110,6 @@ vector<Note> roll(Duration length, Subdivision subdivision) {
     }
     return roll;
 }
-
-
 
 
 // TODO: pick up and rebound can refer to other structures too...not just rolls....

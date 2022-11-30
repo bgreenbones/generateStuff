@@ -16,7 +16,6 @@
 
 #include "Note.hpp"
 #include "Subdivision.h"
-#include "Misc.h"
 #include "Sequence.h"
 #include "Syncopation.h"
 #include "Random.h"
