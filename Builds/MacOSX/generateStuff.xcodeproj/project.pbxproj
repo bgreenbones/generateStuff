@@ -177,6 +177,7 @@
 		E86108D031ACA0C31FD78B74 /* Info-AU.plist */ /* Info-AU.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-AU.plist"; path = "Info-AU.plist"; sourceTree = SOURCE_ROOT; };
 		E90A5043ACD9EE7D5A8C2A10 /* DiscRecording.framework */ /* DiscRecording.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DiscRecording.framework; path = System/Library/Frameworks/DiscRecording.framework; sourceTree = SDKROOT; };
 		EADD9DBA0C7C1A2338983FC0 /* juce_core */ /* juce_core */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_core; path = /Users/beng/experiments/musicDevelopment/JUCE/modules/juce_core; sourceTree = "<absolute>"; };
+		EB0B1662DF168106B31B0F91 /* CustomUIs.h */ /* CustomUIs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CustomUIs.h; path = ../../Source/UI/CustomUIs.h; sourceTree = SOURCE_ROOT; };
 		EB9AF45241A6EDCC8EA0CBD6 /* PluginProcessor.h */ /* PluginProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PluginProcessor.h; path = ../../Source/PluginProcessor.h; sourceTree = SOURCE_ROOT; };
 		EC36FBF262D11B2162168902 /* Probability.h */ /* Probability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Probability.h; path = ../../Source/Probability.h; sourceTree = SOURCE_ROOT; };
 		ECB354F59F5766BDEC783AA9 /* Accelerate.framework */ /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -253,6 +254,7 @@
 		1121B859CAB62BA0ACBC72BE /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				53B6F757DCAC8A5BDC71E9ED,
 				EDA997C78341A6A6957E087A,
 				5F7CA260BB98C354305ED14C,
 				C17D588A4C38C3A28B3DEF32,
@@ -280,6 +282,14 @@
 				C867EB20474B73CBED1C845A,
 			);
 			name = Source;
+			sourceTree = "<group>";
+		};
+		53B6F757DCAC8A5BDC71E9ED /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				EB0B1662DF168106B31B0F91,
+			);
+			name = UI;
 			sourceTree = "<group>";
 		};
 		5F7CA260BB98C354305ED14C /* Time */ = {

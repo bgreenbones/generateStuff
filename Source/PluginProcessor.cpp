@@ -11,6 +11,7 @@
 #include "PluginEditor.h"
 #include "HostSettings.h"
 
+
 //==============================================================================
 GenerateStuffAudioProcessor::GenerateStuffAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -21,14 +22,14 @@ GenerateStuffAudioProcessor::GenerateStuffAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ),
+        playQueue(make_unique<map<string, Playable>>(map<string, Playable>()))
 #endif
 {
-    this->generator = Generator();
+    this->generator = Generator(playQueue);
     this->displacement = 0;
     this->startingBar = 1;
     this->stoppingBar = (Bars) (this->startingBar + generator.phraseLength());
-    this->playQueue = map<string, Playable>();
     this->noteOffIssued = true;
     
     this->allNotesOff = vector<juce::MidiMessage>();
@@ -39,7 +40,7 @@ GenerateStuffAudioProcessor::GenerateStuffAudioProcessor()
         }
     }
     
-    srand((int) time(0));
+    srand((int) time(0)); // init random number generator stuff
 }
 
 GenerateStuffAudioProcessor::~GenerateStuffAudioProcessor()
@@ -161,42 +162,49 @@ bool GenerateStuffAudioProcessor::isBusesLayoutSupported (const BusesLayout& lay
 }
 #endif
 
-void GenerateStuffAudioProcessor::removePlayable(string id) {
-    playQueue.erase(id);
-}
-
-void GenerateStuffAudioProcessor::queuePlayable(string id, Playable playable) {
-    playQueue.emplace(id, playable);
-}
-
+//void GenerateStuffAudioProcessor::removePlayable(string id) {
+//    playQueue->erase(id);
+//}
+//
+//void GenerateStuffAudioProcessor::toggleMutePlayable(string id) {
+//    if (playQueue->find(id) == playQueue->end()) {
+//        return;
+//    };
+//    Playable &playable = playQueue->at(id);
+//    playable.mute = !(playable.mute);
+//}
+//
+//
+//void GenerateStuffAudioProcessor::queuePlayable(string id, Playable playable) {
+//    //    for (auto it = playQueue.begin(); it < playQueue.end();) {
+//    //        if ((*it).midiChannel == playable.midiChannel) {
+//    //            playQueue.erase(it);
+//    //        } else {
+//    //            ++it;
+//    //        }
+//    //    }
+//    auto result = playQueue->emplace(id, playable);
+//    if (result.second) return;
+//    playQueue->at(id) = playable;
+//}
 
 void GenerateStuffAudioProcessor::setDisplacement(Beats displacement){
     this->displacement = displacement;
     return;
 }
+
 void GenerateStuffAudioProcessor::setStartBar(Bars startingBar){
     if (startingBar >= this->stoppingBar) return;
     if (startingBar < Bars(1)) return;
     this->startingBar = startingBar;
     return;
 }
+
 void GenerateStuffAudioProcessor::setStopBar(Bars stoppingBar){
     if (this->startingBar >= stoppingBar) return;
     this->stoppingBar = stoppingBar;
     return;
 }
-
-//void GenerateStuffAudioProcessor::queuePlayable(Playable playable) {
-//    for (auto it = playQueue.begin(); it < playQueue.end();) {
-//        if ((*it).midiChannel == playable.midiChannel) {
-//            playQueue.erase(it);
-//        } else {
-//            ++it;
-//        }
-//    }
-//    playQueue.push_back(playable);
-//    return;
-//}
 
 void GenerateStuffAudioProcessor::updateTimeSignature(juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo)
 {
@@ -211,6 +219,7 @@ void GenerateStuffAudioProcessor::updateTimeSignature(juce::Optional<juce::Audio
     
     return;
 }
+
 void GenerateStuffAudioProcessor::updateBpm(juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo)
 {
     auto newBpm = (positionInfo->getBpm()).orFallback(120);
@@ -227,18 +236,21 @@ void GenerateStuffAudioProcessor::playPlayables(
         juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo,
         juce::MidiBuffer& midiMessages)
 {
+    this->generator.phraseLength();
+    
     
     const double ppqPosition = (positionInfo->getPpqPosition()).orFallback(0);
-    for (auto playableIt = playQueue.begin(); playableIt != playQueue.end(); ++playableIt) {
-//        Playable playable = *playableIt;
+    for (auto playableIt = playQueue->begin(); playableIt != playQueue->end(); ++playableIt) {
         Playable playable = playableIt->second;
         Phrase phrase = playable.phrase;
-//        Phrase phrase = playable.phrase;
         int midiChannel = playable.midiChannel;
+        
+        if (playable.mute) {
+            continue;
+        }
         
         for (auto noteIt = phrase.notes.begin(); noteIt != phrase.notes.end(); ++noteIt) {
             Note note = *noteIt;
-            
             
 //            float ppqBarInQuarters = HostSettings::instance().getTimeSignature().barLengthInQuarters();
 //            double noteOnTimeInQuarters = phrase.bar * ppqBarInQuarters + phrase.offset + note.startTime; // todo: this doesn't work right if we have time signature changes
@@ -307,7 +319,6 @@ void GenerateStuffAudioProcessor::playPlayables(
         }
     }
 }
-
 
 void GenerateStuffAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {

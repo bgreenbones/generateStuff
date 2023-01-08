@@ -6,6 +6,9 @@
               cppLanguageStandard="17">
   <MAINGROUP id="MsxILz" name="generateStuff">
     <GROUP id="{00999AAF-F7D5-2407-527D-4524909F0912}" name="Source">
+      <GROUP id="{F3A0C4B1-F867-8446-A664-D7913F7323C9}" name="UI">
+        <FILE id="tkEiPc" name="CustomUIs.h" compile="0" resource="0" file="Source/UI/CustomUIs.h"/>
+      </GROUP>
       <GROUP id="{E84D5FE5-051D-49D6-86AD-21D645F5CBC0}" name="Sequence">
         <FILE id="oDJqjh" name="Additive.cpp" compile="1" resource="0" file="Source/Sequence/Additive.cpp"/>
         <FILE id="U2yQNV" name="Additive.h" compile="0" resource="0" file="Source/Sequence/Additive.h"/>

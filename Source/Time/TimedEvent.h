@@ -15,6 +15,12 @@
 
 class TimedEvent {
 public:
+    template <typename T>
+    class Tequence
+    {
+    };
+    
+    
     Position startTime;
     Duration duration;
     

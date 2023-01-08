@@ -9,6 +9,7 @@
 */
 
 #include "Syncopation.h"
+#include "Timing.h"
 
 
 Position Syncopation::getPlacement(Position start, Position target) {

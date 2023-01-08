@@ -15,15 +15,12 @@ using namespace std;
 
 //==============================================================================
 GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateStuffAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p)
+    : AudioProcessorEditor (&p), audioProcessor (p), generator(p.generator)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setSize (800, 300);
-    
-    phraseKeys.emplace(cascaraKey, (PhraseKeys) {.rollsKey = cascaraRollsKey, .ornamentsKey = cascaraOrnamentsKey});
-    phraseKeys.emplace(claveKey, (PhraseKeys) {.rollsKey = claveRollsKey, .ornamentsKey = claveOrnamentsKey});
-    
+        
     probabilityOfDouble.setSliderStyle (juce::Slider::LinearBarVertical);
     probabilityOfDouble.setRange (0.0, 1.0, 0.01);
     probabilityOfDouble.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
@@ -63,18 +60,7 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
         double associationProb = Probability(rollAssociation.getValue());
         double rollLengthProb = Probability(rollLength.getValue());
 
-//        Association association = associationValue >= 0.5 ? pickup : rebound;
-//        double syncopationAmount = abs(associationValue - 0.5) * 2;
-//        Syncopation sync(association == pickup ? wonk : swing, syncopationAmount);
-
-//        Association association = draw<Association>({ pickup, rebound });
-//        Syncopation sync(association == pickup ? wonk : swing, boundedNormal(0, 1, 0.5));
-
-//        selectCascaraButton.getToggleState() ?
-//        audioProcessor.queuePlayable(cascaraRollsKey, audioProcessor.generator.rollCascara(rollProb, associationProb, rollLengthProb)) :
-//        audioProcessor.queuePlayable(claveRollsKey, audioProcessor.generator.rollClave(rollProb, associationProb, rollLengthProb)); };
-        audioProcessor.queuePlayable(phraseKeys[selectedPhraseKeyState].rollsKey,
-                                     audioProcessor.generator.rollClave(rollProb, associationProb, rollLengthProb));
+        generator.roll(selectedPhraseKeyState, rollProb, associationProb, rollLengthProb);
     };
     addAndMakeVisible (&addRollsButton);
 
@@ -155,32 +141,32 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     startBar.setText(startBarString);
     stopBar.setText(stopBarString);
 
-    regenRolls.setClickingTogglesState(true);
-    regenRolls.setToggleState(false, juce::dontSendNotification);
-    regenOrnaments.setClickingTogglesState(true);
-    regenOrnaments.setToggleState(false, juce::dontSendNotification);
-    regenRolls.onClick = []() {};
-    regenOrnaments.onClick = []() {};
-    addAndMakeVisible (&regenRolls);
-    addAndMakeVisible (&regenOrnaments);
+    regenerateRolls.setClickingTogglesState(true);
+    regenerateRolls.setToggleState(this->audioProcessor.regenerateRolls, juce::dontSendNotification);
+    regenerateOrnaments.setClickingTogglesState(true);
+    regenerateOrnaments.setToggleState(this->audioProcessor.regenerateOrnaments, juce::dontSendNotification);
+    regenerateRolls.onClick = [this]() {
+        this->audioProcessor.regenerateRolls = regenerateRolls.getToggleState();
+    };
+    regenerateOrnaments.onClick = [this]() {
+        this->audioProcessor.regenerateOrnaments = regenerateOrnaments.getToggleState();
+    };
+    addAndMakeVisible (&regenerateRolls);
+    addAndMakeVisible (&regenerateOrnaments);
     
-    clearCascaraButton.onClick = [this]() {audioProcessor.removePlayable(cascaraKey); };
+    clearCascaraButton.onClick = [this]() { generator.toggleMutePlayable(cascaraKey); };
     addAndMakeVisible(&clearCascaraButton);
-    clearClaveButton.onClick = [this]() {audioProcessor.removePlayable(claveKey); };
+    clearClaveButton.onClick = [this]() { generator.toggleMutePlayable(claveKey); };
     addAndMakeVisible(&clearClaveButton);
     clearRollsButton.onClick = [this]() {
-//        selectCascaraButton.getToggleState() ?
-//            audioProcessor.removePlayable(cascaraRollsKey) :
-//            audioProcessor.removePlayable(claveRollsKey);
-        audioProcessor.removePlayable(phraseKeys[selectedPhraseKeyState].rollsKey);
+        string rollsKey = generator.rollsKey(selectedPhraseKeyState);
+        generator.toggleMutePlayable(rollsKey);
     };
     
     addAndMakeVisible(&clearRollsButton);
     clearOrnamentsButton.onClick = [this]() {
-//        selectCascaraButton.getToggleState() ?
-//            audioProcessor.removePlayable(cascaraOrnamentsKey) :
-//            audioProcessor.removePlayable(claveOrnamentsKey);
-        audioProcessor.removePlayable(phraseKeys[selectedPhraseKeyState].ornamentsKey);
+        string ornamentsKey = generator.ornamentsKey(selectedPhraseKeyState);
+        generator.toggleMutePlayable(ornamentsKey);
     };
     addAndMakeVisible(&clearOrnamentsButton);
     
@@ -202,7 +188,7 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     
     selectClaveButton.setRadioGroupId(selectRhythmGroupId);
     selectClaveButton.setClickingTogglesState(true);
-    selectClaveButton.setToggleState(false, juce::dontSendNotification);
+    selectClaveButton.setToggleState(true, juce::dontSendNotification);
     selectClaveButton.onClick = updateSelectedPhraseState;
     addAndMakeVisible(&selectClaveButton);
     
@@ -249,13 +235,7 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
         bool drags = dragButton.getToggleState();
         bool ruffs = ruffButton.getToggleState();
         
-//        selectCascaraButton.getToggleState() ?
-//        audioProcessor.queuePlayable(cascaraOrnamentsKey,
-//                                     audioProcessor.generator.ornamentCascara(prob, breadth, flams, drags, ruffs)) :
-//        audioProcessor.queuePlayable(claveOrnamentsKey,
-//                                     audioProcessor.generator.ornamentClave(prob, breadth, flams, drags, ruffs)); };
-        audioProcessor.queuePlayable(phraseKeys[selectedPhraseKeyState].ornamentsKey,
-                                     audioProcessor.generator.ornamentCascara(prob, breadth, flams, drags, ruffs));
+        generator.ornament(selectedPhraseKeyState, prob, breadth, flams, drags, ruffs);
     };
     addAndMakeVisible(&addOrnamentsButton);
 
@@ -396,9 +376,9 @@ void GenerateStuffAudioProcessorEditor::resized()
     yCursor += firstColumnElementHeight + spaceBetween1stRowElements;
     stopBarLabel.setBounds (xCursor - numberInputWidth, yCursor, numberInputWidth, firstColumnElementHeight);
     yCursor += firstColumnElementHeight + spaceBetween1stRowElements;
-    regenRolls.setBounds (xCursor + spaceBetweenControls, yCursor, numberInputWidth * 2, firstColumnElementHeight);
+    regenerateRolls.setBounds (xCursor + spaceBetweenControls, yCursor, numberInputWidth * 2, firstColumnElementHeight);
     yCursor += firstColumnElementHeight + spaceBetween1stRowElements;
-    regenOrnaments.setBounds (xCursor + spaceBetweenControls, yCursor, numberInputWidth * 2, firstColumnElementHeight);
+    regenerateOrnaments.setBounds (xCursor + spaceBetweenControls, yCursor, numberInputWidth * 2, firstColumnElementHeight);
     xCursor += numberInputWidth + spaceBetweenControls;
     yCursor = yPadding;
     
@@ -513,13 +493,14 @@ void GenerateStuffAudioProcessorEditor::buttonClicked (juce::Button *button)
     auto isCascaraFromClaveButton = buttonName.equalsIgnoreCase(cascaraFromClaveName);
     
     if (isCascaraButton) {
-        audioProcessor.queuePlayable(cascaraKey, audioProcessor.generator.cascara());
+        generator.cascara();
+        generator.queuePlayable(cascaraKey, generator.cascara());
     } else if (isClaveButton) {
-        audioProcessor.queuePlayable(claveKey, audioProcessor.generator.clave());
+        generator.queuePlayable(claveKey, generator.clave());
     } else if (isClaveFromCascaraButton) {
-        audioProcessor.queuePlayable(claveKey, audioProcessor.generator.claveFromCascara());
+        generator.queuePlayable(claveKey, generator.claveFromCascara());
     } else if (isCascaraFromClaveButton) {
-        audioProcessor.queuePlayable(cascaraKey, audioProcessor.generator.cascaraFromClave());
+        generator.queuePlayable(cascaraKey, generator.cascaraFromClave());
     }
 }
 

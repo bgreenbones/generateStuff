@@ -84,7 +84,8 @@ Phrase Phrase::addOrnaments(vector<OrnamentSimple> possibleOrnaments, Probabilit
             continue;
         }
         OrnamentSimple ornament = draw<OrnamentSimple>(possibleOrnaments); // todo: use probabilities map
-        vector<Note> ornamentNotes = noteIt->placeOrnament(ornament, breadth);
+        Sequence<Note> ornamentNotes = noteIt->placeOrnament(ornament, breadth);
+//        Sequence<Note> ornamentNotes = noteIt->placeOrnament(ornament, breadth);
         for_each(ornamentNotes.begin(), ornamentNotes.end(), [&](Note toAdd) -> void { ornamented.addNote(toAdd); });
     }
     return ornamented;

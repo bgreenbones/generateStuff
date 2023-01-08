@@ -9,6 +9,7 @@
 */
 
 #include "Random.h"
+#include "Note.hpp"
 #include <random>
 #include <iostream>
 #include "Subdivision.h"

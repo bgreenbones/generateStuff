@@ -19,11 +19,14 @@
 
 using namespace std;
 
+// TODO: someday we want generator to be a place for all your phrase types which might not even exist at compile time
 class Generator
 {
 public:
     Generator() {}
+    Generator(shared_ptr<map<string, Playable>> playQueue): playQueue(playQueue) {}
 
+    shared_ptr<map<string, Playable>> playQueue;
     Phrase cascaraPhrase, clavePhrase;
     constexpr static float const defaultSubdivision = 1./2.;
     constexpr static float const defaultBars = 2;
@@ -41,10 +44,13 @@ public:
     Playable clave();
     Playable claveFromCascara();
     Playable cascaraFromClave();
-    Playable rollCascara(Probability rollProb, Probability associationProb, Probability rollLengthProb);
-    Playable rollClave(Probability rollProb, Probability associationProb, Probability rollLengthProb);
-    Playable ornamentCascara(Probability prob, double breadth, bool flams, bool drags, bool ruffs);
-    Playable ornamentClave(Probability prob, double breadth, bool flams, bool drags, bool ruffs);
+    
+    void removePlayable(string id);
+    void toggleMutePlayable(string id);
+    void queuePlayable(string id, Playable playable);
+
+    void roll(string phraseKey, Probability rollProb, Probability associationProb, Probability rollLengthProb);
+    void ornament(string phraseKey, Probability prob, double breadth, bool flams, bool drags, bool ruffs);
 
     bool setSubdivision(const float subdivision);
     bool setPhraseLengthBars(const float bars);
@@ -54,6 +60,9 @@ public:
         cascaraPhrase.updateTimeSignature();
         clavePhrase.updateTimeSignature();
     }
+    
+    string rollsKey(string phraseKey);
+    string ornamentsKey(string phraseKey);
 private:
 };
 

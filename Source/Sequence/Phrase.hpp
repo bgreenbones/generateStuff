@@ -36,12 +36,17 @@ public:
     Phrase(Duration duration): Phrase(Beats(0.25), 0, duration) {}
     Phrase(): Phrase(Beats(0.25), 0, Bars(2)) {}
 //    Phrase(Rhythm rhythm, Phrase phrasing);
-    Phrase(Phrase const& other): TimedEvent(other), notes(other.notes), subdivisions(other.subdivisions) {};
+    Phrase(Phrase const& other): TimedEvent(other), notes(other.notes), subdivisions(other.subdivisions) {
+//        notes.parent = *this;
+//        subdivisions.parent = *this;
+    };
 
     Phrase& operator=(Phrase other) {
         TimedEvent::operator=(other);
         swap(notes, other.notes);
+        notes.parent = *this;
         swap(subdivisions, other.subdivisions);
+        subdivisions.parent = *this;
         return *this;
     };
     

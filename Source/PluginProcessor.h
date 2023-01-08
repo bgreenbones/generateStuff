@@ -26,22 +26,23 @@ public:
     GenerateStuffAudioProcessor();
     ~GenerateStuffAudioProcessor() override;
 
-
     //==============================================================================
     double mSampleRate;
     int mSamplesPerBlock;
     double samplesPerBeat;
     double samplesPerMinute;
     float probabilityOfDouble;
+    float regenerateRolls;
+    float regenerateOrnaments;
     Generator generator;
-//    vector<Playable> playQueue;
-    map<string, Playable> playQueue;
+    shared_ptr<map<string, Playable>> playQueue;
     vector<juce::MidiMessage> allNotesOff;
     unsigned long currentNoteOff;
     bool noteOffIssued;
-    
-    void removePlayable(string id);
-    void queuePlayable(string id, Playable playable);
+//    
+//    void removePlayable(string id);
+//    void toggleMutePlayable(string id);
+//    void queuePlayable(string id, Playable playable);
     
     void setDisplacement(Beats displacement);
     void setStartBar(Bars startingBar);
@@ -49,13 +50,7 @@ public:
     Beats displacement;
     Bars startingBar;
     Bars stoppingBar;
-//    void queuePlayable(Playable playable);
-    //=============================================================================
-    
-    
-    
-    
-    
+    //============================================================================
     
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
     void releaseResources() override;

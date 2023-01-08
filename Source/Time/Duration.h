@@ -38,8 +38,10 @@ public:
     
 //    Duration(Duration const& other): Duration(other.value, other.timeSignature) {}
     Duration operator=(Duration other) {
-      swap(durationValueInQuarters, other.durationValueInQuarters);
-      swap(timeSignature, other.timeSignature);
+//      swap(durationValueInQuarters, other.durationValueInQuarters);
+//      swap(timeSignature, other.timeSignature);
+      this->durationValueInQuarters = other.durationValueInQuarters;
+      this->timeSignature = other.timeSignature;
       return *this;
     }
     bool operator>(const Duration other) { return this->asQuarters() > other.asQuarters(); }

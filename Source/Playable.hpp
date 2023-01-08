@@ -17,6 +17,7 @@ public:
     Playable(Phrase phrase, short midiChannel): phrase(phrase), midiChannel(midiChannel) { };
     Phrase phrase;
     short midiChannel;
+    bool mute = false;
 };
 
 #endif /* Playable_hpp */

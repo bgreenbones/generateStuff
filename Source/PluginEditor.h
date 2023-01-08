@@ -34,6 +34,7 @@ private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     GenerateStuffAudioProcessor& audioProcessor;
+    Generator& generator;
     
     juce::Slider probabilityOfDouble;
     juce::TextButton randomCascaraButton { "casc "};
@@ -80,8 +81,8 @@ private:
     juce::TextEditor startBar;
     juce::Label stopBarLabel; // stop bar / just go forever? / loop going forward in timeline?
     juce::TextEditor stopBar;
-    juce::TextButton regenRolls { "regen rolls" }; // re-gen rolls on loop
-    juce::TextButton regenOrnaments { "regen orns" }; // re-gen ornaments on loop
+    juce::TextButton regenerateRolls { "regen rolls" }; // re-gen rolls on loop
+    juce::TextButton regenerateOrnaments { "regen orns" }; // re-gen ornaments on loop
 
     void updateSubdivisionState(float subdivision);
     void updatePhraseLengthState();
@@ -94,17 +95,18 @@ private:
     int decorationDividerX = -1;
     
     string cascaraKey = "cascara";
-    string cascaraRollsKey = "cascaraRolls";
-    string cascaraOrnamentsKey = "cascaraOrnaments";
+//    string cascaraRollsKey = "cascaraRolls";
+//    string cascaraOrnamentsKey = "cascaraOrnaments";
     string claveKey = "clave";
-    string claveRollsKey = "claveRolls";
-    string claveOrnamentsKey = "claveOrnaments";
+//    string claveRollsKey = "claveRolls";
+//    string claveOrnamentsKey = "claveOrnaments";
     
-    typedef struct PhraseKeys {
-        string const rollsKey;
-        string const ornamentsKey;
-    } PhraseKeys;
-    map<string, PhraseKeys> phraseKeys;
+//    typedef struct PhraseKeys {
+//        string const rollsKey;
+//        string const ornamentsKey;
+//    } PhraseKeys;
+    
+//    map<string, PhraseKeys> phraseKeys;
     string selectedPhraseKeyState;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GenerateStuffAudioProcessorEditor)

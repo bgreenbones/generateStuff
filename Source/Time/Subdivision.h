@@ -10,7 +10,8 @@
 
 #pragma once
 #include "TimedEvent.h"
-#include "Note.hpp"
+//#include "Note.hpp"
+#include "Mininotation.h"
 
 class Subdivision: public Duration, public TimedEvent {
 private:

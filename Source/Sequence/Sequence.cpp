@@ -14,6 +14,8 @@
 #include "Note.hpp"
 #include "Random.h"
 
+
+
 template <class T>
 void Sequence<T>::updateTimeSignature() {
 //    TimedEvent::updateTimeSignature();
@@ -264,7 +266,6 @@ std::string Sequence<T>::getStartTimesString() {
     
     return startTimesString;
 }
-
 
 template class Sequence<Note>;
 template class Sequence<Subdivision>;

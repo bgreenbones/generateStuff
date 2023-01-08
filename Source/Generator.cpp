@@ -34,8 +34,9 @@ Playable Generator::cascara() {
     auto tempPhrase = Phrase(subdivision, phraseStartTime, phraseLength())
         .randomCascara();
     cascaraPhrase = tempPhrase;
-    Playable result = Playable(tempPhrase, cascaraChannel);
-    return result;
+    Playable result = Playable(tempPhrase, cascaraChannel); // this works
+    queuePlayable("cascara", result); // this works
+    return result; // but after it goes out of scope, i think the phrase's sequences' parent references lose the scope and die
 }
 
 Playable Generator::clave() {
@@ -71,22 +72,20 @@ Playable Generator::claveFromCascara() {
     return result;
 }
 
-Playable Generator::rollCascara(Probability rollProb,
-                                Probability associationProb,
-                                Probability rollLengthProb) {
+void Generator::roll(string phraseKey,
+                         Probability rollProb,
+                         Probability associationProb,
+                         Probability rollLengthProb) {
     updateTimeSignature();
-    
-    return Playable(cascaraPhrase.fillWithRolls(rollProb, associationProb, rollLengthProb), cascaraChannel);
+    auto phrasePlayableIt = playQueue->find(phraseKey);
+    if (phrasePlayableIt == playQueue->end()) {
+        cout << "No phrase with that key";
+        return;
+    }
+    Playable phrasePlayable = playQueue->at(phraseKey);
+    Phrase rollPhrase = phrasePlayable.phrase.fillWithRolls(rollProb, associationProb, rollLengthProb);
+    queuePlayable(rollsKey(phraseKey), Playable(rollPhrase, phrasePlayable.midiChannel));
 }
-
-Playable Generator::rollClave(Probability rollProb,
-                              Probability associationProb,
-                              Probability rollLengthProb) {
-    updateTimeSignature();
-    
-    return Playable(clavePhrase.fillWithRolls(rollProb, associationProb, rollLengthProb), cascaraChannel);
-}
-
 
 vector<OrnamentSimple> getOrnamentVector(bool flams, bool drags, bool ruffs) {
     vector<OrnamentSimple> result;
@@ -96,14 +95,56 @@ vector<OrnamentSimple> getOrnamentVector(bool flams, bool drags, bool ruffs) {
     return result;
 }
 
-Playable Generator::ornamentCascara(Probability prob, double breadth, bool flams, bool drags, bool ruffs) {
+void Generator::ornament(string phraseKey,
+                             Probability prob,
+                             double breadth,
+                             bool flams,
+                             bool drags,
+                             bool ruffs) {
     updateTimeSignature();
+    auto phrasePlayableIt = playQueue->find(phraseKey);
+    if (phrasePlayableIt == playQueue->end()) {
+        cout << "No phrase with that key";
+        return;
+    }
+    Playable phrasePlayable = playQueue->at(phraseKey);
     auto possibleOrnaments = getOrnamentVector(flams, drags, ruffs);
-    return Playable(cascaraPhrase.addOrnaments(possibleOrnaments, prob, breadth), cascaraChannel);
+    Phrase ornamentsPhrase = phrasePlayable.phrase.addOrnaments(possibleOrnaments, prob, breadth);
+    queuePlayable(ornamentsKey(phraseKey), Playable(ornamentsPhrase, phrasePlayable.midiChannel));
 }
 
-Playable Generator::ornamentClave(Probability prob, double breadth, bool flams, bool drags, bool ruffs) {
-    auto possibleOrnaments = getOrnamentVector(flams, drags, ruffs);
-    updateTimeSignature();
-    return Playable(clavePhrase.addOrnaments(possibleOrnaments, prob, breadth), cascaraChannel);
+
+string Generator::rollsKey(string phraseKey) {
+    return phraseKey + "Rolls";
+}
+
+string Generator::ornamentsKey(string phraseKey) {
+    return phraseKey + "Ornaments";
+}
+
+void Generator::removePlayable(string id) {
+    playQueue->erase(id);
+}
+
+void Generator::toggleMutePlayable(string id) {
+    if (playQueue->find(id) == playQueue->end()) {
+        return;
+    };
+    Playable playable = playQueue->at(id);
+    playable.mute = !(playable.mute);
+}
+
+
+void Generator::queuePlayable(string id, Playable playable) {
+    //    for (auto it = playQueue.begin(); it < playQueue.end();) {
+    //        if ((*it).midiChannel == playable.midiChannel) {
+    //            playQueue.erase(it);
+    //        } else {
+    //            ++it;
+    //        }
+    //    }
+    auto result = playQueue->emplace(id, playable);
+//    auto result = playQueue->insert(pair<string, unique_ptr<Playable>>(id, playable)); // TODO:
+    if (result.second) return;
+    playQueue->at(id) = playable;
 }
