@@ -26,9 +26,10 @@ template <typename T>
 class Sequence
 {
 public:
-    Sequence(vector<T> events, TimedEvent& parent): parent(parent), events(events) {}
+    Sequence(vector<T> events, bool monophonic, TimedEvent& parent): monophonic(monophonic), parent(parent), events(events) {}
+    Sequence(vector<T> events, TimedEvent& parent): Sequence(events, true, parent) {}
     Sequence(TimedEvent &parent): Sequence({}, parent) {}
-//    Sequence(): Sequence({}, nullptr) {}
+    Sequence(Sequence other, TimedEvent& newParent): Sequence(other.events, other.monophonic, newParent) {}
     Sequence& operator=(Sequence other) {
         swap(monophonic, other.monophonic);
 //        this->parent = other.parent;
