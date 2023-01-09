@@ -16,6 +16,7 @@
 #include "Phrase.hpp"
 #include "Playable.hpp"
 #include "Syncopation.h"
+#include "HostSettings.h"
 
 using namespace std;
 
@@ -23,11 +24,19 @@ using namespace std;
 class Generator
 {
 public:
-    Generator() {}
-    Generator(shared_ptr<map<string, Playable>> playQueue): playQueue(playQueue) {}
+    Generator(): settings(HostSettings::instance()) {}
+    Generator(shared_ptr<map<string, Playable>> playQueue): settings(HostSettings::instance()), playQueue(playQueue) {}
+    Generator& operator=(Generator const& other) {
+        if (this == &other) {
+            return *this;
+        }
+        playQueue = other.playQueue;
+        return *this;
+    }
 
+    HostSettings &settings;
     shared_ptr<map<string, Playable>> playQueue;
-    Phrase cascaraPhrase, clavePhrase;
+
     constexpr static float const defaultSubdivision = 1./2.;
     constexpr static float const defaultBars = 2;
     constexpr static float const defaultBeats = 0;
@@ -45,6 +54,8 @@ public:
     Playable claveFromCascara();
     Playable cascaraFromClave();
     
+    bool hasPhrase(string phraseKey);
+    
     void removePlayable(string id);
     void toggleMutePlayable(string id);
     void queuePlayable(string id, Playable playable);
@@ -57,8 +68,8 @@ public:
     bool setPhraseLengthBeats(const float beats);
     void updateTimeSignature() {
         subdivision.updateTimeSignature();
-        cascaraPhrase.updateTimeSignature();
-        clavePhrase.updateTimeSignature();
+//        cascaraPhrase.updateTimeSignature();
+//        clavePhrase.updateTimeSignature();
     }
     
     string rollsKey(string phraseKey);

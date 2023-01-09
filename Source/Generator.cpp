@@ -28,15 +28,20 @@ bool Generator::setPhraseLengthBeats(const float beats) {
     return true;
 }
 
+
+bool Generator::hasPhrase(string phraseKey) {
+    auto phrasePlayableIt = playQueue->find(phraseKey);
+    return (phrasePlayableIt != playQueue->end());
+}
+
 Playable Generator::cascara() {
     updateTimeSignature();
     
     auto tempPhrase = Phrase(subdivision, phraseStartTime, phraseLength())
         .randomCascara();
-    cascaraPhrase = tempPhrase;
-    Playable result = Playable(tempPhrase, cascaraChannel); // this works
-    queuePlayable("cascara", result); // this works
-    return result; // but after it goes out of scope, i think the phrase's sequences' parent references lose the scope and die
+    Playable result = Playable(tempPhrase, cascaraChannel);
+    queuePlayable("cascara", result); // TODO: make these phrase type strings available to...everyone?
+    return result;
 }
 
 Playable Generator::clave() {
@@ -44,20 +49,14 @@ Playable Generator::clave() {
     
     auto tempPhrase = Phrase(subdivision, phraseStartTime, phraseLength())
         .randomClave();
-    this->clavePhrase = tempPhrase;
     Playable result = Playable(tempPhrase, claveChannel);
     return result;
 }
 
 Playable Generator::cascaraFromClave() {
     updateTimeSignature();
-    
-    if (clavePhrase.notes.empty()) {
-        this->clave();
-    }
-    
-    auto tempPhrase = clavePhrase.cascaraFromClave();
-    this->cascaraPhrase = tempPhrase;
+    if (!hasPhrase("clave")) { this->clave(); }
+    auto tempPhrase = playQueue->at("clave").phrase.cascaraFromClave();
     Playable result = Playable(tempPhrase, cascaraChannel);
     return result;
 }
@@ -65,9 +64,8 @@ Playable Generator::cascaraFromClave() {
 
 Playable Generator::claveFromCascara() {
     updateTimeSignature();
-    
-    auto tempPhrase = cascaraPhrase.claveFromCascara();
-    clavePhrase = tempPhrase;
+    if (!hasPhrase("cascara")) { this->cascara(); }
+    auto tempPhrase = playQueue->at("cascara").phrase.claveFromCascara();
     Playable result = Playable(tempPhrase, claveChannel);
     return result;
 }
@@ -77,11 +75,7 @@ void Generator::roll(string phraseKey,
                          Probability associationProb,
                          Probability rollLengthProb) {
     updateTimeSignature();
-    auto phrasePlayableIt = playQueue->find(phraseKey);
-    if (phrasePlayableIt == playQueue->end()) {
-        cout << "No phrase with that key";
-        return;
-    }
+    if (!hasPhrase(phraseKey)) return;
     Playable phrasePlayable = playQueue->at(phraseKey);
     Phrase rollPhrase = phrasePlayable.phrase.fillWithRolls(rollProb, associationProb, rollLengthProb);
     queuePlayable(rollsKey(phraseKey), Playable(rollPhrase, phrasePlayable.midiChannel));
@@ -102,11 +96,7 @@ void Generator::ornament(string phraseKey,
                              bool drags,
                              bool ruffs) {
     updateTimeSignature();
-    auto phrasePlayableIt = playQueue->find(phraseKey);
-    if (phrasePlayableIt == playQueue->end()) {
-        cout << "No phrase with that key";
-        return;
-    }
+    if (!hasPhrase(phraseKey)) return;
     Playable phrasePlayable = playQueue->at(phraseKey);
     auto possibleOrnaments = getOrnamentVector(flams, drags, ruffs);
     Phrase ornamentsPhrase = phrasePlayable.phrase.addOrnaments(possibleOrnaments, prob, breadth);

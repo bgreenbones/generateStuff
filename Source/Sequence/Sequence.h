@@ -30,11 +30,11 @@ public:
     Sequence(vector<T> events, TimedEvent& parent): Sequence(events, true, parent) {}
     Sequence(TimedEvent &parent): Sequence({}, parent) {}
     Sequence(Sequence other, TimedEvent& newParent): Sequence(other.events, other.monophonic, newParent) {}
-    Sequence& operator=(Sequence other) {
-        swap(monophonic, other.monophonic);
-//        this->parent = other.parent;
-//        swap(parent, other.parent);
-        swap(events, other.events);
+    Sequence& operator=(Sequence const& other) {
+        monophonic = other.monophonic;
+        events = other.events;
+//        swap(monophonic, other.monophonic);
+//        swap(events, other.events);
         return *this;
     };
     

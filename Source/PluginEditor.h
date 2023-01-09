@@ -95,18 +95,7 @@ private:
     int decorationDividerX = -1;
     
     string cascaraKey = "cascara";
-//    string cascaraRollsKey = "cascaraRolls";
-//    string cascaraOrnamentsKey = "cascaraOrnaments";
     string claveKey = "clave";
-//    string claveRollsKey = "claveRolls";
-//    string claveOrnamentsKey = "claveOrnaments";
-    
-//    typedef struct PhraseKeys {
-//        string const rollsKey;
-//        string const ornamentsKey;
-//    } PhraseKeys;
-    
-//    map<string, PhraseKeys> phraseKeys;
     string selectedPhraseKeyState;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GenerateStuffAudioProcessorEditor)

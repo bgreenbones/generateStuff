@@ -15,23 +15,17 @@
 
 class TimedEvent {
 public:
-    template <typename T>
-    class Tequence
-    {
-    };
-    
-    
     Position startTime;
     Duration duration;
     
     TimedEvent(Position startTime, Duration duration): startTime(startTime), duration(duration) { }
     TimedEvent(): TimedEvent(0, 1) { }
     TimedEvent(TimedEvent const& other): startTime(other.startTime), duration(other.duration) { }
-    TimedEvent& operator=(TimedEvent &other) {
-        swap(startTime, other.startTime);
-        swap(duration, other.duration);
-        return *this;
-    };
+//    TimedEvent& operator=(TimedEvent const& other) {
+//        startTime = other.startTime;
+//        duration = other.duration;
+//        return *this;
+//    };
     virtual ~TimedEvent() {};
     
     void updateTimeSignature() {

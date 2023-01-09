@@ -43,7 +43,7 @@ public:
 //        this->subdivisions = Sequence<Subdivision>(other.subdivisions.events, other.subdivisions.monophonic, *this);
     };
 
-    Phrase& operator=(Phrase other) {
+    Phrase& operator=(Phrase const& other) {
         TimedEvent::operator=(other);
         notes = Sequence<Note>(other.notes, *this);
         subdivisions = Sequence<Subdivision>(other.subdivisions, *this);
