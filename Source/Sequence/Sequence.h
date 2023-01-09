@@ -18,8 +18,7 @@ typedef enum PushBehavior {
     ignore, truncate, wrap
 } PushBehavior;
 
-// maybe this should be an inner class of phrase?
-// right now just will have a reference to its parent phrase.
+
 // this can encapsulate functionality related to the various vectors inside phrase
 // ...notes...subdivisions...dynamics, and other expressions to be added down the line
 template <typename T>

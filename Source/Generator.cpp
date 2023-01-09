@@ -12,18 +12,8 @@ bool Generator::setSubdivision(const float subdivision) {
     return true;
 }
 
-bool Generator::setPhraseLengthBars(const float bars) {
-    if (bars < 0 || bars + phraseLengthBeats.asBars() <= 0) {
-        return false;
-    }
+bool Generator::setPhraseLength(const float bars, const float beats) {
     phraseLengthBars = bars;
-    return true;
-}
-
-bool Generator::setPhraseLengthBeats(const float beats) {
-    if (beats < 0 || phraseLengthBars.asBeats() + beats <= 0) {
-        return false;
-    }
     phraseLengthBeats = beats;
     return true;
 }

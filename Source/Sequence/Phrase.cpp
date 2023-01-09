@@ -8,15 +8,15 @@
 #include "Phrase.hpp"
 #include <JuceHeader.h>
 
-void Phrase::updateTimeSignature() {
-    TimedEvent::updateTimeSignature();
-    for (auto subdiv = subdivisions.begin(); subdiv < subdivisions.end(); subdiv++) {
-        subdiv->updateTimeSignature();
-    }
-    for (auto note = notes.begin(); note < notes.end(); note++) {
-        note->updateTimeSignature();
-    }
-}
+//void Phrase::updateTimeSignature() {
+//    TimedEvent::updateTimeSignature();
+//    for (auto subdiv = subdivisions.begin(); subdiv < subdivisions.end(); subdiv++) {
+//        subdiv->updateTimeSignature();
+//    }
+//    for (auto note = notes.begin(); note < notes.end(); note++) {
+//        note->updateTimeSignature();
+//    }
+//}
 
 
 template <class T>

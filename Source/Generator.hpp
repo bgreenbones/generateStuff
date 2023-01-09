@@ -44,7 +44,7 @@ public:
     Beats phraseLengthBeats = defaultBeats;
     Position phraseStartTime = 0;
     Subdivision subdivision = Subdivision(Beats(defaultSubdivision), phraseStartTime, phraseLength());
-    Duration phraseLength() { return Bars(phraseLengthBars) + Beats(phraseLengthBeats); }
+    Duration phraseLength() { return phraseLengthBars + phraseLengthBeats; }
     
     int cascaraChannel = 1;
     int claveChannel = 2;
@@ -64,8 +64,7 @@ public:
     void ornament(string phraseKey, Probability prob, double breadth, bool flams, bool drags, bool ruffs);
 
     bool setSubdivision(const float subdivision);
-    bool setPhraseLengthBars(const float bars);
-    bool setPhraseLengthBeats(const float beats);
+    bool setPhraseLength(const float bars, const float beats);
     void updateTimeSignature() {
         subdivision.updateTimeSignature();
 //        cascaraPhrase.updateTimeSignature();

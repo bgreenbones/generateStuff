@@ -48,7 +48,7 @@ public:
 
     void updateTimeSignature() {
         timeSignature = HostSettings::instance().getTimeSignature();
-        TimedEvent::updateTimeSignature();
+//        TimedEvent::updateTimeSignature();
     }
     
 //    Subdivision operator=(const double other) {

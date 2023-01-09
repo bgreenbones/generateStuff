@@ -17,24 +17,31 @@ class TimedEvent {
 public:
     Position startTime;
     Duration duration;
+    HostSettings &settings;
     
-    TimedEvent(Position startTime, Duration duration): startTime(startTime), duration(duration) { }
+    TimedEvent(Position startTime, Duration duration):
+        startTime(startTime),
+        duration(duration),
+        settings(HostSettings::instance()) { }
     TimedEvent(): TimedEvent(0, 1) { }
-    TimedEvent(TimedEvent const& other): startTime(other.startTime), duration(other.duration) { }
-//    TimedEvent& operator=(TimedEvent const& other) {
-//        startTime = other.startTime;
-//        duration = other.duration;
-//        return *this;
-//    };
+    TimedEvent(TimedEvent const& other): TimedEvent(other.startTime, other.duration) {}
+//        startTime(other.startTime),
+//        duration(other.duration),
+//        settings(HostSettings::instance()) { }
+    TimedEvent& operator=(TimedEvent const& other) {
+        startTime = other.startTime;
+        duration = other.duration;
+        return *this;
+    };
     virtual ~TimedEvent() {};
     
-    void updateTimeSignature() {
-        bars numBars = duration.wholeBars();
-        beats beatsInLastBar = duration.beatsInLastBar();
-        startTime.timeSignature = HostSettings::instance().getTimeSignature();
-        duration.timeSignature = HostSettings::instance().getTimeSignature();
-        duration = Bars(numBars) + Beats(beatsInLastBar);
-    }
+//    void updateTimeSignature() {
+//        bars numBars = duration.wholeBars();
+//        beats beatsInLastBar = duration.beatsInLastBar();
+//        startTime.timeSignature = HostSettings::instance().getTimeSignature();
+//        duration.timeSignature = HostSettings::instance().getTimeSignature();
+//        duration = Bars(numBars) + Beats(beatsInLastBar);
+//    }
     
     Position endTime() const {
         return this->startTime + this->duration;

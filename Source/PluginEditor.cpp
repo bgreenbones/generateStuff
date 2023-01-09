@@ -272,12 +272,9 @@ void GenerateStuffAudioProcessorEditor::updatePhraseLengthState() {
         return;
     }
 
-    if (bars >= 0) {
-        audioProcessor.generator.setPhraseLengthBars(bars);
-    }
-    if (beats >= 0) {
-        audioProcessor.generator.setPhraseLengthBeats(beats);
-    }
+    if (!audioProcessor.generator.setPhraseLength(bars, beats)) {
+        // TODO: keep editor's value in sync with generator's
+    };
 }
 
 void GenerateStuffAudioProcessorEditor::updateDisplacementState() {

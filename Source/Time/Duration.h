@@ -32,14 +32,14 @@ private:
         return true;
     }
 public:
-    Duration(): timeSignature(HostSettings::instance().getTimeSignature()), durationValueInQuarters(0) {}
-    Duration(double value, TimeSignature timeSignature): timeSignature(timeSignature), durationValueInQuarters(value) { guard(); }
+    Duration(double value, TimeSignature timeSignature): settings(HostSettings::instance()), timeSignature(timeSignature), durationValueInQuarters(value) { guard(); }
+    Duration(): settings(HostSettings::instance()), timeSignature(HostSettings::instance().getTimeSignature()), durationValueInQuarters(0) {}
     Duration(double value): Duration(value, HostSettings::instance().getTimeSignature()) {}
     
-//    Duration(Duration const& other): Duration(other.value, other.timeSignature) {}
-    Duration operator=(Duration other) {
-//      swap(durationValueInQuarters, other.durationValueInQuarters);
-//      swap(timeSignature, other.timeSignature);
+    HostSettings &settings;
+    
+    Duration &operator=(Duration const& other) {
+        if (this == &other) { return *this; }
       this->durationValueInQuarters = other.durationValueInQuarters;
       this->timeSignature = other.timeSignature;
       return *this;
@@ -83,6 +83,8 @@ public:
     beats asBeats() const { return timeSignature.beatsPerQuarter() * this->asQuarters(); }
     bars asBars() const { return this->asQuarters() / timeSignature.barLengthInQuarters(); }
     quarters asQuarters() const { return this->durationValueInQuarters; }
+    beats asBeats(bool dynamicTimeSignature) const { return dynamicTimeSignature ? Duration(asQuarters()).asBeats() : asBeats(); }
+    bars asBars(bool dynamicTimeSignature) const { return dynamicTimeSignature ? Duration(asQuarters()).asBars() : asBars(); }
 
     operator Beats() const;
     operator Bars() const;

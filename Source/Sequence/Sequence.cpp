@@ -19,9 +19,9 @@
 template <class T>
 void Sequence<T>::updateTimeSignature() {
 //    TimedEvent::updateTimeSignature();
-    for (auto event = events.begin(); event < events.end(); event++) {
-        event->updateTimeSignature();
-    }
+//    for (auto event = events.begin(); event < events.end(); event++) {
+//        event->updateTimeSignature();
+//    }
 }
 
 

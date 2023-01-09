@@ -40,7 +40,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "BD813D22-EE64-47B1-98B0-3100CE86EC54"
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/Time/Duration.h"
@@ -334,8 +334,8 @@
             filePath = "../../Source/Sequence/Phrase.hpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
             landmarkName = "equalsExcludingTime(other)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1051,8 +1051,8 @@
             filePath = "../../Source/Generator.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
             landmarkName = "Generator::cascara()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1067,8 +1067,8 @@
             filePath = "../../Source/Generator.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
             landmarkName = "Generator::cascara()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1083,8 +1083,8 @@
             filePath = "../../Source/Generator.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
             landmarkName = "Generator::roll(phraseKey, rollProb, associationProb, rollLengthProb)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1099,8 +1099,8 @@
             filePath = "../../Source/Time/TimedEvent.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "22"
-            endingLineNumber = "22"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
             landmarkName = "TimedEvent"
             landmarkType = "3">
          </BreakpointContent>
@@ -1115,8 +1115,8 @@
             filePath = "../../Source/Sequence/Sequence.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
             landmarkName = "operator=(other)"
             landmarkType = "7">
             <Locations>
@@ -1163,8 +1163,8 @@
             filePath = "../../Source/Sequence/Phrase.hpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
             landmarkName = "operator=(other)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1179,10 +1179,10 @@
             filePath = "../../Source/Sequence/Phrase.hpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
-            landmarkName = "Phrase(other)"
-            landmarkType = "7">
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "Phrase"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
