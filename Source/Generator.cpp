@@ -25,7 +25,7 @@ bool Generator::hasPhrase(string phraseKey) {
 }
 
 Playable Generator::cascara() {
-    updateTimeSignature();
+//    updateTimeSignature();
     
     auto tempPhrase = Phrase(subdivision, phraseStartTime, phraseLength())
         .randomCascara();
@@ -35,7 +35,7 @@ Playable Generator::cascara() {
 }
 
 Playable Generator::clave() {
-    updateTimeSignature();
+//    updateTimeSignature();
     
     auto tempPhrase = Phrase(subdivision, phraseStartTime, phraseLength())
         .randomClave();
@@ -44,7 +44,7 @@ Playable Generator::clave() {
 }
 
 Playable Generator::cascaraFromClave() {
-    updateTimeSignature();
+//    updateTimeSignature();
     if (!hasPhrase("clave")) { this->clave(); }
     auto tempPhrase = playQueue->at("clave").phrase.cascaraFromClave();
     Playable result = Playable(tempPhrase, cascaraChannel);
@@ -53,7 +53,7 @@ Playable Generator::cascaraFromClave() {
 
 
 Playable Generator::claveFromCascara() {
-    updateTimeSignature();
+//    updateTimeSignature();
     if (!hasPhrase("cascara")) { this->cascara(); }
     auto tempPhrase = playQueue->at("cascara").phrase.claveFromCascara();
     Playable result = Playable(tempPhrase, claveChannel);
@@ -64,7 +64,7 @@ void Generator::roll(string phraseKey,
                          Probability rollProb,
                          Probability associationProb,
                          Probability rollLengthProb) {
-    updateTimeSignature();
+//    updateTimeSignature();
     if (!hasPhrase(phraseKey)) return;
     Playable phrasePlayable = playQueue->at(phraseKey);
     Phrase rollPhrase = phrasePlayable.phrase.fillWithRolls(rollProb, associationProb, rollLengthProb);
@@ -85,7 +85,7 @@ void Generator::ornament(string phraseKey,
                              bool flams,
                              bool drags,
                              bool ruffs) {
-    updateTimeSignature();
+//    updateTimeSignature();
     if (!hasPhrase(phraseKey)) return;
     Playable phrasePlayable = playQueue->at(phraseKey);
     auto possibleOrnaments = getOrnamentVector(flams, drags, ruffs);

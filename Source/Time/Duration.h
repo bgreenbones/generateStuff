@@ -32,11 +32,21 @@ private:
         return true;
     }
 public:
-    Duration(double value, TimeSignature timeSignature): settings(HostSettings::instance()), timeSignature(timeSignature), durationValueInQuarters(value) { guard(); }
-    Duration(): settings(HostSettings::instance()), timeSignature(HostSettings::instance().getTimeSignature()), durationValueInQuarters(0) {}
+    Duration(double value, bool dynamicTimeSignature):
+        settings(HostSettings::instance()),
+        dynamicTimeSignature(dynamicTimeSignature),
+        timeSignature(HostSettings::instance().getTimeSignature()),
+        durationValueInQuarters(value) { guard(); }
+    Duration(double value, TimeSignature timeSignature):
+        settings(HostSettings::instance()),
+        dynamicTimeSignature(false),
+        timeSignature(timeSignature),
+        durationValueInQuarters(value){ guard(); }
     Duration(double value): Duration(value, HostSettings::instance().getTimeSignature()) {}
+    Duration(): Duration(0) {} //settings(HostSettings::instance()), timeSignature(HostSettings::instance().getTimeSignature()), durationValueInQuarters(0) {}
     
     HostSettings &settings;
+    bool dynamicTimeSignature = false; // todo: make durations that change with the host's time signature.
     
     Duration &operator=(Duration const& other) {
         if (this == &other) { return *this; }

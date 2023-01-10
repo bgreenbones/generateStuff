@@ -16,13 +16,13 @@
 
 
 
-template <class T>
-void Sequence<T>::updateTimeSignature() {
+//template <class T>
+//void Sequence<T>::updateTimeSignature() {
 //    TimedEvent::updateTimeSignature();
 //    for (auto event = events.begin(); event < events.end(); event++) {
 //        event->updateTimeSignature();
 //    }
-}
+//}
 
 
 template <class T>

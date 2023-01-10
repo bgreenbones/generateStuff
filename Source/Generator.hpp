@@ -65,11 +65,11 @@ public:
 
     bool setSubdivision(const float subdivision);
     bool setPhraseLength(const float bars, const float beats);
-    void updateTimeSignature() {
-        subdivision.updateTimeSignature();
+//    void updateTimeSignature() {
+//        subdivision.updateTimeSignature();
 //        cascaraPhrase.updateTimeSignature();
 //        clavePhrase.updateTimeSignature();
-    }
+//    }
     
     string rollsKey(string phraseKey);
     string ornamentsKey(string phraseKey);
