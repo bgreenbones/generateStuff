@@ -40,11 +40,14 @@ public:
     constexpr static float const defaultSubdivision = 1./2.;
     constexpr static float const defaultBars = 2;
     constexpr static float const defaultBeats = 0;
-    Bars phraseLengthBars = defaultBars;
-    Beats phraseLengthBeats = defaultBeats;
+    bars phraseLengthBars = defaultBars;
+    beats phraseLengthBeats = defaultBeats;
     Position phraseStartTime = 0;
     Subdivision subdivision = Subdivision(Beats(defaultSubdivision), phraseStartTime, phraseLength());
-    Duration phraseLength() { return phraseLengthBars + phraseLengthBeats; }
+    Duration phraseLength() {
+        Duration result = Bars(phraseLengthBars) + Beats(phraseLengthBeats);
+        return result;
+    }
     
     int cascaraChannel = 1;
     int claveChannel = 2;

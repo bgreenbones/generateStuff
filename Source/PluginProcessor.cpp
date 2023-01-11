@@ -29,7 +29,7 @@ GenerateStuffAudioProcessor::GenerateStuffAudioProcessor()
     this->generator = Generator(playQueue);
     this->displacement = 0;
     this->startingBar = 1;
-    this->stoppingBar = (Bars) (this->startingBar + generator.phraseLength());
+    this->stoppingBar = this->startingBar + generator.phraseLength().asBars();
     this->noteOffIssued = true;
     
     this->allNotesOff = vector<juce::MidiMessage>();
@@ -193,18 +193,31 @@ void GenerateStuffAudioProcessor::setDisplacement(Beats displacement){
     return;
 }
 
-void GenerateStuffAudioProcessor::setStartBar(Bars startingBar){
+void GenerateStuffAudioProcessor::setStartBar(bars startingBar){
     if (startingBar >= this->stoppingBar) return;
-    if (startingBar < Bars(1)) return;
+    if (startingBar < 1) return;
     this->startingBar = startingBar;
     return;
 }
 
-void GenerateStuffAudioProcessor::setStopBar(Bars stoppingBar){
+void GenerateStuffAudioProcessor::setStopBar(bars stoppingBar){
     if (this->startingBar >= stoppingBar) return;
     this->stoppingBar = stoppingBar;
     return;
 }
+
+//void GenerateStuffAudioProcessor::setStartBar(Bars startingBar){
+//    if (startingBar >= this->stoppingBar) return;
+//    if (startingBar < Bars(1)) return;
+//    this->startingBar = startingBar;
+//    return;
+//}
+//
+//void GenerateStuffAudioProcessor::setStopBar(Bars stoppingBar){
+//    if (this->startingBar >= stoppingBar) return;
+//    this->stoppingBar = stoppingBar;
+//    return;
+//}
 
 void GenerateStuffAudioProcessor::updateTimeSignature(juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo)
 {
@@ -255,8 +268,8 @@ void GenerateStuffAudioProcessor::playPlayables(
 //            float ppqBarInQuarters = HostSettings::instance().getTimeSignature().barLengthInQuarters();
 //            double noteOnTimeInQuarters = phrase.bar * ppqBarInQuarters + phrase.offset + note.startTime; // todo: this doesn't work right if we have time signature changes
             Bars playPeriod = this->stoppingBar - this->startingBar;
-            double loopStart = this->startingBar - Bars(1);
-            double loopEnd = this->stoppingBar -Bars(1);
+            double loopStart = Bars(this->startingBar - 1);
+            double loopEnd = Bars(this->stoppingBar - 1);
             double noteOnTimeInQuarters = loopStart + ((this->displacement + phrase.startTime + note.startTime) % playPeriod);
             while (ppqPosition > noteOnTimeInQuarters) { // might as well set it to be in the future
                 noteOnTimeInQuarters += phrase.duration;

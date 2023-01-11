@@ -26,8 +26,8 @@ bool Generator::hasPhrase(string phraseKey) {
 
 Playable Generator::cascara() {
 //    updateTimeSignature();
-    
-    auto tempPhrase = Phrase(subdivision, phraseStartTime, phraseLength())
+    Duration phraseLen = phraseLength();
+    auto tempPhrase = Phrase(subdivision, phraseStartTime, phraseLen)
         .randomCascara();
     Playable result = Playable(tempPhrase, cascaraChannel);
     queuePlayable("cascara", result); // TODO: make these phrase type strings available to...everyone?

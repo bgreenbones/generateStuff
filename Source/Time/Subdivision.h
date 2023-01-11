@@ -46,10 +46,10 @@ public:
         return false;
     }
 
-    void updateTimeSignature() {
-        timeSignature = HostSettings::instance().getTimeSignature();
+//    void updateTimeSignature() {
+//        timeSignatureValue = HostSettings::instance().getTimeSignature();
 //        TimedEvent::updateTimeSignature();
-    }
+//    }
     
 //    Subdivision operator=(const double other) {
 //        this->timeSignature = HostSettings::instance().getTimeSignature();

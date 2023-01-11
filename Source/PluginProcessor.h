@@ -45,11 +45,11 @@ public:
 //    void queuePlayable(string id, Playable playable);
     
     void setDisplacement(Beats displacement);
-    void setStartBar(Bars startingBar);
-    void setStopBar(Bars stoppingBar);
+    void setStartBar(bars startingBar);
+    void setStopBar(bars stoppingBar);
     Beats displacement;
-    Bars startingBar;
-    Bars stoppingBar;
+    bars startingBar;
+    bars stoppingBar;
     //============================================================================
     
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;

@@ -14,8 +14,6 @@
 #include <iostream>
 #include "Time/TimeSignature.h"
 
-using namespace std;
-
 class HostSettings {
 private:
     TimeSignature timeSignature;
