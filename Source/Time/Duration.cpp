@@ -11,6 +11,6 @@
 #include "Duration.h"
 #include <algorithm>
 
-Duration::operator Beats() const { return Beats(this->asBeats(), this->getTimeSignature()); }
-Duration::operator Bars() const { return Bars(this->asBars(), this->getTimeSignature()); }
-Duration::operator Quarters() const { return Quarters(this->asQuarters(), this->getTimeSignature()); }
+Duration::operator Beats() const { return Beats(asBeats(), getTimeSignature()); }
+Duration::operator Bars() const { return Bars(asBars(), getTimeSignature()); }
+//Duration::operator Quarters() const { return Quarters(this->asQuarters(), this->getTimeSignature()); }

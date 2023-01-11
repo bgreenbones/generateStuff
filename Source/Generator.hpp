@@ -18,7 +18,7 @@
 #include "Syncopation.h"
 #include "HostSettings.h"
 
-using namespace std;
+using std::shared_ptr, std::map, std::string;
 
 // TODO: someday we want generator to be a place for all your phrase types which might not even exist at compile time
 class Generator
@@ -40,12 +40,13 @@ public:
     constexpr static float const defaultSubdivision = 1./2.;
     constexpr static float const defaultBars = 2;
     constexpr static float const defaultBeats = 0;
-    bars phraseLengthBars = defaultBars;
-    beats phraseLengthBeats = defaultBeats;
+    Bars phraseLengthBars = Bars(defaultBars, true);
+    Beats phraseLengthBeats = Beats(defaultBeats, true);
     Position phraseStartTime = 0;
     Subdivision subdivision = Subdivision(Beats(defaultSubdivision), phraseStartTime, phraseLength());
     Duration phraseLength() {
-        Duration result = Bars(phraseLengthBars) + Beats(phraseLengthBeats);
+//        Duration result = Bars(phraseLengthBars) + Beats(phraseLengthBeats);
+        Duration result = phraseLengthBars + phraseLengthBeats;
         return result;
     }
     

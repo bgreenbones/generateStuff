@@ -17,42 +17,49 @@
 #include <math.h>
 #include "../HostSettings.h"
 
-using namespace std;
+//static TimeSignature currentTimeSignature() {
+//    return HostSettings::instance().getTimeSignature();
+//}
 
+class Duration;
+typedef Duration Position; // same thing, for now
+typedef Duration Quarters;
 class Beats;
 class Bars;
-class Quarters;
 
 class Duration {
 private:
+    HostSettings const& settings;
+    
     bool guard() {
         if (durationValueInQuarters < 0) {
             DBG ("negative duration value...");
         }
         return true;
     }
+protected:
+    TimeSignature currentTimeSignature() const {
+        return this->settings.getTimeSignature();
+    }
+    double durationValueInQuarters; // in quarters, always
+    bool dynamicTimeSignature = false; // todo: make durations that change NICELY with the host's time signature.
+    TimeSignature timeSignatureValue;
 public:
     Duration(double value, bool dynamicTimeSignature):
         settings(HostSettings::instance()),
+        durationValueInQuarters(value),
         dynamicTimeSignature(dynamicTimeSignature),
-        timeSignatureValue(HostSettings::instance().getTimeSignature()),
-        durationValueInQuarters(value) { guard(); }
+        timeSignatureValue(currentTimeSignature()) { guard(); }
     Duration(double value, TimeSignature timeSignature):
         settings(HostSettings::instance()),
+        durationValueInQuarters(value),
         dynamicTimeSignature(false),
-        timeSignatureValue(timeSignature),
-        durationValueInQuarters(value){ guard(); }
-    Duration(double value): Duration(value, HostSettings::instance().getTimeSignature()) {}
-    Duration(): Duration(0) {} //settings(HostSettings::instance()), timeSignature(HostSettings::instance().getTimeSignature()), durationValueInQuarters(0) {}
+        timeSignatureValue(timeSignature) { guard(); }
+    Duration(double value): Duration(value, currentTimeSignature()) {}
+    Duration(): Duration(0) {} //settings(HostSettings::instance()), timeSignature(currentTimeSignature()), durationValueInQuarters(0) {}
     
-    HostSettings &settings;
-    bool dynamicTimeSignature = false; // todo: make durations that change NICELY with the host's time signature.
-    TimeSignature timeSignatureValue;
     TimeSignature getTimeSignature() const {
-        if (dynamicTimeSignature) {
-            return settings.getTimeSignature();
-        }
-        return timeSignatureValue;
+        return dynamicTimeSignature ? currentTimeSignature() : timeSignatureValue;
     }
     
     Duration &operator=(Duration const& other) {
@@ -98,59 +105,65 @@ public:
 
     beats beatsInLastBar() const { return asBeats() - wholeBars() * getTimeSignature().numerator; }
     bars wholeBars() const { return floor(asBars()); }
-    beats asBeats() const { return getTimeSignature().beatsPerQuarter() * this->asQuarters(); }
-    bars asBars() const { return this->asQuarters() / getTimeSignature().barLengthInQuarters(); }
+    beats asBeats() const { return getTimeSignature().quartersToBeats(asQuarters()); }//.beatsPerQuarter() * this->asQuarters(); }
+    bars asBars() const { return getTimeSignature().quartersToBars(asQuarters()); }//this->asQuarters() / getTimeSignature().barLengthInQuarters(); }
     quarters asQuarters() const { return this->durationValueInQuarters; }
 
     operator Beats() const;
     operator Bars() const;
-    operator Quarters() const;
-    
     operator double() const { return this->asQuarters(); };
-protected:
-    double durationValueInQuarters; // in quarters, always
 };
 
-typedef Duration Position; // same thing, for now
-
 class Beats: public Duration {
+protected:
+    double durationValueInBeats; // in beats...always?
 public:
     Beats(beats value, TimeSignature timeSignature):
         Duration(timeSignature.beatsToQuarters(value), timeSignature) {}
-    Beats(double value): Beats(value, HostSettings::instance().getTimeSignature()) {}
+    Beats(double value): Beats(value, currentTimeSignature()) {}
     Beats(TimeSignature timeSignature): Beats(1.0, timeSignature) {}
-    Beats(): Beats(1.0, HostSettings::instance().getTimeSignature()) {}
+    Beats(): Beats(1.0, currentTimeSignature()) {}
     Beats operator=(const double other) {
-        this->timeSignatureValue = HostSettings::instance().getTimeSignature();
+        this->timeSignatureValue = currentTimeSignature();
         this->durationValueInQuarters = getTimeSignature().beatsToQuarters(other);
         return *this;
     }
+    
+    beats asBeats() const { return durationValueInBeats; }
+    bars asBars() const { return getTimeSignature().beatsToBars(asBeats()); }
+    quarters asQuarters() const { return getTimeSignature().beatsToQuarters(asBeats()); }
 };
 
 class Bars: public Duration {
+protected:
+    double durationValueInBars;
 public:
     Bars(bars value, TimeSignature timeSignature):
         Duration(timeSignature.barsToQuarters(value), timeSignature) {}
-    Bars(double value): Bars(value, HostSettings::instance().getTimeSignature()) {}
+    Bars(double value): Bars(value, currentTimeSignature()) {}
     Bars(TimeSignature timeSignature): Bars(1.0, timeSignature) {}
-    Bars(): Bars(1.0, HostSettings::instance().getTimeSignature()) {}
+    Bars(): Bars(1.0, currentTimeSignature()) {}
     Bars operator=(const double other) {
-        this->timeSignatureValue = HostSettings::instance().getTimeSignature();
+        this->timeSignatureValue = currentTimeSignature();
         this->durationValueInQuarters = getTimeSignature().barsToQuarters(other);
         return *this;
     }
+    
+    beats asBeats() const { return getTimeSignature().barsToBeats(asBars()); }
+    bars asBars() const { return durationValueInBars; }
+    quarters asQuarters() const { return getTimeSignature().barsToQuarters(asBars()); }
 };
 
-class Quarters: public Duration {
-public:
-    Quarters(quarters value, TimeSignature timeSignature):
-        Duration(value, timeSignature) {}
-    Quarters(double value): Quarters(value, HostSettings::instance().getTimeSignature()) {}
-    Quarters(TimeSignature timeSignature): Quarters(1.0, timeSignature) {}
-    Quarters(): Quarters(1.0, HostSettings::instance().getTimeSignature()) {}
-    Quarters operator=(const double other) {
-        this->timeSignatureValue = HostSettings::instance().getTimeSignature();
-        this->durationValueInQuarters = other;
-        return *this;
-    }
-};
+//class Quarters: public Duration {
+//public:
+//    Quarters(quarters value, TimeSignature timeSignature):
+//        Duration(value, timeSignature) {}
+//    Quarters(double value): Quarters(value, currentTimeSignature()) {}
+//    Quarters(TimeSignature timeSignature): Quarters(1.0, timeSignature) {}
+//    Quarters(): Quarters(1.0, currentTimeSignature()) {}
+//    Quarters operator=(const double other) {
+//        this->timeSignatureValue = currentTimeSignature();
+//        this->durationValueInQuarters = other;
+//        return *this;
+//    }
+//};

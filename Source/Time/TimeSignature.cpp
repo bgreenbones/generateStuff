@@ -37,12 +37,6 @@ TimeSignature TimeSignature::operator=(TimeSignature other) {
     return *this;
 }
 
-//TimeSignature& TimeSignature::operator=(TimeSignature& other) {
-//    swap(this->numerator, other.numerator);
-//    swap(this->denominator, other.denominator);
-//    return *this;
-//}
-
 TimeSignature::TimeSignature() {
     this->numerator = 4;
     this->denominator = 4;
@@ -75,9 +69,13 @@ quarters TimeSignature::barLengthInQuarters() const {
     return (quarters) quartersPerMeasure;
 }
 
-//beats TimeSignature::barsToBeats(bars bars) { } // todo: implement
-//beats TimeSignature::quartersToBeats(quarters quarters) { }
-//bars TimeSignature::beatsToBars(beats beats) { }
-//bars TimeSignature::quartersToBars(quarters quarters) { }
+quarters TimeSignature::quartersPerBar() const {
+    return barLengthInQuarters();
+}
+
+beats TimeSignature::barsToBeats(bars bars) const { return  bars * numerator; } // todo: implement
+beats TimeSignature::quartersToBeats(quarters quarters) const { return quarters * (denominator / 4.); }
+bars TimeSignature::beatsToBars(beats beats) const { return beats / numerator; }
+bars TimeSignature::quartersToBars(quarters quarters) const { return quarters / quartersPerBar(); }
 quarters TimeSignature::beatsToQuarters(beats beats) const { return beats / beatsPerQuarter(); }
 quarters TimeSignature::barsToQuarters(bars bars) const { return barLengthInQuarters() * bars; }

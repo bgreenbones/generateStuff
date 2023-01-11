@@ -21,7 +21,7 @@ private:
 
     HostSettings() {
         tempo = -1;
-        timeSignature = TimeSignature();
+//        timeSignature = TimeSignature();
     }
 public:
     static HostSettings &instance() {
@@ -32,10 +32,10 @@ public:
     HostSettings(HostSettings const&) = delete;
     void operator=(HostSettings const&) = delete;
 
-    TimeSignature getTimeSignature() {
+    TimeSignature getTimeSignature() const {
         return this->timeSignature;
     }
-    void setTimeSignature(TimeSignature newTimeSignature) {
+    void setTimeSignature(TimeSignature const& newTimeSignature) {
         this->timeSignature = newTimeSignature;
     }
 

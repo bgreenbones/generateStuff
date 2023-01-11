@@ -39,10 +39,6 @@ public:
     vector<juce::MidiMessage> allNotesOff;
     unsigned long currentNoteOff;
     bool noteOffIssued;
-//    
-//    void removePlayable(string id);
-//    void toggleMutePlayable(string id);
-//    void queuePlayable(string id, Playable playable);
     
     void setDisplacement(Beats displacement);
     void setStartBar(bars startingBar);

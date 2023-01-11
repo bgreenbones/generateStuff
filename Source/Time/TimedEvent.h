@@ -12,7 +12,6 @@
 
 #include "Duration.h"
 
-
 class TimedEvent {
 public:
     Position startTime;
@@ -65,9 +64,9 @@ public:
 
 
 template<class T> // must be TimedEvent
-vector<T> byPosition(vector<T> events, Position position) { // todo: remove this in favor of Sequence implementation.
-    static_assert(is_base_of<TimedEvent, T>::value, "T not derived from TimedEvent");
-    vector<T> result;
+std::vector<T> byPosition(std::vector<T> events, Position position) { // todo: remove this in favor of Sequence implementation.
+    static_assert(std::is_base_of<TimedEvent, T>::value, "T not derived from TimedEvent");
+    std::vector<T> result;
     for (auto it = events.begin(); it < events.end(); it++) {
         if (it->contains(position)) {
             result.push_back(*it);
@@ -77,8 +76,8 @@ vector<T> byPosition(vector<T> events, Position position) { // todo: remove this
 };
 
 template<class T> // must be TimedEvent
-T longest(vector<T> events) {
-    static_assert(is_base_of<TimedEvent, T>::value, "T not derived from TimedEvent");
+T longest(std::vector<T> events) {
+    static_assert(std::is_base_of<TimedEvent, T>::value, "T not derived from TimedEvent");
     T result;
     Duration maximumDuration = 0;
     for (auto it = events.begin(); it < events.end(); it++) {

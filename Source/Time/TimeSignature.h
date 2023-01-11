@@ -20,18 +20,14 @@ public:
     TimeSignature();
     TimeSignature(int numerator);
     TimeSignature(int numerator, int denominator);
-//    static TimeSignature defaultTimeSignature;
-//    static TimeSignature currentTimeSignature;
-    
     TimeSignature operator=(TimeSignature other);
-//    TimeSignature& operator=(TimeSignature& other);
     bool operator!=(TimeSignature other) { return numerator != other.numerator || denominator != other.denominator; }
-    
     
     int numerator;
     int denominator;
     
     beats beatsPerQuarter() const;
+    quarters quartersPerBar() const;
     quarters beatLengthInQuarters() const;
     quarters barLengthInQuarters() const;
     
