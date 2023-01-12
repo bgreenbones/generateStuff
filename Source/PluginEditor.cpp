@@ -94,11 +94,11 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     phraseLengthBars.setText(barsString);
     phraseLengthBeats.setText(beatsString);
     phraseLengthBars.onFocusLost = [this] {
-        juce::String phraseLengthString = juce::String::formatted("%.2f", this->audioProcessor.generator.phraseLengthBars);
+        juce::String phraseLengthString = juce::String::formatted("%.2f", this->audioProcessor.generator.phraseLengthBars.asBars());
         phraseLengthBars.setText(phraseLengthString);
     };
     phraseLengthBeats.onFocusLost = [this] {
-        juce::String phraseLengthString = juce::String::formatted("%.2f", this->audioProcessor.generator.phraseLengthBeats);
+        juce::String phraseLengthString = juce::String::formatted("%.2f", this->audioProcessor.generator.phraseLengthBeats.asBeats());
         phraseLengthBeats.setText(phraseLengthString);
     };
     

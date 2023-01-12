@@ -40,11 +40,15 @@ public:
     constexpr static float const defaultSubdivision = 1./2.;
     constexpr static float const defaultBars = 2;
     constexpr static float const defaultBeats = 0;
+//    Bars phraseLengthBars;
+//    Beats phraseLengthBeats;
     Bars phraseLengthBars = Bars(defaultBars, true);
     Beats phraseLengthBeats = Beats(defaultBeats, true);
     Position phraseStartTime = 0;
-    Subdivision subdivision = Subdivision(Beats(defaultSubdivision), phraseStartTime, phraseLength());
+    Subdivision subdivision = Subdivision(Beats(defaultSubdivision, true), phraseStartTime, phraseLength());
     Duration phraseLength() {
+//        phraseLengthBars = Bars(defaultBars, true);
+//        phraseLengthBeats = Beats(defaultBeats, true);
 //        Duration result = Bars(phraseLengthBars) + Beats(phraseLengthBeats);
         Duration result = phraseLengthBars + phraseLengthBeats;
         return result;

@@ -16,12 +16,12 @@
 
 class HostSettings {
 private:
-    TimeSignature timeSignature;
-    double tempo;
+    TimeSignature timeSignature = TimeSignature(4, 4);
+    double tempo = 120;
 
     HostSettings() {
-        tempo = -1;
-//        timeSignature = TimeSignature();
+        tempo = 120;
+        timeSignature = TimeSignature(4, 4);
     }
 public:
     static HostSettings &instance() {
