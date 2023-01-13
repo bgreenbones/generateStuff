@@ -56,7 +56,7 @@ public:
         dynamicTimeSignature(false),
         timeSignatureValue(timeSignature) { guard(); }
     Duration(double value): Duration(value, false) {}
-    Duration(): Duration(0) {} //settings(HostSettings::instance()), timeSignature(currentTimeSignature()), durationValueInQuarters(0) {}
+    Duration(): Duration(0) {}
     
     TimeSignature getTimeSignature() const {
         return dynamicTimeSignature ? currentTimeSignature() : timeSignatureValue;
@@ -70,32 +70,36 @@ public:
       return *this;
     }
     
+    Duration &operator=(Bars const& other);
+    Duration &operator=(Beats const& other);
+    
     Duration operator=(double other) {
       this->durationValueInQuarters = other;
       return *this;
     }
     
-    bool operator>(const Duration other) { return this->asQuarters() > other.asQuarters(); }
-    bool operator>(double other) { return *this > Duration(other, this->getTimeSignature()); }
-    bool operator>=(const Duration other) { return this->asQuarters() >= other.asQuarters(); }
-    bool operator>=(double other) { return *this >= Duration(other, this->getTimeSignature()); }
-    bool operator==(const Duration other)  { return this->asQuarters() == other.asQuarters(); }
-    bool operator==(double other) { return *this == Duration(other, this->getTimeSignature()); }
-    bool operator!=(const Duration other)  { return this->asQuarters() != other.asQuarters(); }
-    bool operator!=(double other) { return *this != Duration(other, this->getTimeSignature()); }
-    bool operator<=(const Duration other) { return this->asQuarters() <= other.asQuarters(); }
-    bool operator<=(double other) { return *this <= Duration(other, this->getTimeSignature()); }
-    bool operator<(const Duration other) { return this->asQuarters() < other.asQuarters(); }
-    bool operator<(double other) { return *this < Duration(other, this->getTimeSignature()); }
-    Duration operator+(const Duration other) { return Duration(this->asQuarters() + other.asQuarters(), this->getTimeSignature()); }
-    Duration operator+(const double other) { return *this + Duration(other, this->getTimeSignature()); }
-    Duration operator-(const Duration other) { return Duration(this->asQuarters() - other.asQuarters(), this->getTimeSignature()); }
-    Duration operator-(const double other) { return *this - Duration(other, this->getTimeSignature()); }
+    bool operator>(const Duration other) const { return this->asQuarters() > other.asQuarters(); }
+    bool operator>(double other) const { return *this > Duration(other, this->getTimeSignature()); }
+    bool operator>=(const Duration other) const { return this->asQuarters() >= other.asQuarters(); }
+    bool operator>=(double other) const { return *this >= Duration(other, this->getTimeSignature()); }
+    bool operator==(const Duration other) const  { return this->asQuarters() == other.asQuarters(); }
+    bool operator==(double other) const { return *this == Duration(other, this->getTimeSignature()); }
+    bool operator!=(const Duration other) const  { return this->asQuarters() != other.asQuarters(); }
+    bool operator!=(double other) const { return *this != Duration(other, this->getTimeSignature()); }
+    bool operator<=(const Duration other) const { return this->asQuarters() <= other.asQuarters(); }
+    bool operator<=(double other) const { return *this <= Duration(other, this->getTimeSignature()); }
+    bool operator<(const Duration other) const { return this->asQuarters() < other.asQuarters(); }
+    bool operator<(double other) const { return *this < Duration(other, this->getTimeSignature()); }
+    Duration operator+(const Duration other) const { return Duration(this->asQuarters() + other.asQuarters(), this->getTimeSignature()); }
+    Duration operator+(const double other) const { return *this + Duration(other, this->getTimeSignature()); }
+    Duration operator-(const Duration other) const { return Duration(this->asQuarters() - other.asQuarters(), this->getTimeSignature()); }
+    Duration operator-(const double other) const { return *this - Duration(other, this->getTimeSignature()); }
+//    Duration operator*(const Duration other) const { return Duration(this->asQuarters() * other.asQuarters(), this->getTimeSignature()); }
     Duration operator*(const double other) { return Duration(this->durationValueInQuarters * other, this->getTimeSignature()); }
-    Duration operator/(const Duration other) { return Duration(this->asQuarters() / other.asQuarters(), this->getTimeSignature()); }
+//    Duration operator/(const Duration other) const { return Duration(this->asQuarters() / other.asQuarters(), this->getTimeSignature()); }
     Duration operator/(const double other) { return Duration(this->durationValueInQuarters / other, this->getTimeSignature()); }
-    Duration operator%(const Duration other) { return Duration(fmodf(this->asQuarters(), other.asQuarters()), this->getTimeSignature()); }
-    Duration operator%(const double other) { return Duration(fmodf(this->asQuarters(), other), this->getTimeSignature()); }
+    Duration operator%(const Duration other) const { return Duration(fmodf(this->asQuarters(), other.asQuarters()), this->getTimeSignature()); }
+    Duration operator%(const double other) const { return Duration(fmodf(this->asQuarters(), other), this->getTimeSignature()); }
 //    Duration& operator++() { return (*this) + 1.0; }
     Duration operator++(int) { return (*this) + 1.0; }
 //    Duration& operator--() { return &((*this) - 1.0); }
@@ -105,8 +109,8 @@ public:
       return *this;
     }
     Duration operator-=(Duration other) {
-      this->durationValueInQuarters -= other.asQuarters();
-      return *this;
+        this->durationValueInQuarters -= other.asQuarters();
+        return *this;
     }
 
     beats beatsInLastBar() const { return asBeats() - wholeBars() * getTimeSignature().numerator; }
@@ -138,11 +142,14 @@ public:
         this->durationValueInQuarters = getTimeSignature().beatsToQuarters(other);
         return *this;
     }
+
+    Beats &operator=(Duration const& other);
+    Beats &operator=(Bars const& other);
     
     beats asBeats() const { return durationValueInBeats; }
     bars asBars() const { return getTimeSignature().beatsToBars(asBeats()); }
     quarters asQuarters() const { return getTimeSignature().beatsToQuarters(asBeats()); }
-    operator double() const { return this->asBeats(); };
+//    operator double() const { return this->asBeats(); };
 };
 
 class Bars: public Duration {
@@ -164,10 +171,12 @@ public:
         return *this;
     }
     
+    Bars &operator=(Duration const& other);
+    Bars &operator=(Beats const& other);
     beats asBeats() const { return getTimeSignature().barsToBeats(asBars()); }
     bars asBars() const { return durationValueInBars; }
     quarters asQuarters() const { return getTimeSignature().barsToQuarters(asBars()); }
-    operator double() const { return this->asBars(); };
+//    operator double() const { return this->asBars(); };
 };
 
 //class Quarters: public Duration {
