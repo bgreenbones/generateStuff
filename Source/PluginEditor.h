@@ -83,6 +83,7 @@ private:
     juce::TextEditor stopBar;
     juce::TextButton regenerateRolls { "regen rolls" }; // re-gen rolls on loop
     juce::TextButton regenerateOrnaments { "regen orns" }; // re-gen ornaments on loop
+    juce::TextButton flipClave { "flip clave" };
 
     void updateSubdivisionState(float subdivision);
     void updatePhraseLengthState();

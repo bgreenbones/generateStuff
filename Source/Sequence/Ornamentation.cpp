@@ -159,7 +159,7 @@ Phrase Phrase::fillWithRolls(Probability rollProb,
     
     for (auto note = notes.begin(); note < notes.end(); note++) {
         if (!rollProb) {
-            continue;
+            break;
         }
 
         auto nextNote = note + 1;

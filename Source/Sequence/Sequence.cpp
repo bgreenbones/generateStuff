@@ -15,16 +15,6 @@
 #include "Random.h"
 
 
-
-//template <class T>
-//void Sequence<T>::updateTimeSignature() {
-//    TimedEvent::updateTimeSignature();
-//    for (auto event = events.begin(); event < events.end(); event++) {
-//        event->updateTimeSignature();
-//    }
-//}
-
-
 template <class T>
 bool Sequence<T>::add(T toAdd, PushBehavior pushBehavior) {
     if (!(this->parent.containsPartially(toAdd))) {

@@ -25,26 +25,20 @@ bool Generator::hasPhrase(string phraseKey) {
 }
 
 Playable Generator::cascara() {
-//    updateTimeSignature();
-    Duration phraseLen = phraseLength();
-    auto tempPhrase = Phrase(subdivision, phraseStartTime, phraseLen)
-        .randomCascara();
-    Playable result = Playable(tempPhrase, cascaraChannel);
+    auto phrase = Phrase(subdivision, phraseStartTime, phraseLength()).randomCascara();
+    Playable result = Playable(phrase, cascaraChannel);
     queuePlayable("cascara", result); // TODO: make these phrase type strings available to...everyone?
     return result;
 }
 
 Playable Generator::clave() {
-//    updateTimeSignature();
-    
-    auto tempPhrase = Phrase(subdivision, phraseStartTime, phraseLength())
+    auto phrase = Phrase(subdivision, phraseStartTime, phraseLength())
         .randomClave();
-    Playable result = Playable(tempPhrase, claveChannel);
+    Playable result = Playable(phrase, claveChannel);
     return result;
 }
 
 Playable Generator::cascaraFromClave() {
-//    updateTimeSignature();
     if (!hasPhrase("clave")) { this->clave(); }
     auto tempPhrase = playQueue->at("clave").phrase.cascaraFromClave();
     Playable result = Playable(tempPhrase, cascaraChannel);
@@ -53,7 +47,6 @@ Playable Generator::cascaraFromClave() {
 
 
 Playable Generator::claveFromCascara() {
-//    updateTimeSignature();
     if (!hasPhrase("cascara")) { this->cascara(); }
     auto tempPhrase = playQueue->at("cascara").phrase.claveFromCascara();
     Playable result = Playable(tempPhrase, claveChannel);
@@ -64,7 +57,6 @@ void Generator::roll(string phraseKey,
                          Probability rollProb,
                          Probability associationProb,
                          Probability rollLengthProb) {
-//    updateTimeSignature();
     if (!hasPhrase(phraseKey)) return;
     Playable phrasePlayable = playQueue->at(phraseKey);
     Phrase rollPhrase = phrasePlayable.phrase.fillWithRolls(rollProb, associationProb, rollLengthProb);
@@ -85,7 +77,6 @@ void Generator::ornament(string phraseKey,
                              bool flams,
                              bool drags,
                              bool ruffs) {
-//    updateTimeSignature();
     if (!hasPhrase(phraseKey)) return;
     Playable phrasePlayable = playQueue->at(phraseKey);
     auto possibleOrnaments = getOrnamentVector(flams, drags, ruffs);
@@ -110,8 +101,8 @@ void Generator::toggleMutePlayable(string id) {
     if (playQueue->find(id) == playQueue->end()) {
         return;
     };
-    Playable playable = playQueue->at(id);
-    playable.mute = !(playable.mute);
+    Playable &playable = playQueue->at(id);
+    playQueue->at(id).mute = !(playable.mute);
 }
 
 
@@ -124,7 +115,6 @@ void Generator::queuePlayable(string id, Playable playable) {
     //        }
     //    }
     auto result = playQueue->emplace(id, playable);
-//    auto result = playQueue->insert(pair<string, unique_ptr<Playable>>(id, playable)); // TODO:
     if (result.second) return;
     playQueue->at(id) = playable;
 }

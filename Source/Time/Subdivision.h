@@ -45,11 +45,6 @@ public:
         DBG("Not implemented yet");
         return false;
     }
-
-//    void updateTimeSignature() {
-//        timeSignatureValue = HostSettings::instance().getTimeSignature();
-//        TimedEvent::updateTimeSignature();
-//    }
     
 //    Subdivision operator=(const double other) {
 //        this->timeSignature = HostSettings::instance().getTimeSignature();
@@ -57,37 +52,3 @@ public:
 //        return *this;
 //    }
 };
-
-//class Subdivision {
-//public:
-//    Subdivision();
-//    Subdivision(double frequency);
-//    Subdivision(double frequency, duration span);
-//    Subdivision(Subdivision const&);
-//    Subdivision operator=(Subdivision other);
-//    Subdivision operator=(double other);
-//    bool operator>(Subdivision other);
-//    bool operator>(double other);
-//    bool operator>=(Subdivision other);
-//    bool operator>=(double other);
-//    bool operator==(Subdivision other);
-//    bool operator==(double other);
-//    bool operator<=(Subdivision other);
-//    bool operator<=(double other);
-//    bool operator<(Subdivision other);
-//    bool operator<(double other);
-//    Subdivision operator+(Subdivision other);
-//    Subdivision operator+(double other);
-//    Subdivision operator-(Subdivision other);
-//    Subdivision operator-(double other);
-//    Subdivision operator*(Subdivision other);
-//    Subdivision operator*(double other);
-//    Subdivision operator/(Subdivision other);
-//    Subdivision operator/(double other);
-//    Subdivision operator++();
-//    Subdivision operator--();
-//private:
-//    double guard(double frequency);
-//    double frequency;
-//    duration span;
-//};

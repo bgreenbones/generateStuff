@@ -43,9 +43,7 @@ public:
     T primary() const { return longest<T>(events); }
     vector<T> byPosition(Position position) const;
     T drawByPosition(Position position) const;
-    
-//    void updateTimeSignature();
-    
+        
     Position endTime() const {
         return events.size() > 0 ? events.back().endTime() : Position(0);
     }

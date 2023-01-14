@@ -40,16 +40,11 @@ public:
     constexpr static float const defaultSubdivision = 1./2.;
     constexpr static float const defaultBars = 2;
     constexpr static float const defaultBeats = 0;
-//    Bars phraseLengthBars;
-//    Beats phraseLengthBeats;
     Bars phraseLengthBars = Bars(defaultBars, true);
     Beats phraseLengthBeats = Beats(defaultBeats, true);
     Position phraseStartTime = 0;
     Subdivision subdivision = Subdivision(Beats(defaultSubdivision, true), phraseStartTime, phraseLength());
     Duration phraseLength() {
-//        phraseLengthBars = Bars(defaultBars, true);
-//        phraseLengthBeats = Beats(defaultBeats, true);
-//        Duration result = Bars(phraseLengthBars) + Beats(phraseLengthBeats);
         Duration result = phraseLengthBars + phraseLengthBeats;
         return result;
     }
@@ -73,11 +68,6 @@ public:
 
     bool setSubdivision(const float subdivision);
     bool setPhraseLength(const float bars, const float beats);
-//    void updateTimeSignature() {
-//        subdivision.updateTimeSignature();
-//        cascaraPhrase.updateTimeSignature();
-//        clavePhrase.updateTimeSignature();
-//    }
     
     string rollsKey(string phraseKey);
     string ornamentsKey(string phraseKey);

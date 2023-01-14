@@ -8,17 +8,6 @@
 #include "Phrase.hpp"
 #include <JuceHeader.h>
 
-//void Phrase::updateTimeSignature() {
-//    TimedEvent::updateTimeSignature();
-//    for (auto subdiv = subdivisions.begin(); subdiv < subdivisions.end(); subdiv++) {
-//        subdiv->updateTimeSignature();
-//    }
-//    for (auto note = notes.begin(); note < notes.end(); note++) {
-//        note->updateTimeSignature();
-//    }
-//}
-
-
 template <class T>
 void Phrase::addTimedEvent(T toAdd, vector<T>& eventList) {
     eventList.push_back(toAdd);
@@ -27,29 +16,21 @@ void Phrase::addTimedEvent(T toAdd, vector<T>& eventList) {
          [](T const &a, T const &b) { return a.startTime < b.startTime; });
 }
 
-// TODO: call through to Sequence method. or maybe this just shouldn't exist.
 bool Phrase::addNote(Note toAdd) {
     if (toAdd.pitch < 0 || toAdd.pitch > 127) {
         return false;
     }
     
-    //    bool noteFitsInPhrase = note.startTime < (double) phrasing.length();
     bool fitsInPhrase = this->containsPartially(toAdd);
     if (fitsInPhrase) {
         notes.add(toAdd);
-//        addTimedEvent<Note>(toAdd, notes);
-//        notes.push_back(note);
-//        sort(notes.begin(), notes.end()); // todo: sort by startTime
     }
     return fitsInPhrase;
-//    return addTimedEvent<Note>(toAdd, notes);
 }
 
-// TODO: call through to Sequence method. or maybe this just shouldn't exist.
 bool Phrase::addSubdivision(Subdivision toAdd) {
     bool fitsInPhrase = this->containsPartially(toAdd);
     if (fitsInPhrase) {
-//        addTimedEvent<Subdivision>(toAdd, subdivisions);
         subdivisions.add(toAdd);
     }
     return fitsInPhrase;
@@ -138,43 +119,6 @@ Phrase Phrase::concat(Phrase other, bool useLastNote, bool keepDuration) const {
     phrase.subdivisions.tie();
     // // // // // // ///
     
-    
-    // TODO: CAN GET RID OF ALL THIS ONCE WE GOT SUBDIV SEQUENCES
-//    if (phrase.subdivisions.size() == 0) {
-//        DBG ("how did we get here");
-//    }
-//
-//    if (useLastNote) {
-//        if (phrase.notes.empty()) {
-//            phrase.duration = 0;
-//        } else {
-//            Note lastNote = phrase.notes.back();
-//            phrase.duration = lastNote.startTime + lastNote.duration;
-//        }
-//
-//        phrase.subdivisions = chopAfterDuration<Subdivision>(phrase.subdivisions, phrase.duration);
-//    }
-//
-//    phrase.notes = phrase.concatEvents<Note>(phrase.notes, other.notes);
-//    phrase.subdivisions = phrase.concatEvents<Subdivision>(phrase.subdivisions, other.subdivisions);
-//    phrase.duration += other.duration;
-//
-//    if (keepDuration) {
-//        phrase.duration = durationToPersist;
-//        phrase.notes = chopAfterDuration<Note>(phrase.notes, durationToPersist);
-//        phrase.subdivisions = chopAfterDuration<Subdivision>(phrase.subdivisions, durationToPersist);
-//        if (phrase.subdivisions.size() == 0) {
-//            DBG ("how did we get here");
-//        }
-//        Subdivision &lastSubdiv = phrase.subdivisions.back();
-//        lastSubdiv.duration = durationToPersist - lastSubdiv.startTime; // keep subdivisions info covering the whole span.
-//    }
-//
-//    phrase.tieSubdivisions();
-//
-//
-
-    
     return phrase;
 }
 
@@ -183,38 +127,6 @@ Phrase Phrase::concat(Phrase other, bool useLastNote, bool keepDuration) const {
 Phrase Phrase::parseMininotation(std::string phraseString, Subdivision subdivision) {
     double phraseLength = subdivision.asQuarters() * (double) Mininotation::getLength(phraseString);
     Phrase phrase = Phrase(subdivision, 0, Quarters(phraseLength));
-    auto noteSequence = notes.parseMininotation(phraseString, subdivision);
-
-//    Position startTime = 0;
-//    for(int i = 0; i < Mininotation::getLength(phraseString); i++) {
-//        char symbol = phraseString[i];
-//
-//        if (!Mininotation::isInNotation(symbol)) {
-//           DBG ("misuse of Mininotation");
-//        }
-//
-//        if (Mininotation::isNote(symbol)) {
-//            Note toAdd(startTime, subdivision);
-//
-//            if (symbol == Mininotation::accentNote) {
-//                toAdd = toAdd.accent();
-//            }
-//
-//            phrase.addNote(toAdd);
-//        }
-//
-//        if (symbol == Mininotation::sustain) {
-//            if (!phrase.notes.empty()) {
-//                phrase.notes.back().duration += subdivision;
-//            }
-//        }
-//
-//        startTime += subdivision;
-//    }
-    
-//    if (!noteSequence.equals(phrase.notes)) {
-//        DBG ("why not?");
-//    }
-    
+    phrase.notes = notes.parseMininotation(phraseString, subdivision);
     return phrase;
 }

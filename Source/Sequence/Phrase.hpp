@@ -48,17 +48,12 @@ public:
     Sequence<Subdivision> subdivisions;
     
     Subdivision primarySubdivision() const { return subdivisions.primary(); }
-//    void updateTimeSignature();
     
     bool equalsExcludingTime(TimedEvent &other) {
         DBG("Not implemented yet");
         return false;
     }
     
-//    vector<Note>::iterator begin() { return notes.begin(); }
-//    vector<Note>::iterator end() { return notes.end(); }
-//    Rhythm rhythm;
-//    Phrase phrasing;
     template <class T>
     static void addTimedEvent(T toAdd, vector<T>& eventList);
     bool addNote(Note toAdd);
