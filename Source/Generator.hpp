@@ -21,6 +21,8 @@
 using std::shared_ptr, std::map, std::string;
 
 // TODO: someday we want generator to be a place for all your phrase types which might not even exist at compile time
+// TODO: actually - maybe we have another layer called "Voice" which manages a bunch of phrases intended for one instrument or sound.
+// then generator becomes a sort of "Choir" or conductor which will keep manage each voice and relate them with each other.
 class Generator
 {
 public:
