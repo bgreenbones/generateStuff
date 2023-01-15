@@ -45,6 +45,12 @@ Playable Generator::cascaraFromClave() {
     return result;
 }
 
+Playable Generator::flipClave(string phraseKey) {
+    if (!hasPhrase(phraseKey)) { return Playable(Phrase(), -1); } // TODO: how recover???
+    auto toFlip = playQueue->at(phraseKey).phrase.flip();
+    Playable result = Playable(toFlip, -1); // TODO: way of figuring out midi channel from phraseKey!!
+    return result;
+}
 
 Playable Generator::claveFromCascara() {
     if (!hasPhrase("cascara")) { this->cascara(); }

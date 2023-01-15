@@ -11,6 +11,16 @@
 #include "Phrase.hpp"
 #include "Random.h"
 
+
+
+Phrase Phrase::flip() const {
+    Phrase resultPhrase(*this);
+    resultPhrase.notes.flip();
+    resultPhrase.subdivisions.flip();
+    return resultPhrase;
+}
+
+
 Phrase Phrase::pulseAndDisplace(Duration pulse,
                                   Duration displacement, // 1/3 to displace by a triplet, 1/4 for a sixteenth, etc.
                                   Probability pDisplace,

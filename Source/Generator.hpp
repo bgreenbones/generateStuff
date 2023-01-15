@@ -56,6 +56,7 @@ public:
     Playable clave();
     Playable claveFromCascara();
     Playable cascaraFromClave();
+    Playable flipClave(string phraseKey);
     
     bool hasPhrase(string phraseKey);
     

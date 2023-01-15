@@ -55,6 +55,7 @@ public:
     bool insert(vector<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore);
     bool insert(Sequence<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore);
     bool chopAfterDuration(Duration duration);
+    bool flip();
 
 
     // Mininotation stuff

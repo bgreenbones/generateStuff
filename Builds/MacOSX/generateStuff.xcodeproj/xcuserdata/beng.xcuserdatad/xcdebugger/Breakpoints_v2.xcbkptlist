@@ -270,9 +270,9 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
-            landmarkName = "add(toAdd, pushBehavior)"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
+            landmarkName = "concat(other, useLast, pushBehavior)"
             landmarkType = "9">
             <Locations>
                <Location
@@ -366,8 +366,8 @@
             filePath = "../../Source/Sequence/Rhythm/Rhythm.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
             landmarkName = "Phrase::pulseAndDisplace(pulse, displacement, pDisplace, pDouble)"
             landmarkType = "7">
             <Locations>
@@ -414,8 +414,8 @@
             filePath = "../../Source/Sequence/Rhythm/Rhythm.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
             landmarkName = "Phrase::pulseAndDisplace(pulse, displacement, pDisplace, pDouble)"
             landmarkType = "7">
             <Locations>
@@ -478,8 +478,8 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
             landmarkName = "add(toAdd, pushBehavior)"
             landmarkType = "9">
             <Locations>
@@ -574,9 +574,9 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "76"
-            endingLineNumber = "76"
-            landmarkName = "concat(other, useLast, pushBehavior)"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
+            landmarkName = "insert(other, startTime, pushBehavior)"
             landmarkType = "9">
             <Locations>
                <Location
@@ -843,9 +843,9 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "233"
-            endingLineNumber = "233"
-            landmarkName = "byPosition(position)"
+            startingLineNumber = "241"
+            endingLineNumber = "241"
+            landmarkName = "drawByPosition(position)"
             landmarkType = "9">
             <Locations>
                <Location
@@ -955,10 +955,10 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "23"
-            endingLineNumber = "23"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "31"
+            endingLineNumber = "31"
+            landmarkName = "add(toAdd, pushBehavior)"
+            landmarkType = "9">
             <Locations>
                <Location
                   uuid = "A7446C6C-E26A-4595-9B71-6C41C436D34C - e028ed582b0eac09"
@@ -1035,8 +1035,8 @@
             filePath = "../../Source/Generator.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
             landmarkName = "Generator::roll(phraseKey, rollProb, associationProb, rollLengthProb)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1099,8 +1099,8 @@
             filePath = "../../Source/Sequence/Rhythm/Rhythm.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
             landmarkName = "Phrase::pulseAndDisplace(pulse, displacement, pDisplace, pDouble)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1115,8 +1115,8 @@
             filePath = "../../Source/Generator.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
             landmarkName = "Generator::toggleMutePlayable(id)"
             landmarkType = "7">
          </BreakpointContent>

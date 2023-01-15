@@ -14,6 +14,14 @@
 #include "Note.hpp"
 #include "Random.h"
 
+template <class T>
+bool Sequence<T>::flip() {
+    auto flipTime = [this](TimedEvent &timed) { return (timed.startTime + (parent.duration / 2.)) % parent.duration; };
+    for (auto it : events) {
+        it.startTime = flipTime(it);
+    }
+    return true;
+}
 
 template <class T>
 bool Sequence<T>::add(T toAdd, PushBehavior pushBehavior) {

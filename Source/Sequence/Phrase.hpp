@@ -72,6 +72,7 @@ public:
                          Probability associationProb,
                          Probability rollLengthProb) const;
     Phrase chooseAccents() const;
+    Phrase flip() const;
     
     // Latin.cpp
     Phrase randomCascara(Probability pDisplace = 0.5,
