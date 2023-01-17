@@ -56,7 +56,7 @@ Phrase Phrase::randomClave() const {
 
     Phrase clave(*this);
     const double length = clave.duration;
-    const auto subdivision = clave.primarySubdivision();
+    const Duration subdivision = clave.primarySubdivision();
     
     int minNoteLengthInSubdivisions = 2; // todo: parameterizing these would be fun
     int maxNoteLengthInSubdivisions = 4;
@@ -68,8 +68,8 @@ Phrase Phrase::randomClave() const {
     //   2. 2-sided - 2-3 and 3-2 - even 2-1 and 1-2 -  maybe 3-4 and 4-3 - maybe 2-4 and 4-2?
     //      a. the longer they are, the more can fit in?
     auto sideLength = length / 2.0;
-    int maxNumNotes = floor(length / minNoteLength);
-    int minNumNotes = ceil(length / maxNoteLength);
+    int maxNumNotes = floor((length / minNoteLength) - subdivision);
+    int minNumNotes = ceil((length / maxNoteLength) + subdivision);
     auto numNotesTemp = uniformInt(minNumNotes, maxNumNotes); // todo: parameterize, but keep random option
     if (numNotesTemp % 2 == 0) { // force odd nums for 2-3, 3-2, 3-4, 4-3, etc.
         if (numNotesTemp + 1 > maxNumNotes) {

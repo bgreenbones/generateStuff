@@ -274,7 +274,7 @@ void GenerateStuffAudioProcessor::playPlayables(
                 noteOnTimeInQuarters += phrase.duration;
             }
             if (noteOnTimeInQuarters > loopEnd) { // but don't go too far in the future, we've set an end bar
-                noteOnTimeInQuarters = (Bars(noteOnTimeInQuarters - loopStart) % playPeriod) + loopStart;
+                noteOnTimeInQuarters = (Quarters(noteOnTimeInQuarters - loopStart) % playPeriod) + loopStart;
             }
             double noteOffTimeInQuarters = noteOnTimeInQuarters + note.duration;
             

@@ -16,9 +16,9 @@
 
 template <class T>
 bool Sequence<T>::flip() {
-    auto flipTime = [this](TimedEvent &timed) { return (timed.startTime + (parent.duration / 2.)) % parent.duration; };
-    for (auto it : events) {
-        it.startTime = flipTime(it);
+    auto flipTime = [this](std::__wrap_iter<T*> t) { return (t->startTime + (parent.duration / 2.)) % parent.duration; };
+    for (auto event = events.begin(); event < events.end(); event++) {
+        event->startTime = flipTime(event);
     }
     return true;
 }

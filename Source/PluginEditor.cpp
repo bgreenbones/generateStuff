@@ -19,7 +19,7 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (800, 300);
+    setSize (1000, 300);
         
     probabilityOfDouble.setSliderStyle (juce::Slider::LinearBarVertical);
     probabilityOfDouble.setRange (0.0, 1.0, 0.01);
@@ -169,7 +169,6 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
         generator.toggleMutePlayable(ornamentsKey);
     };
     addAndMakeVisible(&clearOrnamentsButton);
-    
 
     auto updateSelectedPhraseState = [this]() {
         selectCascaraButton.getToggleState() ?
@@ -254,6 +253,17 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     ornamentBreadth.setPopupDisplayEnabled (true, false, this);
     ornamentBreadth.setTextValueSuffix (" ornament breadth");
     ornamentBreadth.setValue(1.0);
+    
+    
+    
+    flipButton.onClick = [this]() {
+        generator.flipClave(selectedPhraseKeyState);
+        string ornamentsKey = generator.ornamentsKey(selectedPhraseKeyState);
+        if (generator.hasPhrase(ornamentsKey)) { generator.flipClave(ornamentsKey); }
+        string rollsKey = generator.rollsKey(selectedPhraseKeyState);
+        if (generator.hasPhrase(rollsKey)) { generator.flipClave(rollsKey); }
+    };
+    addAndMakeVisible(&flipButton);
 }
 
 void GenerateStuffAudioProcessorEditor::updatePhraseLengthState() {
@@ -348,7 +358,7 @@ void GenerateStuffAudioProcessorEditor::resized()
     int spaceBetweenControls = 10;
     int sliderWidth = 20;
     int numSliders = 6;
-    int buttonColumns = 10;
+    int buttonColumns = 11;
     int buttonWidth = (width - numSliders * sliderWidth - spaceBetweenControls * (numSliders + buttonColumns)) / buttonColumns;
     
     int xCursor = xPadding;
@@ -471,6 +481,8 @@ void GenerateStuffAudioProcessorEditor::resized()
     xCursor += buttonWidth + spaceBetweenControls;
     yCursor = yPadding;
     
+    flipButton.setBounds (xCursor, yCursor, buttonWidth, getButtonHeight(1));
+    xCursor += buttonWidth + spaceBetweenControls;
 }
 
 void GenerateStuffAudioProcessorEditor::sliderValueChanged (juce::Slider* slider)

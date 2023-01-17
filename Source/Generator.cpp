@@ -32,9 +32,9 @@ Playable Generator::cascara() {
 }
 
 Playable Generator::clave() {
-    auto phrase = Phrase(subdivision, phraseStartTime, phraseLength())
-        .randomClave();
+    auto phrase = Phrase(subdivision, phraseStartTime, phraseLength()).randomClave();
     Playable result = Playable(phrase, claveChannel);
+    queuePlayable("clave", result);
     return result;
 }
 
@@ -42,13 +42,16 @@ Playable Generator::cascaraFromClave() {
     if (!hasPhrase("clave")) { this->clave(); }
     auto tempPhrase = playQueue->at("clave").phrase.cascaraFromClave();
     Playable result = Playable(tempPhrase, cascaraChannel);
+    queuePlayable("cascara", result);
     return result;
 }
 
 Playable Generator::flipClave(string phraseKey) {
     if (!hasPhrase(phraseKey)) { return Playable(Phrase(), -1); } // TODO: how recover???
-    auto toFlip = playQueue->at(phraseKey).phrase.flip();
-    Playable result = Playable(toFlip, -1); // TODO: way of figuring out midi channel from phraseKey!!
+    int channel = playQueue->at(phraseKey).midiChannel;
+    auto flipped = playQueue->at(phraseKey).phrase.flip();
+    Playable result = Playable(flipped, channel);
+    queuePlayable(phraseKey, result);
     return result;
 }
 
@@ -56,13 +59,14 @@ Playable Generator::claveFromCascara() {
     if (!hasPhrase("cascara")) { this->cascara(); }
     auto tempPhrase = playQueue->at("cascara").phrase.claveFromCascara();
     Playable result = Playable(tempPhrase, claveChannel);
+    queuePlayable("clave", result);
     return result;
 }
 
 void Generator::roll(string phraseKey,
-                         Probability rollProb,
-                         Probability associationProb,
-                         Probability rollLengthProb) {
+                     Probability rollProb,
+                     Probability associationProb,
+                     Probability rollLengthProb) {
     if (!hasPhrase(phraseKey)) return;
     Playable phrasePlayable = playQueue->at(phraseKey);
     Phrase rollPhrase = phrasePlayable.phrase.fillWithRolls(rollProb, associationProb, rollLengthProb);

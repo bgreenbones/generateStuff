@@ -115,9 +115,9 @@ public:
 
     beats beatsInLastBar() const { return asBeats() - wholeBars() * getTimeSignature().numerator; }
     bars wholeBars() const { return floor(asBars()); }
-    beats asBeats() const { return getTimeSignature().quartersToBeats(asQuarters()); }//.beatsPerQuarter() * this->asQuarters(); }
-    bars asBars() const { return getTimeSignature().quartersToBars(asQuarters()); }//this->asQuarters() / getTimeSignature().barLengthInQuarters(); }
-    quarters asQuarters() const { return this->durationValueInQuarters; }
+    virtual beats asBeats() const { return getTimeSignature().quartersToBeats(asQuarters()); }//.beatsPerQuarter() * this->asQuarters(); }
+    virtual bars asBars() const { return getTimeSignature().quartersToBars(asQuarters()); }//this->asQuarters() / getTimeSignature().barLengthInQuarters(); }
+    virtual quarters asQuarters() const { return this->durationValueInQuarters; }
 
     operator Beats() const;
     operator Bars() const;
