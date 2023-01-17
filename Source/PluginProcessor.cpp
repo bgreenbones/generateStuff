@@ -273,7 +273,7 @@ void GenerateStuffAudioProcessor::playPlayables(
             while (ppqPosition > noteOnTimeInQuarters) { // might as well set it to be in the future
                 noteOnTimeInQuarters += phrase.duration;
             }
-            if (noteOnTimeInQuarters > loopEnd) { // but don't go too far in the future, we've set an end bar
+            if (noteOnTimeInQuarters >= loopEnd) { // but don't go too far in the future, we've set an end bar
                 noteOnTimeInQuarters = (Quarters(noteOnTimeInQuarters - loopStart) % playPeriod) + loopStart;
             }
             double noteOffTimeInQuarters = noteOnTimeInQuarters + note.duration;
