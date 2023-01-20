@@ -901,7 +901,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "9E7AFB62-BB82-4080-8F34-7A5AD444EFC7"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/Sequence/Ornamentation.cpp"
@@ -917,7 +917,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "0CB6E272-799C-491B-A3AB-3C737B6F1CA2"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/Sequence/Ornamentation.cpp"
@@ -933,7 +933,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "34FF10D4-DB31-43F2-AD8D-84C6A78926D4"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/Sequence/Ornamentation.cpp"
@@ -1230,6 +1230,22 @@
             startingLineNumber = "277"
             endingLineNumber = "277"
             landmarkName = "GenerateStuffAudioProcessor::playPlayables(positionInfo, midiMessages)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "41B37D1B-86B6-4CD6-B10B-91B380D3DE4E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Note.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "Note::placeOrnament(ornamentSimple, breadth)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

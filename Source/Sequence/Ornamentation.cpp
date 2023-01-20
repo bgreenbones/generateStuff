@@ -26,7 +26,7 @@ beats flamishLength (double tempo, double breadth) {
 //    flamDistance = flamDistance / notesInOrnament; // todo: not sold on this math
     // todo: add randomness
     // todo: account for multiple stroke flams like ruffs and drags
-    return length;
+    return breadth * length;
 }
 
 Ornament flamish (OrnamentSimple ornamentSimple, double tempo, double breadth) {

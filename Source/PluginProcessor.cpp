@@ -292,7 +292,9 @@ void GenerateStuffAudioProcessor::playPlayables(
                         
                         if (loop != no_loop) {
                             if (loop.ppqStart <= ppqTime) {
-                                return (loop.ppqEnd - ppqPosition + ppqTime - loop.ppqStart) * samplesPerBeat + 2; // + 2 ? I guess we're adding two + 1s demonstrated below?
+                                auto nowUntilLoopEnd = loop.ppqEnd - ppqPosition;
+                                auto loopStartUntilNoteStart = ppqTime - loop.ppqStart;
+                                return (nowUntilLoopEnd + loopStartUntilNoteStart) * samplesPerBeat + 2; // + 2 ? I guess we're adding two + 1s demonstrated below?
                             }
                         }
                     }

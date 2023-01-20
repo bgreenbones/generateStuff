@@ -47,7 +47,7 @@ Playable Generator::cascaraFromClave() {
 }
 
 Playable Generator::flipClave(string phraseKey) {
-    if (!hasPhrase(phraseKey)) { return Playable(Phrase(), -1); } // TODO: how recover???
+    if (!hasPhrase(phraseKey)) { return Playable(Phrase(), -1); } // TODO: use std::optional in failure cases.
     int channel = playQueue->at(phraseKey).midiChannel;
     auto flipped = playQueue->at(phraseKey).phrase.flip();
     Playable result = Playable(flipped, channel);
