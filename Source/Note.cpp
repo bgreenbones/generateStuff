@@ -10,13 +10,14 @@
 
 #include "Note.hpp"
 #include "Dynamics.h"
+#include <cmath>
 
 int Note::accentVelocity = 120;
 
 Sequence<Note> Note::placeOrnament(OrnamentSimple ornamentSimple, double breadth) const {
     double tempo = HostSettings::instance().getTempo();
     Ornament ornament = getOrnament(ornamentSimple, tempo, breadth);
-    auto noteLength = (ornament.length / (float) ornament.numNotes);
+    auto noteLength = (ornament.length / (float) ornament.numNotes) ;
     
 //    vector<Note> ornamentNotes = {};
     TimedEvent* parent = (TimedEvent*)this;
@@ -26,13 +27,15 @@ Sequence<Note> Note::placeOrnament(OrnamentSimple ornamentSimple, double breadth
         Note ornamentNote = Note();
         auto offset = ornament.placement * noteLength * notesLeft;
         ornamentNote.startTime = this->startTime + offset;
-        ornamentNote.duration = noteLength;
+        ornamentNote.duration = trunc(noteLength * 100.) / 100.; // truncate to avoid overlapping notes
         ornamentNote.isOrnament = true;
         ornamentNote.pitch += 7;
 //        ornamentNotes.push_back(ornamentNote);
-        ornamentNotes.add(ornamentNote); // TODO: sometimes the last note of a drag/ruff don't get placed?
+        ornamentNotes.add(ornamentNote);
     }
-    ornamentNotes.events = applyDynamics(ornamentNotes.events, this->velocity / 4., this->velocity / 2.); // TODO: apply dynamics stored in the ornament's struct
+    
+    
+    ornamentNotes.events = applyDynamics(ornamentNotes.events, ornament.dynamics);
     return ornamentNotes;
 }
 

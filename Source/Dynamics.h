@@ -33,9 +33,15 @@ typedef struct Dynamics {
     DynamicRange range;
 } Dynamics;
 
+int velocityFromDynamicLevel(DynamicLevel level);
+
 // shaping - want to be generic over pitch, velocity, pressure, generic CC, uhhhh note length, uh,, other stuff, idk
 vector<Note> applyDynamics(vector<Note> source,
                            int originVelocity,
                            int targetVelocity);
+
+vector<Note> applyDynamics(vector<Note> source,
+                           Dynamics dynamics);
+
 
 

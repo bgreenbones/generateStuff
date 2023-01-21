@@ -35,7 +35,7 @@ Ornament flamish (OrnamentSimple ornamentSimple, double tempo, double breadth) {
         .griddedness = gridFree,
         .content = even,
         .dynamics = Dynamics {
-            .shape = steady,
+            .shape = decresc,
             .range = DynamicRange {
                 .high = p,
                 .low = pp,

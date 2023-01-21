@@ -11,6 +11,39 @@
 #include "Dynamics.h"
 #include "Note.hpp"
 
+int velocityFromDynamicLevel(DynamicLevel level) {
+    double minVelocity = 1;
+    double maxVelocity = 127;
+    double velocityRange = maxVelocity - minVelocity;
+    double numberOfLevels = ffff + 1;
+    
+    return ((level + 1.) / numberOfLevels) * velocityRange + minVelocity;
+}
+
+vector<Note> applyDynamics(vector<Note> source,
+                           Dynamics dynamics) {
+    
+    int highVelocity = velocityFromDynamicLevel(dynamics.range.high);
+    int medianVelocity = velocityFromDynamicLevel(dynamics.range.median);
+    int lowVelocity = velocityFromDynamicLevel(dynamics.range.low);
+    
+    switch (dynamics.shape) {
+        case cresc:
+            return applyDynamics(source, lowVelocity, highVelocity);
+        case steady:
+            return applyDynamics(source, medianVelocity, medianVelocity);
+        case decresc:
+            return applyDynamics(source, highVelocity, lowVelocity);
+        default:
+            return source;
+    }
+    
+    return source;
+}
+
+
+
+
 // shaping - want to be generic over pitch, velocity, pressure, generic CC, uhhhh note length, uh,, other stuff, idk
 vector<Note> applyDynamics(vector<Note> source,
                            int originVelocity,
