@@ -12,7 +12,7 @@
 #include "Random.h"
 #include "Dynamics.h"
 
-beats flamishLength (double tempo, double breadth) {
+beats flamishLength0 (double tempo, double breadth) {
     // at like 60-100 bpm, flams are like a 64th note behind the target note?
     // at higher tempos, they're like a 32nd, down to like a 16th up in the 300bpm range??
     float highTempo = 300; // bpm
@@ -29,30 +29,59 @@ beats flamishLength (double tempo, double breadth) {
     return breadth * length;
 }
 
-Ornament flamish (OrnamentSimple ornamentSimple, double tempo, double breadth) {
+beats closestGriddedLength(beats unquantized, int notes) {
+    vector<beats> grids = { 1./2., 1./3., 1./4., 1./6., 1./8., 1./12., 1./16., 1./24., 1./32., 1./48., 1./64. };
+    
+    beats closestGrid = grids[0];
+    beats closestDifference = 999.;
+    for (auto grid : grids) {
+        beats difference = abs(unquantized - notes * grid);
+        if (difference < closestDifference) {
+            closestDifference = difference;
+            closestGrid = grid * notes;
+        }
+    }
+    
+    return closestGrid;
+}
+
+beats graceNoteLength (double breadth) {
+    return Seconds(0.015 * breadth).asBeats(); // TODO: this hardcoded multiplier relates to values put in from the UI so maybe we should systemetize that somehow
+}
+
+//Ornament flamish (OrnamentSimple ornamentSimple, double tempo, double breadth, Griddedness griddedness) {
+Ornament graceNotes (OrnamentSimple ornamentSimple, double breadth, Griddedness griddedness) {
+    unsigned short numNotes = (unsigned short) ornamentSimple;
+    beats ornamentLength = graceNoteLength (breadth);
+    
+    if (griddedness == gridded || griddedness == loose) {
+        ornamentLength = closestGriddedLength(ornamentLength, 1);
+//        ornamentLength = quantize(ornamentLength, Beats(1./4.), 0.); // TODO: instead of 1/16ths, use closest reference point that 'makes sense'
+    }
+    
     return Ornament {
         .placement = ahead,
-        .griddedness = gridFree,
+        .griddedness = griddedness,
         .content = even,
         .dynamics = Dynamics {
             .shape = decresc,
             .range = DynamicRange {
-                .high = p,
-                .low = pp,
+                .high = pp,
+                .low = ppp,
             }
         },
-        .numNotes = (unsigned short) ornamentSimple,
-        .length = flamishLength (tempo, breadth),
+        .numNotes = numNotes,
+        .length = ornamentLength * numNotes,
     };
 }
 
-Ornament getOrnament(OrnamentSimple ornamentSimple, double tempo, double breadth) {
+Ornament getOrnament(OrnamentSimple ornamentSimple, double breadth, Griddedness griddedness) {
     Ornament result;
     switch (ornamentSimple) {
         case flam:
         case drag:
         case ruff:
-            result = flamish (ornamentSimple, tempo, breadth);
+            result = graceNotes (ornamentSimple, breadth, griddedness);
             break;
         case flamA:
             break;

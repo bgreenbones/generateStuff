@@ -39,7 +39,7 @@ public:
         this->timeSignature = newTimeSignature;
     }
 
-    double getTempo() {
+    double getTempo() const {
         return this->tempo;
     }
     void setTempo(double newTempo) {

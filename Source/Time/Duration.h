@@ -27,6 +27,7 @@ typedef Duration Quarters;
 class Beats;
 class Bars;
 
+
 class Duration {
 private:
     HostSettings const& settings;
@@ -40,6 +41,9 @@ private:
 protected:
     TimeSignature currentTimeSignature() const {
         return this->settings.getTimeSignature();
+    }
+    double currentTempo() const {
+        return this->settings.getTempo();
     }
     double durationValueInQuarters; // in quarters, always
     bool dynamicTimeSignature = false; // todo: make durations that change NICELY with the host's time signature.
@@ -57,6 +61,7 @@ public:
         timeSignatureValue(timeSignature) { guard(); }
     Duration(double value): Duration(value, false) {}
     Duration(): Duration(0) {}
+    virtual ~Duration() = default;
     
     TimeSignature getTimeSignature() const {
         return dynamicTimeSignature ? currentTimeSignature() : timeSignatureValue;
@@ -78,7 +83,7 @@ public:
       return *this;
     }
     
-    bool operator>(const Duration other) const { return this->asQuarters() > other.asQuarters(); }
+    bool operator>(const Duration other) const { return this->asQuarters() > other.asQuarters(); } // TODO: just use snowball operator or whatever it's called
     bool operator>(double other) const { return *this > Duration(other, this->getTimeSignature()); }
     bool operator>=(const Duration other) const { return this->asQuarters() >= other.asQuarters(); }
     bool operator>=(double other) const { return *this >= Duration(other, this->getTimeSignature()); }
@@ -115,14 +120,17 @@ public:
 
     beats beatsInLastBar() const { return asBeats() - wholeBars() * getTimeSignature().numerator; }
     bars wholeBars() const { return floor(asBars()); }
-    virtual beats asBeats() const { return getTimeSignature().quartersToBeats(asQuarters()); }//.beatsPerQuarter() * this->asQuarters(); }
-    virtual bars asBars() const { return getTimeSignature().quartersToBars(asQuarters()); }//this->asQuarters() / getTimeSignature().barLengthInQuarters(); }
+    virtual beats asBeats() const { return getTimeSignature().quartersToBeats(asQuarters()); }
+    virtual bars asBars() const { return getTimeSignature().quartersToBars(asQuarters()); }
     virtual quarters asQuarters() const { return this->durationValueInQuarters; }
+    virtual seconds asSeconds() const { return 60. * asBeats() / currentTempo(); }
 
     operator Beats() const;
     operator Bars() const;
     operator double() const { return this->asQuarters(); };
 };
+
+// TODO: all duration subtypes won't actually update the durationValueInQuarters with time sig changes and tempo changes. not sure what to do about.
 
 class Beats: public Duration {
 protected:
@@ -192,3 +200,36 @@ public:
 //        return *this;
 //    }
 //};
+
+
+
+class Seconds: public Duration {
+protected:
+    double durationValueInSeconds;
+public:
+    static double secondsToQuarters(seconds value) {
+        beats valueAsBeats = HostSettings::instance().getTempo() * (value / 60.);
+        return HostSettings::instance().getTimeSignature().beatsToQuarters(valueAsBeats);
+    }
+    
+    Seconds(bars value, bool dynamicTimeSignature):
+        Duration(secondsToQuarters(value), dynamicTimeSignature),
+        durationValueInSeconds(value) {}
+    Seconds(bars value, TimeSignature timeSignature):
+        Duration(timeSignature.barsToQuarters(value), timeSignature),
+        durationValueInSeconds(value) {}
+    Seconds(double value): Seconds(value, true) {}
+    Seconds(TimeSignature timeSignature): Seconds(1.0, timeSignature) {}
+    Seconds(): Seconds(1.0, true) {}
+    Seconds operator=(const double other) {
+        this->durationValueInSeconds = other;
+        this->durationValueInQuarters = getTimeSignature().barsToQuarters(other);
+        return *this;
+    }
+
+    beats asBeats() const { return currentTempo() * (asSeconds() / 60.); }
+    bars asBars() const { return getTimeSignature().beatsToBars(asBeats()); }
+    quarters asQuarters() const { return getTimeSignature().beatsToQuarters(asBeats()); }
+    seconds asSeconds() const { return durationValueInSeconds; }
+//    operator double() const { return this->asBars(); };
+};

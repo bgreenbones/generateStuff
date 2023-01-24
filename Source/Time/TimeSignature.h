@@ -11,6 +11,7 @@
 #pragma once
 
 typedef float tempo;
+typedef double seconds; // depends on tempo
 typedef double beats; // depends on time signature
 typedef double bars; // depends on time signature
 typedef double quarters; // always measured in quarters

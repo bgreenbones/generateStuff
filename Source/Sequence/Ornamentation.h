@@ -42,4 +42,5 @@ typedef enum OrnamentSimple {
   flamA, cheese,
 } OrnamentSimple;
 
-Ornament getOrnament(OrnamentSimple ornamentSimple, double tempo, double breadth);
+//Ornament getOrnament(OrnamentSimple ornamentSimple, double tempo, double breadth, Griddedness griddedness);
+Ornament getOrnament(OrnamentSimple ornamentSimple, double breadth, Griddedness griddedness);

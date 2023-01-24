@@ -15,9 +15,8 @@
 int Note::accentVelocity = 120;
 
 Sequence<Note> Note::placeOrnament(OrnamentSimple ornamentSimple, double breadth) const {
-    double tempo = HostSettings::instance().getTempo();
-    Ornament ornament = getOrnament(ornamentSimple, tempo, breadth);
-    auto noteLength = (ornament.length / (float) ornament.numNotes) ;
+    Ornament ornament = getOrnament(ornamentSimple, breadth, gridded);
+    auto noteLength = (ornament.length / (float) ornament.numNotes);
     
 //    vector<Note> ornamentNotes = {};
     TimedEvent* parent = (TimedEvent*)this;
@@ -33,6 +32,7 @@ Sequence<Note> Note::placeOrnament(OrnamentSimple ornamentSimple, double breadth
 //        ornamentNotes.push_back(ornamentNote);
         ornamentNotes.add(ornamentNote);
     }
+    
     
     
     ornamentNotes.events = applyDynamics(ornamentNotes.events, ornament.dynamics);
