@@ -248,10 +248,67 @@ void GenerateStuffAudioProcessor::playPlayables(
         juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo,
         juce::MidiBuffer& midiMessages)
 {
-    this->generator.phraseLength();
+//    this->generator.phraseLength();
     
     
     const double ppqPosition = (positionInfo->getPpqPosition()).orFallback(0);
+    
+    
+    function <float(float)> bufferTimeFromPpqTime = [&](float ppqTime) -> float {
+        if (ppqTime < ppqPosition) {
+            // check the loop markers to make sure a previous phrase isn't coming up ahead
+            bool isLooping = positionInfo->getIsLooping();
+            if (isLooping) {
+                juce::AudioPlayHead::LoopPoints no_loop = juce::AudioPlayHead::LoopPoints();
+                no_loop.ppqStart = -1;
+                no_loop.ppqEnd = -1;
+                
+                juce::AudioPlayHead::LoopPoints loop = (positionInfo->getLoopPoints()).orFallback(no_loop);
+                
+                if (loop != no_loop) {
+                    if (loop.ppqStart <= ppqTime) {
+                        auto nowUntilLoopEnd = loop.ppqEnd - ppqPosition;
+                        auto loopStartUntilNoteStart = ppqTime - loop.ppqStart;
+                        return (nowUntilLoopEnd + loopStartUntilNoteStart) * samplesPerBeat + 2; // + 2 ? I guess we're adding two + 1s demonstrated below?
+                    }
+                }
+            }
+        }
+        return (ppqTime - ppqPosition) * samplesPerBeat + 1; // + 1 seems to line things up better...
+    };
+    
+    function<bool(float)> isPpqTimeInBuffer = [&](float ppqTime) -> bool {
+        float bufferTime = bufferTimeFromPpqTime(ppqTime);
+//            return 0 <= bufferTime && bufferTime < mSamplesPerBlock;
+        return 0 < bufferTime && bufferTime <= mSamplesPerBlock; // todo: get actual lowest and highest indexes for the buffer instead of these guesses
+    };
+    
+    
+    
+    
+    
+    
+    
+    if (positionInfo->getIsLooping()) { // if we're looping, do stuff a little different each time around to keep things interesting.
+        juce::AudioPlayHead::LoopPoints loop = (positionInfo->getLoopPoints()).orFallback(juce::AudioPlayHead::LoopPoints());
+        
+        // TODO: not the most robust way of scheduling tasks, but should work for now.
+        if (isPpqTimeInBuffer(loop.ppqStart) && !loopTasksComplete) {
+            generator.chords();
+            loopTasksComplete = true;
+        } else {
+            loopTasksComplete = false;
+        }
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
     for (auto playableIt = playQueue->begin(); playableIt != playQueue->end(); ++playableIt) {
         Playable playable = playableIt->second;
         Phrase phrase = playable.phrase;
@@ -278,35 +335,36 @@ void GenerateStuffAudioProcessor::playPlayables(
             }
             double noteOffTimeInQuarters = noteOnTimeInQuarters + note.duration;
             
-            function <float(float)> bufferTimeFromPpqTime = [&](float ppqTime) -> float {
-                
-                if (ppqTime < ppqPosition) {
-                    // check the loop markers to make sure a previous phrase isn't coming up ahead
-                    bool isLooping = positionInfo->getIsLooping();
-                    if (isLooping) {
-                        juce::AudioPlayHead::LoopPoints no_loop = juce::AudioPlayHead::LoopPoints();
-                        no_loop.ppqStart = -1;
-                        no_loop.ppqEnd = -1;
-                        
-                        juce::AudioPlayHead::LoopPoints loop = (positionInfo->getLoopPoints()).orFallback(no_loop);
-                        
-                        if (loop != no_loop) {
-                            if (loop.ppqStart <= ppqTime) {
-                                auto nowUntilLoopEnd = loop.ppqEnd - ppqPosition;
-                                auto loopStartUntilNoteStart = ppqTime - loop.ppqStart;
-                                return (nowUntilLoopEnd + loopStartUntilNoteStart) * samplesPerBeat + 2; // + 2 ? I guess we're adding two + 1s demonstrated below?
-                            }
-                        }
-                    }
-                }
-                
-                return (ppqTime - ppqPosition) * samplesPerBeat + 1; // + 1 seems to line things up better...
-            };
-            function<bool(float)> isPpqTimeInBuffer = [&](float ppqTime) -> bool {
-                float bufferTime = bufferTimeFromPpqTime(ppqTime);
-    //            return 0 <= bufferTime && bufferTime < mSamplesPerBlock;
-                return 0 < bufferTime && bufferTime <= mSamplesPerBlock; // todo: get actual lowest and highest indexes for the buffer instead of these guesses
-            };
+//            function <float(float)> bufferTimeFromPpqTime = [&](float ppqTime) -> float {
+//                if (ppqTime < ppqPosition) {
+//                    // check the loop markers to make sure a previous phrase isn't coming up ahead
+//                    bool isLooping = positionInfo->getIsLooping();
+//                    if (isLooping) {
+//                        juce::AudioPlayHead::LoopPoints no_loop = juce::AudioPlayHead::LoopPoints();
+//                        no_loop.ppqStart = -1;
+//                        no_loop.ppqEnd = -1;
+//
+//                        juce::AudioPlayHead::LoopPoints loop = (positionInfo->getLoopPoints()).orFallback(no_loop);
+//
+//                        if (loop != no_loop) {
+//                            if (loop.ppqStart <= ppqTime) {
+//                                auto nowUntilLoopEnd = loop.ppqEnd - ppqPosition;
+//                                auto loopStartUntilNoteStart = ppqTime - loop.ppqStart;
+//                                return (nowUntilLoopEnd + loopStartUntilNoteStart) * samplesPerBeat + 2; // + 2 ? I guess we're adding two + 1s demonstrated below?
+//                            }
+//                        }
+//                    }
+//                }
+//                return (ppqTime - ppqPosition) * samplesPerBeat + 1; // + 1 seems to line things up better...
+//            };
+//
+//            function<bool(float)> isPpqTimeInBuffer = [&](float ppqTime) -> bool {
+//                float bufferTime = bufferTimeFromPpqTime(ppqTime);
+//    //            return 0 <= bufferTime && bufferTime < mSamplesPerBlock;
+//                return 0 < bufferTime && bufferTime <= mSamplesPerBlock; // todo: get actual lowest and highest indexes for the buffer instead of these guesses
+//            };
+            
+            
             
             if (isPpqTimeInBuffer(noteOnTimeInQuarters)) {
                 auto noteOn = juce::MidiMessage::noteOn (midiChannel,
@@ -315,7 +373,7 @@ void GenerateStuffAudioProcessor::playPlayables(
                 bool success = midiMessages.addEvent (noteOn,
                                             bufferTimeFromPpqTime(noteOnTimeInQuarters));
                 if (!success) {
-                    throw exception(); // idfk
+                    cout << "failed to add note on\n";
                 }
                 
             }
@@ -327,7 +385,7 @@ void GenerateStuffAudioProcessor::playPlayables(
                 bool success = midiMessages.addEvent (noteOff,
                                        bufferTimeFromPpqTime(noteOffTimeInQuarters));
                 if (!success) {
-                    throw exception(); // idfk
+                    cout << "failed to add note off\n";
                 }
             }
         }

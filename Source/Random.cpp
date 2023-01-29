@@ -14,7 +14,9 @@
 #include <iostream>
 #include "Subdivision.h"
 #include "Syncopation.h"
+#include "Pitch.h"
 #include <algorithm>
+
 
 static std::random_device rd;
 static std::mt19937 gen(rd());
@@ -77,7 +79,7 @@ template <class T>
 T draw(std::vector<T> hat) {
     if (hat.size() == 0) {
         std::cout << "real problem here";
-        return T();
+        return T(); // TODO: use optional
     }
     return hat[rollDie((int) hat.size()) - 1];
 }
@@ -87,3 +89,7 @@ template Subdivision draw<Subdivision>(std::vector<Subdivision> hat);
 template SyncopationType draw<SyncopationType>(std::vector<SyncopationType> hat);
 template Association draw<Association>(std::vector<Association> hat);
 template Note draw<Note>(std::vector<Note> hat);
+
+template PitchClass draw<PitchClass>(std::vector<PitchClass> hat);
+template Pitch draw<Pitch>(std::vector<Pitch> hat);
+template Interval draw<Interval>(std::vector<Interval> hat);

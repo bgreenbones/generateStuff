@@ -6,6 +6,7 @@
 //
 
 #include "Generator.hpp"
+#include "Pitch.h"
 
 bool Generator::setSubdivision(const float subdivision) {
     this->subdivision = Subdivision(Beats(subdivision), phraseStartTime, phraseLength());
@@ -28,6 +29,20 @@ Playable Generator::cascara() {
     auto phrase = Phrase(subdivision, phraseStartTime, phraseLength()).randomCascara();
     Playable result = Playable(phrase, cascaraChannel);
     queuePlayable("cascara", result); // TODO: make these phrase type strings available to...everyone?
+    return result;
+}
+
+Playable Generator::chords() {
+    vector<Pitch> chordToAdd = randomChord();
+    quarters length = phraseLength();
+    Phrase phrase = Phrase(subdivision, phraseStartTime, length);
+    phrase.notes.monophonic = false;
+    for (Pitch pitchToAdd : chordToAdd) {
+        Note noteToAdd(pitchToAdd.pitchValue, 70, 0, length);
+        phrase.addNote(noteToAdd);
+    }
+    Playable result = Playable(phrase, chordChannel);
+    queuePlayable("chords", result);
     return result;
 }
 
@@ -128,3 +143,5 @@ void Generator::queuePlayable(string id, Playable playable) {
     if (result.second) return;
     playQueue->at(id) = playable;
 }
+
+

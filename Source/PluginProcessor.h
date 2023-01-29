@@ -39,6 +39,7 @@ public:
     vector<juce::MidiMessage> allNotesOff;
     unsigned long currentNoteOff;
     bool noteOffIssued;
+    bool loopTasksComplete = false;
     
     void setDisplacement(Beats displacement);
     void setStartBar(bars startingBar);

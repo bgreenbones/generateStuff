@@ -39,6 +39,7 @@
 		44EBB61B0778A66975569F07 /* Foundation.framework */ = {isa = PBXBuildFile; fileRef = A09378663FA1B61A3377D988; };
 		4597EF49A7FF23EFA7768C9A /* include_juce_audio_plugin_client_VST_utils.mm */ = {isa = PBXBuildFile; fileRef = 43B4D03C8902B82E8CF3C2FF; };
 		46BDE511C0D3F041E3A3540C /* Duration.cpp */ = {isa = PBXBuildFile; fileRef = 411A7B6E9258DB6DD08E25C9; };
+		48332618CACA5C3426A1BDFD /* Pitch.cpp */ = {isa = PBXBuildFile; fileRef = 3A643EBC0251D50F8A46A29D; };
 		4AC91CF1B096BE6A3311E7A6 /* include_juce_audio_plugin_client_Standalone.cpp */ = {isa = PBXBuildFile; fileRef = 722471A91491497C691C1895; };
 		54731A308FEA123B88D64AC0 /* TimeSignature.cpp */ = {isa = PBXBuildFile; fileRef = 8C02B99950C5148796D00B0E; };
 		5945E876AAB1C5CA1258759F /* Probability.cpp */ = {isa = PBXBuildFile; fileRef = C6EEA22F79DC0648BFD58813; };
@@ -99,9 +100,11 @@
 		33CA4745E0A9BC572F37BF3A /* include_juce_core.mm */ /* include_juce_core.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_core.mm; path = ../../JuceLibraryCode/include_juce_core.mm; sourceTree = SOURCE_ROOT; };
 		33E49B39F808067392A20494 /* juce_audio_utils */ /* juce_audio_utils */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_audio_utils; path = /Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_utils; sourceTree = "<absolute>"; };
 		3A307C3533085A0C4CC18699 /* include_juce_audio_processors_lv2_libs.cpp */ /* include_juce_audio_processors_lv2_libs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = include_juce_audio_processors_lv2_libs.cpp; path = ../../JuceLibraryCode/include_juce_audio_processors_lv2_libs.cpp; sourceTree = SOURCE_ROOT; };
+		3A643EBC0251D50F8A46A29D /* Pitch.cpp */ /* Pitch.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Pitch.cpp; path = ../../Source/Tonality/Pitch.cpp; sourceTree = SOURCE_ROOT; };
 		3C1885CD85269DCF1155AD4E /* juce_data_structures */ /* juce_data_structures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_data_structures; path = /Users/beng/experiments/musicDevelopment/JUCE/modules/juce_data_structures; sourceTree = "<absolute>"; };
 		3D50A082D3BA4F3EFE05DC5F /* TimeSignature.h */ /* TimeSignature.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TimeSignature.h; path = ../../Source/Time/TimeSignature.h; sourceTree = SOURCE_ROOT; };
 		411A7B6E9258DB6DD08E25C9 /* Duration.cpp */ /* Duration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Duration.cpp; path = ../../Source/Time/Duration.cpp; sourceTree = SOURCE_ROOT; };
+		41340FE5CF72EB5F5D311A18 /* Pitch.h */ /* Pitch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Pitch.h; path = ../../Source/Tonality/Pitch.h; sourceTree = SOURCE_ROOT; };
 		4180675011C8A2FAE7DB940E /* AudioUnit.framework */ /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		42496D79B073B58ECFB4C03F /* Heuristic.cpp */ /* Heuristic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Heuristic.cpp; path = ../../Source/Heuristic.cpp; sourceTree = SOURCE_ROOT; };
 		43A53895AD26016D0C88F173 /* AU */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = generateStuff2.component; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -257,6 +260,7 @@
 				53B6F757DCAC8A5BDC71E9ED,
 				EDA997C78341A6A6957E087A,
 				5F7CA260BB98C354305ED14C,
+				28877AC289A47127A70A2A1E,
 				C17D588A4C38C3A28B3DEF32,
 				B613FC046ED691FF794882D8,
 				F062DF99D55991FC960FAEF7,
@@ -282,6 +286,15 @@
 				C867EB20474B73CBED1C845A,
 			);
 			name = Source;
+			sourceTree = "<group>";
+		};
+		28877AC289A47127A70A2A1E /* Tonality */ = {
+			isa = PBXGroup;
+			children = (
+				3A643EBC0251D50F8A46A29D,
+				41340FE5CF72EB5F5D311A18,
+			);
+			name = Tonality;
 			sourceTree = "<group>";
 		};
 		53B6F757DCAC8A5BDC71E9ED /* UI */ = {
@@ -726,6 +739,7 @@
 				46BDE511C0D3F041E3A3540C,
 				81BC61FC801BB395EE08EAF7,
 				54731A308FEA123B88D64AC0,
+				48332618CACA5C3426A1BDFD,
 				D86D8003B709B46C7242BFD5,
 				8E05C25B0F3A5CD09F7741FC,
 				7AFB26A102568EA2242020FB,

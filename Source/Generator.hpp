@@ -53,12 +53,14 @@ public:
     
     int cascaraChannel = 1;
     int claveChannel = 2;
+    int chordChannel = 3;
     
     Playable cascara();
     Playable clave();
     Playable claveFromCascara();
     Playable cascaraFromClave();
     Playable flipClave(string phraseKey);
+    Playable chords();
     
     bool hasPhrase(string phraseKey);
     
