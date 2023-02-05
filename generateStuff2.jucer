@@ -56,6 +56,8 @@
       <FILE id="NdGeUC" name="HostSettings.cpp" compile="1" resource="0"
             file="Source/HostSettings.cpp"/>
       <FILE id="kzYUPH" name="HostSettings.h" compile="0" resource="0" file="Source/HostSettings.h"/>
+      <FILE id="hc6S15" name="LoopTasks.cpp" compile="1" resource="0" file="Source/LoopTasks.cpp"/>
+      <FILE id="fVg2Af" name="LoopTasks.h" compile="0" resource="0" file="Source/LoopTasks.h"/>
       <FILE id="lX1f8c" name="Misc.cpp" compile="1" resource="0" file="Source/Misc.cpp"/>
       <FILE id="cVh7ht" name="Misc.h" compile="0" resource="0" file="Source/Misc.h"/>
       <FILE id="uF8Cts" name="Note.hpp" compile="0" resource="0" file="Source/Note.hpp"/>

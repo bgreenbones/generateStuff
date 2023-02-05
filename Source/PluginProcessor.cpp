@@ -293,11 +293,19 @@ void GenerateStuffAudioProcessor::playPlayables(
         juce::AudioPlayHead::LoopPoints loop = (positionInfo->getLoopPoints()).orFallback(juce::AudioPlayHead::LoopPoints());
         
         // TODO: not the most robust way of scheduling tasks, but should work for now.
-        if (isPpqTimeInBuffer(loop.ppqStart) && !loopTasksComplete) {
-            generator.chords();
-            loopTasksComplete = true;
+        if (isPpqTimeInBuffer(loop.ppqStart) && loopTasks.isScheduled()) {
+//            generator.chords();
+            loopTasks.performTasks();
+            loopTasks.complete();
+//            if (improviseRolls) {                
+//            }
+//            if (improviseOrnaments) {
+//                generator.ornament
+//            }
+//            loopTasksComplete = true;
         } else {
-            loopTasksComplete = false;
+            loopTasks.schedule();
+//            loopTasksComplete = false;
         }
     }
 

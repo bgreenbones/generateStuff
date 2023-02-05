@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 #include "Generator.hpp"
 #include "Duration.h"
+#include "LoopTasks.h"
 
 
 //==============================================================================
@@ -32,14 +33,14 @@ public:
     double samplesPerBeat;
     double samplesPerMinute;
     float probabilityOfDouble;
-    float regenerateRolls;
-    float regenerateOrnaments;
+    float improviseRolls;
+    float improviseOrnaments;
     Generator generator;
     shared_ptr<map<string, Playable>> playQueue;
     vector<juce::MidiMessage> allNotesOff;
     unsigned long currentNoteOff;
     bool noteOffIssued;
-    bool loopTasksComplete = false;
+    LoopTasks loopTasks;
     
     void setDisplacement(Beats displacement);
     void setStartBar(bars startingBar);

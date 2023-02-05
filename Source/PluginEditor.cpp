@@ -61,6 +61,9 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
         double rollLengthProb = Probability(rollLength.getValue());
 
         generator.roll(selectedPhraseKeyState, rollProb, associationProb, rollLengthProb);
+        string id = generator.rollsKey(selectedPhraseKeyState);
+        function<void()> task = [=]() { generator.roll(selectedPhraseKeyState, rollProb, associationProb, rollLengthProb); };
+        audioProcessor.loopTasks.queue(id, task, regenerateRolls.getToggleState());
     };
     addAndMakeVisible (&addRollsButton);
 
@@ -142,14 +145,24 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     stopBar.setText(stopBarString);
 
     regenerateRolls.setClickingTogglesState(true);
-    regenerateRolls.setToggleState(this->audioProcessor.regenerateRolls, juce::dontSendNotification);
+    regenerateRolls.setToggleState(this->audioProcessor.improviseRolls, juce::dontSendNotification);
     regenerateOrnaments.setClickingTogglesState(true);
-    regenerateOrnaments.setToggleState(this->audioProcessor.regenerateOrnaments, juce::dontSendNotification);
+    regenerateOrnaments.setToggleState(this->audioProcessor.improviseOrnaments, juce::dontSendNotification);
     regenerateRolls.onClick = [this]() {
-        this->audioProcessor.regenerateRolls = regenerateRolls.getToggleState();
+        vector<const string> rollKeys = getRollKeys();
+        bool improviseRolls = regenerateRolls.getToggleState();
+        improviseRolls
+            ? audioProcessor.loopTasks.activate(rollKeys)
+            : audioProcessor.loopTasks.deactivate(rollKeys);
     };
     regenerateOrnaments.onClick = [this]() {
-        this->audioProcessor.regenerateOrnaments = regenerateOrnaments.getToggleState();
+        vector<const string> ornamentKeys = getOrnamentKeys();
+        bool improviseOrnaments = regenerateOrnaments.getToggleState();
+        improviseOrnaments
+            ? audioProcessor.loopTasks.activate(ornamentKeys)
+            : audioProcessor.loopTasks.deactivate(ornamentKeys);
+        
+        this->audioProcessor.improviseOrnaments = regenerateOrnaments.getToggleState();
     };
     addAndMakeVisible (&regenerateRolls);
     addAndMakeVisible (&regenerateOrnaments);
@@ -235,6 +248,10 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
         bool ruffs = ruffButton.getToggleState();
         
         generator.ornament(selectedPhraseKeyState, prob, breadth, flams, drags, ruffs);
+        
+        string id = generator.ornamentsKey(selectedPhraseKeyState);
+        function<void()> task = [=]() { generator.ornament(selectedPhraseKeyState, prob, breadth, flams, drags, ruffs); };
+        audioProcessor.loopTasks.queue(id, task, regenerateOrnaments.getToggleState());
     };
     addAndMakeVisible(&addOrnamentsButton);
 

@@ -105,6 +105,7 @@ void Generator::ornament(string phraseKey,
     if (!hasPhrase(phraseKey)) return;
     Playable phrasePlayable = playQueue->at(phraseKey);
     auto possibleOrnaments = getOrnamentVector(flams, drags, ruffs);
+    if (possibleOrnaments.empty()) { return; }
     Phrase ornamentsPhrase = phrasePlayable.phrase.addOrnaments(possibleOrnaments, prob, breadth);
     queuePlayable(ornamentsKey(phraseKey), Playable(ornamentsPhrase, phrasePlayable.midiChannel));
 }

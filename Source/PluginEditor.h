@@ -95,8 +95,25 @@ private:
     int yPadding = 20;
     int decorationDividerX = -1;
     
-    string cascaraKey = "cascara";
-    string claveKey = "clave";
+    
+    // TODO: all this stuff we repeat for each phrase type...how can we abstract it or separate it out to some other phrase type manager thing.
+    const string cascaraKey = "cascara";
+    const string claveKey = "clave";
+    const vector<const string> phraseKeys = { cascaraKey, claveKey };
+    vector<const string> getRollKeys() {
+        vector<const string> rollKeys;
+        transform (phraseKeys.begin(), phraseKeys.end(), back_inserter(rollKeys), [&](string phraseKey) {
+            return generator.rollsKey(phraseKey);
+        });
+        return rollKeys;
+    }
+    vector<const string> getOrnamentKeys() {
+        vector<const string> ornamentKeys;
+        transform (phraseKeys.begin(), phraseKeys.end(), back_inserter(ornamentKeys), [&](string phraseKey) {
+            return generator.ornamentsKey(phraseKey);
+        });
+        return ornamentKeys;
+    }
     string selectedPhraseKeyState;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GenerateStuffAudioProcessorEditor)
