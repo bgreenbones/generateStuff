@@ -52,10 +52,18 @@ public:
     bool isScheduled() { return !tasksComplete; }
     bool isComplete() { return tasksComplete; }
     void deactivate(const vector<const string> ids) {
-        for (const string &id : ids) { tasks.at(id).deactivate(); }
+        for (const string &id : ids) {
+            if (tasks.find(id) != tasks.end()) {
+                tasks.at(id).deactivate();
+            }
+        }
     }
     void activate(const vector<const string> ids) {
-        for (const string &id : ids) { tasks.at(id).activate(); }
+        for (const string &id : ids) {
+            if (tasks.find(id) != tasks.end()) {
+                tasks.at(id).activate();
+            }
+        }
     }
     
     void performTasks() {
