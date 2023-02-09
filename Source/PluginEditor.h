@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include "CustomUIs.h"
 
 
 //==============================================================================
@@ -37,13 +38,15 @@ private:
     Generator& generator;
     
     juce::Slider probabilityOfDouble;
-    juce::TextButton randomCascaraButton { "casc "};
+    VoiceControls cascaraControls { "cascara" };
+    VoiceControls claveControls { "clave" };
+//    juce::TextButton randomCascaraButton { "casc "};
     juce::TextButton randomClaveButton { "clav" };
-    juce::TextButton cascaraFromClaveButton { "clv->cas" };
+//    juce::TextButton cascaraFromClaveButton { "clv->cas" };
     juce::TextButton claveFromCascaraButton { "cas->clv" };
-    juce::TextButton clearCascaraButton { "clear casc" };
+//    juce::TextButton clearCascaraButton { "clear casc" };
     juce::TextButton clearClaveButton { "clear clave" };
-    juce::TextButton selectCascaraButton { "casc" };
+//    juce::TextButton selectCascaraButton { "casc" };
     juce::TextButton selectClaveButton { "clav" };
     juce::TextButton addRollsButton { "rolls" };
     juce::TextButton clearRollsButton { "clearRolls" };
