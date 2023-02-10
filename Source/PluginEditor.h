@@ -38,16 +38,14 @@ private:
     Generator& generator;
     
     juce::Slider probabilityOfDouble;
-    VoiceControls cascaraControls { "cascara" };
-    VoiceControls claveControls { "clave" };
 //    juce::TextButton randomCascaraButton { "casc "};
-    juce::TextButton randomClaveButton { "clav" };
+//    juce::TextButton randomClaveButton { "clav" };
 //    juce::TextButton cascaraFromClaveButton { "clv->cas" };
-    juce::TextButton claveFromCascaraButton { "cas->clv" };
+//    juce::TextButton claveFromCascaraButton { "cas->clv" };
 //    juce::TextButton clearCascaraButton { "clear casc" };
-    juce::TextButton clearClaveButton { "clear clave" };
+//    juce::TextButton clearClaveButton { "clear clave" };
 //    juce::TextButton selectCascaraButton { "casc" };
-    juce::TextButton selectClaveButton { "clav" };
+//    juce::TextButton selectClaveButton { "clav" };
     juce::TextButton addRollsButton { "rolls" };
     juce::TextButton clearRollsButton { "clearRolls" };
     juce::Slider rollProbability;
@@ -102,6 +100,8 @@ private:
     // TODO: all this stuff we repeat for each phrase type...how can we abstract it or separate it out to some other phrase type manager thing.
     const string cascaraKey = "cascara";
     const string claveKey = "clave";
+    VoiceControls cascaraControls { cascaraKey };
+    VoiceControls claveControls { claveKey };
     const vector<const string> phraseKeys = { cascaraKey, claveKey };
     vector<const string> getRollKeys() {
         vector<const string> rollKeys;

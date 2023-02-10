@@ -104,6 +104,18 @@ public:
         improviseButton.setLookAndFeel (&lookAndFeel);
     }
 
+    void setBounds(int xCursor, int yCursor, int buttonWidth, int buttonHeight, int spaceBetweenControls) {
+        generateButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
+        xCursor += buttonWidth + spaceBetweenControls;
+        generateFromButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
+        xCursor += buttonWidth + spaceBetweenControls;
+        useAsSourceButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
+        xCursor += buttonWidth + spaceBetweenControls;
+        muteButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
+        xCursor += buttonWidth + spaceBetweenControls;
+        selectButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
+    }
+    
 };
 
 class VoiceManager {

@@ -43,38 +43,29 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     juce::String claveFromCascaraName = "clave from cascara";
     juce::String cascaraFromClaveName = "cascara from clave";
     juce::String fillClaveName = "fill clave";
-//    randomCascaraButton.setTitle(cascaraName);
-//    randomCascaraButton.setName(cascaraName);
-//    addAndMakeVisible (&randomCascaraButton);
-//    randomCascaraButton.addListener(this);
-    cascaraControls.generateButton.setTitle(cascaraName);
+
+    cascaraControls.generateButton.setTitle(cascaraName); // TODO: all the voice controls stuff in a function contained in VoiceControls.
     cascaraControls.generateButton.setName(cascaraName);
     addAndMakeVisible (&cascaraControls.generateButton);
     cascaraControls.generateButton.addListener(this);
     
-    randomClaveButton.setTitle(claveName);
-    randomClaveButton.setName(claveName);
-    addAndMakeVisible (&randomClaveButton);
-    randomClaveButton.addListener(this);
+    claveControls.generateButton.setTitle(claveName);
+    claveControls.generateButton.setName(claveName);
+    addAndMakeVisible (&claveControls.generateButton);
+    claveControls.generateButton.addListener(this);
     
-    claveFromCascaraButton.setTitle(claveFromCascaraName);
-    claveFromCascaraButton.setName(claveFromCascaraName);
-    addAndMakeVisible (&claveFromCascaraButton);
-    claveFromCascaraButton.addListener(this);
+    claveControls.generateFromButton.setTitle(claveFromCascaraName);
+    claveControls.generateFromButton.setName(claveFromCascaraName);
+    addAndMakeVisible (&claveControls.generateFromButton);
+    claveControls.generateFromButton.addListener(this);
     
-//    cascaraFromClaveButton.setTitle(cascaraFromClaveName);
-//    cascaraFromClaveButton.setName(cascaraFromClaveName);
-//    addAndMakeVisible (&cascaraFromClaveButton);
-//    cascaraFromClaveButton.addListener(this);
     cascaraControls.generateFromButton.setTitle(cascaraFromClaveName);
     cascaraControls.generateFromButton.setName(cascaraFromClaveName);
     addAndMakeVisible (&cascaraControls.generateFromButton);
     cascaraControls.generateFromButton.addListener(this);
     
-//    cascaraControls.useAsSourceButton.setTitle(cascaraFromClaveName);
-//    cascaraControls.useAsSourceButton.setName(cascaraFromClaveName);
     addAndMakeVisible (&cascaraControls.useAsSourceButton);
-//    cascaraControls.generateFromButton.addListener(this);
+    addAndMakeVisible(&claveControls.useAsSourceButton);
     
     addRollsButton.onClick = [this]() {
         double rollProb = Probability(rollProbability.getValue());
@@ -193,8 +184,8 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     cascaraControls.muteButton.onClick = [this]() { generator.toggleMutePlayable(cascaraKey); };
     addAndMakeVisible(&cascaraControls.muteButton);
     
-    clearClaveButton.onClick = [this]() { generator.toggleMutePlayable(claveKey); };
-    addAndMakeVisible(&clearClaveButton);
+    claveControls.muteButton.onClick = [this]() { generator.toggleMutePlayable(claveKey); };
+    addAndMakeVisible(&claveControls.muteButton);
     clearRollsButton.onClick = [this]() {
         string rollsKey = generator.rollsKey(selectedPhraseKeyState);
         generator.toggleMutePlayable(rollsKey);
@@ -229,11 +220,11 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     cascaraControls.selectButton.onClick = updateSelectedPhraseState;
     addAndMakeVisible (&cascaraControls.selectButton);
     
-    selectClaveButton.setRadioGroupId(selectRhythmGroupId);
-    selectClaveButton.setClickingTogglesState(true);
-    selectClaveButton.setToggleState(true, juce::dontSendNotification);
-    selectClaveButton.onClick = updateSelectedPhraseState;
-    addAndMakeVisible(&selectClaveButton);
+    claveControls.selectButton.setRadioGroupId(selectRhythmGroupId);
+    claveControls.selectButton.setClickingTogglesState(true);
+    claveControls.selectButton.setToggleState(true, juce::dontSendNotification);
+    claveControls.selectButton.onClick = updateSelectedPhraseState;
+    addAndMakeVisible(&claveControls.selectButton);
     
     updateSelectedPhraseState();
     
@@ -465,38 +456,12 @@ void GenerateStuffAudioProcessorEditor::resized()
     
     auto getButtonHeight = [height, spaceBetweenControls] (int rows) { return (height - spaceBetweenControls * (rows - 1)) / rows; };
     int buttonHeight = getButtonHeight(2);
-//    randomCascaraButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
-    cascaraControls.generateButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
-    yCursor += buttonHeight + spaceBetweenControls;
-    randomClaveButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
-    xCursor += buttonWidth + spaceBetweenControls;
-    yCursor = yPadding;
     
-//    cascaraFromClaveButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
-    cascaraControls.generateFromButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
+    cascaraControls.setBounds(xCursor, yCursor, buttonWidth, buttonHeight, spaceBetweenControls);
     yCursor += buttonHeight + spaceBetweenControls;
-    claveFromCascaraButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
-    xCursor += buttonWidth + spaceBetweenControls;
-    yCursor = yPadding;
-    
-    cascaraControls.useAsSourceButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
-    yCursor += buttonHeight + spaceBetweenControls;
-    
-    xCursor += buttonWidth + spaceBetweenControls;
-    yCursor = yPadding;
-    
-//    clearCascaraButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
-    cascaraControls.muteButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
-    yCursor += buttonHeight + spaceBetweenControls;
-    clearClaveButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
-    xCursor += buttonWidth + spaceBetweenControls;
-    yCursor = yPadding;
-    
-    //    selectCascaraButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
-    cascaraControls.selectButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
-    yCursor += buttonHeight + spaceBetweenControls;
-    selectClaveButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
-    xCursor += buttonWidth + spaceBetweenControls;
+    claveControls.setBounds(xCursor, yCursor, buttonWidth, buttonHeight, spaceBetweenControls);
+
+    xCursor += (buttonWidth + spaceBetweenControls) * 5; // TODO: better way of doing width of voice controls.
     yCursor = yPadding;
     
     decorationDividerX = xCursor;
@@ -548,11 +513,9 @@ void GenerateStuffAudioProcessorEditor::sliderValueChanged (juce::Slider* slider
 void GenerateStuffAudioProcessorEditor::buttonClicked (juce::Button *button)
 {
     auto buttonName = button->getName();
-//    auto randomCascaraName = randomCascaraButton.getName();
     auto randomCascaraName = cascaraControls.generateButton.getName();
-    auto claveFromCascaraName = claveFromCascaraButton.getName();
-    auto randomClaveName = randomClaveButton.getName();
-//    auto cascaraFromClaveName = cascaraFromClaveButton.getName();
+    auto claveFromCascaraName = claveControls.generateFromButton.getName();
+    auto randomClaveName = claveControls.generateButton.getName();
     auto cascaraFromClaveName = cascaraControls.generateFromButton.getName();
 
     
