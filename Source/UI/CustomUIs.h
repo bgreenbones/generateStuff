@@ -17,6 +17,7 @@
 using std::string, std::vector;
 
 
+
 /*
  ### Interface for making quick UIs really easily
  
@@ -77,6 +78,7 @@ public:
 
 class VoiceControls {
     GenerateStuffLookAndFeel lookAndFeel;
+    vector<juce::TextButton*> buttons;
 public:
     const string voiceName; // cascaraKey = "cascara";
     juce::TextButton generateButton; // randomCascaraButton { "casc "};
@@ -87,6 +89,7 @@ public:
     juce::TextButton improviseButton; // regenerateRolls { "regen rolls" }; // re-gen rolls on loop
 //    juce::TextButton flipButton { "flip" };
     
+    
     VoiceControls(string name):
         voiceName(name),
         generateButton(juce::TextButton("new " + name)),
@@ -96,24 +99,28 @@ public:
         selectButton(juce::TextButton("select " + name)),
         improviseButton("improvise " + name)
     {
-        generateButton.setLookAndFeel (&lookAndFeel); // TODO: can we just do this in one place somewhere??
-        generateFromButton.setLookAndFeel (&lookAndFeel);
-        useAsSourceButton.setLookAndFeel (&lookAndFeel);
-        muteButton.setLookAndFeel (&lookAndFeel);
-        selectButton.setLookAndFeel (&lookAndFeel);
-        improviseButton.setLookAndFeel (&lookAndFeel);
+        buttons = { &generateButton, &generateFromButton, &useAsSourceButton, &muteButton, &selectButton, &improviseButton };
+        for (auto button : buttons) {
+            button->setLookAndFeel (&lookAndFeel);
+        }
+    }
+    
+    std::size_t getNumberOfButtons() {
+        return buttons.size();
     }
 
+    void callAddAndMakeVisible(Component *editor) {
+        for (auto button : buttons) {
+            editor->addAndMakeVisible (button);
+        }
+    }
+    
     void setBounds(int xCursor, int yCursor, int buttonWidth, int buttonHeight, int spaceBetweenControls) {
-        generateButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
-        xCursor += buttonWidth + spaceBetweenControls;
-        generateFromButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
-        xCursor += buttonWidth + spaceBetweenControls;
-        useAsSourceButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
-        xCursor += buttonWidth + spaceBetweenControls;
-        muteButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
-        xCursor += buttonWidth + spaceBetweenControls;
-        selectButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
+        auto incrementCursor = [&]() { xCursor += buttonWidth + spaceBetweenControls; };
+        for (auto button : buttons) {
+            button->setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
+            incrementCursor();
+        }
     }
     
 };
