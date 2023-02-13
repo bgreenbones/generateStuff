@@ -10,7 +10,8 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
-#include "CustomUIs.h"
+#include "VoiceManager.h"
+#include "GenerateStuffEditorState.h"
 
 
 //==============================================================================
@@ -36,6 +37,8 @@ private:
     // access the processor object that created it.
     GenerateStuffAudioProcessor& audioProcessor;
     Generator& generator;
+    shared_ptr<GenerateStuffEditorState> editorState;
+    VoiceManager voiceManager;
     
 //    juce::Slider probabilityOfDouble;
     juce::TextButton addRollsButton { "rolls" };
@@ -78,19 +81,12 @@ private:
     juce::TextButton regenerateOrnaments { "regen orns" }; // re-gen ornaments on loop
     juce::TextButton flipButton { "flip" };
 
-    void updateSubdivisionState(float subdivision);
-    void updatePhraseLengthState();
-    void updateDisplacementState();
-    void updateStartingBarState();
-    void updateStoppingBarState();
+    void updateEditorState();
 
     int xPadding = 20;
     int yPadding = 20;
     int decorationDividerX = -1;
     
-    VoiceManager voiceManager;
-    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GenerateStuffAudioProcessorEditor)
 };
-
 

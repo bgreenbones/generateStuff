@@ -108,6 +108,7 @@
 		41340FE5CF72EB5F5D311A18 /* Pitch.h */ /* Pitch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Pitch.h; path = ../../Source/Tonality/Pitch.h; sourceTree = SOURCE_ROOT; };
 		4180675011C8A2FAE7DB940E /* AudioUnit.framework */ /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		42496D79B073B58ECFB4C03F /* Heuristic.cpp */ /* Heuristic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Heuristic.cpp; path = ../../Source/Heuristic.cpp; sourceTree = SOURCE_ROOT; };
+		4295DD60F5A0A85C4FAA71FC /* GenerateStuffEditorState.h */ /* GenerateStuffEditorState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GenerateStuffEditorState.h; path = ../../Source/UI/GenerateStuffEditorState.h; sourceTree = SOURCE_ROOT; };
 		43A53895AD26016D0C88F173 /* AU */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = generateStuff2.component; sourceTree = BUILT_PRODUCTS_DIR; };
 		43B4D03C8902B82E8CF3C2FF /* include_juce_audio_plugin_client_VST_utils.mm */ /* include_juce_audio_plugin_client_VST_utils.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_audio_plugin_client_VST_utils.mm; path = ../../JuceLibraryCode/include_juce_audio_plugin_client_VST_utils.mm; sourceTree = SOURCE_ROOT; };
 		458A8579C0AD068D9147D393 /* Misc.h */ /* Misc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Misc.h; path = ../../Source/Misc.h; sourceTree = SOURCE_ROOT; };
@@ -166,6 +167,7 @@
 		C0CEFAA51C0B171F421A2B73 /* Info-Standalone_Plugin.plist */ /* Info-Standalone_Plugin.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-Standalone_Plugin.plist"; path = "Info-Standalone_Plugin.plist"; sourceTree = SOURCE_ROOT; };
 		C17D588A4C38C3A28B3DEF32 /* Constraint.cpp */ /* Constraint.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Constraint.cpp; path = ../../Source/Constraint.cpp; sourceTree = SOURCE_ROOT; };
 		C3B004B2D6749C3B9A50FD41 /* juce_gui_extra */ /* juce_gui_extra */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_gui_extra; path = /Users/beng/experiments/musicDevelopment/JUCE/modules/juce_gui_extra; sourceTree = "<absolute>"; };
+		C45D7CEB1E28167A0E16B51C /* VoiceManager.h */ /* VoiceManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = VoiceManager.h; path = ../../Source/UI/VoiceManager.h; sourceTree = SOURCE_ROOT; };
 		C4BECC31A060ADD042258121 /* include_juce_audio_plugin_client_utils.cpp */ /* include_juce_audio_plugin_client_utils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = include_juce_audio_plugin_client_utils.cpp; path = ../../JuceLibraryCode/include_juce_audio_plugin_client_utils.cpp; sourceTree = SOURCE_ROOT; };
 		C5C60830F72CFA411A0B865D /* include_juce_audio_processors_ara.cpp */ /* include_juce_audio_processors_ara.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = include_juce_audio_processors_ara.cpp; path = ../../JuceLibraryCode/include_juce_audio_processors_ara.cpp; sourceTree = SOURCE_ROOT; };
 		C6EEA22F79DC0648BFD58813 /* Probability.cpp */ /* Probability.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Probability.cpp; path = ../../Source/Probability.cpp; sourceTree = SOURCE_ROOT; };
@@ -185,6 +187,7 @@
 		EADD9DBA0C7C1A2338983FC0 /* juce_core */ /* juce_core */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_core; path = /Users/beng/experiments/musicDevelopment/JUCE/modules/juce_core; sourceTree = "<absolute>"; };
 		EB0B1662DF168106B31B0F91 /* CustomUIs.h */ /* CustomUIs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CustomUIs.h; path = ../../Source/UI/CustomUIs.h; sourceTree = SOURCE_ROOT; };
 		EB9AF45241A6EDCC8EA0CBD6 /* PluginProcessor.h */ /* PluginProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PluginProcessor.h; path = ../../Source/PluginProcessor.h; sourceTree = SOURCE_ROOT; };
+		EC271AB008113C9288F05F52 /* VoiceControls.h */ /* VoiceControls.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = VoiceControls.h; path = ../../Source/UI/VoiceControls.h; sourceTree = SOURCE_ROOT; };
 		EC36FBF262D11B2162168902 /* Probability.h */ /* Probability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Probability.h; path = ../../Source/Probability.h; sourceTree = SOURCE_ROOT; };
 		ECB354F59F5766BDEC783AA9 /* Accelerate.framework */ /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		EEE1A3B5E9323223746A5039 /* TimedEvent.h */ /* TimedEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TimedEvent.h; path = ../../Source/Time/TimedEvent.h; sourceTree = SOURCE_ROOT; };
@@ -281,8 +284,6 @@
 				86D0BA20B99B8FFCA525D65B,
 				CC9A1AB2491837023652BD42,
 				0C0CD1DB349A26BD257035F9,
-				A21D300D94C75F3C89A1BCE0,
-				E535D9B81B398B3326A352DE,
 				D96EB940FF34910B2A3F05A4,
 				EB9AF45241A6EDCC8EA0CBD6,
 				C6EEA22F79DC0648BFD58813,
@@ -306,6 +307,11 @@
 			isa = PBXGroup;
 			children = (
 				EB0B1662DF168106B31B0F91,
+				4295DD60F5A0A85C4FAA71FC,
+				A21D300D94C75F3C89A1BCE0,
+				E535D9B81B398B3326A352DE,
+				EC271AB008113C9288F05F52,
+				C45D7CEB1E28167A0E16B51C,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -732,6 +738,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03B382C952781A4EB552C3C8,
 				3F8D5003D8379FF967C7AE91,
 				174A6BF710984B379AD82194,
 				F6CF2E82E4774E6370B55C8B,
@@ -753,7 +760,6 @@
 				00C5633FF07DCCD28B878FEB,
 				D33A538337C9B9CA7C32D1CC,
 				8CC925A521371E6AD5E45389,
-				03B382C952781A4EB552C3C8,
 				7A9D797AC1A9B290A9C0DD12,
 				5945E876AAB1C5CA1258759F,
 				27A63CBDAA77F58BF846F292,

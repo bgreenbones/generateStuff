@@ -17,9 +17,9 @@
 #include "Playable.hpp"
 #include "Syncopation.h"
 #include "HostSettings.h"
+#include "GenerateStuffEditorState.h"
 
 using std::shared_ptr, std::map, std::string;
-
 
 static const string cascaraKey = "cascara";
 static const string claveKey = "clave";
@@ -34,7 +34,11 @@ class Generator
 {
 public:
     Generator(): settings(HostSettings::instance()) {}
-    Generator(shared_ptr<map<string, Playable>> playQueue): settings(HostSettings::instance()), playQueue(playQueue) {}
+    Generator(shared_ptr<map<string, Playable>> playQueue,
+              shared_ptr<GenerateStuffEditorState> editorState):
+                settings(HostSettings::instance()),
+                playQueue(playQueue),
+                editorState(editorState) {}
     Generator& operator=(Generator const& other) {
         if (this == &other) {
             return *this;
@@ -45,21 +49,22 @@ public:
 
     HostSettings &settings;
     shared_ptr<map<string, Playable>> playQueue;
+    shared_ptr<GenerateStuffEditorState> editorState;
 
-    constexpr static float const defaultSubdivision = 1./2.;
-    constexpr static float const defaultBars = 2;
-    constexpr static float const defaultBeats = 0;
-    Bars phraseLengthBars = Bars(defaultBars, true);
-    Beats phraseLengthBeats = Beats(defaultBeats, true);
-    Position phraseStartTime = 0;
-    Subdivision subdivision = Subdivision(Beats(defaultSubdivision, true), phraseStartTime, phraseLength());
-    Duration phraseLength() {
-        Duration result = phraseLengthBars + phraseLengthBeats;
-        return result;
-    }
+//    constexpr static float const defaultSubdivision = 1./2.;
+//    constexpr static float const defaultBars = 2;
+//    constexpr static float const defaultBeats = 0;
+//    Bars phraseLengthBars = Bars(defaultBars, true);
+//    Beats phraseLengthBeats = Beats(defaultBeats, true);
+//    Position phraseStartTime = 0;
+//    Subdivision subdivision = Subdivision(Beats(defaultSubdivision, true), phraseStartTime, phraseLength());
+//    Duration phraseLength() { // TODO: methods like this should be members of the editor state
+//        Duration result = editorState->phraseLengthBars + editorState->phraseLengthBeats;
+//        return result;
+//    }
     
-    int cascaraChannel = 1;
-    int claveChannel = 2;
+    int cascaraChannel = 1; // TODO: make configurable from UI
+    int claveChannel = 2; // and then of course move to editorState
     int chordChannel = 3;
     
     Playable cascara();
@@ -68,7 +73,7 @@ public:
     Playable cascaraFromClave();
     Playable flipClave(string phraseKey);
     Playable chords();
-    Playable generate(string phraseKey) {
+    Playable generate(string phraseKey) { // TODO: get selected phrase key from editor state instead of passing it in
         if (phraseKey == cascaraKey) { return cascara(); }
         if (phraseKey == claveKey) { return clave(); }
         return Playable(Phrase(), -1);
@@ -94,8 +99,8 @@ public:
     void roll(string phraseKey, Probability rollProb, Probability associationProb, Probability rollLengthProb);
     void ornament(string phraseKey, Probability prob, double breadth, bool flams, bool drags, bool ruffs);
 
-    bool setSubdivision(const float subdivision);
-    bool setPhraseLength(const float bars, const float beats);
+//    bool setSubdivision(const float subdivision);
+//    bool setPhraseLength(const float bars, const float beats);
     
     string rollsKey(string phraseKey);
     string ornamentsKey(string phraseKey);

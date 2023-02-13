@@ -8,6 +8,13 @@
     <GROUP id="{00999AAF-F7D5-2407-527D-4524909F0912}" name="Source">
       <GROUP id="{F3A0C4B1-F867-8446-A664-D7913F7323C9}" name="UI">
         <FILE id="tkEiPc" name="CustomUIs.h" compile="0" resource="0" file="Source/UI/CustomUIs.h"/>
+        <FILE id="WgZLAu" name="GenerateStuffEditorState.h" compile="0" resource="0"
+              file="Source/UI/GenerateStuffEditorState.h"/>
+        <FILE id="RFls1u" name="PluginEditor.cpp" compile="1" resource="0"
+              file="Source/PluginEditor.cpp"/>
+        <FILE id="Aj4u7Y" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+        <FILE id="pmqAD1" name="VoiceControls.h" compile="0" resource="0" file="Source/UI/VoiceControls.h"/>
+        <FILE id="tFOp4W" name="VoiceManager.h" compile="0" resource="0" file="Source/UI/VoiceManager.h"/>
       </GROUP>
       <GROUP id="{E84D5FE5-051D-49D6-86AD-21D645F5CBC0}" name="Sequence">
         <FILE id="oDJqjh" name="Additive.cpp" compile="1" resource="0" file="Source/Sequence/Additive.cpp"/>
@@ -63,9 +70,6 @@
       <FILE id="uF8Cts" name="Note.hpp" compile="0" resource="0" file="Source/Note.hpp"/>
       <FILE id="cI7sZr" name="Note.cpp" compile="1" resource="0" file="Source/Note.cpp"/>
       <FILE id="KqKfYW" name="Playable.hpp" compile="0" resource="0" file="Source/Playable.hpp"/>
-      <FILE id="RFls1u" name="PluginEditor.cpp" compile="1" resource="0"
-            file="Source/PluginEditor.cpp"/>
-      <FILE id="Aj4u7Y" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
       <FILE id="cf7fQF" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="Xm7vUK" name="PluginProcessor.h" compile="0" resource="0"

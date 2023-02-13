@@ -19,6 +19,7 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     : AudioProcessorEditor (&p),
     audioProcessor (p),
     generator(p.generator),
+    editorState(p.editorState),
     voiceManager(p.generator, p)
 {
     // Make sure that before the constructor has finished, you've set the
@@ -57,9 +58,9 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
         subdivisionButton->setClickingTogglesState(true);
         addAndMakeVisible(subdivisionButton);
         subdivisionButton->setToggleState(false, juce::dontSendNotification);
-        subdivisionButton->onClick = [=] { updateSubdivisionState (1.f / subdivisionDenominator); };
+//        subdivisionButton->onClick = [=] { updateSubdivisionState (1.f / subdivisionDenominator); };
     }
-    int defaultSubdivisionIndex = (int) (1.0 / audioProcessor.generator.subdivision.asBeats()) - 1; // todo: set this
+    int defaultSubdivisionIndex = (int) (1.0 / editorState->subdivision) - 1; // todo: set this
     subdivisionButtons[defaultSubdivisionIndex]->setToggleState(true, juce::dontSendNotification);
     
     phraseLengthBarsLabel.setText("bars", juce::dontSendNotification);
@@ -72,18 +73,18 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     phraseLengthBeats.setInputRestrictions (4, juce::String {".1234567890"});
     addAndMakeVisible (&phraseLengthBars);
     addAndMakeVisible (&phraseLengthBeats);
-    phraseLengthBars.onTextChange = [this] { updatePhraseLengthState(); };
-    phraseLengthBeats.onTextChange = [this] { updatePhraseLengthState(); };
-    juce::String barsString = juce::String::formatted("%.2f", Generator::defaultBars);
-    juce::String beatsString = juce::String::formatted("%.2f", Generator::defaultBeats);
+    phraseLengthBars.onTextChange = [this] { updateEditorState(); };
+    phraseLengthBeats.onTextChange = [this] { updateEditorState(); };
+    juce::String barsString = juce::String::formatted("%.2f", editorState->phraseLengthBars);
+    juce::String beatsString = juce::String::formatted("%.2f", editorState->phraseLengthBeats);
     phraseLengthBars.setText(barsString);
     phraseLengthBeats.setText(beatsString);
     phraseLengthBars.onFocusLost = [this] {
-        juce::String phraseLengthString = juce::String::formatted("%.2f", this->audioProcessor.generator.phraseLengthBars.asBars());
+        juce::String phraseLengthString = juce::String::formatted("%.2f", editorState->phraseLengthBars);
         phraseLengthBars.setText(phraseLengthString);
     };
     phraseLengthBeats.onFocusLost = [this] {
-        juce::String phraseLengthString = juce::String::formatted("%.2f", this->audioProcessor.generator.phraseLengthBeats.asBeats());
+        juce::String phraseLengthString = juce::String::formatted("%.2f", editorState->phraseLengthBeats);
         phraseLengthBeats.setText(phraseLengthString);
     };
     
@@ -100,36 +101,39 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     displace.setInputRestrictions (4, juce::String {".1234567890"});
     startBar.setInputRestrictions (4, juce::String {".1234567890"});
     stopBar.setInputRestrictions (4, juce::String {".1234567890"});
-    displace.onTextChange = [this] { updateDisplacementState(); };
-    startBar.onTextChange = [this] { updateStartingBarState(); };
-    stopBar.onTextChange = [this] { updateStoppingBarState(); };
+//    displace.onTextChange = [this] { updateDisplacementState(); };
+//    startBar.onTextChange = [this] { updateStartingBarState(); };
+//    stopBar.onTextChange = [this] { updateStoppingBarState(); };
+    displace.onTextChange = [this] { updateEditorState(); };
+    startBar.onTextChange = [this] { updateEditorState(); };
+    stopBar.onTextChange = [this] { updateEditorState(); };
     displace.onFocusLost = [this] {
-        juce::String displaceString = juce::String::formatted("%.2f", this->audioProcessor.displacement.asBeats());
+        juce::String displaceString = juce::String::formatted("%.2f", editorState->displace);
         displace.setText(displaceString);
     };
     startBar.onFocusLost = [this] {
-        juce::String startBarString = juce::String::formatted("%.2f", this->audioProcessor.startingBar);
+        juce::String startBarString = juce::String::formatted("%.2f", editorState->startBar);
         startBar.setText(startBarString);
     };
     stopBar.onFocusLost = [this] {
-        juce::String stopBarString = juce::String::formatted("%.2f", this->audioProcessor.stoppingBar);
+        juce::String stopBarString = juce::String::formatted("%.2f", editorState->stopBar);
         stopBar.setText(stopBarString);
     };
     
     addAndMakeVisible (&displace);
     addAndMakeVisible (&startBar);
     addAndMakeVisible (&stopBar);
-    juce::String displaceString = juce::String::formatted("%.2f", audioProcessor.displacement.asBeats());
-    juce::String startBarString = juce::String::formatted("%.2f", audioProcessor.startingBar);
-    juce::String stopBarString = juce::String::formatted("%.2f", audioProcessor.stoppingBar);
+    juce::String displaceString = juce::String::formatted("%.2f", editorState->displace);
+    juce::String startBarString = juce::String::formatted("%.2f", editorState->startBar);
+    juce::String stopBarString = juce::String::formatted("%.2f", editorState->stopBar);
     displace.setText(displaceString);
     startBar.setText(startBarString);
     stopBar.setText(stopBarString);
 
     regenerateRolls.setClickingTogglesState(true);
-    regenerateRolls.setToggleState(this->audioProcessor.improviseRolls, juce::dontSendNotification);
+    regenerateRolls.setToggleState(editorState->improviseRolls, juce::dontSendNotification);
     regenerateOrnaments.setClickingTogglesState(true);
-    regenerateOrnaments.setToggleState(this->audioProcessor.improviseOrnaments, juce::dontSendNotification);
+    regenerateOrnaments.setToggleState(editorState->improviseOrnaments, juce::dontSendNotification);
     regenerateRolls.onClick = [this]() {
         vector<const string> rollKeys = voiceManager.getRollKeys();
         bool improviseRolls = regenerateRolls.getToggleState();
@@ -144,7 +148,7 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
             ? audioProcessor.loopTasks.activate(ornamentKeys)
             : audioProcessor.loopTasks.deactivate(ornamentKeys);
         
-        this->audioProcessor.improviseOrnaments = regenerateOrnaments.getToggleState();
+        editorState->improviseOrnaments = regenerateOrnaments.getToggleState();
     };
     addAndMakeVisible (&regenerateRolls);
     addAndMakeVisible (&regenerateOrnaments);
@@ -236,66 +240,66 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     };
     addAndMakeVisible(&flipButton);
 }
-
-void GenerateStuffAudioProcessorEditor::updatePhraseLengthState() {
-    float bars = -1;
-    float beats = -1;
-    try {
-        auto barsString = phraseLengthBars.getTextValue().toString().toStdString();
-        bars = stof(barsString);
-    } catch (const invalid_argument& ia) {
-        return;
-    }
-    try {
-        auto beatsString = phraseLengthBeats.getTextValue().toString().toStdString();
-        beats = stof(beatsString);
-    } catch (const invalid_argument& ia) {
-        return;
-    }
-
-    if (!audioProcessor.generator.setPhraseLength(bars, beats)) {
-        // TODO: keep editor's value in sync with generator's
-    };
-}
-
-void GenerateStuffAudioProcessorEditor::updateDisplacementState() {
-    Beats displacement;
-    try {
-        displacement = stof(displace.getText().toStdString());
-    } catch (const invalid_argument& ia) {
-        return;
-    }
-    audioProcessor.setDisplacement(displacement);
-    return;
-}
-
-void GenerateStuffAudioProcessorEditor::updateStartingBarState() {
-    bars startingBar;
-    try {
-        string startBarText = startBar.getText().toStdString();
-        startingBar = stof(startBarText);
-    } catch (const invalid_argument& ia) {
-        return;
-    }
-    audioProcessor.setStartBar(startingBar);
-    return;
-}
-
-void GenerateStuffAudioProcessorEditor::updateStoppingBarState() {
-    bars stoppingBar;
-    try {
-        string stopBarText = stopBar.getText().toStdString();
-        stoppingBar = stof(stopBarText);
-    } catch (const invalid_argument& ia) {
-        return;
-    }
-    audioProcessor.setStopBar(stoppingBar);
-    return;
-}
-
-void GenerateStuffAudioProcessorEditor::updateSubdivisionState(float subdivision) {
-    audioProcessor.generator.setSubdivision(subdivision);
-}
+//
+//void GenerateStuffAudioProcessorEditor::updatePhraseLengthState() {
+//    float bars = -1;
+//    float beats = -1;
+//    try {
+//        auto barsString = phraseLengthBars.getTextValue().toString().toStdString();
+//        bars = stof(barsString);
+//    } catch (const invalid_argument& ia) {
+//        return;
+//    }
+//    try {
+//        auto beatsString = phraseLengthBeats.getTextValue().toString().toStdString();
+//        beats = stof(beatsString);
+//    } catch (const invalid_argument& ia) {
+//        return;
+//    }
+//
+//    if (!audioProcessor.generator.setPhraseLength(bars, beats)) {
+//        // TODO: keep editor's value in sync with generator's
+//    };
+//}
+//
+//void GenerateStuffAudioProcessorEditor::updateDisplacementState() {
+//    Beats displacement;
+//    try {
+//        displacement = stof(displace.getText().toStdString());
+//    } catch (const invalid_argument& ia) {
+//        return;
+//    }
+//    audioProcessor.setDisplacement(displacement);
+//    return;
+//}
+//
+//void GenerateStuffAudioProcessorEditor::updateStartingBarState() {
+//    bars startingBar;
+//    try {
+//        string startBarText = startBar.getText().toStdString();
+//        startingBar = stof(startBarText);
+//    } catch (const invalid_argument& ia) {
+//        return;
+//    }
+//    audioProcessor.setStartBar(startingBar);
+//    return;
+//}
+//
+//void GenerateStuffAudioProcessorEditor::updateStoppingBarState() {
+//    bars stoppingBar;
+//    try {
+//        string stopBarText = stopBar.getText().toStdString();
+//        stoppingBar = stof(stopBarText);
+//    } catch (const invalid_argument& ia) {
+//        return;
+//    }
+//    audioProcessor.setStopBar(stoppingBar);
+//    return;
+//}
+//
+//void GenerateStuffAudioProcessorEditor::updateSubdivisionState(float subdivision) {
+//    audioProcessor.generator.setSubdivision(subdivision);
+//}
 
 GenerateStuffAudioProcessorEditor::~GenerateStuffAudioProcessorEditor()
 {
@@ -433,5 +437,50 @@ void GenerateStuffAudioProcessorEditor::resized()
     clearOrnamentsButton.setBounds (xCursor, yCursor, buttonWidth, getButtonHeight(2));
     xCursor += buttonWidth + spaceBetweenControls;
     yCursor = yPadding;
+}
+
+void GenerateStuffAudioProcessorEditor::updateEditorState() {
+    double subDiv = 1./2.;
+    for (float subdivisionDenominator = 1; subdivisionDenominator <= 9; subdivisionDenominator++) {
+        int subdivisionIndex = subdivisionDenominator - 1;
+        auto subdivisionButton = subdivisionButtons[subdivisionIndex];
+        if (subdivisionButton->getToggleState()) {
+            subDiv = 1./subdivisionDenominator;
+            break;
+        }
+    }
+    
+    double bars, beats, dis, start, stop;
+    try { bars = stof(phraseLengthBars.getTextValue().toString().toStdString()); } catch (const invalid_argument& ia) {}
+    try { beats = stof(phraseLengthBeats.getTextValue().toString().toStdString()); } catch (const invalid_argument& ia) {}
+    try { dis = stof(displace.getTextValue().toString().toStdString()); } catch (const invalid_argument& ia) {}
+    try { start = stof(startBar.getTextValue().toString().toStdString()); } catch (const invalid_argument& ia) {}
+    try { stop = stof(stopBar.getTextValue().toString().toStdString()); } catch (const invalid_argument& ia) {}
+    
+    // general
+    editorState->subdivision = subDiv;
+    editorState->phraseLengthBars = bars;
+    editorState->phraseLengthBeats = beats;
+    editorState->displace = dis;
+    editorState->startBar = start;
+    editorState->stopBar = stop;
+//        double probabilityOfDouble; // not yet using for 'cascara' abstraction
+
+    // rolls / runs
+    editorState->muteRolls = clearRollsButton.getToggleState();
+    editorState->rollProbability = rollProbability.getValue();
+    editorState->rollAssociation = rollAssociation.getValue();
+    editorState->rollLength = rollLength.getValue();
+    editorState->improviseRolls = regenerateRolls.getToggleState();
+    editorState->improviseOrnaments = regenerateOrnaments.getToggleState();
+
+    // ornaments
+    editorState->muteOrnaments = clearOrnamentsButton.getToggleState();
+    editorState->allowflams = flamButton.getToggleState();
+    editorState->allowDrags = dragButton.getToggleState();
+    editorState->allowRuffs = ruffButton.getToggleState();
+    editorState->ornamentProbability = ornamentProbability.getValue();
+    editorState->ornamentBreadth = ornamentBreadth.getValue();
+
 }
 

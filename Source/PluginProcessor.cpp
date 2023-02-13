@@ -23,13 +23,14 @@ GenerateStuffAudioProcessor::GenerateStuffAudioProcessor()
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
                        ),
-        playQueue(make_unique<map<string, Playable>>(map<string, Playable>()))
+        playQueue(make_unique<map<string, Playable>>(map<string, Playable>())),
+        editorState(make_shared<GenerateStuffEditorState>(GenerateStuffEditorState {}))
 #endif
 {
-    this->generator = Generator(playQueue);
-    this->displacement = 0;
-    this->startingBar = 1;
-    this->stoppingBar = this->startingBar + generator.phraseLength().asBars();
+    this->generator = Generator(playQueue, editorState);
+//    this->displacement = 0;
+//    this->startingBar = 1;
+//    this->stoppingBar = this->startingBar + generator.phraseLength().asBars();
     this->noteOffIssued = true;
     
     this->allNotesOff = vector<juce::MidiMessage>();
@@ -188,23 +189,23 @@ bool GenerateStuffAudioProcessor::isBusesLayoutSupported (const BusesLayout& lay
 //    playQueue->at(id) = playable;
 //}
 
-void GenerateStuffAudioProcessor::setDisplacement(Beats displacement){
-    this->displacement = displacement;
-    return;
-}
-
-void GenerateStuffAudioProcessor::setStartBar(bars startingBar){
-    if (startingBar >= this->stoppingBar) return;
-    if (startingBar < 1) return;
-    this->startingBar = startingBar;
-    return;
-}
-
-void GenerateStuffAudioProcessor::setStopBar(bars stoppingBar){
-    if (this->startingBar >= stoppingBar) return;
-    this->stoppingBar = stoppingBar;
-    return;
-}
+//void GenerateStuffAudioProcessor::setDisplacement(Beats displacement){
+//    this->displacement = displacement;
+//    return;
+//}
+//
+//void GenerateStuffAudioProcessor::setStartBar(bars startingBar){
+//    if (startingBar >= this->stoppingBar) return;
+//    if (startingBar < 1) return;
+//    this->startingBar = startingBar;
+//    return;
+//}
+//
+//void GenerateStuffAudioProcessor::setStopBar(bars stoppingBar){
+//    if (this->startingBar >= stoppingBar) return;
+//    this->stoppingBar = stoppingBar;
+//    return;
+//}
 
 void GenerateStuffAudioProcessor::updateTimeSignature(juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo)
 {
@@ -316,10 +317,10 @@ void GenerateStuffAudioProcessor::playPlayables(
             
 //            float ppqBarInQuarters = HostSettings::instance().getTimeSignature().barLengthInQuarters();
 //            double noteOnTimeInQuarters = phrase.bar * ppqBarInQuarters + phrase.offset + note.startTime; // todo: this doesn't work right if we have time signature changes
-            Bars playPeriod = this->stoppingBar - this->startingBar;
-            double loopStart = Bars(this->startingBar - 1);
-            double loopEnd = Bars(this->stoppingBar - 1);
-            double noteOnTimeInQuarters = loopStart + ((this->displacement + phrase.startTime + note.startTime) % playPeriod);
+            Bars playPeriod = editorState->stopBar - editorState->startBar;
+            double loopStart = editorState->getStartTime();//Bars(editorState->startBar - 1);
+            double loopEnd = editorState->getStopTime();//Bars(editorState->stopBar - 1);
+            double noteOnTimeInQuarters = loopStart + ((editorState->getDisplacement() + phrase.startTime + note.startTime) % playPeriod);
             while (ppqPosition > noteOnTimeInQuarters) { // might as well set it to be in the future
                 noteOnTimeInQuarters += phrase.duration;
             }

@@ -8,39 +8,28 @@
 #include "Generator.hpp"
 #include "Pitch.h"
 
-// TODO: instead of maintaining individual variables like this, just send the WHOLE ui state over to the generator with any calls that use them.
-// TODO: need to devise a way of having specific parameters for individual phrase types...
-bool Generator::setSubdivision(const float subdivision) {
-    this->subdivision = Subdivision(Beats(subdivision), phraseStartTime, phraseLength());
-    return true;
-}
-
-bool Generator::setPhraseLength(const float bars, const float beats) {
-    phraseLengthBars = bars;
-    phraseLengthBeats = beats;
-    return true;
-}
-
-
 bool Generator::hasPhrase(string phraseKey) {
     auto phrasePlayableIt = playQueue->find(phraseKey);
     return (phrasePlayableIt != playQueue->end());
 }
 
 Playable Generator::cascara() {
-    auto phrase = Phrase(subdivision, phraseStartTime, phraseLength()).randomCascara();
+    auto phrase = Phrase(editorState->getSubdivision(),
+                         editorState->getStartTime(),
+                         editorState->getPhraseLength()).randomCascara();
     Playable result = Playable(phrase, cascaraChannel);
-    queuePlayable("cascara", result); // TODO: make these phrase type strings available to...everyone?
+    queuePlayable("cascara", result);
     return result;
 }
 
 Playable Generator::chords() {
     vector<Pitch> chordToAdd = randomChord();
-    quarters length = phraseLength();
-    Phrase phrase = Phrase(subdivision, phraseStartTime, length);
+    Phrase phrase = Phrase(editorState->getSubdivision(),
+                           editorState->getStartTime(),
+                           editorState->getPhraseLength());
     phrase.notes.monophonic = false;
     for (Pitch pitchToAdd : chordToAdd) {
-        Note noteToAdd(pitchToAdd.pitchValue, 70, 0, length);
+        Note noteToAdd(pitchToAdd.pitchValue, 70, 0, (quarters)(editorState->getPhraseLength()));
         phrase.addNote(noteToAdd);
     }
     Playable result = Playable(phrase, chordChannel);
@@ -49,7 +38,9 @@ Playable Generator::chords() {
 }
 
 Playable Generator::clave() {
-    auto phrase = Phrase(subdivision, phraseStartTime, phraseLength()).randomClave();
+    auto phrase = Phrase(editorState->getSubdivision(),
+                         editorState->getStartTime(),
+                         editorState->getPhraseLength()).randomClave();
     Playable result = Playable(phrase, claveChannel);
     queuePlayable("clave", result);
     return result;
@@ -81,7 +72,7 @@ Playable Generator::claveFromCascara() {
 }
 
 void Generator::roll(string phraseKey,
-                     Probability rollProb,
+                     Probability rollProb, // TODO: just get all this stuff from editor state instead of passing it in
                      Probability associationProb,
                      Probability rollLengthProb) {
     if (!hasPhrase(phraseKey)) return;

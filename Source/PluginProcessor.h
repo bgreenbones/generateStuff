@@ -32,21 +32,14 @@ public:
     int mSamplesPerBlock;
     double samplesPerBeat;
     double samplesPerMinute;
-    float improviseRolls;
-    float improviseOrnaments;
     Generator generator;
     shared_ptr<map<string, Playable>> playQueue;
+    shared_ptr<GenerateStuffEditorState> editorState;
     vector<juce::MidiMessage> allNotesOff;
     unsigned long currentNoteOff;
     bool noteOffIssued;
-    LoopTasks loopTasks;
+    LoopTasks loopTasks; // TODO: make shared?
     
-    void setDisplacement(Beats displacement);
-    void setStartBar(bars startingBar);
-    void setStopBar(bars stoppingBar);
-    Beats displacement;
-    bars startingBar;
-    bars stoppingBar;
     //============================================================================
     
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
