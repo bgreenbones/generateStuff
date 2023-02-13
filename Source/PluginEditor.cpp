@@ -16,37 +16,35 @@ using namespace std;
 
 //==============================================================================
 GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateStuffAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p), generator(p.generator)
+    : AudioProcessorEditor (&p),
+    audioProcessor (p),
+    generator(p.generator),
+    voiceManager(p.generator, p)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (1200, 300);
-        
-    probabilityOfDouble.setSliderStyle (juce::Slider::LinearBarVertical);
-    probabilityOfDouble.setRange (0.0, 1.0, 0.01);
-    probabilityOfDouble.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
-    probabilityOfDouble.setPopupDisplayEnabled (true, false, this);
-    probabilityOfDouble.setTextValueSuffix (" p(double)");
-    probabilityOfDouble.setValue(0.2);
-    addAndMakeVisible (&probabilityOfDouble);
-    probabilityOfDouble.addListener(this);
+    setSize (1200, 500);
+    voiceManager.configure(this);
+
     
-    cascaraControls.generateButton.addListener(this); // TODO: use onclick instead of listening
-    claveControls.generateButton.addListener(this); // or use listening, either way do it all the same way
-    claveControls.generateFromButton.addListener(this);
-    cascaraControls.generateFromButton.addListener(this);
     
-    cascaraControls.callAddAndMakeVisible(this);
-    claveControls.callAddAndMakeVisible(this);
+//    probabilityOfDouble.setSliderStyle (juce::Slider::LinearBarVertical);
+//    probabilityOfDouble.setRange (0.0, 1.0, 0.01);
+//    probabilityOfDouble.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
+//    probabilityOfDouble.setPopupDisplayEnabled (true, false, this);
+//    probabilityOfDouble.setTextValueSuffix (" p(double)");
+//    probabilityOfDouble.setValue(0.2);
+//    addAndMakeVisible (&probabilityOfDouble);
+//
     
     addRollsButton.onClick = [this]() {
         double rollProb = Probability(rollProbability.getValue());
         double associationProb = Probability(rollAssociation.getValue());
         double rollLengthProb = Probability(rollLength.getValue());
 
-        generator.roll(selectedPhraseKeyState, rollProb, associationProb, rollLengthProb);
-        string id = generator.rollsKey(selectedPhraseKeyState);
-        function<void()> task = [=]() { generator.roll(selectedPhraseKeyState, rollProb, associationProb, rollLengthProb); };
+        generator.roll(voiceManager.selectedPhraseKeyState, rollProb, associationProb, rollLengthProb);
+        string id = generator.rollsKey(voiceManager.selectedPhraseKeyState);
+        function<void()> task = [=]() { generator.roll(voiceManager.selectedPhraseKeyState, rollProb, associationProb, rollLengthProb); };
         audioProcessor.loopTasks.queue(id, task, regenerateRolls.getToggleState());
     };
     addAndMakeVisible (&addRollsButton);
@@ -133,14 +131,14 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     regenerateOrnaments.setClickingTogglesState(true);
     regenerateOrnaments.setToggleState(this->audioProcessor.improviseOrnaments, juce::dontSendNotification);
     regenerateRolls.onClick = [this]() {
-        vector<const string> rollKeys = getRollKeys();
+        vector<const string> rollKeys = voiceManager.getRollKeys();
         bool improviseRolls = regenerateRolls.getToggleState();
         improviseRolls
             ? audioProcessor.loopTasks.activate(rollKeys)
             : audioProcessor.loopTasks.deactivate(rollKeys);
     };
     regenerateOrnaments.onClick = [this]() {
-        vector<const string> ornamentKeys = getOrnamentKeys();
+        vector<const string> ornamentKeys = voiceManager.getOrnamentKeys();
         bool improviseOrnaments = regenerateOrnaments.getToggleState();
         improviseOrnaments
             ? audioProcessor.loopTasks.activate(ornamentKeys)
@@ -152,42 +150,19 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     addAndMakeVisible (&regenerateOrnaments);
     
     clearRollsButton.onClick = [this]() {
-        string rollsKey = generator.rollsKey(selectedPhraseKeyState);
+        string rollsKey = generator.rollsKey(voiceManager.selectedPhraseKeyState);
         generator.toggleMutePlayable(rollsKey);
     };
     
     addAndMakeVisible(&clearRollsButton);
     clearOrnamentsButton.onClick = [this]() {
-        string ornamentsKey = generator.ornamentsKey(selectedPhraseKeyState);
+        string ornamentsKey = generator.ornamentsKey(voiceManager.selectedPhraseKeyState);
         generator.toggleMutePlayable(ornamentsKey);
     };
     addAndMakeVisible(&clearOrnamentsButton);
 
-    auto updateSelectedPhraseState = [this]() {
-        cascaraControls.selectButton.getToggleState() ?
-        this->selectedPhraseKeyState = cascaraControls.voiceName :
-        this->selectedPhraseKeyState = this->claveKey;
-    };
-    auto testOnClick = [] { return; };
-    int selectRhythmGroupId = 98374; // random
-    
-    
-    // TODO: set all this stuff in voicecontrols class
-    cascaraControls.muteButton.onClick = [this]() { generator.toggleMutePlayable(cascaraKey); };
-    claveControls.muteButton.onClick = [this]() { generator.toggleMutePlayable(claveKey); };
-
-    cascaraControls.selectButton.setRadioGroupId(selectRhythmGroupId);
-    cascaraControls.selectButton.setClickingTogglesState(true);
-    cascaraControls.selectButton.setToggleState(false, juce::dontSendNotification);
-    cascaraControls.selectButton.onClick = updateSelectedPhraseState;
-    
-    claveControls.selectButton.setRadioGroupId(selectRhythmGroupId);
-    claveControls.selectButton.setClickingTogglesState(true);
-    claveControls.selectButton.setToggleState(true, juce::dontSendNotification);
-    claveControls.selectButton.onClick = updateSelectedPhraseState;
-    
-    updateSelectedPhraseState();
-    
+    voiceManager.updateState();
+        
     addAndMakeVisible(&rollProbability);
     rollProbability.setSliderStyle (juce::Slider::LinearBarVertical);
     rollProbability.setRange (0.0, 1.0, 0.01);
@@ -204,7 +179,6 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     rollAssociation.setTextValueSuffix (" roll association / swing");
     rollAssociation.setValue(0.5);
     
-    rollLength.onValueChange = testOnClick;
     addAndMakeVisible(&rollLength);
     rollLength.setSliderStyle (juce::Slider::LinearBarVertical);
     rollLength.setRange (0.0, 1.0, 0.01);
@@ -229,10 +203,10 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
         bool drags = dragButton.getToggleState();
         bool ruffs = ruffButton.getToggleState();
         
-        generator.ornament(selectedPhraseKeyState, prob, breadth, flams, drags, ruffs);
+        generator.ornament(voiceManager.selectedPhraseKeyState, prob, breadth, flams, drags, ruffs);
         
-        string id = generator.ornamentsKey(selectedPhraseKeyState);
-        function<void()> task = [=]() { generator.ornament(selectedPhraseKeyState, prob, breadth, flams, drags, ruffs); };
+        string id = generator.ornamentsKey(voiceManager.selectedPhraseKeyState);
+        function<void()> task = [=]() { generator.ornament(voiceManager.selectedPhraseKeyState, prob, breadth, flams, drags, ruffs); };
         audioProcessor.loopTasks.queue(id, task, regenerateOrnaments.getToggleState());
     };
     addAndMakeVisible(&addOrnamentsButton);
@@ -254,10 +228,10 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     ornamentBreadth.setValue(1.0);
     
     flipButton.onClick = [this]() {
-        generator.flipClave(selectedPhraseKeyState);
-        string ornamentsKey = generator.ornamentsKey(selectedPhraseKeyState);
+        generator.flipClave(voiceManager.selectedPhraseKeyState);
+        string ornamentsKey = generator.ornamentsKey(voiceManager.selectedPhraseKeyState);
         if (generator.hasPhrase(ornamentsKey)) { generator.flipClave(ornamentsKey); }
-        string rollsKey = generator.rollsKey(selectedPhraseKeyState);
+        string rollsKey = generator.rollsKey(voiceManager.selectedPhraseKeyState);
         if (generator.hasPhrase(rollsKey)) { generator.flipClave(rollsKey); }
     };
     addAndMakeVisible(&flipButton);
@@ -411,18 +385,14 @@ void GenerateStuffAudioProcessorEditor::resized()
     xCursor += buttonWidth + spaceBetweenControls;
     yCursor = yPadding;
     
-    probabilityOfDouble.setBounds (xCursor, yCursor, sliderWidth, height);
-    xCursor += sliderWidth + spaceBetweenControls;
+//    probabilityOfDouble.setBounds (xCursor, yCursor, sliderWidth, height);
+//    xCursor += sliderWidth + spaceBetweenControls;
     
     auto getButtonHeight = [height, spaceBetweenControls] (int rows) { return (height - spaceBetweenControls * (rows - 1)) / rows; };
-    int buttonHeight = getButtonHeight(2);
-    
-    cascaraControls.setBounds(xCursor, yCursor, buttonWidth, buttonHeight, spaceBetweenControls);
-    yCursor += buttonHeight + spaceBetweenControls;
-    claveControls.setBounds(xCursor, yCursor, buttonWidth, buttonHeight, spaceBetweenControls);
+    int buttonHeight = getButtonHeight(voiceManager.getNumberOfVoices());
 
-    xCursor += (buttonWidth + spaceBetweenControls) * cascaraControls.getNumberOfButtons();
-    yCursor = yPadding;
+    voiceManager.setBounds(xCursor, yCursor, buttonWidth, buttonHeight, spaceBetweenControls);
+    xCursor += (buttonWidth + spaceBetweenControls) * voiceManager.getNumberOfButtons();
     
     decorationDividerX = xCursor;
     xCursor += spaceBetweenControls;
@@ -463,29 +433,5 @@ void GenerateStuffAudioProcessorEditor::resized()
     clearOrnamentsButton.setBounds (xCursor, yCursor, buttonWidth, getButtonHeight(2));
     xCursor += buttonWidth + spaceBetweenControls;
     yCursor = yPadding;
-}
-
-void GenerateStuffAudioProcessorEditor::sliderValueChanged (juce::Slider* slider)
-{
-    audioProcessor.probabilityOfDouble = probabilityOfDouble.getValue();
-}
-
-void GenerateStuffAudioProcessorEditor::buttonClicked (juce::Button *button)
-{
-    auto isCascaraButton = button == &(cascaraControls.generateButton);
-    auto isClaveButton = button == &(claveControls.generateButton);;
-    auto isClaveFromCascaraButton = button == &(cascaraControls.generateFromButton);
-    auto isCascaraFromClaveButton = button == &(cascaraControls.generateFromButton);;
-    
-    if (isCascaraButton) {
-        generator.cascara();
-        generator.queuePlayable(cascaraKey, generator.cascara());
-    } else if (isClaveButton) {
-        generator.queuePlayable(claveKey, generator.clave());
-    } else if (isClaveFromCascaraButton) {
-        generator.queuePlayable(claveKey, generator.claveFromCascara());
-    } else if (isCascaraFromClaveButton) {
-        generator.queuePlayable(cascaraKey, generator.cascaraFromClave());
-    }
 }
 

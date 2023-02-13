@@ -206,19 +206,6 @@ void GenerateStuffAudioProcessor::setStopBar(bars stoppingBar){
     return;
 }
 
-//void GenerateStuffAudioProcessor::setStartBar(Bars startingBar){
-//    if (startingBar >= this->stoppingBar) return;
-//    if (startingBar < Bars(1)) return;
-//    this->startingBar = startingBar;
-//    return;
-//}
-//
-//void GenerateStuffAudioProcessor::setStopBar(Bars stoppingBar){
-//    if (this->startingBar >= stoppingBar) return;
-//    this->stoppingBar = stoppingBar;
-//    return;
-//}
-
 void GenerateStuffAudioProcessor::updateTimeSignature(juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo)
 {
     auto newTimeSignatureJuce = (positionInfo->getTimeSignature())
@@ -248,9 +235,7 @@ void GenerateStuffAudioProcessor::playPlayables(
         juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo,
         juce::MidiBuffer& midiMessages)
 {
-//    this->generator.phraseLength();
-    
-    
+
     const double ppqPosition = (positionInfo->getPpqPosition()).orFallback(0);
     
     

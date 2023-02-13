@@ -64,7 +64,7 @@ public:
     Phrase concat(Phrase other, bool useLastNote = false, bool keepDuration = false) const;
     
     // Rhythmic thing.
-    Phrase pulseAndDisplace(Duration pulse = 0.5,
+    Phrase pulseAndDisplace(Duration pulse = 0.5, // TODO: create a rhythm type that gives access to these params RAW instead of the hardcoded cascara idea...
                               Duration displacement = 0.25,
                               Probability pDisplace = 0.5,
                               Probability pDouble = 0.75) const; // (for forward displacement, set pDouble = 1 and displacement = 1 - amount to displace forward)
@@ -76,7 +76,7 @@ public:
     
     // Latin.cpp
     Phrase randomCascara(Probability pDisplace = 0.5,
-                           Probability pDouble = 0.75) const;
+                         Probability pDouble = 0.75) const;
     Phrase randomClave() const;
     Phrase cascaraFromClave() const;
     Phrase claveFromCascara() const;

@@ -8,6 +8,8 @@
 #include "Generator.hpp"
 #include "Pitch.h"
 
+// TODO: instead of maintaining individual variables like this, just send the WHOLE ui state over to the generator with any calls that use them.
+// TODO: need to devise a way of having specific parameters for individual phrase types...
 bool Generator::setSubdivision(const float subdivision) {
     this->subdivision = Subdivision(Beats(subdivision), phraseStartTime, phraseLength());
     return true;

@@ -20,6 +20,13 @@
 
 using std::shared_ptr, std::map, std::string;
 
+
+static const string cascaraKey = "cascara";
+static const string claveKey = "clave";
+//    static const string harmonyKey = "harmony";
+//    static const string bassKey = "bass";
+
+
 // TODO: someday we want generator to be a place for all your phrase types which might not even exist at compile time
 // TODO: actually - maybe we have another layer called "Voice" which manages a bunch of phrases intended for one instrument or sound.
 // then generator becomes a sort of "Choir" or conductor which will keep manage each voice and relate them with each other.
@@ -61,6 +68,22 @@ public:
     Playable cascaraFromClave();
     Playable flipClave(string phraseKey);
     Playable chords();
+    Playable generate(string phraseKey) {
+        if (phraseKey == cascaraKey) { return cascara(); }
+        if (phraseKey == claveKey) { return clave(); }
+        return Playable(Phrase(), -1);
+    }
+    Playable generateFrom(string generatePhraseKey, string generateFromPhraseKey) {
+        if (generatePhraseKey == cascaraKey) { // TODO: truly look inward and evaluate how we do this...
+            if (generateFromPhraseKey == cascaraKey) { return cascara(); } // TODO: implement variations of a cascara
+            if (generateFromPhraseKey == claveKey) { return cascaraFromClave(); }
+        }
+        if (generatePhraseKey == claveKey) {
+            if (generateFromPhraseKey == cascaraKey) { return claveFromCascara(); }
+            if (generateFromPhraseKey == claveKey) { return clave(); } // TODO: implement variations of a clave
+        }
+        return Playable(Phrase(), -1);
+    }
     
     bool hasPhrase(string phraseKey);
     

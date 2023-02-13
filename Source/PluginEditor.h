@@ -29,23 +29,15 @@ public:
     void resized() override;
 
 private:
-    void sliderValueChanged (juce::Slider* slider) override;
-    void buttonClicked (juce::Button* button) override;
+    void sliderValueChanged (juce::Slider* slider) override {};
+    void buttonClicked (juce::Button* button) override {};
     
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     GenerateStuffAudioProcessor& audioProcessor;
     Generator& generator;
     
-    juce::Slider probabilityOfDouble;
-//    juce::TextButton randomCascaraButton { "casc "};
-//    juce::TextButton randomClaveButton { "clav" };
-//    juce::TextButton cascaraFromClaveButton { "clv->cas" };
-//    juce::TextButton claveFromCascaraButton { "cas->clv" };
-//    juce::TextButton clearCascaraButton { "clear casc" };
-//    juce::TextButton clearClaveButton { "clear clave" };
-//    juce::TextButton selectCascaraButton { "casc" };
-//    juce::TextButton selectClaveButton { "clav" };
+//    juce::Slider probabilityOfDouble;
     juce::TextButton addRollsButton { "rolls" };
     juce::TextButton clearRollsButton { "clearRolls" };
     juce::Slider rollProbability;
@@ -96,28 +88,9 @@ private:
     int yPadding = 20;
     int decorationDividerX = -1;
     
-    
-    // TODO: all this stuff we repeat for each phrase type...how can we abstract it or separate it out to some other phrase type manager thing.
-    const string cascaraKey = "cascara";
-    const string claveKey = "clave";
-    VoiceControls cascaraControls { cascaraKey };
-    VoiceControls claveControls { claveKey };
-    const vector<const string> phraseKeys = { cascaraKey, claveKey };
-    vector<const string> getRollKeys() {
-        vector<const string> rollKeys;
-        transform (phraseKeys.begin(), phraseKeys.end(), back_inserter(rollKeys), [&](string phraseKey) {
-            return generator.rollsKey(phraseKey);
-        });
-        return rollKeys;
-    }
-    vector<const string> getOrnamentKeys() {
-        vector<const string> ornamentKeys;
-        transform (phraseKeys.begin(), phraseKeys.end(), back_inserter(ornamentKeys), [&](string phraseKey) {
-            return generator.ornamentsKey(phraseKey);
-        });
-        return ornamentKeys;
-    }
-    string selectedPhraseKeyState;
+    VoiceManager voiceManager;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GenerateStuffAudioProcessorEditor)
 };
+
+

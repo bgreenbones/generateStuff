@@ -32,7 +32,6 @@ public:
     int mSamplesPerBlock;
     double samplesPerBeat;
     double samplesPerMinute;
-    float probabilityOfDouble;
     float improviseRolls;
     float improviseOrnaments;
     Generator generator;
