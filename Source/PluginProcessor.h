@@ -32,13 +32,13 @@ public:
     int mSamplesPerBlock;
     double samplesPerBeat;
     double samplesPerMinute;
-    Generator generator;
     shared_ptr<map<string, Playable>> playQueue;
     shared_ptr<GenerateStuffEditorState> editorState;
+    Generator generator; // TODO: make shared ptr?
     vector<juce::MidiMessage> allNotesOff;
     unsigned long currentNoteOff;
     bool noteOffIssued;
-    LoopTasks loopTasks; // TODO: make shared?
+    LoopTasks loopTasks; // TODO: make shared at all?
     
     //============================================================================
     
@@ -73,9 +73,7 @@ public:
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
-
-    static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
-//    juce::AudioProcessorValueTreeState apvts { *this, nullptr, "Parameters", createParameterLayout() };
+    
 private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GenerateStuffAudioProcessor)

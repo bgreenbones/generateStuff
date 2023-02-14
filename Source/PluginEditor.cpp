@@ -20,7 +20,7 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     audioProcessor (p),
     generator(p.generator),
     editorState(p.editorState),
-    voiceManager(p.generator, p)
+    voiceManager(p)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
@@ -109,7 +109,7 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     stopBar.onTextChange = [this] { updateEditorState(); };
     displace.onFocusLost = [this] {
         juce::String displaceString = juce::String::formatted("%.2f", editorState->displace);
-        displace.setText(displaceString);
+        displace.setText(displaceString); // TODO: do this kind of stuff after every call to updateEditorState instead of on focus lost?
     };
     startBar.onFocusLost = [this] {
         juce::String startBarString = juce::String::formatted("%.2f", editorState->startBar);
@@ -240,66 +240,6 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     };
     addAndMakeVisible(&flipButton);
 }
-//
-//void GenerateStuffAudioProcessorEditor::updatePhraseLengthState() {
-//    float bars = -1;
-//    float beats = -1;
-//    try {
-//        auto barsString = phraseLengthBars.getTextValue().toString().toStdString();
-//        bars = stof(barsString);
-//    } catch (const invalid_argument& ia) {
-//        return;
-//    }
-//    try {
-//        auto beatsString = phraseLengthBeats.getTextValue().toString().toStdString();
-//        beats = stof(beatsString);
-//    } catch (const invalid_argument& ia) {
-//        return;
-//    }
-//
-//    if (!audioProcessor.generator.setPhraseLength(bars, beats)) {
-//        // TODO: keep editor's value in sync with generator's
-//    };
-//}
-//
-//void GenerateStuffAudioProcessorEditor::updateDisplacementState() {
-//    Beats displacement;
-//    try {
-//        displacement = stof(displace.getText().toStdString());
-//    } catch (const invalid_argument& ia) {
-//        return;
-//    }
-//    audioProcessor.setDisplacement(displacement);
-//    return;
-//}
-//
-//void GenerateStuffAudioProcessorEditor::updateStartingBarState() {
-//    bars startingBar;
-//    try {
-//        string startBarText = startBar.getText().toStdString();
-//        startingBar = stof(startBarText);
-//    } catch (const invalid_argument& ia) {
-//        return;
-//    }
-//    audioProcessor.setStartBar(startingBar);
-//    return;
-//}
-//
-//void GenerateStuffAudioProcessorEditor::updateStoppingBarState() {
-//    bars stoppingBar;
-//    try {
-//        string stopBarText = stopBar.getText().toStdString();
-//        stoppingBar = stof(stopBarText);
-//    } catch (const invalid_argument& ia) {
-//        return;
-//    }
-//    audioProcessor.setStopBar(stoppingBar);
-//    return;
-//}
-//
-//void GenerateStuffAudioProcessorEditor::updateSubdivisionState(float subdivision) {
-//    audioProcessor.generator.setSubdivision(subdivision);
-//}
 
 GenerateStuffAudioProcessorEditor::~GenerateStuffAudioProcessorEditor()
 {
@@ -456,6 +396,10 @@ void GenerateStuffAudioProcessorEditor::updateEditorState() {
     try { dis = stof(displace.getTextValue().toString().toStdString()); } catch (const invalid_argument& ia) {}
     try { start = stof(startBar.getTextValue().toString().toStdString()); } catch (const invalid_argument& ia) {}
     try { stop = stof(stopBar.getTextValue().toString().toStdString()); } catch (const invalid_argument& ia) {}
+    
+    start = max(start, 1.);
+    stop = max(start, stop);
+    
     
     // general
     editorState->subdivision = subDiv;

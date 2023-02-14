@@ -56,6 +56,7 @@ class VoiceControls {
     vector<juce::TextButton*> buttons;
 public:
     const string voiceName; // cascaraKey = "cascara";
+    juce::ComboBox midiChannel;
     juce::TextButton generateButton; // randomCascaraButton { "casc "};
     juce::TextButton generateFromButton; // cascaraFromClaveButton { "clv->cas" };
     juce::TextButton useAsSourceButton;
@@ -80,6 +81,8 @@ public:
         for (auto button : buttons) {
             button->setLookAndFeel (&lookAndFeel);
         }
+        
+        midiChannel.addItem("1", 1);// TODO:...yeahhh
     }
     
     ~VoiceControls()

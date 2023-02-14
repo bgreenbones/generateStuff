@@ -23,17 +23,17 @@ class VoiceManager {
 private:
     map<string, VoiceControls*> voices;
 public:
-    Generator& generator;
     GenerateStuffAudioProcessor& processor;
+    Generator& generator;
         
     VoiceControls cascaraControls;
     VoiceControls claveControls;
 //    VoiceControls harmonyControls;
 //    VoiceControls bassControls;
     
-    VoiceManager(Generator& generator, GenerateStuffAudioProcessor& processor):
-        generator(generator),
+    VoiceManager(GenerateStuffAudioProcessor& processor):
         processor(processor),
+        generator(processor.generator),
         cascaraControls(cascaraKey),
         claveControls(claveKey)
 //        harmonyControls(harmonyKey),

@@ -23,17 +23,12 @@ GenerateStuffAudioProcessor::GenerateStuffAudioProcessor()
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
                        ),
-        playQueue(make_unique<map<string, Playable>>(map<string, Playable>())),
-        editorState(make_shared<GenerateStuffEditorState>(GenerateStuffEditorState {}))
+        playQueue(make_shared<map<string, Playable>>(map<string, Playable>())),
+        editorState(make_shared<GenerateStuffEditorState>(GenerateStuffEditorState {})),
+        generator(Generator(playQueue, editorState)),
+        noteOffIssued(true)
 #endif
 {
-    this->generator = Generator(playQueue, editorState);
-//    this->displacement = 0;
-//    this->startingBar = 1;
-//    this->stoppingBar = this->startingBar + generator.phraseLength().asBars();
-    this->noteOffIssued = true;
-    
-    this->allNotesOff = vector<juce::MidiMessage>();
     for (int pitch = 0; pitch <= 127; pitch ++) { // yikes. for now this is the only thing that turns off note on messages when we stop playing
         for (int midiChannel = 1; midiChannel <= 16; midiChannel++) {
             auto noteOff = juce::MidiMessage::noteOff (midiChannel, pitch, (juce::uint8) 0);
@@ -163,50 +158,6 @@ bool GenerateStuffAudioProcessor::isBusesLayoutSupported (const BusesLayout& lay
 }
 #endif
 
-//void GenerateStuffAudioProcessor::removePlayable(string id) {
-//    playQueue->erase(id);
-//}
-//
-//void GenerateStuffAudioProcessor::toggleMutePlayable(string id) {
-//    if (playQueue->find(id) == playQueue->end()) {
-//        return;
-//    };
-//    Playable &playable = playQueue->at(id);
-//    playable.mute = !(playable.mute);
-//}
-//
-//
-//void GenerateStuffAudioProcessor::queuePlayable(string id, Playable playable) {
-//    //    for (auto it = playQueue.begin(); it < playQueue.end();) {
-//    //        if ((*it).midiChannel == playable.midiChannel) {
-//    //            playQueue.erase(it);
-//    //        } else {
-//    //            ++it;
-//    //        }
-//    //    }
-//    auto result = playQueue->emplace(id, playable);
-//    if (result.second) return;
-//    playQueue->at(id) = playable;
-//}
-
-//void GenerateStuffAudioProcessor::setDisplacement(Beats displacement){
-//    this->displacement = displacement;
-//    return;
-//}
-//
-//void GenerateStuffAudioProcessor::setStartBar(bars startingBar){
-//    if (startingBar >= this->stoppingBar) return;
-//    if (startingBar < 1) return;
-//    this->startingBar = startingBar;
-//    return;
-//}
-//
-//void GenerateStuffAudioProcessor::setStopBar(bars stoppingBar){
-//    if (this->startingBar >= stoppingBar) return;
-//    this->stoppingBar = stoppingBar;
-//    return;
-//}
-
 void GenerateStuffAudioProcessor::updateTimeSignature(juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo)
 {
     auto newTimeSignatureJuce = (positionInfo->getTimeSignature())
@@ -318,8 +269,8 @@ void GenerateStuffAudioProcessor::playPlayables(
 //            float ppqBarInQuarters = HostSettings::instance().getTimeSignature().barLengthInQuarters();
 //            double noteOnTimeInQuarters = phrase.bar * ppqBarInQuarters + phrase.offset + note.startTime; // todo: this doesn't work right if we have time signature changes
             Bars playPeriod = editorState->stopBar - editorState->startBar;
-            double loopStart = editorState->getStartTime();//Bars(editorState->startBar - 1);
-            double loopEnd = editorState->getStopTime();//Bars(editorState->stopBar - 1);
+            double loopStart = editorState->getStartTime();
+            double loopEnd = editorState->getStopTime();
             double noteOnTimeInQuarters = loopStart + ((editorState->getDisplacement() + phrase.startTime + note.startTime) % playPeriod);
             while (ppqPosition > noteOnTimeInQuarters) { // might as well set it to be in the future
                 noteOnTimeInQuarters += phrase.duration;
@@ -444,7 +395,6 @@ bool GenerateStuffAudioProcessor::hasEditor() const
 juce::AudioProcessorEditor* GenerateStuffAudioProcessor::createEditor()
 {
     return new GenerateStuffAudioProcessorEditor (*this);
-//    return new juce::GenericAudioProcessorEditor (*this);
 }
 
 //==============================================================================
@@ -459,33 +409,6 @@ void GenerateStuffAudioProcessor::setStateInformation (const void* data, int siz
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
-}
-
-juce::AudioProcessorValueTreeState::ParameterLayout GenerateStuffAudioProcessor::createParameterLayout() {
-    juce::AudioProcessorValueTreeState::ParameterLayout layout;
-    
-    layout.add(make_unique<juce::AudioParameterFloat>(
-                                                      "Probability",
-                                                      "Probability",
-                                                      juce::NormalisableRange<float>(0.f, 1.f, 0.01f, 1.f),
-                                                      0.2f
-                                                      ));
-    
-    juce::StringArray subdivisionStrings;
-    for (int i = 1; i <= 9; i++) {
-        juce::String subdivisionString;
-        subdivisionString << "1/";
-        subdivisionString << i;
-        subdivisionStrings.add(subdivisionString);
-    }
-    layout.add(make_unique<juce::AudioParameterChoice>(
-                                                      "Subdivision",
-                                                      "Subdivision",
-                                                      subdivisionStrings,
-                                                      0
-                                                      ));
-    
-    return layout;
 }
 
 //==============================================================================

@@ -39,29 +39,10 @@ public:
                 settings(HostSettings::instance()),
                 playQueue(playQueue),
                 editorState(editorState) {}
-    Generator& operator=(Generator const& other) {
-        if (this == &other) {
-            return *this;
-        }
-        playQueue = other.playQueue;
-        return *this;
-    }
 
     HostSettings &settings;
     shared_ptr<map<string, Playable>> playQueue;
     shared_ptr<GenerateStuffEditorState> editorState;
-
-//    constexpr static float const defaultSubdivision = 1./2.;
-//    constexpr static float const defaultBars = 2;
-//    constexpr static float const defaultBeats = 0;
-//    Bars phraseLengthBars = Bars(defaultBars, true);
-//    Beats phraseLengthBeats = Beats(defaultBeats, true);
-//    Position phraseStartTime = 0;
-//    Subdivision subdivision = Subdivision(Beats(defaultSubdivision, true), phraseStartTime, phraseLength());
-//    Duration phraseLength() { // TODO: methods like this should be members of the editor state
-//        Duration result = editorState->phraseLengthBars + editorState->phraseLengthBeats;
-//        return result;
-//    }
     
     int cascaraChannel = 1; // TODO: make configurable from UI
     int claveChannel = 2; // and then of course move to editorState
@@ -90,17 +71,14 @@ public:
         return Playable(Phrase(), -1);
     }
     
+    // TODO: play queue stuff should maybe be its own class?
     bool hasPhrase(string phraseKey);
-    
     void removePlayable(string id);
     void toggleMutePlayable(string id);
     void queuePlayable(string id, Playable playable);
 
     void roll(string phraseKey, Probability rollProb, Probability associationProb, Probability rollLengthProb);
     void ornament(string phraseKey, Probability prob, double breadth, bool flams, bool drags, bool ruffs);
-
-//    bool setSubdivision(const float subdivision);
-//    bool setPhraseLength(const float bars, const float beats);
     
     string rollsKey(string phraseKey);
     string ornamentsKey(string phraseKey);

@@ -17,7 +17,8 @@
 
 using std::vector, std::string, std::function, std::map;
 
-
+// TODO: this occur over every loop according to DAW loop points...
+// what if we want them to occur over the length of the specific phrases they act upon??
 class LoopTask {
 private:
     bool active;
