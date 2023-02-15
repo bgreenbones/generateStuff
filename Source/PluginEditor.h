@@ -37,6 +37,7 @@ private:
     // access the processor object that created it.
     GenerateStuffAudioProcessor& audioProcessor;
     Generator& generator;
+    shared_ptr<PlayQueue> playQueue;
     shared_ptr<GenerateStuffEditorState> editorState;
     VoiceManager voiceManager;
     

@@ -12,6 +12,7 @@
 #include "Generator.hpp"
 #include "Duration.h"
 #include "LoopTasks.h"
+#include "PlayQueue.h"
 
 
 //==============================================================================
@@ -32,7 +33,8 @@ public:
     int mSamplesPerBlock;
     double samplesPerBeat;
     double samplesPerMinute;
-    shared_ptr<map<string, Playable>> playQueue;
+//    shared_ptr<map<string, Playable>> playQueue;
+    shared_ptr<PlayQueue> playQueue;
     shared_ptr<GenerateStuffEditorState> editorState;
     Generator generator; // TODO: make shared ptr?
     vector<juce::MidiMessage> allNotesOff;

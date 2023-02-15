@@ -21,7 +21,7 @@ typedef enum PushBehavior {
 
 // this can encapsulate functionality related to the various vectors inside phrase
 // ...notes...subdivisions...dynamics, and other expressions to be added down the line
-template <typename T>
+template <typename T> // T as to be TimedEvent subclass
 class Sequence
 {
 public:
@@ -48,7 +48,7 @@ public:
         return events.size() > 0 ? events.back().endTime() : Position(0);
     }
     
-    bool add(T toAdd, PushBehavior pushBehavior = PushBehavior::ignore);
+    bool add(T toAdd, PushBehavior pushBehavior = PushBehavior::ignore, bool overwrite = false);
     void tie();
     void legato();
     bool concat(Sequence<T> other, bool useLast = false, PushBehavior pushBehavior = PushBehavior::ignore);

@@ -24,9 +24,10 @@ private:
     map<string, VoiceControls*> voices;
 public:
     GenerateStuffAudioProcessor& processor;
-    Generator& generator;
     
-    VoiceControls cascaraControls;
+    Generator& generator;
+    shared_ptr<PlayQueue> playQueue;
+    VoiceControls cascaraControls; // TODO: these things existences should come from the playqueue
     VoiceControls claveControls;
 //    VoiceControls harmonyControls;
 //    VoiceControls bassControls;
@@ -34,6 +35,7 @@ public:
     VoiceManager(GenerateStuffAudioProcessor& processor):
         processor(processor),
         generator(processor.generator),
+        playQueue(processor.playQueue),
         cascaraControls(cascaraKey, cascaraChannel),
         claveControls(claveKey, claveChannel)
 //        harmonyControls(harmonyKey),
@@ -53,7 +55,7 @@ public:
     
     void midiChannelChanged(string voiceName) {
         int midiChannel = voices.at(voiceName)->midiChannel.getSelectedId();
-        generator.setMidiChannel(voiceName, midiChannel);
+        playQueue->setMidiChannel(voiceName, midiChannel);
     }
     
     void setOnClicks() {
@@ -64,8 +66,7 @@ public:
             voice->generateButton.onClick = [this, voiceName]() { generator.generate(voiceName); };
             voice->generateFromButton.onClick = [this, voiceName]() { generator.generateFrom(voiceName, useAsSourcePhraseKeyState); };
             voice->muteButton.onClick = [voice, this, voiceName]() {
-                generator.toggleMutePlayable(voiceName);
-                bool muted = generator.playQueue->at(voiceName).mute;
+                bool muted = playQueue->toggleMuteVoice(voiceName);
                 voice->muteButton.setToggleState(muted, juce::dontSendNotification);
             };
             voice->selectButton.onClick = [this]() { updateSelectedPhraseState(); };

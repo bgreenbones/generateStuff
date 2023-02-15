@@ -70,6 +70,8 @@
       <FILE id="uF8Cts" name="Note.hpp" compile="0" resource="0" file="Source/Note.hpp"/>
       <FILE id="cI7sZr" name="Note.cpp" compile="1" resource="0" file="Source/Note.cpp"/>
       <FILE id="KqKfYW" name="Playable.hpp" compile="0" resource="0" file="Source/Playable.hpp"/>
+      <FILE id="xgyoQu" name="PlayQueue.h" compile="0" resource="0" file="Source/PlayQueue.h"/>
+      <FILE id="L6n0cP" name="PlayQueue.cpp" compile="1" resource="0" file="Source/PlayQueue.cpp"/>
       <FILE id="cf7fQF" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="Xm7vUK" name="PluginProcessor.h" compile="0" resource="0"

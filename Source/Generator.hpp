@@ -18,6 +18,7 @@
 #include "Syncopation.h"
 #include "HostSettings.h"
 #include "GenerateStuffEditorState.h"
+#include "PlayQueue.h"
 
 using std::shared_ptr, std::map, std::string;
 
@@ -40,35 +41,28 @@ class Generator
 {
 public:
     Generator(): settings(HostSettings::instance()) {}
-    Generator(shared_ptr<map<string, Playable>> playQueue,
+    Generator(shared_ptr<PlayQueue> playQueue,
               shared_ptr<GenerateStuffEditorState> editorState):
                 settings(HostSettings::instance()),
                 playQueue(playQueue),
-                editorState(editorState) {
-                    midiChannels.emplace(cascaraKey, cascaraChannel);
-                    midiChannels.emplace(claveKey, claveChannel);
-                    midiChannels.emplace(harmonyKey, chordChannel);
-                }
+                editorState(editorState) { }
 
     HostSettings &settings;
-    shared_ptr<map<string, Playable>> playQueue;
+    shared_ptr<PlayQueue> playQueue;
     shared_ptr<GenerateStuffEditorState> editorState;
-    unordered_map<string, int> midiChannels; // TODO: Voice class...contains voice name, phrases,
-                                            // ornamentations/rolls on phrases, midichannels, mute information...
-                                            // and a dict of them replaces midichannels and playqueue?
     
-    Playable cascara();
-    Playable clave();
-    Playable claveFromCascara();
-    Playable cascaraFromClave();
-    Playable flipClave(string phraseKey);
-    Playable chords();
-    Playable generate(string phraseKey) { // TODO: get selected phrase key from editor state instead of passing it in
+    Phrase cascara();
+    Phrase clave();
+    Phrase claveFromCascara();
+    Phrase cascaraFromClave();
+    Phrase flipClave(string phraseKey);
+    Phrase chords();
+    Phrase generate(string phraseKey) { // TODO: get selected phrase key from editor state instead of passing it in
         if (phraseKey == cascaraKey) { return cascara(); }
         if (phraseKey == claveKey) { return clave(); }
-        return Playable(Phrase());
+        return Phrase();
     }
-    Playable generateFrom(string generatePhraseKey, string generateFromPhraseKey) {
+    Phrase generateFrom(string generatePhraseKey, string generateFromPhraseKey) {
         if (generatePhraseKey == cascaraKey) { // TODO: truly look inward and evaluate how we do this...
             if (generateFromPhraseKey == cascaraKey) { return cascara(); } // TODO: implement variations of a cascara
             if (generateFromPhraseKey == claveKey) { return cascaraFromClave(); }
@@ -77,22 +71,24 @@ public:
             if (generateFromPhraseKey == cascaraKey) { return claveFromCascara(); }
             if (generateFromPhraseKey == claveKey) { return clave(); } // TODO: implement variations of a clave
         }
-        return Playable(Phrase());
+        return Phrase();
     }
     
-    // TODO: play queue stuff should maybe be its own class?
-    bool hasPhrase(string phraseKey);
-    void removePlayable(string id);
-    void toggleMutePlayable(string id);
-    void queuePlayable(string id, Playable playable);
-    
-    void setMidiChannel(string voiceName, int newMidiChannel);
-    int getMidiChannel(string voiceName);
+//    // TODO: play queue stuff should maybe be its own class?
+//    bool hasPhrase(string phraseKey);
+//    void removePlayable(string id);
+//    void toggleMutePlayable(string id);
+//    void toggleMuteOrnamentation(string id);
+//    void queuePlayable(string id, Phrase phrase);
+//    void queueOrnamentation(string id, Phrase phrase);
+//    
+//    void setMidiChannel(string voiceName, int newMidiChannel);
+//    int getMidiChannel(string voiceName);
 
     void roll(string phraseKey, Probability rollProb, Probability associationProb, Probability rollLengthProb);
     void ornament(string phraseKey, Probability prob, double breadth, bool flams, bool drags, bool ruffs);
     
-    string rollsKey(string phraseKey);
+    string rollsKey(string phraseKey); // TODO: move these to playqueue or voicemanager or something?
     string ornamentsKey(string phraseKey);
 private:
 };

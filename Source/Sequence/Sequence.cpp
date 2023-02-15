@@ -8,6 +8,7 @@
   ==============================================================================
 */
 
+#include <algorithm>
 #include "Sequence.h"
 #include <JuceHeader.h>
 #include "Mininotation.h"
@@ -24,7 +25,7 @@ bool Sequence<T>::flip() {
 }
 
 template <class T>
-bool Sequence<T>::add(T toAdd, PushBehavior pushBehavior) {
+bool Sequence<T>::add(T toAdd, PushBehavior pushBehavior, bool overwrite) {
     if (!(this->parent.containsPartially(toAdd))) {
         double phraseLength = this->parent.duration.asQuarters();
         double eventStartTime = toAdd.startTime.asQuarters();
@@ -42,14 +43,21 @@ bool Sequence<T>::add(T toAdd, PushBehavior pushBehavior) {
     }
     
     if (this->monophonic) {
-        vector<T> bad_examples;
-        copy_if(events.begin(),
-                events.end(),
-                back_inserter(bad_examples),
-                [toAdd](T t) { return toAdd.containsPartially(t) || t.containsPartially(toAdd); });
-        if (bad_examples.size() > 0) {
-            DBG ("trying to add timed event where other events are in its way");
-            return false;
+        if (overwrite) {
+            events.erase(std::remove_if(events.begin(), events.end(),
+                                        [toAdd](T t) { return toAdd.containsPartially(t) || t.containsPartially(toAdd); }),
+                                        events.end());
+//            std::erase_if(events, [toAdd](T t) { return toAdd.containsPartially(t) || t.containsPartially(toAdd); });
+        } else {
+            vector<T> bad_examples;
+            copy_if(events.begin(),
+                    events.end(),
+                    back_inserter(bad_examples),
+                    [toAdd](T t) { return toAdd.containsPartially(t) || t.containsPartially(toAdd); });
+            if (bad_examples.size() > 0) {
+                DBG ("trying to add timed event where other events are in its way");
+                return false;
+            }
         }
     }
     

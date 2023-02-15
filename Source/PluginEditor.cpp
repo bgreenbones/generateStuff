@@ -155,13 +155,13 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     
     clearRollsButton.onClick = [this]() {
         string rollsKey = generator.rollsKey(voiceManager.selectedPhraseKeyState);
-        generator.toggleMutePlayable(rollsKey);
+        playQueue->toggleMuteRolls(rollsKey);
     };
     
     addAndMakeVisible(&clearRollsButton);
     clearOrnamentsButton.onClick = [this]() {
         string ornamentsKey = generator.ornamentsKey(voiceManager.selectedPhraseKeyState);
-        generator.toggleMutePlayable(ornamentsKey);
+        playQueue->toggleMuteOrnamentation(ornamentsKey);
     };
     addAndMakeVisible(&clearOrnamentsButton);
 
@@ -233,10 +233,10 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     
     flipButton.onClick = [this]() {
         generator.flipClave(voiceManager.selectedPhraseKeyState);
-        string ornamentsKey = generator.ornamentsKey(voiceManager.selectedPhraseKeyState);
-        if (generator.hasPhrase(ornamentsKey)) { generator.flipClave(ornamentsKey); }
-        string rollsKey = generator.rollsKey(voiceManager.selectedPhraseKeyState);
-        if (generator.hasPhrase(rollsKey)) { generator.flipClave(rollsKey); }
+//        string ornamentsKey = generator.ornamentsKey(voiceManager.selectedPhraseKeyState);
+//        if (generator.hasPhrase(ornamentsKey)) { generator.flipClave(ornamentsKey); }
+//        string rollsKey = generator.rollsKey(voiceManager.selectedPhraseKeyState);
+//        if (generator.hasPhrase(rollsKey)) { generator.flipClave(rollsKey); }
     };
     addAndMakeVisible(&flipButton);
 }

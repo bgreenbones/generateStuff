@@ -270,8 +270,8 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
             landmarkName = "concat(other, useLast, pushBehavior)"
             landmarkType = "9">
             <Locations>
@@ -471,54 +471,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "CB3ABCB9-F5D2-41EB-914E-A6B161F45C18"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../Source/Sequence/Sequence.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
-            landmarkName = "add(toAdd, pushBehavior)"
-            landmarkType = "9">
-            <Locations>
-               <Location
-                  uuid = "CB3ABCB9-F5D2-41EB-914E-A6B161F45C18 - e028ed582b0eaf9d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Sequence&lt;Note&gt;::add(Note, PushBehavior)"
-                  moduleName = "generateStuff2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "52"
-                  endingLineNumber = "52"
-                  offsetFromSymbolStart = "484">
-               </Location>
-               <Location
-                  uuid = "CB3ABCB9-F5D2-41EB-914E-A6B161F45C18 - 23fda00ae259829d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Sequence&lt;Subdivision&gt;::add(Subdivision, PushBehavior)"
-                  moduleName = "generateStuff2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "52"
-                  endingLineNumber = "52"
-                  offsetFromSymbolStart = "488">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "D84ECCC3-1FC7-4C08-AA55-D630C50E00F8"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -574,8 +526,8 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
             landmarkName = "insert(other, startTime, pushBehavior)"
             landmarkType = "9">
             <Locations>
@@ -888,8 +840,8 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "241"
-            endingLineNumber = "241"
+            startingLineNumber = "249"
+            endingLineNumber = "249"
             landmarkName = "drawByPosition(position)"
             landmarkType = "9">
             <Locations>
@@ -952,9 +904,9 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
-            landmarkName = "add(toAdd, pushBehavior)"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "add(toAdd, pushBehavior, overwrite)"
             landmarkType = "9">
             <Locations>
                <Location
@@ -1000,24 +952,8 @@
             filePath = "../../Source/Generator.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "22"
-            endingLineNumber = "22"
-            landmarkName = "Generator::cascara()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "ECA095B4-F1C0-4923-A91C-586487D72DC0"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../Source/Generator.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "20"
-            endingLineNumber = "20"
+            startingLineNumber = "16"
+            endingLineNumber = "16"
             landmarkName = "Generator::cascara()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1096,8 +1032,8 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "21"
-            endingLineNumber = "21"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
             landmarkName = "flip()"
             landmarkType = "9">
             <Locations>
@@ -1132,22 +1068,6 @@
                   offsetFromSymbolStart = "88">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "16598DA2-70BD-48C3-A018-C0EFA73B8495"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../Source/Generator.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
-            landmarkName = "Generator::flipClave(phraseKey)"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1192,8 +1112,8 @@
             filePath = "../../Source/PluginProcessor.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "280"
-            endingLineNumber = "280"
+            startingLineNumber = "281"
+            endingLineNumber = "281"
             landmarkName = "GenerateStuffAudioProcessor::playPlayables(positionInfo, midiMessages)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1272,8 +1192,8 @@
             filePath = "../../Source/PluginProcessor.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "334"
-            endingLineNumber = "334"
+            startingLineNumber = "335"
+            endingLineNumber = "335"
             landmarkName = "GenerateStuffAudioProcessor::playPlayables(positionInfo, midiMessages)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1288,8 +1208,8 @@
             filePath = "../../Source/PluginProcessor.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "322"
-            endingLineNumber = "322"
+            startingLineNumber = "323"
+            endingLineNumber = "323"
             landmarkName = "GenerateStuffAudioProcessor::playPlayables(positionInfo, midiMessages)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1304,8 +1224,8 @@
             filePath = "../../Source/Generator.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
             landmarkName = "Generator::chords()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1352,8 +1272,8 @@
             filePath = "../../Source/Generator.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "37"
-            endingLineNumber = "37"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
             landmarkName = "Generator::chords()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1393,48 +1313,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "574C2D6E-3DEE-4094-AD96-F7D3456FBAA6"
+            uuid = "38B287DD-A8A2-4DC9-B614-775C9702E6FE"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../../Source/Generator.cpp"
+            filePath = "../../Source/Playable.hpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
-            landmarkName = "Generator::toggleMutePlayable(id)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "9DBD7367-10F1-4872-997D-87057F3BA66A"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../Source/Generator.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "143"
-            endingLineNumber = "143"
-            landmarkName = "Generator::setMidiChannel(voiceName, newMidiChannel)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A271D308-6E05-410B-B38D-F286EE2E4486"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../Source/Generator.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
-            landmarkName = "Generator::getMidiChannel(voiceName)"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "equalsExcludingTime(other)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

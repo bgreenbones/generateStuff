@@ -36,6 +36,7 @@
 		1F7AE1A6D0E71F431C4DB18A /* include_juce_events.mm */ = {isa = PBXBuildFile; fileRef = 9629B94820097F61F11E39D0; };
 		27A63CBDAA77F58BF846F292 /* Random.cpp */ = {isa = PBXBuildFile; fileRef = A977D577608473EF75CBBF19; };
 		2C1A9DD4C46A55A356F27E77 /* Timing.cpp */ = {isa = PBXBuildFile; fileRef = F1E68E9065FE496F6C19FF0B; };
+		2F4DB1090B1A708AE384F056 /* PlayQueue.cpp */ = {isa = PBXBuildFile; fileRef = 4EB2E8DEAF1A776C65B21E11; };
 		3F8D5003D8379FF967C7AE91 /* Additive.cpp */ = {isa = PBXBuildFile; fileRef = 53A7242EFE1B15630C6D653C; };
 		44EBB61B0778A66975569F07 /* Foundation.framework */ = {isa = PBXBuildFile; fileRef = A09378663FA1B61A3377D988; };
 		4597EF49A7FF23EFA7768C9A /* include_juce_audio_plugin_client_VST_utils.mm */ = {isa = PBXBuildFile; fileRef = 43B4D03C8902B82E8CF3C2FF; };
@@ -114,6 +115,7 @@
 		458A8579C0AD068D9147D393 /* Misc.h */ /* Misc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Misc.h; path = ../../Source/Misc.h; sourceTree = SOURCE_ROOT; };
 		49A6041D9E20F431067CFFF2 /* Sequence.h */ /* Sequence.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Sequence.h; path = ../../Source/Sequence/Sequence.h; sourceTree = SOURCE_ROOT; };
 		4B72207C23B1CCF5FEC43A4A /* include_juce_graphics.mm */ /* include_juce_graphics.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_graphics.mm; path = ../../JuceLibraryCode/include_juce_graphics.mm; sourceTree = SOURCE_ROOT; };
+		4EB2E8DEAF1A776C65B21E11 /* PlayQueue.cpp */ /* PlayQueue.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PlayQueue.cpp; path = ../../Source/PlayQueue.cpp; sourceTree = SOURCE_ROOT; };
 		509D09D33B05FCA62178D146 /* Subdivision.cpp */ /* Subdivision.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Subdivision.cpp; path = ../../Source/Time/Subdivision.cpp; sourceTree = SOURCE_ROOT; };
 		53A7242EFE1B15630C6D653C /* Additive.cpp */ /* Additive.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Additive.cpp; path = ../../Source/Sequence/Additive.cpp; sourceTree = SOURCE_ROOT; };
 		564E242FC3BEAE39C819D26C /* Latin.cpp */ /* Latin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Latin.cpp; path = ../../Source/Sequence/Rhythm/Latin.cpp; sourceTree = SOURCE_ROOT; };
@@ -199,6 +201,7 @@
 		F8B697DA310D15677AC0FD33 /* Syncopation.cpp */ /* Syncopation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Syncopation.cpp; path = ../../Source/Time/Syncopation.cpp; sourceTree = SOURCE_ROOT; };
 		FAD32D28DBCF9490B8858B1B /* HostSettings.cpp */ /* HostSettings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HostSettings.cpp; path = ../../Source/HostSettings.cpp; sourceTree = SOURCE_ROOT; };
 		FC7021B05B00E292B205D3B2 /* include_juce_data_structures.mm */ /* include_juce_data_structures.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_data_structures.mm; path = ../../JuceLibraryCode/include_juce_data_structures.mm; sourceTree = SOURCE_ROOT; };
+		FDDFD5E8297383C7E2F7FB5B /* PlayQueue.h */ /* PlayQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PlayQueue.h; path = ../../Source/PlayQueue.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -284,6 +287,8 @@
 				86D0BA20B99B8FFCA525D65B,
 				CC9A1AB2491837023652BD42,
 				0C0CD1DB349A26BD257035F9,
+				FDDFD5E8297383C7E2F7FB5B,
+				4EB2E8DEAF1A776C65B21E11,
 				D96EB940FF34910B2A3F05A4,
 				EB9AF45241A6EDCC8EA0CBD6,
 				C6EEA22F79DC0648BFD58813,
@@ -760,6 +765,7 @@
 				00C5633FF07DCCD28B878FEB,
 				D33A538337C9B9CA7C32D1CC,
 				8CC925A521371E6AD5E45389,
+				2F4DB1090B1A708AE384F056,
 				7A9D797AC1A9B290A9C0DD12,
 				5945E876AAB1C5CA1258759F,
 				27A63CBDAA77F58BF846F292,
