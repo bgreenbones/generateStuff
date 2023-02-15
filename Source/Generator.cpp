@@ -17,7 +17,7 @@ Playable Generator::cascara() {
     auto phrase = Phrase(editorState->getSubdivision(),
                          editorState->getStartTime(),
                          editorState->getPhraseLength()).randomCascara();
-    Playable result = Playable(phrase, cascaraChannel);
+    Playable result = Playable(phrase);
     queuePlayable("cascara", result);
     return result;
 }
@@ -32,7 +32,7 @@ Playable Generator::chords() {
         Note noteToAdd(pitchToAdd.pitchValue, 70, 0, (quarters)(editorState->getPhraseLength()));
         phrase.addNote(noteToAdd);
     }
-    Playable result = Playable(phrase, chordChannel);
+    Playable result = Playable(phrase);
     queuePlayable("chords", result);
     return result;
 }
@@ -41,7 +41,7 @@ Playable Generator::clave() {
     auto phrase = Phrase(editorState->getSubdivision(),
                          editorState->getStartTime(),
                          editorState->getPhraseLength()).randomClave();
-    Playable result = Playable(phrase, claveChannel);
+    Playable result = Playable(phrase);
     queuePlayable("clave", result);
     return result;
 }
@@ -49,16 +49,15 @@ Playable Generator::clave() {
 Playable Generator::cascaraFromClave() {
     if (!hasPhrase("clave")) { this->clave(); }
     auto tempPhrase = playQueue->at("clave").phrase.cascaraFromClave();
-    Playable result = Playable(tempPhrase, cascaraChannel);
+    Playable result = Playable(tempPhrase);
     queuePlayable("cascara", result);
     return result;
 }
 
 Playable Generator::flipClave(string phraseKey) {
-    if (!hasPhrase(phraseKey)) { return Playable(Phrase(), -1); } // TODO: use std::optional in failure cases.
-    int channel = playQueue->at(phraseKey).midiChannel;
+    if (!hasPhrase(phraseKey)) { return Playable(Phrase()); } // TODO: use std::optional in failure cases.
     auto flipped = playQueue->at(phraseKey).phrase.flip();
-    Playable result = Playable(flipped, channel);
+    Playable result = Playable(flipped);
     queuePlayable(phraseKey, result);
     return result;
 }
@@ -66,7 +65,7 @@ Playable Generator::flipClave(string phraseKey) {
 Playable Generator::claveFromCascara() {
     if (!hasPhrase("cascara")) { this->cascara(); }
     auto tempPhrase = playQueue->at("cascara").phrase.claveFromCascara();
-    Playable result = Playable(tempPhrase, claveChannel);
+    Playable result = Playable(tempPhrase);
     queuePlayable("clave", result);
     return result;
 }
@@ -78,7 +77,7 @@ void Generator::roll(string phraseKey,
     if (!hasPhrase(phraseKey)) return;
     Playable phrasePlayable = playQueue->at(phraseKey);
     Phrase rollPhrase = phrasePlayable.phrase.fillWithRolls(rollProb, associationProb, rollLengthProb);
-    queuePlayable(rollsKey(phraseKey), Playable(rollPhrase, phrasePlayable.midiChannel));
+    queuePlayable(rollsKey(phraseKey), Playable(rollPhrase));
 }
 
 vector<OrnamentSimple> getOrnamentVector(bool flams, bool drags, bool ruffs) {
@@ -100,7 +99,7 @@ void Generator::ornament(string phraseKey,
     auto possibleOrnaments = getOrnamentVector(flams, drags, ruffs);
     if (possibleOrnaments.empty()) { return; }
     Phrase ornamentsPhrase = phrasePlayable.phrase.addOrnaments(possibleOrnaments, prob, breadth);
-    queuePlayable(ornamentsKey(phraseKey), Playable(ornamentsPhrase, phrasePlayable.midiChannel));
+    queuePlayable(ornamentsKey(phraseKey), Playable(ornamentsPhrase));
 }
 
 
@@ -136,6 +135,21 @@ void Generator::queuePlayable(string id, Playable playable) {
     auto result = playQueue->emplace(id, playable);
     if (result.second) return;
     playQueue->at(id) = playable;
+}
+
+
+void Generator::setMidiChannel(string voiceName, int newMidiChannel) {
+    if (midiChannels.find(voiceName) == midiChannels.end()) {
+        return;
+    }
+    midiChannels[voiceName] = newMidiChannel;
+}
+
+int Generator::getMidiChannel(string voiceName) {
+    if (midiChannels.find(voiceName) == midiChannels.end()) {
+        return -1;
+    }
+    return midiChannels[voiceName];
 }
 
 

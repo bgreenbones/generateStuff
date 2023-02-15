@@ -255,9 +255,10 @@ void GenerateStuffAudioProcessor::playPlayables(
     
     
     for (auto playableIt = playQueue->begin(); playableIt != playQueue->end(); ++playableIt) {
+        string voiceName = playableIt->first;
         Playable playable = playableIt->second;
         Phrase phrase = playable.phrase;
-        int midiChannel = playable.midiChannel;
+        int midiChannel = generator.getMidiChannel(voiceName);
         
         if (playable.mute) {
             continue;

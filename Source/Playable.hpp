@@ -14,10 +14,9 @@
 
 class Playable {
 public:
-    Playable(Phrase phrase, short midiChannel): phrase(phrase), midiChannel(midiChannel) { };
+    Playable(Phrase phrase): phrase(phrase), mute(false) { };
     Phrase phrase;
-    short midiChannel;
-    bool mute = false;
+    bool mute;
 };
 
 #endif /* Playable_hpp */

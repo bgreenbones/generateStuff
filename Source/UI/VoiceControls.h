@@ -66,9 +66,11 @@ public:
 //    juce::TextButton flipButton { "flip" };
     static const int selectVoiceGroupId = 98374; // random
     static const int useAsSourceGroupId = 29384;
+    static const int midiChannelLowerBound = 1; // TODO: find a place for these?
+    static const int midiChannelUpperBound = 15;
     
     
-    VoiceControls(string name):
+    VoiceControls(string name, int defaultMidiChannel):
         voiceName(name),
         generateButton(juce::TextButton("new " + name)),
         generateFromButton(juce::TextButton("new " + name + " from source")),
@@ -78,11 +80,11 @@ public:
         improviseButton("improvise " + name)
     {
         buttons = { &generateButton, &generateFromButton, &useAsSourceButton, &muteButton, &selectButton, &improviseButton };
-        for (auto button : buttons) {
-            button->setLookAndFeel (&lookAndFeel);
-        }
-        
-        midiChannel.addItem("1", 1);// TODO:...yeahhh
+        for (auto button : buttons) { button->setLookAndFeel (&lookAndFeel); }
+        for (int channel = midiChannelLowerBound; channel <= midiChannelUpperBound; channel++) { midiChannel.addItem(juce::String(channel), channel); }
+//        defaultMidiChannel = max(midiChannelLowerBound, defaultMidiChannel); // TODO: why does this cause undefined symbol
+//        defaultMidiChannel = min(midiChannelUpperBound, defaultMidiChannel);
+        midiChannel.setSelectedId(defaultMidiChannel);
     }
     
     ~VoiceControls()
@@ -104,8 +106,13 @@ public:
     std::size_t getNumberOfButtons() {
         return buttons.size();
     }
+    
+    std::size_t getNumberOfColumns() {
+        return getNumberOfButtons() + 1;
+    }
 
     void callAddAndMakeVisible(Component *editor) {
+        editor->addAndMakeVisible (midiChannel);
         for (auto button : buttons) {
             editor->addAndMakeVisible (button);
         }
@@ -113,6 +120,10 @@ public:
     
     void setBounds(int xCursor, int yCursor, int buttonWidth, int buttonHeight, int spaceBetweenControls) {
         auto incrementCursor = [&]() { xCursor += buttonWidth + spaceBetweenControls; };
+        int comboBoxHeight = 40;
+        int comboBoxY = yCursor + buttonHeight / 2 - comboBoxHeight / 2;
+        midiChannel.setBounds(xCursor, comboBoxY, buttonWidth, comboBoxHeight);
+        incrementCursor();
         for (auto button : buttons) {
             button->setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
             incrementCursor();

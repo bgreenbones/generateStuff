@@ -25,7 +25,7 @@ private:
 public:
     GenerateStuffAudioProcessor& processor;
     Generator& generator;
-        
+    
     VoiceControls cascaraControls;
     VoiceControls claveControls;
 //    VoiceControls harmonyControls;
@@ -34,8 +34,8 @@ public:
     VoiceManager(GenerateStuffAudioProcessor& processor):
         processor(processor),
         generator(processor.generator),
-        cascaraControls(cascaraKey),
-        claveControls(claveKey)
+        cascaraControls(cascaraKey, cascaraChannel),
+        claveControls(claveKey, claveChannel)
 //        harmonyControls(harmonyKey),
 //        bassControls(bassKey)
     {
@@ -50,10 +50,17 @@ public:
         voices.clear();
     }
     
+    
+    void midiChannelChanged(string voiceName) {
+        int midiChannel = voices.at(voiceName)->midiChannel.getSelectedId();
+        generator.setMidiChannel(voiceName, midiChannel);
+    }
+    
     void setOnClicks() {
         for (auto voicePair : voices) {
             VoiceControls *voice = voicePair.second;
             string voiceName = voice->voiceName;
+            voice->midiChannel.onChange = [this, voiceName]() { midiChannelChanged(voiceName); };
             voice->generateButton.onClick = [this, voiceName]() { generator.generate(voiceName); };
             voice->generateFromButton.onClick = [this, voiceName]() { generator.generateFrom(voiceName, useAsSourcePhraseKeyState); };
             voice->muteButton.onClick = [voice, this, voiceName]() {
@@ -101,11 +108,15 @@ public:
         }
     }
     
-    std::size_t getNumberOfButtons() {
+    size_t getNumberOfButtons() {
         return cascaraControls.getNumberOfButtons();
     }
     
-    int getNumberOfVoices() {
+    size_t getNumberOfColumns() {
+        return cascaraControls.getNumberOfColumns();
+    }
+    
+    size_t getNumberOfVoices() {
         return voices.size();
     }
     

@@ -21,10 +21,16 @@
 
 using std::shared_ptr, std::map, std::string;
 
+
+// TODO: change the key and the channel data into some other enum or struct type or something
 static const string cascaraKey = "cascara";
 static const string claveKey = "clave";
-//    static const string harmonyKey = "harmony";
+static const string harmonyKey = "harmony";
 //    static const string bassKey = "bass";
+
+static int cascaraChannel = 1;
+static int claveChannel = 2;
+static int chordChannel = 3;
 
 
 // TODO: someday we want generator to be a place for all your phrase types which might not even exist at compile time
@@ -38,15 +44,18 @@ public:
               shared_ptr<GenerateStuffEditorState> editorState):
                 settings(HostSettings::instance()),
                 playQueue(playQueue),
-                editorState(editorState) {}
+                editorState(editorState) {
+                    midiChannels.emplace(cascaraKey, cascaraChannel);
+                    midiChannels.emplace(claveKey, claveChannel);
+                    midiChannels.emplace(harmonyKey, chordChannel);
+                }
 
     HostSettings &settings;
     shared_ptr<map<string, Playable>> playQueue;
     shared_ptr<GenerateStuffEditorState> editorState;
-    
-    int cascaraChannel = 1; // TODO: make configurable from UI
-    int claveChannel = 2; // and then of course move to editorState
-    int chordChannel = 3;
+    unordered_map<string, int> midiChannels; // TODO: Voice class...contains voice name, phrases,
+                                            // ornamentations/rolls on phrases, midichannels, mute information...
+                                            // and a dict of them replaces midichannels and playqueue?
     
     Playable cascara();
     Playable clave();
@@ -57,7 +66,7 @@ public:
     Playable generate(string phraseKey) { // TODO: get selected phrase key from editor state instead of passing it in
         if (phraseKey == cascaraKey) { return cascara(); }
         if (phraseKey == claveKey) { return clave(); }
-        return Playable(Phrase(), -1);
+        return Playable(Phrase());
     }
     Playable generateFrom(string generatePhraseKey, string generateFromPhraseKey) {
         if (generatePhraseKey == cascaraKey) { // TODO: truly look inward and evaluate how we do this...
@@ -68,7 +77,7 @@ public:
             if (generateFromPhraseKey == cascaraKey) { return claveFromCascara(); }
             if (generateFromPhraseKey == claveKey) { return clave(); } // TODO: implement variations of a clave
         }
-        return Playable(Phrase(), -1);
+        return Playable(Phrase());
     }
     
     // TODO: play queue stuff should maybe be its own class?
@@ -76,6 +85,9 @@ public:
     void removePlayable(string id);
     void toggleMutePlayable(string id);
     void queuePlayable(string id, Playable playable);
+    
+    void setMidiChannel(string voiceName, int newMidiChannel);
+    int getMidiChannel(string voiceName);
 
     void roll(string phraseKey, Probability rollProb, Probability associationProb, Probability rollLengthProb);
     void ornament(string phraseKey, Probability prob, double breadth, bool flams, bool drags, bool ruffs);
