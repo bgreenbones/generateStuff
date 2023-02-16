@@ -84,10 +84,10 @@ bool Sequence<T>::concat(Sequence<T> other, bool useLast, PushBehavior pushBehav
 }
 
 template <class T>
-bool Sequence<T>::insert(vector<T> other, Position startTime, PushBehavior pushBehavior) {
+bool Sequence<T>::insert(vector<T> other, Position startTime, PushBehavior pushBehavior, bool overwrite) {
     for (auto iter = other.begin(); iter < other.end(); iter++) {
             iter->startTime += startTime;
-        if (!(this->add(*iter, pushBehavior))) {
+        if (!(this->add(*iter, pushBehavior, overwrite))) {
             DBG("problem inserting sequence");
             return false;
         }
@@ -97,8 +97,8 @@ bool Sequence<T>::insert(vector<T> other, Position startTime, PushBehavior pushB
 
 
 template <class T>
-bool Sequence<T>::insert(Sequence<T> other, Position startTime, PushBehavior pushBehavior) {
-    return insert(other.events, startTime, pushBehavior);
+bool Sequence<T>::insert(Sequence<T> other, Position startTime, PushBehavior pushBehavior, bool overwrite) {
+    return insert(other.events, startTime, pushBehavior, overwrite);
 }
 
 template <class T>

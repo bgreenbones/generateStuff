@@ -73,17 +73,6 @@ public:
         }
         return Phrase();
     }
-    
-//    // TODO: play queue stuff should maybe be its own class?
-//    bool hasPhrase(string phraseKey);
-//    void removePlayable(string id);
-//    void toggleMutePlayable(string id);
-//    void toggleMuteOrnamentation(string id);
-//    void queuePlayable(string id, Phrase phrase);
-//    void queueOrnamentation(string id, Phrase phrase);
-//    
-//    void setMidiChannel(string voiceName, int newMidiChannel);
-//    int getMidiChannel(string voiceName);
 
     void roll(string phraseKey, Probability rollProb, Probability associationProb, Probability rollLengthProb);
     void ornament(string phraseKey, Probability prob, double breadth, bool flams, bool drags, bool ruffs);

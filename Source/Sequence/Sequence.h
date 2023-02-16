@@ -18,7 +18,6 @@ typedef enum PushBehavior {
     ignore, truncate, wrap
 } PushBehavior;
 
-
 // this can encapsulate functionality related to the various vectors inside phrase
 // ...notes...subdivisions...dynamics, and other expressions to be added down the line
 template <typename T> // T as to be TimedEvent subclass
@@ -52,8 +51,8 @@ public:
     void tie();
     void legato();
     bool concat(Sequence<T> other, bool useLast = false, PushBehavior pushBehavior = PushBehavior::ignore);
-    bool insert(vector<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore);
-    bool insert(Sequence<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore);
+    bool insert(vector<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore, bool overwrite = false);
+    bool insert(Sequence<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore, bool overwrite = false);
     bool chopAfterDuration(Duration duration);
     bool flip();
 
@@ -99,7 +98,6 @@ public:
         return true;
     }
 };
-
 
 
 
@@ -196,20 +194,3 @@ public:
 
 
 
-
-
-
-//#include <vector>
-//
-//template <typename T>
-//class S
-//{
-//public:
-//    vector<T> stuff;
-//};
-//
-//class N
-//{
-//public:
-//    S<N> f();
-//};

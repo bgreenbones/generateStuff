@@ -19,6 +19,7 @@ class PlayQueue {
 public:
     
     bool hasVoice(VoiceName voiceName);
+    Voice getVoice(VoiceName voiceName);
     bool hasPhrase(VoiceName voiceName, Position startTime, Duration phraseLength);
     bool doesntHavePhrase(VoiceName voiceName, Position startTime, Duration phraseLength);
     void clearVoice(VoiceName voiceName);
@@ -31,8 +32,6 @@ public:
     
     void setMidiChannel(VoiceName voiceName, int newMidiChannel);
     int getMidiChannel(VoiceName voiceName);
-    
-    PhraseAssociation getAssociatedPhrases(VoiceName voiceName, Position startTime, Duration phraseLength);
     
     auto begin() const { return queue.begin(); }
     auto begin() { return queue.begin(); }

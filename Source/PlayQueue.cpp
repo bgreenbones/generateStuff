@@ -18,10 +18,19 @@ bool PlayQueue::hasVoice(VoiceName voiceName)
     return queue.find(voiceName) != queue.end();
 }
 
+Voice PlayQueue::getVoice(VoiceName voiceName)
+{
+    if (!hasVoice(voiceName)) { return Voice("voice not found", -1, true); } // TODO: use optional?
+    return queue.at(voiceName);
+}
+
+bool PlayQueue::hasPhrase(VoiceName voiceName, Position startTime, Duration phraseLength) { return true; }
+bool PlayQueue::doesntHavePhrase(VoiceName voiceName, Position startTime, Duration phraseLength) { return !hasPhrase(voiceName, startTime, phraseLength); }
+
 void PlayQueue::clearVoice(VoiceName voiceName)
 {
     if (!hasVoice(voiceName)) { return; }
-    queue.at(voiceName).phrases.clear();
+    queue.at(voiceName).base.clear();
     queue.at(voiceName).rolls.clear();
     queue.at(voiceName).ornamentation.clear();
 }
@@ -58,19 +67,19 @@ bool PlayQueue::toggleMuteOrnamentation(VoiceName voiceName)
 void PlayQueue::queuePhrase(VoiceName voiceName, Phrase phrase)
 {
     if (!hasVoice(voiceName)) { return; }
-    queue.at(voiceName).phrases.add(phrase, PushBehavior::ignore, true); // overwrite existing phrases if they overlap
+    queue.at(voiceName).base = queue.at(voiceName).base.insert(phrase, true); // overwrite if overlap
 }
 
 void PlayQueue::queueRoll(VoiceName voiceName, Phrase phrase)
 {
     if (!hasVoice(voiceName)) { return; }
-    queue.at(voiceName).rolls.add(phrase, PushBehavior::ignore, true); // overwrite existing phrases if they overlap
+    queue.at(voiceName).rolls = queue.at(voiceName).rolls.insert(phrase, true); // overwrite if overlap
 }
 
 void PlayQueue::queueOrnamentation(VoiceName voiceName, Phrase phrase)
 {
     if (!hasVoice(voiceName)) { return; }
-    queue.at(voiceName).ornamentation.add(phrase, PushBehavior::ignore, true); // overwrite existing phrases if they overlap
+    queue.at(voiceName).ornamentation = queue.at(voiceName).ornamentation.insert(phrase, true); // overwrite if overlap
 }
 
 void PlayQueue::setMidiChannel(VoiceName voiceName, int newMidiChannel)

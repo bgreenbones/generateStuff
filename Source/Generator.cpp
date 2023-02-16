@@ -42,8 +42,8 @@ Phrase Generator::cascaraFromClave() {
     Position startTime = editorState->getStartTime();
     Duration phraseLength = editorState->getPhraseLength();
     if (playQueue->doesntHavePhrase(claveKey, startTime, phraseLength)) { this->clave(); }
-    PhraseAssociation phraseAssociation = playQueue->getAssociatedPhrases(claveKey, startTime, phraseLength);
-    auto cascaraPhrase = phraseAssociation.base.cascaraFromClave();
+    Voice voice = playQueue->getVoice(claveKey);
+    auto cascaraPhrase = voice.base.cascaraFromClave();
     playQueue->queuePhrase(cascaraKey, cascaraPhrase);
     return cascaraPhrase;
 }
@@ -52,19 +52,19 @@ Phrase Generator::flipClave(string phraseKey) {
     Position startTime = editorState->getStartTime();
     Duration phraseLength = editorState->getPhraseLength();
     if (playQueue->doesntHavePhrase(phraseKey, startTime, phraseLength)) { return Phrase(); } // TODO: use std::optional in failure cases.
-    PhraseAssociation phraseAssociation = playQueue->getAssociatedPhrases(cascaraKey, startTime, phraseLength);
-    auto flipped = phraseAssociation.base.flip();
+    Voice voice = playQueue->getVoice(cascaraKey);
+    auto flipped = voice.base.flip(); // TODO: segment the phrase by relevant start and duration
     playQueue->queuePhrase(phraseKey, flipped);
     
     bool hasOrnaments = false; // TODO: make this possible
     bool hasRolls = false;
     if (hasOrnaments) {
-        auto ornamentsFlipped = phraseAssociation.ornaments.flip();
+        auto ornamentsFlipped = voice.ornamentation.flip(); // TODO: segment the phrase by relevant start and duration
         playQueue->queueOrnamentation(phraseKey, ornamentsFlipped);
     }
     
     if (hasRolls) {
-        auto rollsFlipped = phraseAssociation.rolls.flip();
+        auto rollsFlipped = voice.rolls.flip(); // TODO: segment the phrase by relevant start and duration
         playQueue->queueRoll(phraseKey, rollsFlipped);
     }
     
@@ -75,8 +75,8 @@ Phrase Generator::claveFromCascara() {
     Position startTime = editorState->getStartTime();
     Duration phraseLength = editorState->getPhraseLength();
     if (playQueue->doesntHavePhrase(cascaraKey, startTime, phraseLength)) { this->cascara(); }
-    PhraseAssociation phraseAssociation = playQueue->getAssociatedPhrases(cascaraKey, startTime, phraseLength);
-    Phrase cascaraPhrase = phraseAssociation.base;
+    Voice voice = playQueue->getVoice(cascaraKey);
+    Phrase cascaraPhrase = voice.base;
     auto clavePhrase = cascaraPhrase.claveFromCascara();
     playQueue->queuePhrase(claveKey, clavePhrase);
     return clavePhrase;
@@ -89,8 +89,8 @@ void Generator::roll(string phraseKey,
     Position startTime = editorState->getStartTime();
     Duration phraseLength = editorState->getPhraseLength();
     if (playQueue->doesntHavePhrase(phraseKey, startTime, phraseLength)) return;
-    PhraseAssociation phraseAssociation = playQueue->getAssociatedPhrases(phraseKey, startTime, phraseLength);
-    Phrase phrasePhrase = phraseAssociation.base;
+    Voice voice = playQueue->getVoice(phraseKey);
+    Phrase phrasePhrase = voice.base;
     Phrase rollPhrase = phrasePhrase.fillWithRolls(rollProb, associationProb, rollLengthProb);
     playQueue->queueRoll(phraseKey, rollPhrase);
 }
@@ -112,8 +112,8 @@ void Generator::ornament(string phraseKey,
     Position startTime = editorState->getStartTime();
     Duration phraseLength = editorState->getPhraseLength();
     if (playQueue->doesntHavePhrase(phraseKey, startTime, phraseLength)) return;
-    PhraseAssociation phraseAssociation = playQueue->getAssociatedPhrases(phraseKey, startTime, phraseLength);
-    Phrase phrasePhrase = phraseAssociation.base;
+    Voice voice = playQueue->getVoice(phraseKey);
+    Phrase phrasePhrase = voice.base;
     auto possibleOrnaments = getOrnamentVector(flams, drags, ruffs);
     if (possibleOrnaments.empty()) { return; }
     Phrase ornamentsPhrase = phrasePhrase.addOrnaments(possibleOrnaments, prob, breadth);

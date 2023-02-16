@@ -122,6 +122,16 @@ Phrase Phrase::concat(Phrase other, bool useLastNote, bool keepDuration) const {
     return phrase;
 }
 
+Phrase Phrase::insert(Phrase other, bool overwrite) const {
+    Phrase phrase(*this);
+    
+    phrase.notes.insert(other.notes, Position(0), PushBehavior::ignore, overwrite);
+    phrase.subdivisions.insert(other.subdivisions, Position(0), PushBehavior::ignore, overwrite);
+    phrase.subdivisions.tie();
+    
+    return phrase;
+}
+
 
 // TODO: we can actually optionally get subdivs from the subdivs sequence??
 Phrase Phrase::parseMininotation(std::string phraseString, Subdivision subdivision) {
@@ -130,3 +140,8 @@ Phrase Phrase::parseMininotation(std::string phraseString, Subdivision subdivisi
     phrase.notes = notes.parseMininotation(phraseString, subdivision);
     return phrase;
 }
+
+
+
+//template class Sequence<Phrase>;
+

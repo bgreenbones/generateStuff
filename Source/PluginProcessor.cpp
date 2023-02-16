@@ -246,20 +246,13 @@ void GenerateStuffAudioProcessor::playPlayables(
         }
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
+
     for (auto voiceIt = playQueue->begin(); voiceIt != playQueue->end(); ++voiceIt) {
         string voiceName = voiceIt->first;
         Voice voice = voiceIt->second;
         int midiChannel = voice.midiChannel;
         for (auto phraseIt = voice.phrases.begin(); phraseIt != voice.phrases.end(); ++phraseIt) {
-            Phrase phrase = *phraseIt;
+            Phrase phrase = **phraseIt;
         
             if (voice.mute) {
                 continue;

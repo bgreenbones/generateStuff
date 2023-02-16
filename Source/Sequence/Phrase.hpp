@@ -59,9 +59,11 @@ public:
     bool addNote(Note toAdd);
     bool addSubdivision(Subdivision toAdd);
     void tieSubdivisions();
+    void clear() { notes.clear(); subdivisions.clear(); };
     template <class T>
     vector<T> concatEvents(vector<T> eventList, vector<T> otherList) const;
     Phrase concat(Phrase other, bool useLastNote = false, bool keepDuration = false) const;
+    Phrase insert(Phrase other, bool overwrite = true) const;
     
     // Rhythmic thing.
     Phrase pulseAndDisplace(Duration pulse = 0.5, // TODO: create a rhythm type that gives access to these params RAW instead of the hardcoded cascara idea...
@@ -92,6 +94,7 @@ public:
     
 
 };
+
 
 
 
