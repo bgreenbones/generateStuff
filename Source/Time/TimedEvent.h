@@ -50,7 +50,10 @@ public:
         return this->startTime <= other.startTime && this->endTime() >= other.endTime();
     }
     
-    virtual bool equalsExcludingTime(TimedEvent &other) = 0;
+    virtual bool equalsExcludingTime(TimedEvent &other) {
+        DBG("...should this be pure virtual? but then timed event is an abstract class..which makes some things not work..");
+        return false;
+    };//= 0;
 };
 
 

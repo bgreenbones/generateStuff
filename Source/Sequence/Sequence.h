@@ -21,41 +21,39 @@ typedef enum PushBehavior {
 // this can encapsulate functionality related to the various vectors inside phrase
 // ...notes...subdivisions...dynamics, and other expressions to be added down the line
 template <typename T> // T as to be TimedEvent subclass
-class Sequence
+class Sequence: public vector<T>
 {
 public:
-    Sequence(vector<T> events, bool monophonic, TimedEvent& parent): monophonic(monophonic), parent(parent), events(events) {}
+    Sequence(vector<T> events, bool monophonic, TimedEvent& parent): vector<T>(events), monophonic(monophonic), parent(parent) {}
     Sequence(vector<T> events, TimedEvent& parent): Sequence(events, true, parent) {}
     Sequence(TimedEvent &parent): Sequence({}, parent) {}
-    Sequence(Sequence other, TimedEvent& newParent): Sequence(other.events, other.monophonic, newParent) {}
+    Sequence(Sequence other, TimedEvent& newParent): Sequence(other, other.monophonic, newParent) {}
     Sequence& operator=(Sequence const& other) {
+        this->assignEvents(other);
+        this->parent = other.parent;
         monophonic = other.monophonic;
-        events = other.events;
-//        swap(monophonic, other.monophonic);
-//        swap(events, other.events);
         return *this;
     };
     
     bool monophonic = true;
     TimedEvent &parent;
-    vector<T> events;
-    T primary() const { return longest<T>(events); }
+//    vector<T> events;
+    T primary() const { return longest<T>(*this); }
     vector<T> byPosition(Position position) const;
     T drawByPosition(Position position) const;
         
     Position endTime() const {
-        return events.size() > 0 ? events.back().endTime() : Position(0);
+        return this->size() > 0 ? this->back().endTime() : Position(0);
     }
     
     bool add(T toAdd, PushBehavior pushBehavior = PushBehavior::ignore, bool overwrite = false);
     void tie();
     void legato();
     bool concat(Sequence<T> other, bool useLast = false, PushBehavior pushBehavior = PushBehavior::ignore);
-    bool insert(vector<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore, bool overwrite = false);
-    bool insert(Sequence<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore, bool overwrite = false);
+    bool insertVector(vector<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore, bool overwrite = false);
+    bool insertSequence(Sequence<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore, bool overwrite = false);
     bool chopAfterDuration(Duration duration);
     bool flip();
-
 
     // Mininotation stuff
     Sequence parseMininotation(std::string phraseString, Duration stepLength);
@@ -65,32 +63,22 @@ public:
     std::string getStartTimesString();
     
     
-    // call throughs... ... maybe this should just inherit from vector...
-    void clear() { return events.clear(); }
-    void pop_back() { return events.pop_back(); }
-    T& front() { return events.front(); }
-    T front() const { return events.front(); }
-    T& back() { return events.back(); }
-    T back() const { return events.back(); }
-    size_t size() const { return events.size(); }
-    auto begin() const { return events.begin(); }
-    auto begin() { return events.begin(); }
-    auto end() const { return events.end(); }
-    auto end() { return events.end(); }
-    bool empty() const { return events.empty(); }
-    
+    void assignEvents(vector<T> events) {
+        this->clear();
+        this->assign(events.begin(), events.end());
+    };
     
     bool equals(vector<T> other) {
-        if (other.size() != events.size()) {
+        if (other.size() != this->size()) {
             return false;
         }
         
-        for (int i = 0; i < other.size(); i++) {
-            if (other[i].startTime != events[i].startTime) {
+        for (int i = 0; i < other.size(); i++) { // TODO: probably need to check other criteria...
+            if (other[i].startTime != this->at(i).startTime) {
                 return false;
             }
             
-            if (other[i].duration != events[i].duration) {
+            if (other[i].duration != this->at(i).duration) {
                 return false;
             }
         }
@@ -102,9 +90,7 @@ public:
 
 
 
-// Haha declaring Note now.
-
-
+// Haha declaring Note now because of crazy explicit template instantiation logistics.
 #include "Probability.h"
 #include "Mininotation.h"
 #include "Ornamentation.h"

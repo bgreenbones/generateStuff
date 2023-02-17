@@ -578,7 +578,7 @@ Phrase Phrase::claveFromCascara() const {
                 
         if (!constraintsBroken) {
             clave.notes.legato();
-            for (auto note : clave.notes.events) {
+            for (auto note : clave.notes) {
                 if (note.duration < (double) minNoteLength || // bad length
                     note.duration > (double) maxNoteLength) {
                     constraintsBroken = true;

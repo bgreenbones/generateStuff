@@ -175,7 +175,7 @@ Phrase Phrase::withRoll(Position start, Position target, Association association
         DBG ("input to this guy was made bad.");
     }
     
-    withRoll.notes.insert(rollNotes, start, PushBehavior::wrap);
+    withRoll.notes.insertVector(rollNotes, start, PushBehavior::wrap);
     return withRoll;
 }
 

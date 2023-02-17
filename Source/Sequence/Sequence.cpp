@@ -18,7 +18,7 @@
 template <class T>
 bool Sequence<T>::flip() {
     auto flipTime = [this](std::__wrap_iter<T*> t) { return (t->startTime + (parent.duration / 2.)) % parent.duration; };
-    for (auto event = events.begin(); event < events.end(); event++) {
+    for (auto event = this->begin(); event < this->end(); event++) {
         event->startTime = flipTime(event);
     }
     return true;
@@ -44,14 +44,13 @@ bool Sequence<T>::add(T toAdd, PushBehavior pushBehavior, bool overwrite) {
     
     if (this->monophonic) {
         if (overwrite) {
-            events.erase(std::remove_if(events.begin(), events.end(),
+            this->erase(std::remove_if(this->begin(), this->end(),
                                         [toAdd](T t) { return toAdd.containsPartially(t) || t.containsPartially(toAdd); }),
-                                        events.end());
-//            std::erase_if(events, [toAdd](T t) { return toAdd.containsPartially(t) || t.containsPartially(toAdd); });
+                                        this->end());
         } else {
             vector<T> bad_examples;
-            copy_if(events.begin(),
-                    events.end(),
+            copy_if(this->begin(),
+                    this->end(),
                     back_inserter(bad_examples),
                     [toAdd](T t) { return toAdd.containsPartially(t) || t.containsPartially(toAdd); });
             if (bad_examples.size() > 0) {
@@ -62,9 +61,9 @@ bool Sequence<T>::add(T toAdd, PushBehavior pushBehavior, bool overwrite) {
     }
     
     
-    events.push_back(toAdd);
-    sort(events.begin(),
-         events.end(),
+    this->push_back(toAdd);
+    sort(this->begin(),
+         this->end(),
          [](T const &a, T const &b) { return a.startTime < b.startTime; });
     
     return true;
@@ -84,7 +83,7 @@ bool Sequence<T>::concat(Sequence<T> other, bool useLast, PushBehavior pushBehav
 }
 
 template <class T>
-bool Sequence<T>::insert(vector<T> other, Position startTime, PushBehavior pushBehavior, bool overwrite) {
+bool Sequence<T>::insertVector(vector<T> other, Position startTime, PushBehavior pushBehavior, bool overwrite) {
     for (auto iter = other.begin(); iter < other.end(); iter++) {
             iter->startTime += startTime;
         if (!(this->add(*iter, pushBehavior, overwrite))) {
@@ -97,18 +96,18 @@ bool Sequence<T>::insert(vector<T> other, Position startTime, PushBehavior pushB
 
 
 template <class T>
-bool Sequence<T>::insert(Sequence<T> other, Position startTime, PushBehavior pushBehavior, bool overwrite) {
-    return insert(other.events, startTime, pushBehavior, overwrite);
+bool Sequence<T>::insertSequence(Sequence<T> other, Position startTime, PushBehavior pushBehavior, bool overwrite) {
+    return insertVector(other, startTime, pushBehavior, overwrite);
 }
 
 template <class T>
 void Sequence<T>::tie() {
-    if (events.size() <= 1) {
+    if (this->size() <= 1) {
         return;
     }
     bool tryAgain = false;
     vector<T> tiedEvents;
-    for (auto event = events.begin(); event < events.end() - 1; event++) {
+    for (auto event = this->begin(); event < this->end() - 1; event++) {
         auto otherEvent = event + 1;
         if (event->equalsExcludingTime(*otherEvent)) {
             T tiedEvent(*event);
@@ -119,20 +118,20 @@ void Sequence<T>::tie() {
         }
     }
     if (tryAgain) {
-        this->events = tiedEvents;
+        this->assignEvents(tiedEvents);
         this->tie();
     }
 }
 
 template <class T>
 void Sequence<T>::legato() {
-    if (events.size() <= 1) {
+    if (this->size() <= 1) {
         return;
     }
-    for (auto event = events.begin(); event < events.end(); event++) {
+    for (auto event = this->begin(); event < this->end(); event++) {
         auto nextEvent = event + 1;
-        if (nextEvent == events.end()) {
-            nextEvent = events.begin();
+        if (nextEvent == this->end()) {
+            nextEvent = this->begin();
             if (parent.containsPartially(*event)) {
                 event->duration = nextEvent->startTime + parent.duration - event->startTime;
             }
@@ -157,19 +156,15 @@ bool Sequence<T>::chopAfterDuration(Duration duration) {
 //    }
     
     
-    if (events.empty()) {
-        return true;
-    }
+    if (this->empty()) { return true; }
 
     vector<T> filtered;
-    copy_if (events.begin(),
-             events.end(),
+    copy_if (this->begin(),
+             this->end(),
              back_inserter(filtered),
              [duration](T &t) { return t.startTime <= duration; });
 
-    if (filtered.empty()) {
-        return true;
-    }
+    if (filtered.empty()) { return true; }
 
     vector<T> chopped;
     transform(filtered.begin(),
@@ -182,7 +177,7 @@ bool Sequence<T>::chopAfterDuration(Duration duration) {
                 }
                 return t; });
 
-    this->events = chopped;
+    this->assignEvents(chopped);
     return true;
 }
 
@@ -232,7 +227,7 @@ bool Sequence<T>::append(std::string phraseString, Duration stepLength, PushBeha
 template<class T>
 vector<T> Sequence<T>::byPosition(Position position) const {
     vector<T> result;
-    for (auto it = events.begin(); it < events.end(); it++) {
+    for (auto it = this->begin(); it < this->end(); it++) {
         if (it->contains(position)) {
             result.push_back(*it);
         }
@@ -263,9 +258,9 @@ std::string Sequence<T>::getStartTimesString() {
     std::string startTimesString;
     std::string delimiter(", ");
     
-    for (auto eventIt = this->events.begin(); eventIt < this->events.end(); eventIt++) {
+    for (auto eventIt = this->begin(); eventIt < this->end(); eventIt++) {
         startTimesString.append(doubleToString(eventIt->startTime.asBeats()));
-        if (eventIt + 1 != this->events.end()) {
+        if (eventIt + 1 != this->end()) {
           startTimesString.append(delimiter);
         }
     }

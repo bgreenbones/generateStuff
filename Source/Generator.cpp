@@ -52,7 +52,7 @@ Phrase Generator::flipClave(string phraseKey) {
     Position startTime = editorState->getStartTime();
     Duration phraseLength = editorState->getPhraseLength();
     if (playQueue->doesntHavePhrase(phraseKey, startTime, phraseLength)) { return Phrase(); } // TODO: use std::optional in failure cases.
-    Voice voice = playQueue->getVoice(cascaraKey);
+    Voice voice = playQueue->getVoice(phraseKey );
     auto flipped = voice.base.flip(); // TODO: segment the phrase by relevant start and duration
     playQueue->queuePhrase(phraseKey, flipped);
     

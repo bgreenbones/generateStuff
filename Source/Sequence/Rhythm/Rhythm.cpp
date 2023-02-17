@@ -54,7 +54,8 @@ Phrase Phrase::pulseAndDisplace(Duration pulse,
     if (sequence.endTime() != length) {
         DBG ("phrase doesn't end at right time...");
     }
-    if (!resultPhrase.notes.equals(sequence.events)) {
+    
+    if (!resultPhrase.notes.equals(sequence)) {
         DBG ("why not?");
     }
     
