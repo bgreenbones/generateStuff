@@ -220,29 +220,15 @@ void GenerateStuffAudioProcessor::playPlayables(
         return 0 < bufferTime && bufferTime <= mSamplesPerBlock; // todo: get actual lowest and highest indexes for the buffer instead of these guesses
     };
     
-    
-    
-    
-    
-    
-    
     if (positionInfo->getIsLooping()) { // if we're looping, do stuff a little different each time around to keep things interesting.
         juce::AudioPlayHead::LoopPoints loop = (positionInfo->getLoopPoints()).orFallback(juce::AudioPlayHead::LoopPoints());
         
         // TODO: not the most robust way of scheduling tasks, but should work for now.
         if (isPpqTimeInBuffer(loop.ppqStart) && loopTasks.isScheduled()) {
-//            generator.chords();
             loopTasks.performTasks();
             loopTasks.complete();
-//            if (improviseRolls) {                
-//            }
-//            if (improviseOrnaments) {
-//                generator.ornament
-//            }
-//            loopTasksComplete = true;
         } else {
             loopTasks.schedule();
-//            loopTasksComplete = false;
         }
     }
 
@@ -250,14 +236,12 @@ void GenerateStuffAudioProcessor::playPlayables(
     for (auto voiceIt = playQueue->begin(); voiceIt != playQueue->end(); ++voiceIt) {
         string voiceName = voiceIt->first;
         Voice voice = voiceIt->second;
+        if (voice.mute) { continue; }
         int midiChannel = voice.midiChannel;
-//        Phrase phrase = voice.base;
+
         for (auto phraseIt = voice.phrases.begin(); phraseIt != voice.phrases.end(); ++phraseIt) {
             Phrase phrase = *phraseIt;
-            
-            if (voice.mute) {
-                continue;
-            }
+            // TODO: ...how...do we ....mute just ornaments?? need to know that a phrase is an ornament phrase...
             
             for (auto noteIt = phrase.notes.begin(); noteIt != phrase.notes.end(); ++noteIt) {
                 Note note = *noteIt;

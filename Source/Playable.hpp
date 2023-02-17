@@ -20,13 +20,13 @@ public:
     VoiceName name;
     int midiChannel;
     bool mute;
-    bool muteOrnamentation;
+    bool muteOrnamentation; // TODO: decouple this class from any idea of ornamentation/rolls. there should just be a base and a collection of related phrases. or just a collection.
     bool muteRolls;
     Phrase base;
     Phrase ornamentation;
     Phrase rolls; // TODO: rolls are a form of ornamentation? and should be combined, on UI too
-    vector<Phrase> phrases;
-
+    vector<Phrase> phrases; // TODO: maybe this  needs to be a dictionary
+    
     Voice(VoiceName name, int midiChannel, bool mute):
 //        TimedEvent(0, Bars(512)),
         name(name), midiChannel(midiChannel), mute(mute) {

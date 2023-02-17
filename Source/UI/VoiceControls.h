@@ -55,20 +55,19 @@ class VoiceControls {
     GenerateStuffLookAndFeel lookAndFeel;
     vector<juce::TextButton*> buttons;
 public:
-    const string voiceName; // cascaraKey = "cascara";
+    const string voiceName;
     juce::ComboBox midiChannel;
-    juce::TextButton generateButton; // randomCascaraButton { "casc "};
-    juce::TextButton generateFromButton; // cascaraFromClaveButton { "clv->cas" };
+    juce::TextButton generateButton;
+    juce::TextButton generateFromButton;
     juce::TextButton useAsSourceButton;
-    juce::TextButton muteButton; // clear...
-    juce::TextButton selectButton; // selectCascaraButton { "casc" };
-    juce::TextButton improviseButton; // regenerateRolls { "regen rolls" }; // re-gen rolls on loop
-//    juce::TextButton flipButton { "flip" };
+    juce::TextButton muteButton;
+    juce::TextButton selectButton;
+    juce::TextButton improviseButton;
+
     static const int selectVoiceGroupId = 98374; // random
     static const int useAsSourceGroupId = 29384;
     static const int midiChannelLowerBound = 1; // TODO: find a place for these?
     static const int midiChannelUpperBound = 15;
-    
     
     VoiceControls(string name, int defaultMidiChannel):
         voiceName(name),
@@ -86,6 +85,9 @@ public:
 //        defaultMidiChannel = min(midiChannelUpperBound, defaultMidiChannel);
         midiChannel.setSelectedId(defaultMidiChannel);
     }
+    
+    VoiceControls(VoiceControls const& other): VoiceControls(other.voiceName, other.midiChannel.getSelectedId()) {};
+
     
     ~VoiceControls()
     {

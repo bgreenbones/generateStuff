@@ -13,8 +13,6 @@
 
 #include "Playable.hpp"
 
-
-
 // TODO: change the key and the channel data into some other enum or struct type or something
 static const string cascaraKey = "cascara";
 static const string claveKey = "clave";
@@ -26,14 +24,35 @@ static int claveChannel = 2;
 static int chordChannel = 3;
 
 
+struct VoiceAndChannel {
+    string voiceName;
+    int midiChannel;
+};
+static vector<VoiceAndChannel> voicesAndChannels = {
+    VoiceAndChannel {
+        .voiceName = cascaraKey,
+        .midiChannel = cascaraChannel
+    },
+    VoiceAndChannel {
+        .voiceName = claveKey,
+        .midiChannel = claveChannel
+    },
+    VoiceAndChannel {
+        .voiceName = harmonyKey,
+        .midiChannel = chordChannel
+    },
+};
+
+
+
 class PlayQueue {
     unordered_map<VoiceName, Voice> queue;
 public:
     
     PlayQueue() {
-        queue.emplace(cascaraKey, Voice(cascaraKey, cascaraChannel, false));
-        queue.emplace(claveKey, Voice(claveKey, claveChannel, false));
-        queue.emplace(harmonyKey, Voice(harmonyKey, chordChannel, false));
+        for (VoiceAndChannel vc : voicesAndChannels) {
+            queue.emplace(vc.voiceName, Voice(vc.voiceName, vc.midiChannel, false));
+        }
     }
     
     bool hasVoice(VoiceName voiceName);
@@ -43,10 +62,12 @@ public:
     void clearVoice(VoiceName voiceName);
     bool toggleMuteVoice(VoiceName voiceName);
     bool toggleMuteRolls(VoiceName voiceName);
-    bool toggleMuteOrnamentation(VoiceName voiceName);
+    bool toggleMuteOrnamentation(VoiceName voiceName); // TODO: decouple this class from concept of rolls/ornamentation.
     void queuePhrase(VoiceName voiceName, Phrase phrase);
     void queueRoll(VoiceName voiceName, Phrase phrase);
     void queueOrnamentation(VoiceName voiceName, Phrase phrase);
+    //    string rollsKey(string phraseKey);
+    //    string ornamentsKey(string phraseKey);
     
     void setMidiChannel(VoiceName voiceName, int newMidiChannel);
     int getMidiChannel(VoiceName voiceName);

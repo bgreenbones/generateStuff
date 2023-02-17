@@ -22,18 +22,6 @@
 
 using std::shared_ptr, std::map, std::string;
 
-//
-//// TODO: change the key and the channel data into some other enum or struct type or something
-//static const string cascaraKey = "cascara";
-//static const string claveKey = "clave";
-//static const string harmonyKey = "harmony";
-////    static const string bassKey = "bass";
-//
-//static int cascaraChannel = 1;
-//static int claveChannel = 2;
-//static int chordChannel = 3;
-
-
 // TODO: someday we want generator to be a place for all your phrase types which might not even exist at compile time
 // TODO: actually - maybe we have another layer called "Voice" which manages a bunch of phrases intended for one instrument or sound.
 // then generator becomes a sort of "Choir" or conductor which will keep manage each voice and relate them with each other.
@@ -77,7 +65,7 @@ public:
     void roll(string phraseKey, Probability rollProb, Probability associationProb, Probability rollLengthProb);
     void ornament(string phraseKey, Probability prob, double breadth, bool flams, bool drags, bool ruffs);
     
-    string rollsKey(string phraseKey); // TODO: move these to playqueue or voicemanager or something?
+    string rollsKey(string phraseKey);
     string ornamentsKey(string phraseKey);
 private:
 };

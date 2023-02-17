@@ -140,8 +140,3 @@ Phrase Phrase::parseMininotation(std::string phraseString, Subdivision subdivisi
     phrase.notes = notes.parseMininotation(phraseString, subdivision);
     return phrase;
 }
-
-
-
-//template class Sequence<Phrase>;
-

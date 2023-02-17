@@ -14,37 +14,27 @@
 
 #include <string>
 #include <vector>
-//#include <JuceHeader.h>
 #include "VoiceControls.h"
 
 using std::string, std::vector;
 
 class VoiceManager {
 private:
-    map<string, VoiceControls*> voices;
+    map<string, VoiceControls> voices;
 public:
     GenerateStuffAudioProcessor& processor;
     
     Generator& generator;
     shared_ptr<PlayQueue> playQueue;
-    VoiceControls cascaraControls; // TODO: these things existences should come from the playqueue
-    VoiceControls claveControls;
-//    VoiceControls harmonyControls;
-//    VoiceControls bassControls;
     
     VoiceManager(GenerateStuffAudioProcessor& processor):
         processor(processor),
         generator(processor.generator),
-        playQueue(processor.playQueue),
-        cascaraControls(cascaraKey, cascaraChannel),
-        claveControls(claveKey, claveChannel)
-//        harmonyControls(harmonyKey),
-//        bassControls(bassKey)
+        playQueue(processor.playQueue)
     {
-        voices.emplace(cascaraKey, &cascaraControls);
-        voices.emplace(claveKey, &claveControls);
-//        voices.emplace(harmonyKey, &harmonyControls);
-//        voices.emplace(bassKey, &bassControls);
+        for (VoiceAndChannel vc : voicesAndChannels) {
+            voices.emplace(vc.voiceName, VoiceControls(vc.voiceName, vc.midiChannel));
+        }
     }
     
     ~VoiceManager()
@@ -54,44 +44,45 @@ public:
     
     
     void midiChannelChanged(string voiceName) {
-        int midiChannel = voices.at(voiceName)->midiChannel.getSelectedId();
+        int midiChannel = voices.at(voiceName).midiChannel.getSelectedId();
         playQueue->setMidiChannel(voiceName, midiChannel);
     }
     
     void setOnClicks() {
-        for (auto voicePair : voices) {
-            VoiceControls *voice = voicePair.second;
-            string voiceName = voice->voiceName;
-            voice->midiChannel.onChange = [this, voiceName]() { midiChannelChanged(voiceName); };
-            voice->generateButton.onClick = [this, voiceName]() { generator.generate(voiceName); };
-            voice->generateFromButton.onClick = [this, voiceName]() { generator.generateFrom(voiceName, useAsSourcePhraseKeyState); };
-            voice->muteButton.onClick = [voice, this, voiceName]() {
+        for (auto voiceIt = voices.begin(); voiceIt != voices.end(); voiceIt++) {
+            VoiceControls &voice = voiceIt->second;
+            string voiceName = voice.voiceName;
+            voice.midiChannel.onChange = [this, voiceName]() { midiChannelChanged(voiceName); };
+            voice.generateButton.onClick = [this, voiceName]() { generator.generate(voiceName); };
+            voice.generateFromButton.onClick = [this, voiceName]() { generator.generateFrom(voiceName, useAsSourcePhraseKeyState); };
+            voice.muteButton.onClick = [this, voiceName]() {
                 bool muted = playQueue->toggleMuteVoice(voiceName);
-                voice->muteButton.setToggleState(muted, juce::dontSendNotification);
+                voices.at(voiceName).muteButton.setToggleState(muted, juce::dontSendNotification);
             };
-            voice->selectButton.onClick = [this]() { updateSelectedPhraseState(); };
-            voice->useAsSourceButton.onClick = [this]() { updateUseAsSourceState(); };
-            voice->improviseButton.onClick = [voice, this, voiceName]() {
-                bool improvise = !(voice->improviseButton.getToggleState());
+            voice.selectButton.onClick = [this]() { updateSelectedPhraseState(); };
+            voice.useAsSourceButton.onClick = [this]() { updateUseAsSourceState(); };
+            voice.improviseButton.onClick = [this, voiceName]() {
+                VoiceControls &voice = voices.at(voiceName);
+                bool improvise = !(voice.improviseButton.getToggleState());
                 if (improvise) {
                     processor.loopTasks.queue(voiceName, [](){}); // do this actually.
                 } else {
                     processor.loopTasks.deactivate({ voiceName });
                 }
-                voice->improviseButton.setToggleState(improvise, juce::dontSendNotification);
+                voice.improviseButton.setToggleState(improvise, juce::dontSendNotification);
             };
         }
     }
     
     void callAddAndMakeVisible(Component *editor) {
-        for (auto voicePair : voices) {
-            voicePair.second->callAddAndMakeVisible(editor);
+        for (auto voiceIt = voices.begin(); voiceIt != voices.end(); voiceIt++) {
+            voiceIt->second.callAddAndMakeVisible(editor);
         }
     }
     
     void configureButtons() {
-        for (auto voicePair : voices) {
-            voicePair.second->configureButtons();
+        for (auto voiceIt = voices.begin(); voiceIt != voices.end(); voiceIt++) {
+            voiceIt->second.configureButtons();
         }
     }
     
@@ -103,18 +94,18 @@ public:
     
     void setBounds(int xCursor, int yCursor, int buttonWidth, int buttonHeight, int spaceBetweenControls) {
         auto incrementCursor = [&]() { yCursor += buttonHeight + spaceBetweenControls; };
-        for (auto voicePair : voices) {
-            voicePair.second->setBounds (xCursor, yCursor, buttonWidth, buttonHeight, spaceBetweenControls);
+        for (auto voiceIt = voices.begin(); voiceIt != voices.end(); voiceIt++) {
+            voiceIt->second.setBounds (xCursor, yCursor, buttonWidth, buttonHeight, spaceBetweenControls);
             incrementCursor();
         }
     }
     
     size_t getNumberOfButtons() {
-        return cascaraControls.getNumberOfButtons();
+        return voices.begin()->second.getNumberOfButtons();
     }
     
     size_t getNumberOfColumns() {
-        return cascaraControls.getNumberOfColumns();
+        return voices.begin()->second.getNumberOfColumns();
     }
     
     size_t getNumberOfVoices() {
@@ -124,15 +115,23 @@ public:
     
     string selectedPhraseKeyState;
     void updateSelectedPhraseState() {
-        cascaraControls.selectButton.getToggleState() ?
-        this->selectedPhraseKeyState = cascaraControls.voiceName :
-        this->selectedPhraseKeyState = claveKey;
+        for (auto voiceIt = voices.begin(); voiceIt != voices.end(); voiceIt++) {
+            bool voiceSelected = voiceIt->second.selectButton.getToggleState();
+            if (voiceSelected) {
+                this->selectedPhraseKeyState = voiceIt->second.voiceName;
+                break;
+            }
+        }
     };
     string useAsSourcePhraseKeyState;
     void updateUseAsSourceState() {
-        cascaraControls.useAsSourceButton.getToggleState() ?
-        this->useAsSourcePhraseKeyState = cascaraControls.voiceName :
-        this->useAsSourcePhraseKeyState = claveKey;
+        for (auto voiceIt = voices.begin(); voiceIt != voices.end(); voiceIt++) {
+            bool voiceSelected = voiceIt->second.useAsSourceButton.getToggleState();
+            if (voiceSelected) {
+                this->selectedPhraseKeyState = voiceIt->second.voiceName;
+                break;
+            }
+        }
     }
     
     void updateState() {
@@ -140,19 +139,17 @@ public:
         updateUseAsSourceState();
     }
     
-    
-    const vector<const string> phraseKeys = { cascaraKey, claveKey };
     vector<const string> getRollKeys() {
         vector<const string> rollKeys;
-        transform (phraseKeys.begin(), phraseKeys.end(), back_inserter(rollKeys), [&](string phraseKey) {
-            return generator.rollsKey(phraseKey);
+        transform (voices.begin(), voices.end(), back_inserter(rollKeys), [&](auto voicePair) {
+            return generator.rollsKey(voicePair.first);
         });
         return rollKeys;
     }
     vector<const string> getOrnamentKeys() {
         vector<const string> ornamentKeys;
-        transform (phraseKeys.begin(), phraseKeys.end(), back_inserter(ornamentKeys), [&](string phraseKey) {
-            return generator.ornamentsKey(phraseKey);
+        transform (voices.begin(), voices.end(), back_inserter(ornamentKeys), [&](auto voicePair) {
+            return generator.ornamentsKey(voicePair.first);
         });
         return ornamentKeys;
     }
