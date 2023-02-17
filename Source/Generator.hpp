@@ -22,16 +22,16 @@
 
 using std::shared_ptr, std::map, std::string;
 
-
-// TODO: change the key and the channel data into some other enum or struct type or something
-static const string cascaraKey = "cascara";
-static const string claveKey = "clave";
-static const string harmonyKey = "harmony";
-//    static const string bassKey = "bass";
-
-static int cascaraChannel = 1;
-static int claveChannel = 2;
-static int chordChannel = 3;
+//
+//// TODO: change the key and the channel data into some other enum or struct type or something
+//static const string cascaraKey = "cascara";
+//static const string claveKey = "clave";
+//static const string harmonyKey = "harmony";
+////    static const string bassKey = "bass";
+//
+//static int cascaraChannel = 1;
+//static int claveChannel = 2;
+//static int chordChannel = 3;
 
 
 // TODO: someday we want generator to be a place for all your phrase types which might not even exist at compile time

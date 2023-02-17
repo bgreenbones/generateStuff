@@ -14,9 +14,27 @@
 #include "Playable.hpp"
 
 
+
+// TODO: change the key and the channel data into some other enum or struct type or something
+static const string cascaraKey = "cascara";
+static const string claveKey = "clave";
+static const string harmonyKey = "harmony";
+//    static const string bassKey = "bass";
+
+static int cascaraChannel = 1;
+static int claveChannel = 2;
+static int chordChannel = 3;
+
+
 class PlayQueue {
     unordered_map<VoiceName, Voice> queue;
 public:
+    
+    PlayQueue() {
+        queue.emplace(cascaraKey, Voice(cascaraKey, cascaraChannel, false));
+        queue.emplace(claveKey, Voice(claveKey, claveChannel, false));
+        queue.emplace(harmonyKey, Voice(harmonyKey, chordChannel, false));
+    }
     
     bool hasVoice(VoiceName voiceName);
     Voice getVoice(VoiceName voiceName);

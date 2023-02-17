@@ -276,7 +276,7 @@
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "3D5390AF-4046-40C9-924F-3545307DB23F - b513e334db50963c"
+                  uuid = "3D5390AF-4046-40C9-924F-3545307DB23F - b513e334db509534"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -286,12 +286,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "72"
-                  endingLineNumber = "72"
-                  offsetFromSymbolStart = "372">
+                  startingLineNumber = "80"
+                  endingLineNumber = "80"
+                  offsetFromSymbolStart = "380">
                </Location>
                <Location
-                  uuid = "3D5390AF-4046-40C9-924F-3545307DB23F - 90128ae941de923c"
+                  uuid = "3D5390AF-4046-40C9-924F-3545307DB23F - 90128ae941de9134"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -301,9 +301,9 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "72"
-                  endingLineNumber = "72"
-                  offsetFromSymbolStart = "372">
+                  startingLineNumber = "80"
+                  endingLineNumber = "80"
+                  offsetFromSymbolStart = "380">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -532,34 +532,34 @@
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "5BFB9288-243B-4836-8C22-97C6A6605129 - abc451b6a8beea48"
+                  uuid = "5BFB9288-243B-4836-8C22-97C6A6605129 - 7795c9a5b1b41cf3"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Sequence&lt;Note&gt;::insert(std::__1::vector&lt;Note, std::__1::allocator&lt;Note&gt; &gt;, Duration, PushBehavior)"
+                  symbolName = "Sequence&lt;Note&gt;::insert(std::__1::vector&lt;Note, std::__1::allocator&lt;Note&gt; &gt;, Duration, PushBehavior, bool)"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "84"
-                  endingLineNumber = "84"
-                  offsetFromSymbolStart = "292">
+                  startingLineNumber = "92"
+                  endingLineNumber = "92"
+                  offsetFromSymbolStart = "308">
                </Location>
                <Location
-                  uuid = "5BFB9288-243B-4836-8C22-97C6A6605129 - 9542d8f636c0753b"
+                  uuid = "5BFB9288-243B-4836-8C22-97C6A6605129 - 27214399f230e3b9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Sequence&lt;Subdivision&gt;::insert(std::__1::vector&lt;Subdivision, std::__1::allocator&lt;Subdivision&gt; &gt;, Duration, PushBehavior)"
+                  symbolName = "Sequence&lt;Subdivision&gt;::insert(std::__1::vector&lt;Subdivision, std::__1::allocator&lt;Subdivision&gt; &gt;, Duration, PushBehavior, bool)"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "84"
-                  endingLineNumber = "84"
-                  offsetFromSymbolStart = "292">
+                  startingLineNumber = "92"
+                  endingLineNumber = "92"
+                  offsetFromSymbolStart = "308">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -846,7 +846,7 @@
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "739B45F7-1DEC-4FB6-A7AB-51027BDA8156 - 261e227de1c5b86f"
+                  uuid = "739B45F7-1DEC-4FB6-A7AB-51027BDA8156 - 261e227de1c5bf97"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -856,12 +856,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "241"
-                  endingLineNumber = "241"
+                  startingLineNumber = "249"
+                  endingLineNumber = "249"
                   offsetFromSymbolStart = "188">
                </Location>
                <Location
-                  uuid = "739B45F7-1DEC-4FB6-A7AB-51027BDA8156 - 5d41ce268b9a4f6f"
+                  uuid = "739B45F7-1DEC-4FB6-A7AB-51027BDA8156 - 5d41ce268b9a4897"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -871,8 +871,8 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "241"
-                  endingLineNumber = "241"
+                  startingLineNumber = "249"
+                  endingLineNumber = "249"
                   offsetFromSymbolStart = "172">
                </Location>
             </Locations>
@@ -1112,8 +1112,8 @@
             filePath = "../../Source/PluginProcessor.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "274"
-            endingLineNumber = "274"
+            startingLineNumber = "273"
+            endingLineNumber = "273"
             landmarkName = "GenerateStuffAudioProcessor::playPlayables(positionInfo, midiMessages)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1192,8 +1192,8 @@
             filePath = "../../Source/PluginProcessor.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "328"
-            endingLineNumber = "328"
+            startingLineNumber = "296"
+            endingLineNumber = "296"
             landmarkName = "GenerateStuffAudioProcessor::playPlayables(positionInfo, midiMessages)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1208,8 +1208,8 @@
             filePath = "../../Source/PluginProcessor.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "316"
-            endingLineNumber = "316"
+            startingLineNumber = "284"
+            endingLineNumber = "284"
             landmarkName = "GenerateStuffAudioProcessor::playPlayables(positionInfo, midiMessages)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1323,6 +1323,22 @@
             startingLineNumber = "38"
             endingLineNumber = "38"
             landmarkName = "equalsExcludingTime(other)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C7D4326C-703A-4399-A770-69238FDBC94B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/PluginProcessor.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "256"
+            endingLineNumber = "256"
+            landmarkName = "GenerateStuffAudioProcessor::playPlayables(positionInfo, midiMessages)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

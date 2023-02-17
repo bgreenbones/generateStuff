@@ -38,7 +38,7 @@ void PlayQueue::clearVoice(VoiceName voiceName)
 bool PlayQueue::toggleMuteVoice(VoiceName voiceName)
 {
     if (!hasVoice(voiceName)) { return true; };
-    Voice &voice = queue.at(voiceName);
+    Voice voice = queue.at(voiceName);
     bool newMuteState = !(voice.mute);
     queue.at(voiceName).mute = newMuteState;
     queue.at(voiceName).muteOrnamentation = newMuteState;
@@ -49,7 +49,7 @@ bool PlayQueue::toggleMuteVoice(VoiceName voiceName)
 bool PlayQueue::toggleMuteRolls(VoiceName voiceName)
 {
     if (!hasVoice(voiceName)) { return true; };
-    Voice &voice = queue.at(voiceName);
+    Voice voice = queue.at(voiceName);
     bool newMuteState = !(voice.muteRolls);
     queue.at(voiceName).muteRolls = newMuteState;
     return newMuteState;
@@ -58,7 +58,7 @@ bool PlayQueue::toggleMuteRolls(VoiceName voiceName)
 bool PlayQueue::toggleMuteOrnamentation(VoiceName voiceName)
 {
     if (!hasVoice(voiceName)) { return true; };
-    Voice &voice = queue.at(voiceName);
+    Voice voice = queue.at(voiceName);
     bool newMuteState = !(voice.muteOrnamentation);
     queue.at(voiceName).muteOrnamentation = newMuteState;
     return newMuteState;
@@ -67,19 +67,25 @@ bool PlayQueue::toggleMuteOrnamentation(VoiceName voiceName)
 void PlayQueue::queuePhrase(VoiceName voiceName, Phrase phrase)
 {
     if (!hasVoice(voiceName)) { return; }
-    queue.at(voiceName).base = queue.at(voiceName).base.insert(phrase, true); // overwrite if overlap
+    Voice &voice = queue.at(voiceName);
+    voice.base = voice.base.insert(phrase, true); // overwrite if overlap
+    voice.initPhraseVector(); // TODO: lol
 }
 
 void PlayQueue::queueRoll(VoiceName voiceName, Phrase phrase)
 {
     if (!hasVoice(voiceName)) { return; }
-    queue.at(voiceName).rolls = queue.at(voiceName).rolls.insert(phrase, true); // overwrite if overlap
+    Voice &voice = queue.at(voiceName);
+    voice.rolls = voice.rolls.insert(phrase, true); // overwrite if overlap
+    voice.initPhraseVector();
 }
 
 void PlayQueue::queueOrnamentation(VoiceName voiceName, Phrase phrase)
 {
     if (!hasVoice(voiceName)) { return; }
-    queue.at(voiceName).ornamentation = queue.at(voiceName).ornamentation.insert(phrase, true); // overwrite if overlap
+    Voice &voice = queue.at(voiceName);
+    voice.ornamentation = voice.ornamentation.insert(phrase, true); // overwrite if overlap
+    voice.initPhraseVector();
 }
 
 void PlayQueue::setMidiChannel(VoiceName voiceName, int newMidiChannel)

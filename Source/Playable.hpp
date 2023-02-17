@@ -25,17 +25,21 @@ public:
     Phrase base;
     Phrase ornamentation;
     Phrase rolls; // TODO: rolls are a form of ornamentation? and should be combined, on UI too
-    vector<Phrase*> phrases;
+    vector<Phrase> phrases;
 
     Voice(VoiceName name, int midiChannel, bool mute):
 //        TimedEvent(0, Bars(512)),
         name(name), midiChannel(midiChannel), mute(mute) {
-            phrases = { &base, &ornamentation, &rolls };
+            initPhraseVector();
         };
     
     bool equalsExcludingTime(TimedEvent &other) {
         DBG("Not implemented yet");
         return false;
+    }
+    
+    void initPhraseVector() {
+        phrases = { base, ornamentation, rolls };
     }
 };
 

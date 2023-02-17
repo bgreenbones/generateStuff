@@ -251,9 +251,10 @@ void GenerateStuffAudioProcessor::playPlayables(
         string voiceName = voiceIt->first;
         Voice voice = voiceIt->second;
         int midiChannel = voice.midiChannel;
+//        Phrase phrase = voice.base;
         for (auto phraseIt = voice.phrases.begin(); phraseIt != voice.phrases.end(); ++phraseIt) {
-            Phrase phrase = **phraseIt;
-        
+            Phrase phrase = *phraseIt;
+            
             if (voice.mute) {
                 continue;
             }
@@ -261,8 +262,6 @@ void GenerateStuffAudioProcessor::playPlayables(
             for (auto noteIt = phrase.notes.begin(); noteIt != phrase.notes.end(); ++noteIt) {
                 Note note = *noteIt;
                 
-    //            float ppqBarInQuarters = HostSettings::instance().getTimeSignature().barLengthInQuarters();
-    //            double noteOnTimeInQuarters = phrase.bar * ppqBarInQuarters + phrase.offset + note.startTime; // todo: this doesn't work right if we have time signature changes
                 Bars playPeriod = editorState->stopBar - editorState->startBar;
                 double loopStart = editorState->getStartTime();
                 double loopEnd = editorState->getStopTime();
@@ -274,37 +273,6 @@ void GenerateStuffAudioProcessor::playPlayables(
                     noteOnTimeInQuarters = (Quarters(noteOnTimeInQuarters - loopStart) % playPeriod) + loopStart;
                 }
                 double noteOffTimeInQuarters = noteOnTimeInQuarters + note.duration;
-                
-    //            function <float(float)> bufferTimeFromPpqTime = [&](float ppqTime) -> float {
-    //                if (ppqTime < ppqPosition) {
-    //                    // check the loop markers to make sure a previous phrase isn't coming up ahead
-    //                    bool isLooping = positionInfo->getIsLooping();
-    //                    if (isLooping) {
-    //                        juce::AudioPlayHead::LoopPoints no_loop = juce::AudioPlayHead::LoopPoints();
-    //                        no_loop.ppqStart = -1;
-    //                        no_loop.ppqEnd = -1;
-    //
-    //                        juce::AudioPlayHead::LoopPoints loop = (positionInfo->getLoopPoints()).orFallback(no_loop);
-    //
-    //                        if (loop != no_loop) {
-    //                            if (loop.ppqStart <= ppqTime) {
-    //                                auto nowUntilLoopEnd = loop.ppqEnd - ppqPosition;
-    //                                auto loopStartUntilNoteStart = ppqTime - loop.ppqStart;
-    //                                return (nowUntilLoopEnd + loopStartUntilNoteStart) * samplesPerBeat + 2; // + 2 ? I guess we're adding two + 1s demonstrated below?
-    //                            }
-    //                        }
-    //                    }
-    //                }
-    //                return (ppqTime - ppqPosition) * samplesPerBeat + 1; // + 1 seems to line things up better...
-    //            };
-    //
-    //            function<bool(float)> isPpqTimeInBuffer = [&](float ppqTime) -> bool {
-    //                float bufferTime = bufferTimeFromPpqTime(ppqTime);
-    //    //            return 0 <= bufferTime && bufferTime < mSamplesPerBlock;
-    //                return 0 < bufferTime && bufferTime <= mSamplesPerBlock; // todo: get actual lowest and highest indexes for the buffer instead of these guesses
-    //            };
-                
-                
                 
                 if (isPpqTimeInBuffer(noteOnTimeInQuarters)) {
                     auto noteOn = juce::MidiMessage::noteOn (midiChannel,
