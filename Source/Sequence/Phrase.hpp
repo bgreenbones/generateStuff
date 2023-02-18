@@ -22,9 +22,14 @@
 
 using namespace std;
 
+static const Duration defaultSubdivision = Beats(0.25);
+static const Position defaultStartTime = Position(0, true);
+static const Duration defaultDuration = Bars(2, true);
+
 class Phrase: public TimedEvent
 {
 public:
+    
     Phrase(Duration subdivision, Position startTime, Duration duration):
         TimedEvent(startTime, duration),
         notes(*this),
@@ -32,9 +37,9 @@ public:
     {
         this->subdivisions.add(Subdivision(subdivision, startTime, duration));
     }
-    Phrase(Position startTime, Duration duration): Phrase (Beats(0.25), startTime, duration) {}
-    Phrase(Duration duration): Phrase(Beats(0.25), 0, duration) {}
-    Phrase(): Phrase(Beats(0.25), 0, Bars(2)) {}
+    Phrase(Position startTime, Duration duration): Phrase (defaultSubdivision, startTime, duration) {}
+    Phrase(Duration duration): Phrase(defaultSubdivision, defaultStartTime, duration) {}
+    Phrase(): Phrase(defaultSubdivision, defaultStartTime, defaultDuration) {}
     Phrase(Phrase const& other): TimedEvent(other), notes(other.notes, *this), subdivisions(other.subdivisions, *this) {};
 
     Phrase& operator=(Phrase const& other) {

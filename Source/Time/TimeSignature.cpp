@@ -73,7 +73,7 @@ quarters TimeSignature::quartersPerBar() const {
     return barLengthInQuarters();
 }
 
-beats TimeSignature::barsToBeats(bars bars) const { return  bars * numerator; } // todo: implement
+beats TimeSignature::barsToBeats(bars bars) const { return  bars * numerator; }
 beats TimeSignature::quartersToBeats(quarters quarters) const { return quarters * (denominator / 4.); }
 bars TimeSignature::beatsToBars(beats beats) const { return beats / numerator; }
 bars TimeSignature::quartersToBars(quarters quarters) const { return quarters / quartersPerBar(); }

@@ -130,7 +130,7 @@ public:
     Note operator+(const Duration duration);
     Note operator+(const Note pitch);
     
-    Note& operator=(Note const other) {
+    Note& operator=(Note const& other) {
         this->startTime = other.startTime;
         this->duration = other.duration;
         this->pitch = other.pitch;
