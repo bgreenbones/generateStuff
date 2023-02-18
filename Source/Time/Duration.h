@@ -27,9 +27,9 @@ using std::function;
 
 static TimeSignature getHostTimeSignature() { return HostSettings::instance().getTimeSignature(); }
 static beats quartersToBeats(quarters q) { return getHostTimeSignature().quartersToBeats(q); };
-//static quarters beatsToQuarters(beats b) { return getHostTimeSignature().beatsToQuarters(b); };
-static bars quartersToBars(quarters q) { return getHostTimeSignature().quartersToBeats(q); };
-//static quarters barsToQuarters(bars b) { return getHostTimeSignature().barsToQuarters(b); };
+static quarters beatsToQuarters(beats b) { return getHostTimeSignature().beatsToQuarters(b); };
+static bars quartersToBars(quarters q) { return getHostTimeSignature().quartersToBars(q); };
+static quarters barsToQuarters(bars b) { return getHostTimeSignature().barsToQuarters(b); };
 
 class Duration {
 private:
@@ -185,7 +185,7 @@ public:
 class Beats: public Duration {
 public:
     Beats(beats value, bool dynamicTimeSignature):
-        Duration(HostSettings::instance().getTimeSignature().beatsToQuarters(value), dynamicTimeSignature) {
+        Duration(beatsToQuarters(value), dynamicTimeSignature) {
             behavior = DurationBehavior::MaintainBeats;
         }
     Beats(beats value, TimeSignature timeSignature, bool dynamicTimeSignature):
@@ -211,7 +211,7 @@ public:
 class Bars: public Duration {
 public:
     Bars(bars value, bool dynamicTimeSignature):
-        Duration(HostSettings::instance().getTimeSignature().barsToQuarters(value), dynamicTimeSignature) {
+        Duration(barsToQuarters(value), dynamicTimeSignature) {
             behavior = DurationBehavior::MaintainBars;
         }
     Bars(bars value, TimeSignature timeSignature, bool dynamicTimeSignature):
