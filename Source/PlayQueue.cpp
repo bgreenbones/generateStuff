@@ -68,6 +68,7 @@ void PlayQueue::queuePhrase(VoiceName voiceName, Phrase phrase)
 {
     if (!hasVoice(voiceName)) { return; }
     Voice &voice = queue.at(voiceName);
+    if (!(phrase.notes.monophonic)) { voice.base.notes.polyphonic(); } // TODO: more rigorous way of syncing parameters between queued phrase and generated phrase?
     voice.base = voice.base.insert(phrase, true); // overwrite if overlap
     voice.initPhraseVector(); // TODO: lol
 }

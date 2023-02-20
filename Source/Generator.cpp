@@ -17,14 +17,24 @@ Phrase Generator::cascara() {
 }
 
 Phrase Generator::chords() {
-    vector<Pitch> chordToAdd = randomChord();
     Phrase phrase = Phrase(editorState->getSubdivision(),
                            editorState->getStartTime(),
                            editorState->getPhraseLength());
+    
+    int numberOfChords = phrase.duration.asBars();
+    vector<vector<Pitch>> chords;
+    while(numberOfChords-- > 0) { chords.push_back(randomChord()); }
+    
     phrase.notes.monophonic = false;
-    for (Pitch pitchToAdd : chordToAdd) {
-        Note noteToAdd(pitchToAdd.pitchValue, 70, 0, (quarters)(editorState->getPhraseLength()));
-        phrase.addNote(noteToAdd);
+    numberOfChords = phrase.duration.asBars();
+    bars startTimeInBars = 0;
+    for (vector<Pitch> chordToAdd : chords) {
+        Bars startTime(startTimeInBars++);
+        Bars chordLength(min(numberOfChords--, 1));
+        for (Pitch pitchToAdd : chordToAdd) {
+            Note noteToAdd(pitchToAdd.pitchValue, 70, startTime, chordLength);
+            phrase.addNote(noteToAdd);
+        }
     }
     playQueue->queuePhrase(harmonyKey, phrase);
     return phrase;

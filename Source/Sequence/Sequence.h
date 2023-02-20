@@ -36,6 +36,7 @@ public:
     };
     
     bool monophonic = true;
+    void polyphonic() { monophonic = false; }
     TimedEvent &parent;
 //    vector<T> events;
     T primary() const { return longest<T>(*this); }
@@ -98,17 +99,12 @@ public:
 class Note: public TimedEvent
 {
 public:
-    Note(int pitch,
-         int velocity,
-         Position startTime,
-         Duration duration):
-    TimedEvent(Position(startTime), Duration(duration)), pitch(pitch), velocity(velocity), accented(false), ornamented(false), isOrnament(false) { }
-    
     Note(int pitch = 60,
          int velocity = 70,
-         double startTime = 0, // in quarter notes
-         double duration = 1): // in quarter notes
-    Note(pitch, velocity, Position(startTime), Duration(duration)) { }
+         Position startTime = 0,
+         Duration duration = 1):
+    TimedEvent(startTime, duration), pitch(pitch), velocity(velocity), accented(false), ornamented(false), isOrnament(false) { }
+
     Note(Position startTime, Duration duration): Note(60, 70, startTime, duration) { }
     Note(char mininotation, Position startTime, Duration duration): Note(60, 70, startTime, duration) {
         if (Mininotation::isNote(mininotation)) {
