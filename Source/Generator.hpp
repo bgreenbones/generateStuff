@@ -45,6 +45,7 @@ public:
     Phrase cascaraFromClave();
     Phrase flipClave(string phraseKey);
     Phrase chords();
+    Phrase chordsFrom(string phraseKey);
     Phrase generate(string phraseKey) { // TODO: get selected phrase key from editor state instead of passing it in?
         if (phraseKey == cascaraKey) { return cascara(); }
         if (phraseKey == claveKey) { return clave(); }
@@ -60,6 +61,10 @@ public:
             if (generateFromPhraseKey == cascaraKey) { return claveFromCascara(); }
             if (generateFromPhraseKey == claveKey) { return clave(); } // TODO: implement variations of a clave
         }
+        if (generatePhraseKey == harmonyKey) {
+            return chordsFrom(generateFromPhraseKey);
+        }
+        
         return Phrase();
     }
 

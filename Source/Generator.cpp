@@ -40,6 +40,36 @@ Phrase Generator::chords() {
     return phrase;
 }
 
+Phrase Generator::chordsFrom(string phraseKey) {
+    Position startTime = editorState->getStartTime();
+    Duration phraseLength = editorState->getPhraseLength();
+    if (playQueue->doesntHavePhrase(phraseKey, startTime, phraseLength)) { this->generate(phraseKey); }
+    Voice voice = playQueue->getVoice(phraseKey);
+    
+    Phrase phrase = Phrase(editorState->getSubdivision(),
+                           startTime,
+                           phraseLength).toPolyphonic();
+    
+    
+    Sequence<Note> notes = voice.base.notes.toMonophonic();
+    Sequence<Note> accents(notes);
+    accents.clear();
+    
+    copy_if(notes.begin(), notes.end(), back_inserter(accents), [](Note note) { return note.accented; });
+    accents.tie();
+    
+    for (Note accent : accents) {
+        vector<Pitch> chord = randomChord();
+        for (Pitch pitchToAdd : chord) {
+            Note noteToAdd(pitchToAdd.pitchValue, 70, accent.startTime, accent.duration);
+            phrase.addNote(noteToAdd);
+        }
+    }
+    
+    playQueue->queuePhrase(harmonyKey, phrase);
+    return phrase;
+}
+
 Phrase Generator::clave() {
     auto phrase = Phrase(editorState->getSubdivision(),
                          editorState->getStartTime(),

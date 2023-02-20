@@ -52,6 +52,12 @@ public:
     Sequence<Note> notes;
     Sequence<Subdivision> subdivisions;
     
+    Phrase toPolyphonic() const {
+        if (!(notes.monophonic)) { return *this; }
+        Phrase result(*this);
+        result.notes = result.notes.toPolyphonic();
+        return result;
+    }
     Subdivision primarySubdivision() const { return subdivisions.primary(); }
     
     bool equalsExcludingTime(TimedEvent &other) {

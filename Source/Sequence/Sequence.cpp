@@ -25,6 +25,27 @@ bool Sequence<T>::flip() {
 }
 
 template <class T>
+Sequence<T> Sequence<T>::toMonophonic() const {
+    if (monophonic) { return *this; }
+    
+    Sequence<T> result(*this);
+    result.clear();
+    result.monophonic = true;
+    for (T toAdd : *this) { result.add(toAdd, PushBehavior::ignore, true); }
+    result.tie();
+    
+    return result;
+}
+
+template <class T>
+Sequence<T> Sequence<T>::toPolyphonic() const {
+    if (!monophonic) { return *this; }
+    Sequence<T> result(*this);
+    result.monophonic = false;
+    return result;
+}
+
+template <class T>
 bool Sequence<T>::add(T toAdd, PushBehavior pushBehavior, bool overwrite) {
     if (!(this->parent.containsPartially(toAdd))) {
         double phraseLength = this->parent.duration.asQuarters();

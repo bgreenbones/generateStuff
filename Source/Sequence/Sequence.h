@@ -36,9 +36,11 @@ public:
     };
     
     bool monophonic = true;
-    void polyphonic() { monophonic = false; }
     TimedEvent &parent;
-//    vector<T> events;
+
+    Sequence<T> toMonophonic() const;
+    Sequence<T> toPolyphonic() const;
+
     T primary() const { return longest<T>(*this); }
     vector<T> byPosition(Position position) const;
     T drawByPosition(Position position) const;

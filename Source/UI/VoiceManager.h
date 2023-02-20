@@ -128,7 +128,7 @@ public:
         for (auto voiceIt = voices.begin(); voiceIt != voices.end(); voiceIt++) {
             bool voiceSelected = voiceIt->second.useAsSourceButton.getToggleState();
             if (voiceSelected) {
-                this->selectedPhraseKeyState = voiceIt->second.voiceName;
+                this->useAsSourcePhraseKeyState = voiceIt->second.voiceName;
                 break;
             }
         }
