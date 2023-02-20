@@ -39,7 +39,11 @@ public:
     }
     
     void initPhraseVector() {
-        phrases = { base, ornamentation, rolls };
+//        phrases = { base, ornamentation, rolls };
+        phrases.clear();
+        phrases.push_back(base);
+        phrases.push_back(ornamentation);
+        phrases.push_back(rolls);
     }
 };
 

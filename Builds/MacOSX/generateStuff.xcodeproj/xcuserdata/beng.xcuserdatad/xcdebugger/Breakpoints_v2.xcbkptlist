@@ -30,8 +30,8 @@
             filePath = "../../Source/Time/Duration.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
             landmarkName = "guard()"
             landmarkType = "7">
             <Locations>
@@ -1265,22 +1265,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C7D4326C-703A-4399-A770-69238FDBC94B"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../Source/PluginProcessor.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "241"
-            endingLineNumber = "241"
-            landmarkName = "GenerateStuffAudioProcessor::playPlayables(positionInfo, midiMessages)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "B0CF5C96-A152-44DF-89DF-CFAB44817B6A"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -1288,13 +1272,13 @@
             filePath = "../../Source/Time/TimedEvent.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
             landmarkName = "equalsExcludingTime(other)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "B0CF5C96-A152-44DF-89DF-CFAB44817B6A - 6619ecd4fbe1f7e"
+                  uuid = "B0CF5C96-A152-44DF-89DF-CFAB44817B6A - 6619ecd4fbe1dc5"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -1304,12 +1288,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Time/TimedEvent.h"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "54"
-                  endingLineNumber = "54"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
                   offsetFromSymbolStart = "20">
                </Location>
                <Location
-                  uuid = "B0CF5C96-A152-44DF-89DF-CFAB44817B6A - 6619ecd4fbe1f7e"
+                  uuid = "B0CF5C96-A152-44DF-89DF-CFAB44817B6A - 6619ecd4fbe1dc5"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -1319,8 +1303,8 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Time/TimedEvent.h"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "54"
-                  endingLineNumber = "54"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
                   offsetFromSymbolStart = "32">
                </Location>
             </Locations>
@@ -1387,22 +1371,6 @@
             startingLineNumber = "20"
             endingLineNumber = "20"
             landmarkName = "Phrase::flip()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "66A09D8E-64EA-4A5D-B5AC-CD324C5A96E9"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../Source/Sequence/Sequence.h"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
-            landmarkName = "operator=(other)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

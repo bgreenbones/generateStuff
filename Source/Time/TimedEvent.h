@@ -34,21 +34,10 @@ public:
     };
     virtual ~TimedEvent() {};
     
-    Position endTime() const {
-        return this->startTime + this->duration;
-    }
-    
-    bool contains(const Position position) const {
-        return this->startTime <= position && this->endTime() > position;
-    }
-    
-    bool containsPartially(const TimedEvent &other) const {
-        return this->startTime <= other.startTime && this->endTime() > other.startTime;
-    }
-    
-    bool containsCompletely(const TimedEvent &other) const {
-        return this->startTime <= other.startTime && this->endTime() >= other.endTime();
-    }
+    Position endTime() const { return this->startTime + this->duration; }
+    bool contains(const Position position) const { return this->startTime <= position && this->endTime() > position; }
+    bool containsPartially(const TimedEvent &other) const { return this->startTime <= other.startTime && this->endTime() > other.startTime; }
+    bool containsCompletely(const TimedEvent &other) const { return this->startTime <= other.startTime && this->endTime() >= other.endTime(); }
     
     virtual bool equalsExcludingTime(TimedEvent &other) {
         DBG("...should this be pure virtual? but then timed event is an abstract class..which makes some things not work..");

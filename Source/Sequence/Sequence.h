@@ -168,8 +168,8 @@ public:
     bool isOrnament;
     // todo: other expressions for ccs
     
-    bool operator< (const Note &other) const { return startTime < other.startTime; }
-    bool operator> (const Note &other) const { return startTime > other.startTime; }
+    bool operator< (const Note &other) { return startTime < other.startTime; }
+    bool operator> (const Note &other) { return startTime > other.startTime; }
     
     bool equalsExcludingTime(TimedEvent &other) {
         DBG("Not implemented yet");

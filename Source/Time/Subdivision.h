@@ -34,7 +34,7 @@ public:
         }
     }
     
-    Subdivision& operator=(Subdivision const other) {
+    Subdivision& operator=(Subdivision other) {
         Duration::operator=(other);
         this->duration = other.duration;
         this->startTime = other.startTime;

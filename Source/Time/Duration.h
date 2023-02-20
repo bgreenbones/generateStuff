@@ -12,10 +12,11 @@
 
 //#include <stdio.h>
 #include <JuceHeader.h>
-#include "TimeSignature.h"
 #include <algorithm>
+#include <compare>
 #include <math.h>
-#include "../HostSettings.h"
+#include "TimeSignature.h"
+#include "HostSettings.h"
 
 class Duration;
 typedef Duration Position;
@@ -79,11 +80,8 @@ public:
     
     Duration &operator=(Duration const& other) {
         if (this == &other) { return *this; }
-        this->dynamicTimeSignature = other.dynamicTimeSignature;
-        this->durationValueInQuarters = other.durationValueInQuarters;
-        this->durationValueInBeats = other.durationValueInBeats;
-        this->durationValueInBars = other.durationValueInBars;
-        this->timeSignatureValue = other.timeSignatureValue;
+        this->assignValues(other);
+        this->behavior = other.behavior;
         return *this;
     }
     
@@ -97,26 +95,27 @@ public:
         return *this;
     }
     
-    bool operator>(const Duration other) const { return this->asQuarters() > other.asQuarters(); } // TODO: just use snowball operator or whatever it's called
-    bool operator>(double other) const { return *this > Duration(other, this->getTimeSignature(), this->dynamicTimeSignature); }
-    bool operator>=(const Duration other) const { return this->asQuarters() >= other.asQuarters(); }
-    bool operator>=(double other) const { return *this >= Duration(other, this->getTimeSignature(), this->dynamicTimeSignature); }
-    bool operator==(const Duration other) const  { return this->asQuarters() == other.asQuarters(); }
-    bool operator==(double other) const { return *this == Duration(other, this->getTimeSignature(), this->dynamicTimeSignature); }
-    bool operator!=(const Duration other) const  { return this->asQuarters() != other.asQuarters(); }
-    bool operator!=(double other) const { return *this != Duration(other, this->getTimeSignature(), this->dynamicTimeSignature); }
-    bool operator<=(const Duration other) const { return this->asQuarters() <= other.asQuarters(); }
-    bool operator<=(double other) const { return *this <= Duration(other, this->getTimeSignature(), this->dynamicTimeSignature); }
-    bool operator<(const Duration other) const { return this->asQuarters() < other.asQuarters(); }
-    bool operator<(double other) const { return *this < Duration(other, this->getTimeSignature(), this->dynamicTimeSignature); }
-    Duration operator+(const Duration other) const { return Duration(this->asQuarters() + other.asQuarters(), this->getTimeSignature(), this->dynamicTimeSignature); }
-    Duration operator+(const double other) const { return *this + Duration(other, this->getTimeSignature(), this->dynamicTimeSignature); }
-    Duration operator-(const Duration other) const { return Duration(this->asQuarters() - other.asQuarters(), this->getTimeSignature(), this->dynamicTimeSignature); }
-    Duration operator-(const double other) const { return *this - Duration(other, this->getTimeSignature(), this->dynamicTimeSignature); }
-    Duration operator*(const double other) { return Duration(this->durationValueInQuarters * other, this->getTimeSignature(), this->dynamicTimeSignature); }
-    Duration operator/(const double other) { return Duration(this->durationValueInQuarters / other, this->getTimeSignature(), this->dynamicTimeSignature); }
-    Duration operator%(const Duration other) const { return Duration(fmodf(this->asQuarters(), other.asQuarters()), this->getTimeSignature(), this->dynamicTimeSignature); }
-    Duration operator%(const double other) const { return Duration(fmodf(this->asQuarters(), other), this->getTimeSignature(), this->dynamicTimeSignature); }
+//    bool operator<=>(const Duration& rhs) const { return asQuarters() <=> rhs.asQuarters(); } // todo: need c++20 so we can do spaceship operator
+    bool operator>(const Duration other) const { return asQuarters() > other.asQuarters(); }
+    bool operator>(double other) const { return *this > Duration(other, getTimeSignature(), dynamicTimeSignature); }
+    bool operator>=(const Duration other) const { return asQuarters() >= other.asQuarters(); }
+    bool operator>=(double other) const { return *this >= Duration(other, getTimeSignature(), dynamicTimeSignature); }
+    bool operator==(const Duration other) const  { return asQuarters() == other.asQuarters(); }
+    bool operator==(double other) const { return *this == Duration(other, getTimeSignature(), dynamicTimeSignature); }
+    bool operator!=(const Duration other) const  { return asQuarters() != other.asQuarters(); }
+    bool operator!=(double other) const { return *this != Duration(other, getTimeSignature(), dynamicTimeSignature); }
+    bool operator<=(const Duration other) const { return asQuarters() <= other.asQuarters(); }
+    bool operator<=(double other) const { return *this <= Duration(other, getTimeSignature(), dynamicTimeSignature); }
+    bool operator<(const Duration other) const { return asQuarters() < other.asQuarters(); }
+    bool operator<(double other) const { return *this < Duration(other, getTimeSignature(), dynamicTimeSignature); }
+    Duration operator+(const Duration other) const { return Duration(asQuarters() + other.asQuarters(), getTimeSignature(), dynamicTimeSignature); }
+    Duration operator+(const double other) const { return *this + Duration(other, getTimeSignature(), dynamicTimeSignature); }
+    Duration operator-(const Duration other) const { return Duration(asQuarters() - other.asQuarters(), getTimeSignature(), dynamicTimeSignature); }
+    Duration operator-(const double other) const { return *this - Duration(other, getTimeSignature(), dynamicTimeSignature); }
+    Duration operator*(const double other) { return Duration(asQuarters() * other, getTimeSignature(), dynamicTimeSignature); }
+    Duration operator/(const double other) { return Duration(asQuarters() / other, getTimeSignature(), dynamicTimeSignature); }
+    Duration operator%(const Duration other) const { return Duration(fmodf(asQuarters(), other.asQuarters()), getTimeSignature(), dynamicTimeSignature); }
+    Duration operator%(const double other) const { return Duration(fmodf(asQuarters(), other), getTimeSignature(), dynamicTimeSignature); }
     Duration operator++(int) { return (*this) + 1.0; }
     Duration operator--(int) { return (*this) - 1.0; }
     Duration operator+=(Duration other) {
@@ -138,6 +137,16 @@ public:
         this->durationValueInQuarters = other.asQuarters();
         this->durationValueInBeats = other.asBeats();
         this->durationValueInBars = other.asBars();
+        this->updateValues();
+    }
+    
+    void updateValues() {
+        if (dynamicTimeSignature) {
+            if (timeSignatureValue != getTimeSignature()) { timeSignatureValue = getTimeSignature(); }
+            this->durationValueInQuarters = this->asQuarters();
+            this->durationValueInBeats = this->asBeats();
+            this->durationValueInBars = this->asBars();
+        }
     }
     
     beats beatsInLastBar() const { return asBeats() - wholeBars() * getTimeSignature().numerator; }
