@@ -17,9 +17,7 @@
 //==============================================================================
 /**
 */
-class GenerateStuffAudioProcessorEditor  : public juce::AudioProcessorEditor,
-                                           private juce::Slider::Listener,
-                                           private juce::Button::Listener
+class GenerateStuffAudioProcessorEditor  : public juce::AudioProcessorEditor
 {
 public:
     GenerateStuffAudioProcessorEditor (GenerateStuffAudioProcessor&);
@@ -30,9 +28,6 @@ public:
     void resized() override;
 
 private:
-    void sliderValueChanged (juce::Slider* slider) override {};
-    void buttonClicked (juce::Button* button) override {};
-    
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     GenerateStuffAudioProcessor& audioProcessor;

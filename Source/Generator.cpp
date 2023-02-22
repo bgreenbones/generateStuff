@@ -59,10 +59,12 @@ Phrase Generator::chordsFrom(string phraseKey) {
     accents.tie();
     
     for (Note accent : accents) {
-        vector<Pitch> chord = randomChord();
-        for (Pitch pitchToAdd : chord) {
-            Note noteToAdd(pitchToAdd.pitchValue, 70, accent.startTime, accent.duration);
-            phrase.addNote(noteToAdd);
+        if (Probability(0.6)) { // TODO: parameterize this
+            vector<Pitch> chord = randomChord();
+            for (Pitch pitchToAdd : chord) {
+                Note noteToAdd(pitchToAdd.pitchValue, 70, accent.startTime, accent.duration);
+                phrase.addNote(noteToAdd);
+            }
         }
     }
     
@@ -78,12 +80,14 @@ Phrase Generator::clave() {
     return phrase;
 }
 
-Phrase Generator::cascaraFromClave() {
+Phrase Generator::cascaraFrom(string phraseKey) {
     Position startTime = editorState->getStartTime();
     Duration phraseLength = editorState->getPhraseLength();
-    if (playQueue->doesntHavePhrase(claveKey, startTime, phraseLength)) { this->clave(); }
-    Voice voice = playQueue->getVoice(claveKey);
-    auto cascaraPhrase = voice.base.cascaraFromClave();
+    if (playQueue->doesntHavePhrase(phraseKey, startTime, phraseLength)) { this->clave(); }
+    Voice voice = playQueue->getVoice(phraseKey);
+    auto cascaraPhrase = Phrase(editorState->getSubdivision(),
+                                startTime,
+                                phraseLength).cascaraFrom(voice.base);
     playQueue->queuePhrase(cascaraKey, cascaraPhrase);
     return cascaraPhrase;
 }

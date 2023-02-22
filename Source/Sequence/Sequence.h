@@ -13,6 +13,7 @@
 #include <string>
 #include "TimedEvent.h"
 #include "Subdivision.h"
+#include "Probability.h"
 
 typedef enum PushBehavior {
     ignore, truncate, wrap
@@ -57,10 +58,18 @@ public:
     bool insertSequence(Sequence<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore, bool overwrite = false);
     bool chopAfterDuration(Duration duration);
     bool flip();
+    
+    // Rhythm stuff
+    Sequence<T> pulseAndDisplace(Duration pulse,
+                                 Duration displacement,
+                                 Probability pDisplace,
+                                 Probability pDouble,
+                                 Duration length) const;
 
     // Mininotation stuff
-    Sequence parseMininotation(std::string phraseString, Duration stepLength);
+    Sequence<T> parseMininotation(std::string phraseString, Duration stepLength);
     bool append(std::string phraseString, Duration stepLength, PushBehavior pushBehavior = PushBehavior::ignore);
+    bool insertMininotation(std::string phraseString, Position startTime, Duration stepLength, PushBehavior pushBehavior = PushBehavior::ignore, bool overwrite = false);
     
     // 'visualization' / debugging
     std::string getStartTimesString();

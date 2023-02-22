@@ -91,7 +91,7 @@ public:
     Phrase randomCascara(Probability pDisplace = 0.5,
                          Probability pDouble = 0.75) const;
     Phrase randomClave() const;
-    Phrase cascaraFromClave() const;
+    Phrase cascaraFrom(Phrase clave) const;
     Phrase claveFromCascara() const;
     
     

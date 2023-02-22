@@ -244,6 +244,16 @@ bool Sequence<T>::append(std::string phraseString, Duration stepLength, PushBeha
     return this->concat(Sequence<T>::parseMininotation(phraseString, stepLength), true, pushBehavior);
 }
 
+template <class T>
+bool Sequence<T>::insertMininotation(std::string phraseString,
+                                     Position startTime,
+                                     Duration stepLength,
+                                     PushBehavior pushBehavior,
+                                     bool overwrite)
+{
+    return this->insertSequence(Sequence<T>::parseMininotation(phraseString, stepLength), startTime, pushBehavior, overwrite);
+}
+
 
 template<class T>
 vector<T> Sequence<T>::byPosition(Position position) const {
@@ -288,6 +298,42 @@ std::string Sequence<T>::getStartTimesString() {
     
     return startTimesString;
 }
+
+
+template <class T>
+Sequence<T> Sequence<T>::pulseAndDisplace(Duration pulse,
+                             Duration displacement,
+                             Probability pDisplace,
+                             Probability pDouble,
+                             Duration length) const
+{
+    auto decideToDisplace = [&]() { return flipWeightedCoin(pDisplace); };
+    auto decideToDouble = [&]() { return flipWeightedCoin(pDouble); };
+    
+    Sequence<T> sequence(*this);
+    sequence.clear();
+
+    // generate
+    do {
+        if (decideToDisplace()) {
+            if (decideToDouble()) {
+                sequence.append("x", displacement);
+            }
+        }
+        sequence.append("x", pulse);
+    } while (sequence.endTime() < length);
+
+    // clean up.
+    sequence.chopAfterDuration(length);
+    
+    // delete this 'test' code eventually
+    if (sequence.endTime() != length) {
+        DBG ("phrase doesn't end at right time...");
+    }
+    
+    return sequence;
+}
+
 
 template class Sequence<Note>;
 template class Sequence<Subdivision>;

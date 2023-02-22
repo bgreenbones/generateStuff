@@ -42,7 +42,7 @@ public:
     Phrase cascara();
     Phrase clave();
     Phrase claveFromCascara();
-    Phrase cascaraFromClave();
+    Phrase cascaraFrom(string phraseKey);
     Phrase flipClave(string phraseKey);
     Phrase chords();
     Phrase chordsFrom(string phraseKey);
@@ -54,8 +54,8 @@ public:
     }
     Phrase generateFrom(string generatePhraseKey, string generateFromPhraseKey) {
         if (generatePhraseKey == cascaraKey) { // TODO: truly look inward and evaluate how we do this...
-            if (generateFromPhraseKey == cascaraKey) { return cascara(); } // TODO: implement variations of a cascara
-            if (generateFromPhraseKey == claveKey) { return cascaraFromClave(); }
+//            if (generateFromPhraseKey == cascaraKey) { return cascara(); } // TODO: implement variations of a cascara
+            return cascaraFrom(generateFromPhraseKey);
         }
         if (generatePhraseKey == claveKey) {
             if (generateFromPhraseKey == cascaraKey) { return claveFromCascara(); }

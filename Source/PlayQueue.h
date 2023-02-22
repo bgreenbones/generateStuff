@@ -17,11 +17,14 @@
 static const string cascaraKey = "cascara";
 static const string claveKey = "clave";
 static const string harmonyKey = "harmony";
-//    static const string bassKey = "bass";
+static const string pulseAndDisplaceKey = "pulseAndDisplace";
+//static const string bassKey = "bass";
 
 static int cascaraChannel = 1;
 static int claveChannel = 2;
 static int chordChannel = 3;
+static int pulseAndDisplaceChannel = 4;
+//static int bassChannel = 5;
 
 
 struct VoiceAndChannel {
@@ -41,6 +44,10 @@ static vector<VoiceAndChannel> voicesAndChannels = {
         .voiceName = harmonyKey,
         .midiChannel = chordChannel
     },
+    VoiceAndChannel {
+        .voiceName = pulseAndDisplaceKey,
+        .midiChannel = pulseAndDisplaceChannel
+    }
 };
 
 
