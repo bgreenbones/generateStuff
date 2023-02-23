@@ -78,40 +78,40 @@
             filePath = "../../Source/Sequence/Rhythm/Latin.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "252"
-            endingLineNumber = "252"
+            startingLineNumber = "241"
+            endingLineNumber = "241"
             landmarkName = "Phrase::cascaraFrom(clave)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "395BC70B-7CE3-4853-B7C7-5826ACFBFD82 - 1f29b476469ee90c"
+                  uuid = "395BC70B-7CE3-4853-B7C7-5826ACFBFD82 - 196835e223776215"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Phrase::cascaraFromClave() const"
+                  symbolName = "Phrase::cascaraFrom(Phrase) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Rhythm/Latin.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "239"
-                  endingLineNumber = "239"
-                  offsetFromSymbolStart = "3300">
+                  startingLineNumber = "257"
+                  endingLineNumber = "257"
+                  offsetFromSymbolStart = "2856">
                </Location>
                <Location
-                  uuid = "395BC70B-7CE3-4853-B7C7-5826ACFBFD82 - 1f29b476469ee90c"
+                  uuid = "395BC70B-7CE3-4853-B7C7-5826ACFBFD82 - 196835e223776215"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Phrase::cascaraFromClave() const"
+                  symbolName = "Phrase::cascaraFrom(Phrase) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Rhythm/Latin.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "239"
-                  endingLineNumber = "239"
-                  offsetFromSymbolStart = "3312">
+                  startingLineNumber = "257"
+                  endingLineNumber = "257"
+                  offsetFromSymbolStart = "2868">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -126,40 +126,40 @@
             filePath = "../../Source/Sequence/Rhythm/Latin.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "249"
-            endingLineNumber = "249"
+            startingLineNumber = "238"
+            endingLineNumber = "238"
             landmarkName = "Phrase::cascaraFrom(clave)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "3203E4EC-147E-4FD5-8782-3DE067BD1FAF - 1f29b476469eeaef"
+                  uuid = "3203E4EC-147E-4FD5-8782-3DE067BD1FAF - 196835e22377627a"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Phrase::cascaraFromClave() const"
+                  symbolName = "Phrase::cascaraFrom(Phrase) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Rhythm/Latin.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "236"
-                  endingLineNumber = "236"
-                  offsetFromSymbolStart = "3200">
+                  startingLineNumber = "254"
+                  endingLineNumber = "254"
+                  offsetFromSymbolStart = "2756">
                </Location>
                <Location
-                  uuid = "3203E4EC-147E-4FD5-8782-3DE067BD1FAF - 1f29b476469eeaef"
+                  uuid = "3203E4EC-147E-4FD5-8782-3DE067BD1FAF - 196835e22377627a"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Phrase::cascaraFromClave() const"
+                  symbolName = "Phrase::cascaraFrom(Phrase) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Rhythm/Latin.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "236"
-                  endingLineNumber = "236"
-                  offsetFromSymbolStart = "3212">
+                  startingLineNumber = "254"
+                  endingLineNumber = "254"
+                  offsetFromSymbolStart = "2768">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -174,40 +174,40 @@
             filePath = "../../Source/Sequence/Rhythm/Latin.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "233"
-            endingLineNumber = "233"
+            startingLineNumber = "222"
+            endingLineNumber = "222"
             landmarkName = "Phrase::cascaraFrom(clave)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "8221E2B1-C155-423A-8475-733DF55319F0 - 1f29b476469eec9f"
+                  uuid = "8221E2B1-C155-423A-8475-733DF55319F0 - 196835e223775c6a"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Phrase::cascaraFromClave() const"
+                  symbolName = "Phrase::cascaraFrom(Phrase) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Rhythm/Latin.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "220"
-                  endingLineNumber = "220"
-                  offsetFromSymbolStart = "2492">
+                  startingLineNumber = "238"
+                  endingLineNumber = "238"
+                  offsetFromSymbolStart = "2048">
                </Location>
                <Location
-                  uuid = "8221E2B1-C155-423A-8475-733DF55319F0 - 1f29b476469eec9f"
+                  uuid = "8221E2B1-C155-423A-8475-733DF55319F0 - 196835e223775c6a"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Phrase::cascaraFromClave() const"
+                  symbolName = "Phrase::cascaraFrom(Phrase) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Rhythm/Latin.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "220"
-                  endingLineNumber = "220"
-                  offsetFromSymbolStart = "2504">
+                  startingLineNumber = "238"
+                  endingLineNumber = "238"
+                  offsetFromSymbolStart = "2060">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -222,40 +222,40 @@
             filePath = "../../Source/Sequence/Rhythm/Latin.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "217"
-            endingLineNumber = "217"
+            startingLineNumber = "206"
+            endingLineNumber = "206"
             landmarkName = "Phrase::cascaraFrom(clave)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "76CB27F3-0A7F-4C81-96B8-1CC7709D3691 - 1f29b476469eee8f"
+                  uuid = "76CB27F3-0A7F-4C81-96B8-1CC7709D3691 - 196835e22377599a"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Phrase::cascaraFromClave() const"
+                  symbolName = "Phrase::cascaraFrom(Phrase) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Rhythm/Latin.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "204"
-                  endingLineNumber = "204"
-                  offsetFromSymbolStart = "1756">
+                  startingLineNumber = "222"
+                  endingLineNumber = "222"
+                  offsetFromSymbolStart = "1312">
                </Location>
                <Location
-                  uuid = "76CB27F3-0A7F-4C81-96B8-1CC7709D3691 - 1f29b476469eee8f"
+                  uuid = "76CB27F3-0A7F-4C81-96B8-1CC7709D3691 - 196835e22377599a"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Phrase::cascaraFromClave() const"
+                  symbolName = "Phrase::cascaraFrom(Phrase) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Rhythm/Latin.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "204"
-                  endingLineNumber = "204"
-                  offsetFromSymbolStart = "1768">
+                  startingLineNumber = "222"
+                  endingLineNumber = "222"
+                  offsetFromSymbolStart = "1324">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -276,7 +276,7 @@
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "3D5390AF-4046-40C9-924F-3545307DB23F - b513e334db506bc8"
+                  uuid = "3D5390AF-4046-40C9-924F-3545307DB23F - b513e334db506ac0"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -286,12 +286,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "92"
-                  endingLineNumber = "92"
+                  startingLineNumber = "100"
+                  endingLineNumber = "100"
                   offsetFromSymbolStart = "356">
                </Location>
                <Location
-                  uuid = "3D5390AF-4046-40C9-924F-3545307DB23F - 90128ae941de6fc8"
+                  uuid = "3D5390AF-4046-40C9-924F-3545307DB23F - 90128ae941de6ec0"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -301,8 +301,8 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "92"
-                  endingLineNumber = "92"
+                  startingLineNumber = "100"
+                  endingLineNumber = "100"
                   offsetFromSymbolStart = "356">
                </Location>
             </Locations>
@@ -324,7 +324,7 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "24FE023C-EB5E-4E75-8CFC-52920A1B5E09 - 79372d73eb748bea"
+                  uuid = "24FE023C-EB5E-4E75-8CFC-52920A1B5E09 - 79372d73eb748cac"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -334,12 +334,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Phrase.hpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "58"
-                  endingLineNumber = "58"
+                  startingLineNumber = "64"
+                  endingLineNumber = "64"
                   offsetFromSymbolStart = "20">
                </Location>
                <Location
-                  uuid = "24FE023C-EB5E-4E75-8CFC-52920A1B5E09 - 79372d73eb748bea"
+                  uuid = "24FE023C-EB5E-4E75-8CFC-52920A1B5E09 - 79372d73eb748cac"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -349,8 +349,8 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Phrase.hpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "58"
-                  endingLineNumber = "58"
+                  startingLineNumber = "64"
+                  endingLineNumber = "64"
                   offsetFromSymbolStart = "32">
                </Location>
             </Locations>
@@ -436,7 +436,7 @@
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "5BFB9288-243B-4836-8C22-97C6A6605129 - a2d36347e143ed06"
+                  uuid = "5BFB9288-243B-4836-8C22-97C6A6605129 - a2d36347e143ee0e"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -446,12 +446,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "104"
-                  endingLineNumber = "104"
+                  startingLineNumber = "112"
+                  endingLineNumber = "112"
                   offsetFromSymbolStart = "308">
                </Location>
                <Location
-                  uuid = "5BFB9288-243B-4836-8C22-97C6A6605129 - 29c0f08ca7da0563"
+                  uuid = "5BFB9288-243B-4836-8C22-97C6A6605129 - 29c0f08ca7da066b"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -461,8 +461,8 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "104"
-                  endingLineNumber = "104"
+                  startingLineNumber = "112"
+                  endingLineNumber = "112"
                   offsetFromSymbolStart = "308">
                </Location>
             </Locations>
@@ -750,7 +750,7 @@
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "739B45F7-1DEC-4FB6-A7AB-51027BDA8156 - 261e227de1c5be9f"
+                  uuid = "739B45F7-1DEC-4FB6-A7AB-51027BDA8156 - 261e227de1c5bcc9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -760,12 +760,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "257"
-                  endingLineNumber = "257"
+                  startingLineNumber = "275"
+                  endingLineNumber = "275"
                   offsetFromSymbolStart = "176">
                </Location>
                <Location
-                  uuid = "739B45F7-1DEC-4FB6-A7AB-51027BDA8156 - 5d41ce268b9a499f"
+                  uuid = "739B45F7-1DEC-4FB6-A7AB-51027BDA8156 - 5d41ce268b9a4bc9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -775,8 +775,8 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "257"
-                  endingLineNumber = "257"
+                  startingLineNumber = "275"
+                  endingLineNumber = "275"
                   offsetFromSymbolStart = "172">
                </Location>
             </Locations>
@@ -814,7 +814,7 @@
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "A7446C6C-E26A-4595-9B71-6C41C436D34C - 6342feab6013b7aa"
+                  uuid = "A7446C6C-E26A-4595-9B71-6C41C436D34C - 6342feab6013b6a2"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -824,12 +824,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "45"
-                  endingLineNumber = "45"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
                   offsetFromSymbolStart = "116">
                </Location>
                <Location
-                  uuid = "A7446C6C-E26A-4595-9B71-6C41C436D34C - c4afac49b07674aa"
+                  uuid = "A7446C6C-E26A-4595-9B71-6C41C436D34C - c4afac49b07675a2"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -839,8 +839,8 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "45"
-                  endingLineNumber = "45"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
                   offsetFromSymbolStart = "120">
                </Location>
             </Locations>
@@ -1323,6 +1323,22 @@
             startingLineNumber = "61"
             endingLineNumber = "61"
             landmarkName = "Generator::chordsFrom(phraseKey)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A34F6CC7-FDFE-4BBE-B7E2-360C889FC672"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Sequence/Rhythm/Latin.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "277"
+            endingLineNumber = "277"
+            landmarkName = "Phrase::cascaraFrom(clave)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

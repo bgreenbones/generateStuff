@@ -13,7 +13,7 @@
 
 Probability ornamentProbabilityClave = 0.75;
 
-void applyCascaraAccents(Sequence<Note> &cascara, Duration displacement) {
+void applyCascaraAccents(Sequence<Note> &cascara, Duration displacement) { // TODO: should maybe take an accompanying clave to determine where accents are? or should just note the accents on the cascara itself when we generate...
     const short accentVelocity = 120; // todo: move these out somewhere else.
     const short unaccentedVelocity = 60;
     
@@ -188,21 +188,10 @@ Phrase Phrase::cascaraFrom(Phrase clave) const {
     {
         auto nextNote = next<Note>(clave.notes, noteIt);
         Duration timeBetweenNotes = timeBetween<Note>(noteIt, nextNote, clave);
-//        auto nextNote = noteIt + 1;
-//
-//        Duration timeBetweenNotes;
-//        if (nextNote == clave.notes.end()) {
-//            nextNote = clave.notes.begin();
-//            timeBetweenNotes = nextNote->startTime + clave.duration - noteIt->startTime;
-//        } else {
-//            timeBetweenNotes = nextNote->startTime - noteIt->startTime;
-//        }
-        
         double subdivisionsBetweenClaveNotes = timeBetweenNotes.asBeats() / subdivision.asBeats();
-        
-        Note lastCascaraNote = cascara.notes.back();
-        Duration timeSinceLastCascaraNote = noteIt->startTime - lastCascaraNote.startTime;
-        double subdivisionsSinceLastCascaraNote = timeSinceLastCascaraNote.asBeats() / subdivision.asBeats();
+        Note& lastCascaraNote = cascara.notes.back();
+        Duration timeSinceLastCascaraNoteStart = noteIt->startTime - lastCascaraNote.startTime;
+        double subdivisionsSinceLastCascaraNote = timeSinceLastCascaraNoteStart.asBeats() / subdivision.asBeats();
         
         if (subdivisionsBetweenClaveNotes == 2.) {
             if (subdivisionsSinceLastCascaraNote == 0.) { // x . x
@@ -264,18 +253,8 @@ Phrase Phrase::cascaraFrom(Phrase clave) const {
             auto nextNote = next<Note>(cascara.notes, noteIt);
             Duration timeBetweenNotes = timeBetween<Note>(noteIt, nextNote, cascara);
             
-//            auto nextNote = noteIt + 1;
-//
-//            Duration timeBetweenNotes;
-//            if (nextNote == cascara.notes.end()) {
-//                nextNote = cascara.notes.begin();
-//                timeBetweenNotes = nextNote->startTime + cascara.duration - noteIt->startTime;
-//            } else {
-//                timeBetweenNotes = nextNote->startTime - noteIt->startTime;
-//            }
-            
             Position spaceStartTime = noteIt->startTime;
-            if (timeBetweenNotes > subdivision) {
+            if (timeBetweenNotes > (2 * subdivision)) {
                 filled.notes.insertSequence(filled.notes.pulseAndDisplace(2 * subdivision, subdivision, 0.75, 0.5, timeBetweenNotes - subdivision),
                                              spaceStartTime + subdivision);
             }

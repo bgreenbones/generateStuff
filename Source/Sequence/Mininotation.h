@@ -45,8 +45,8 @@ public:
     static const char modifiedEight = '*';
     static const char modifiedNine = '(';
     
-    static const char rest = '~';
-    static const char sustain = '.';
+    static const char rest = '.';
+    static const char sustain = '~';
     
     static const char openTuplet = '['; // TODO: implement
     static const char closeTuplet = ']';
