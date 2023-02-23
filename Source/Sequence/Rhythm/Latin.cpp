@@ -152,6 +152,22 @@ Phrase Phrase::randomClave() const {
 }
 
 
+template <class T>
+typename vector<T>::const_iterator next(Sequence<T> const& seq, typename vector<T>::const_iterator const& iter) {
+    return iter + 1 == seq.end() ? seq.begin() : iter + 1;
+}
+
+template <class T>
+Duration timeBetween(typename vector<T>::const_iterator const& first,
+                     typename vector<T>::const_iterator const& second,
+                        Phrase phrase)
+{
+    return first < second
+        ? second->startTime - first->startTime
+        : second->startTime + phrase.duration - first->startTime;
+}
+
+
 Phrase Phrase::cascaraFrom(Phrase clave) const {
     Phrase cascara(*this);
     cascara.notes.clear();
@@ -170,15 +186,17 @@ Phrase Phrase::cascaraFrom(Phrase clave) const {
          noteIt < clave.notes.end();
          noteIt++)
     {
-        auto nextNote = noteIt + 1;
-        
-        Duration timeBetweenNotes;
-        if (nextNote == clave.notes.end()) {
-            nextNote = clave.notes.begin();
-            timeBetweenNotes = nextNote->startTime + clave.duration - noteIt->startTime;
-        } else {
-            timeBetweenNotes = nextNote->startTime - noteIt->startTime;
-        }
+        auto nextNote = next<Note>(clave.notes, noteIt);
+        Duration timeBetweenNotes = timeBetween<Note>(noteIt, nextNote, clave);
+//        auto nextNote = noteIt + 1;
+//
+//        Duration timeBetweenNotes;
+//        if (nextNote == clave.notes.end()) {
+//            nextNote = clave.notes.begin();
+//            timeBetweenNotes = nextNote->startTime + clave.duration - noteIt->startTime;
+//        } else {
+//            timeBetweenNotes = nextNote->startTime - noteIt->startTime;
+//        }
         
         double subdivisionsBetweenClaveNotes = timeBetweenNotes.asBeats() / subdivision.asBeats();
         
@@ -243,15 +261,18 @@ Phrase Phrase::cascaraFrom(Phrase clave) const {
              noteIt < cascara.notes.end();
              noteIt++)
         {
-            auto nextNote = noteIt + 1;
+            auto nextNote = next<Note>(cascara.notes, noteIt);
+            Duration timeBetweenNotes = timeBetween<Note>(noteIt, nextNote, cascara);
             
-            Duration timeBetweenNotes;
-            if (nextNote == cascara.notes.end()) {
-                nextNote = cascara.notes.begin();
-                timeBetweenNotes = nextNote->startTime + cascara.duration - noteIt->startTime;
-            } else {
-                timeBetweenNotes = nextNote->startTime - noteIt->startTime;
-            }
+//            auto nextNote = noteIt + 1;
+//
+//            Duration timeBetweenNotes;
+//            if (nextNote == cascara.notes.end()) {
+//                nextNote = cascara.notes.begin();
+//                timeBetweenNotes = nextNote->startTime + cascara.duration - noteIt->startTime;
+//            } else {
+//                timeBetweenNotes = nextNote->startTime - noteIt->startTime;
+//            }
             
             Position spaceStartTime = noteIt->startTime;
             if (timeBetweenNotes > subdivision) {
