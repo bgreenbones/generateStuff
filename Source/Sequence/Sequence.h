@@ -102,29 +102,35 @@ public:
 
 
 
+
 // Haha declaring Note now because of crazy explicit template instantiation logistics.
 #include "Probability.h"
 #include "Mininotation.h"
 #include "Ornamentation.h"
+#include "Dynamics.h"
+
+static const DynamicLevel accentVelocity = DynamicLevel::fff;
+static const DynamicLevel unaccentedVelocity = DynamicLevel::mp;
+static const DynamicLevel defaultVelocity = DynamicLevel::mf;
 
 class Note: public TimedEvent
 {
 public:
     Note(int pitch = 60,
-         int velocity = 70,
+         int velocity = defaultVelocity,
          Position startTime = 0,
          Duration duration = 1):
     TimedEvent(startTime, duration), pitch(pitch), velocity(velocity), accented(false), ornamented(false), isOrnament(false) { }
 
-    Note(Position startTime, Duration duration): Note(60, 70, startTime, duration) { }
-    Note(char mininotation, Position startTime, Duration duration): Note(60, 70, startTime, duration) {
-        if (Mininotation::isNote(mininotation)) {
+    Note(Position startTime, Duration duration): Note(60, defaultVelocity, startTime, duration) { }
+    Note(char mininotation, Position startTime, Duration duration): Note(60, defaultVelocity, startTime, duration) {
+        if (Mininotation::isValue(mininotation)) {
             DBG ("ok, good");
         } else {
             DBG ("i think we have to handle this");
         }
         
-        if (mininotation == Mininotation::modifiedDefault) {
+        if (Mininotation::isAlternate(mininotation)) {
             accent();
             if (accented != 1.0) {
                 DBG ("i guess accented() called the const version");
@@ -149,17 +155,23 @@ public:
     };
     
     Note displace(Duration toDisplaceBy, bool forwards = true);
-    Note accent() const {
-        Note modified = Note(*this);
-        modified.accented = 1.0;
-        modified.velocity = accentVelocity;
-        return modified;
+    Note accent() {
+        this->accented = 1.0;
+        this->velocity = accentVelocity;
+        return *this;
     };
-//    Note accent() {
-//        this->accented = 1.0;
-//        this->velocity = accentVelocity;
-//        return *this;
-//    };
+
+    Note withAccent() const {
+        Note modified = Note(*this);
+        return modified.accent();
+    };
+    
+    Note withDuration(Duration newDuration) const {
+        Note modified = Note(*this);
+        modified.duration = newDuration;
+        return modified;
+    }
+
     Note ornament() const {
         Note modified = Note(*this);
         modified.ornamented = 1.0;

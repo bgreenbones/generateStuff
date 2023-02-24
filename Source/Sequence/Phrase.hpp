@@ -88,6 +88,7 @@ public:
     Phrase flip() const;
     
     // Latin.cpp
+    Phrase fillCascara(Phrase cascara) const;
     Phrase randomCascara(Probability pDisplace = 0.5,
                          Probability pDouble = 0.75) const;
     Phrase randomClave() const;
@@ -105,6 +106,21 @@ public:
     
 
 };
+
+template <class T>
+typename vector<T>::const_iterator next(Sequence<T> const& seq, typename vector<T>::const_iterator const& iter) {
+    return iter + 1 == seq.end() ? seq.begin() : iter + 1;
+}
+
+template <class T>
+Duration timeBetween(typename vector<T>::const_iterator const& first,
+                     typename vector<T>::const_iterator const& second,
+                        Phrase phrase)
+{
+    return first < second
+        ? second->startTime - first->startTime
+        : second->startTime + phrase.duration - first->startTime;
+}
 
 
 

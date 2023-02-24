@@ -36,7 +36,7 @@ vector<T> Mininotation::parse(std::string phraseString, Duration stepLength) {
             continue;
         }
 
-        if (isNote(symbol)) {  // TODO: implement class-specific interpretations of mininotation symbols
+        if (isValue(symbol)) {  // TODO: implement class-specific interpretations of mininotation symbols
             T toAdd(symbol, startTime, stepLength);
             result.push_back(toAdd);
         }

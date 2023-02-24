@@ -78,13 +78,13 @@
             filePath = "../../Source/Sequence/Rhythm/Latin.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "241"
-            endingLineNumber = "241"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
             landmarkName = "Phrase::cascaraFrom(clave)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "395BC70B-7CE3-4853-B7C7-5826ACFBFD82 - 196835e223776215"
+                  uuid = "395BC70B-7CE3-4853-B7C7-5826ACFBFD82 - 196835e223775ca0"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -94,12 +94,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Rhythm/Latin.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "257"
-                  endingLineNumber = "257"
-                  offsetFromSymbolStart = "2856">
+                  startingLineNumber = "244"
+                  endingLineNumber = "244"
+                  offsetFromSymbolStart = "2880">
                </Location>
                <Location
-                  uuid = "395BC70B-7CE3-4853-B7C7-5826ACFBFD82 - 196835e223776215"
+                  uuid = "395BC70B-7CE3-4853-B7C7-5826ACFBFD82 - 196835e223775ca0"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -109,9 +109,9 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Rhythm/Latin.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "257"
-                  endingLineNumber = "257"
-                  offsetFromSymbolStart = "2868">
+                  startingLineNumber = "244"
+                  endingLineNumber = "244"
+                  offsetFromSymbolStart = "2892">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -126,13 +126,13 @@
             filePath = "../../Source/Sequence/Rhythm/Latin.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "238"
-            endingLineNumber = "238"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
             landmarkName = "Phrase::cascaraFrom(clave)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "3203E4EC-147E-4FD5-8782-3DE067BD1FAF - 196835e22377627a"
+                  uuid = "3203E4EC-147E-4FD5-8782-3DE067BD1FAF - 196835e223775c05"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -142,12 +142,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Rhythm/Latin.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "254"
-                  endingLineNumber = "254"
-                  offsetFromSymbolStart = "2756">
+                  startingLineNumber = "241"
+                  endingLineNumber = "241"
+                  offsetFromSymbolStart = "2780">
                </Location>
                <Location
-                  uuid = "3203E4EC-147E-4FD5-8782-3DE067BD1FAF - 196835e22377627a"
+                  uuid = "3203E4EC-147E-4FD5-8782-3DE067BD1FAF - 196835e223775c05"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -157,9 +157,9 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Rhythm/Latin.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "254"
-                  endingLineNumber = "254"
-                  offsetFromSymbolStart = "2768">
+                  startingLineNumber = "241"
+                  endingLineNumber = "241"
+                  offsetFromSymbolStart = "2792">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -174,13 +174,13 @@
             filePath = "../../Source/Sequence/Rhythm/Latin.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "222"
-            endingLineNumber = "222"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
             landmarkName = "Phrase::cascaraFrom(clave)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "8221E2B1-C155-423A-8475-733DF55319F0 - 196835e223775c6a"
+                  uuid = "8221E2B1-C155-423A-8475-733DF55319F0 - 196835e223775e35"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -190,12 +190,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Rhythm/Latin.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "238"
-                  endingLineNumber = "238"
-                  offsetFromSymbolStart = "2048">
+                  startingLineNumber = "225"
+                  endingLineNumber = "225"
+                  offsetFromSymbolStart = "2072">
                </Location>
                <Location
-                  uuid = "8221E2B1-C155-423A-8475-733DF55319F0 - 196835e223775c6a"
+                  uuid = "8221E2B1-C155-423A-8475-733DF55319F0 - 196835e223775e35"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -205,9 +205,9 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Rhythm/Latin.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "238"
-                  endingLineNumber = "238"
-                  offsetFromSymbolStart = "2060">
+                  startingLineNumber = "225"
+                  endingLineNumber = "225"
+                  offsetFromSymbolStart = "2084">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -222,13 +222,13 @@
             filePath = "../../Source/Sequence/Rhythm/Latin.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "206"
-            endingLineNumber = "206"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
             landmarkName = "Phrase::cascaraFrom(clave)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "76CB27F3-0A7F-4C81-96B8-1CC7709D3691 - 196835e22377599a"
+                  uuid = "76CB27F3-0A7F-4C81-96B8-1CC7709D3691 - 196835e223775825"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -238,12 +238,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Rhythm/Latin.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "222"
-                  endingLineNumber = "222"
-                  offsetFromSymbolStart = "1312">
+                  startingLineNumber = "209"
+                  endingLineNumber = "209"
+                  offsetFromSymbolStart = "1336">
                </Location>
                <Location
-                  uuid = "76CB27F3-0A7F-4C81-96B8-1CC7709D3691 - 196835e22377599a"
+                  uuid = "76CB27F3-0A7F-4C81-96B8-1CC7709D3691 - 196835e223775825"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -253,9 +253,9 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Rhythm/Latin.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "222"
-                  endingLineNumber = "222"
-                  offsetFromSymbolStart = "1324">
+                  startingLineNumber = "209"
+                  endingLineNumber = "209"
+                  offsetFromSymbolStart = "1348">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -360,14 +360,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "F22EC4BD-41E8-43FA-B36D-546D0B235408"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/Sequence/Rhythm/Latin.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "183"
-            endingLineNumber = "183"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
             landmarkName = "Phrase::cascaraFrom(clave)"
             landmarkType = "7">
          </BreakpointContent>
@@ -913,22 +913,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D34A1AF3-D9FA-4E6B-88D6-9EEDD2F7CA9A"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../Source/Sequence/Rhythm/Latin.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
-            landmarkName = "Phrase::randomClave()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "B5653DFE-6BE4-4B16-AD7E-AEFCE964238B"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -940,38 +924,6 @@
             endingLineNumber = "257"
             landmarkName = "GenerateStuffAudioProcessor::playPlayables(positionInfo, midiMessages)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "FC1A252F-5FA0-4353-BC58-D0D0C223D484"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../Source/Dynamics.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
-            landmarkName = "applyDynamics(source, dynamics)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "1CD9976B-E6A0-4821-B563-F20D309315FE"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../Source/Dynamics.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
-            landmarkName = "applyDynamics(source, dynamics)"
-            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1329,16 +1281,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A34F6CC7-FDFE-4BBE-B7E2-360C889FC672"
+            uuid = "D8A4B682-752C-4742-99BC-F6D94E4A9F73"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../../Source/Sequence/Rhythm/Latin.cpp"
+            filePath = "../../Source/Sequence/Sequence.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "277"
-            endingLineNumber = "277"
-            landmarkName = "Phrase::cascaraFrom(clave)"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
+            landmarkName = "Note(mininotation, startTime, duration)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F024C438-6C60-46A2-844C-5FCA369AF8EE"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Sequence/Mininotation.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
+            landmarkName = "isIn(symbol, array)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

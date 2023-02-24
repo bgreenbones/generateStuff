@@ -157,13 +157,13 @@ Phrase Phrase::withRoll(Position start, Position target, Association association
         case pickup:
             start = quantize(start, subdivision, target);
             rollNotes = roll(target - start, subdivision);
-            rollNotes = applyDynamics(rollNotes, 1, rollVelocity); // crescendo
+            dynamics::shape(rollNotes, 1, rollVelocity); // crescendo
             break;
         case rebound:
             start += subdivision;
             target = quantize(target, subdivision, start);
             rollNotes = roll(target - start, subdivision);
-            rollNotes = applyDynamics(rollNotes, rollVelocity, 1); // decrescendo
+            dynamics::shape(rollNotes, rollVelocity, 1); // decrescendo
             break;
         default:
             cout << "you added more associations without thinking about this.";

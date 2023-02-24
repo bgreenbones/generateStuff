@@ -36,7 +36,7 @@ Sequence<Note> Note::placeOrnament(OrnamentSimple ornamentSimple, double breadth
     
     
 //    ornamentNotes.events = applyDynamics(ornamentNotes.events, ornament.dynamics);
-    ornamentNotes.assignEvents(applyDynamics(ornamentNotes, ornament.dynamics));
+    dynamics::shape(ornamentNotes, ornament.dynamics);
     return ornamentNotes;
 }
 

@@ -14,8 +14,6 @@
 Probability ornamentProbabilityClave = 0.75;
 
 void applyCascaraAccents(Sequence<Note> &cascara, Duration displacement) { // TODO: should maybe take an accompanying clave to determine where accents are? or should just note the accents on the cascara itself when we generate...
-    const short accentVelocity = 120; // todo: move these out somewhere else.
-    const short unaccentedVelocity = 60;
     
     for (auto noteIt = cascara.begin();
          noteIt != cascara.end();
@@ -29,6 +27,27 @@ void applyCascaraAccents(Sequence<Note> &cascara, Duration displacement) { // TO
         }
     }
 }
+
+
+Phrase Phrase::fillCascara(Phrase cascara) const {
+    Duration subdivision = cascara.primarySubdivision();
+    Phrase filled(cascara);
+    for (auto noteIt = cascara.notes.begin();
+         noteIt < cascara.notes.end();
+         noteIt++)
+    {
+        auto nextNote = next<Note>(cascara.notes, noteIt);
+        Duration timeBetweenNotes = timeBetween<Note>(noteIt, nextNote, cascara);
+        
+        Position spaceStartTime = noteIt->startTime;
+        if (timeBetweenNotes > (2 * subdivision)) {
+            filled.notes.insertSequence(filled.notes.pulseAndDisplace(2 * subdivision, subdivision, 0.75, 0.5, timeBetweenNotes - subdivision),
+                                         spaceStartTime + subdivision);
+        }
+    }
+            
+    return filled;
+};
 
 
 Phrase Phrase::randomCascara(Probability pDisplace,
@@ -46,6 +65,102 @@ Phrase Phrase::randomCascara(Probability pDisplace,
     
     return cascara;
 }
+
+
+
+
+
+Phrase Phrase::cascaraFrom(Phrase clave) const {
+    if (clave.notes.size() <= 0) {
+        DBG ("no notes to generate a cascara from");
+        return this->randomCascara();
+    }
+
+    Phrase cascara(*this);
+    Duration subdivision = cascara.primarySubdivision();
+    cascara.notes.clear();
+    cascara.addNote(clave.notes.front()
+                    .withAccent()
+                    .withDuration(subdivision));
+
+    for (auto noteIt = clave.notes.begin();
+         noteIt < clave.notes.end();
+         noteIt++)
+    {
+        auto nextNote = next<Note>(clave.notes, noteIt);
+        Duration timeBetweenNotes = timeBetween<Note>(noteIt, nextNote, clave);
+        double subdivisionsBetweenClaveNotes = timeBetweenNotes.asBeats() / subdivision.asBeats();
+        Note& lastCascaraNote = cascara.notes.back();
+        Duration timeSinceLastCascaraNoteStart = noteIt->startTime - lastCascaraNote.startTime;
+        double subdivisionsSinceLastCascaraNote = timeSinceLastCascaraNoteStart.asBeats() / subdivision.asBeats();
+        
+        if (subdivisionsBetweenClaveNotes == 2.) {
+            if (subdivisionsSinceLastCascaraNote == 0.) { // x . x
+                cascara.notes.append(".X", subdivision, PushBehavior::wrap);
+            } else if (subdivisionsSinceLastCascaraNote == 1.0) {
+                if (flipCoin()) { // . x x
+                    cascara.notes.append(".xX", subdivision, PushBehavior::wrap);
+                } else { // x . x
+                    cascara.notes.append("x.X", subdivision, PushBehavior::wrap);
+                }
+            } else {
+                DBG ("cascara has some weird note lengths??");
+            }
+        } else if (subdivisionsBetweenClaveNotes == 3.) {
+            if (subdivisionsSinceLastCascaraNote == 0.) { // this note already hit. just add next note.
+                auto choice = rollDie(3);
+                if (choice == 1) { // x x . x
+                    cascara.notes.append("x.X", subdivision, PushBehavior::wrap);
+                } else if (choice == 2) { // x . x x
+                    cascara.notes.append(".xX", subdivision, PushBehavior::wrap);
+                } else if (choice == 3) { // x . x . misses next note!!
+                    cascara.notes.append(".x.", subdivision, PushBehavior::wrap);
+                }
+            } else if (subdivisionsSinceLastCascaraNote == 1.0) {
+                // only one option: . x . x
+                cascara.notes.append(".x.X", subdivision, PushBehavior::wrap);
+            } else {
+                DBG ("cascara has some weird note lengths??");
+            }
+        } else if (subdivisionsBetweenClaveNotes == 4.) {
+            if (subdivisionsSinceLastCascaraNote == 0.) { // this note already hit.
+                if (flipCoin()) { // x . x . x
+                    cascara.notes.append(".x.X", subdivision, PushBehavior::wrap);
+                } else { // x x . x x
+                    cascara.notes.append("x.xX", subdivision, PushBehavior::wrap);
+                }
+            } else if (subdivisionsSinceLastCascaraNote == 1.0) {
+                if (flipCoin()) { // // . x x . x
+                    cascara.notes.append(".xx.X", subdivision, PushBehavior::wrap);
+                } else { // . x . x x
+                    cascara.notes.append(".x.xX", subdivision, PushBehavior::wrap);
+                }
+            } else {
+                DBG ("cascara has some weird note lengths??");
+            }
+        } else {
+            DBG ("weird amount of subdivisions between notes in clave.");
+        }
+    }
+    
+    // maybe 2/3 - 3/4 of cascara accents end up being clave notes - the rest fall right next to clave notes. actually acheive these ratios - don't just use them as probabilities that you don't enforce.
+    
+    // connect length 4 with multiple length 2 or two doubles in a row.
+    
+    // length 3 can connect with a double on other side but you can also avoid hitting with
+    // the clave when there are notes of length 3. maybe enforce these as ratios:
+    // connecting 3/4s of the time, avoiding hitting together 1/4th
+    
+    cascara = fillCascara(cascara);
+    dynamics::stretch(cascara.notes, unaccentedVelocity, accentVelocity);
+    cascara.notes.legato();
+//    applyCascaraAccents(cascara.notes, subdivision);
+    
+    return cascara;
+}
+
+
+
 
 // todo: some way of preventing 0 syncopation from happening
 Phrase Phrase::randomClave() const {
@@ -150,135 +265,6 @@ Phrase Phrase::randomClave() const {
     
     return clave;
 }
-
-
-template <class T>
-typename vector<T>::const_iterator next(Sequence<T> const& seq, typename vector<T>::const_iterator const& iter) {
-    return iter + 1 == seq.end() ? seq.begin() : iter + 1;
-}
-
-template <class T>
-Duration timeBetween(typename vector<T>::const_iterator const& first,
-                     typename vector<T>::const_iterator const& second,
-                        Phrase phrase)
-{
-    return first < second
-        ? second->startTime - first->startTime
-        : second->startTime + phrase.duration - first->startTime;
-}
-
-
-Phrase Phrase::cascaraFrom(Phrase clave) const {
-    Phrase cascara(*this);
-    cascara.notes.clear();
-    Duration subdivision = cascara.primarySubdivision();
-
-    if (clave.notes.size() <= 0) {
-        DBG ("no notes to generate a cascara from");
-        return cascara;
-    }
-
-    Note firstCascaraNote = clave.notes.front();
-    firstCascaraNote.duration = subdivision;
-    cascara.addNote(firstCascaraNote);
-
-    for (auto noteIt = clave.notes.begin();
-         noteIt < clave.notes.end();
-         noteIt++)
-    {
-        auto nextNote = next<Note>(clave.notes, noteIt);
-        Duration timeBetweenNotes = timeBetween<Note>(noteIt, nextNote, clave);
-        double subdivisionsBetweenClaveNotes = timeBetweenNotes.asBeats() / subdivision.asBeats();
-        Note& lastCascaraNote = cascara.notes.back();
-        Duration timeSinceLastCascaraNoteStart = noteIt->startTime - lastCascaraNote.startTime;
-        double subdivisionsSinceLastCascaraNote = timeSinceLastCascaraNoteStart.asBeats() / subdivision.asBeats();
-        
-        if (subdivisionsBetweenClaveNotes == 2.) {
-            if (subdivisionsSinceLastCascaraNote == 0.) { // x . x
-                cascara.notes.append(".x", subdivision, PushBehavior::wrap);
-            } else if (subdivisionsSinceLastCascaraNote == 1.0) {
-                if (flipCoin()) { // . x x
-                    cascara.notes.append(".xx", subdivision, PushBehavior::wrap);
-                } else { // x . x
-                    cascara.notes.append("x.x", subdivision, PushBehavior::wrap);
-                }
-            } else {
-                DBG ("cascara has some weird note lengths??");
-            }
-        } else if (subdivisionsBetweenClaveNotes == 3.) {
-            if (subdivisionsSinceLastCascaraNote == 0.) { // this note already hit. just add next note.
-                auto choice = rollDie(3);
-                if (choice == 1) { // x x . x
-                    cascara.notes.append("x.x", subdivision, PushBehavior::wrap);
-                } else if (choice == 2) { // x . x x
-                    cascara.notes.append(".xx", subdivision, PushBehavior::wrap);
-                } else if (choice == 3) { // x . x . misses next note!!
-                    cascara.notes.append(".x.", subdivision, PushBehavior::wrap);
-                }
-            } else if (subdivisionsSinceLastCascaraNote == 1.0) {
-                // only one option: . x . x
-                cascara.notes.append(".x.x", subdivision, PushBehavior::wrap);
-            } else {
-                DBG ("cascara has some weird note lengths??");
-            }
-        } else if (subdivisionsBetweenClaveNotes == 4.) {
-            if (subdivisionsSinceLastCascaraNote == 0.) { // this note already hit.
-                if (flipCoin()) { // x . x . x
-                    cascara.notes.append(".x.x", subdivision, PushBehavior::wrap);
-                } else { // x x . x x
-                    cascara.notes.append("x.xx", subdivision, PushBehavior::wrap);
-                }
-            } else if (subdivisionsSinceLastCascaraNote == 1.0) {
-                if (flipCoin()) { // // . x x . x
-                    cascara.notes.append(".xx.x", subdivision, PushBehavior::wrap);
-                } else { // . x . x x
-                    cascara.notes.append(".x.xx", subdivision, PushBehavior::wrap);
-                }
-            } else {
-                DBG ("cascara has some weird note lengths??");
-            }
-        } else {
-            DBG ("weird amount of subdivisions between notes in clave.");
-        }
-    }
-    
-    auto fillSpace = [](Phrase cascara) {
-        
-        Duration subdivision = cascara.primarySubdivision();
-        Phrase filled(cascara);
-        for (auto noteIt = cascara.notes.begin();
-             noteIt < cascara.notes.end();
-             noteIt++)
-        {
-            auto nextNote = next<Note>(cascara.notes, noteIt);
-            Duration timeBetweenNotes = timeBetween<Note>(noteIt, nextNote, cascara);
-            
-            Position spaceStartTime = noteIt->startTime;
-            if (timeBetweenNotes > (2 * subdivision)) {
-                filled.notes.insertSequence(filled.notes.pulseAndDisplace(2 * subdivision, subdivision, 0.75, 0.5, timeBetweenNotes - subdivision),
-                                             spaceStartTime + subdivision);
-            }
-        }
-                
-        return filled;
-    };
-    
-    cascara = fillSpace(cascara);
-        
-    // maybe 2/3 - 3/4 of cascara accents end up being clave notes - the rest fall right next to clave notes. actually acheive these ratios - don't just use them as probabilities that you don't enforce.
-    
-    // connect length 4 with multiple length 2 or two doubles in a row.
-    
-    // length 3 can connect with a double on other side but you can also avoid hitting with
-    // the clave when there are notes of length 3. maybe enforce these as ratios:
-    // connecting 3/4s of the time, avoiding hitting together 1/4th
-    
-//    cascara.notes.legato();
-    applyCascaraAccents(cascara.notes, subdivision);
-    
-    return cascara;
-}
-
 
 Phrase Phrase::claveFromCascara() const {
 //    Phrase clave = Phrase(cascara.rhythm, cascara.phrasing);

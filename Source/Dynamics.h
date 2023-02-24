@@ -19,7 +19,20 @@ typedef enum DynamicShape {
 } DynamicShape;
 
 typedef enum DynamicLevel {
-    pppp, ppp, pp, p, mp, mf, f, ff, fff, ffff
+    minPiano = 1,
+    ppppp = 10,
+    pppp = 20,
+    ppp = 30,
+    pp = 40,
+    p = 50,
+    mp = 60,
+    mf = 70,
+    f = 80,
+    ff = 90,
+    fff = 100,
+    ffff = 110,
+    fffff = 120,
+    maxForte = 127
 } DynamicLevel;
 
 typedef struct DynamicRange {
@@ -33,15 +46,14 @@ typedef struct Dynamics {
     DynamicRange range;
 } Dynamics;
 
-int velocityFromDynamicLevel(DynamicLevel level);
 
-// shaping - want to be generic over pitch, velocity, pressure, generic CC, uhhhh note length, uh,, other stuff, idk
-vector<Note> applyDynamics(vector<Note> source,
-                           int originVelocity,
-                           int targetVelocity);
-
-vector<Note> applyDynamics(vector<Note> source,
-                           Dynamics dynamics);
+namespace dynamics {
+    // shaping - want to be generic over pitch, velocity, pressure, generic CC, uhhhh note length, uh,, other stuff, idk
+    vector<Note>& shape(vector<Note>& source, int originVelocity, int targetVelocity);
+    vector<Note>& shape(vector<Note>& source, Dynamics dynamics);
+    vector<Note>& stretch(vector<Note> &source, DynamicRange targetRange);
+    vector<Note>& stretch(vector<Note> &source, DynamicLevel targetMinimum, DynamicLevel targetMaximum);
+}
 
 
 

@@ -23,13 +23,13 @@ public:
         Duration(divisionLength), TimedEvent(0, Bars(1)) { };
     Subdivision(): Duration(), TimedEvent() {};
     Subdivision(char mininotation, Position startTime, Duration span): Subdivision(Beats(1), startTime, span) {
-        if (Mininotation::isNote(mininotation)) {
+        if (Mininotation::isValue(mininotation)) {
             DBG ("ok, good");
         } else {
             DBG ("i think we have to handle this");
         }
         
-        if (mininotation == Mininotation::modifiedDefault) {
+        if (Mininotation::isAlternate(mininotation)) {
             this->durationValueInQuarters /= 2.0; // idfk, i guess this is an interpretation.
         }
     }

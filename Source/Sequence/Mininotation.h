@@ -22,7 +22,7 @@ class Mininotation {
 public:
     // TODO: implement values other than defaults
     static const char defaultValue = 'x';
-    static const char modifiedDefault = 'X';
+    static const char alternateDefault = 'X';
     static const char zero = '0';
     static const char one = '1';
     static const char two = '2';
@@ -34,16 +34,16 @@ public:
     static const char eight = '8';
     static const char nine = '9';
     static const char addTen = 't'; // haha cos we can't reuse '1'...
-    static const char modifiedZero = ')';
-    static const char modifiedOne = '!';
-    static const char modifiedTwo = '@';
-    static const char modifiedThree = '#';
-    static const char modifiedFour = '$';
-    static const char modifiedFive = '%';
-    static const char modifiedSix = '^';
-    static const char modifiedSeven = '&';
-    static const char modifiedEight = '*';
-    static const char modifiedNine = '(';
+    static const char alternateZero = ')';
+    static const char alternateOne = '!';
+    static const char alternateTwo = '@';
+    static const char alternateThree = '#';
+    static const char alternateFour = '$';
+    static const char alternateFive = '%';
+    static const char alternateSix = '^';
+    static const char alternateSeven = '&';
+    static const char alternateEight = '*';
+    static const char alternateNine = '(';
     
     static const char rest = '.';
     static const char sustain = '~';
@@ -52,17 +52,23 @@ public:
     static const char closeTuplet = ']';
 
     static constexpr char symbols[5] = {
-        defaultValue, modifiedDefault, rest, sustain
+        defaultValue, alternateDefault, rest, sustain
     };
 
     static constexpr char defaultValueSymbols[3] = {
-        defaultValue, modifiedDefault
+        defaultValue, alternateDefault
     };
+    
+    static constexpr char alternateValueSymbols[13] = {
+        alternateDefault, alternateZero, alternateOne, alternateTwo, alternateThree, alternateFour,
+        alternateFive, alternateSix, alternateSeven, alternateEight, alternateNine,
+    };
+    
     static constexpr char valueSymbols[24] = {
-        defaultValue, modifiedDefault,
+        defaultValue, alternateDefault,
         zero, one, two, three, four, five, six, seven, eight, nine,
-        modifiedZero, modifiedOne, modifiedTwo, modifiedThree, modifiedFour, modifiedFive,
-        modifiedSix, modifiedSeven, modifiedEight, modifiedNine, defaultValue,
+        alternateZero, alternateOne, alternateTwo, alternateThree, alternateFour, alternateFive,
+        alternateSix, alternateSeven, alternateEight, alternateNine,
     };
     
 
@@ -79,8 +85,12 @@ public:
         return isIn(symbol, &*symbols);
     }
 
-    static bool isNote(const char symbol) {
-        return isIn(symbol, &*defaultValueSymbols);
+    static bool isValue(const char symbol) {
+        return isIn(symbol, &*valueSymbols);
+    }
+    
+    static bool isAlternate(const char symbol) {
+        return isIn(symbol, &*alternateValueSymbols);
     }
 
     static size_t getLength(std::string const phraseString) {

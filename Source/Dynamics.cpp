@@ -11,29 +11,27 @@
 #include "Dynamics.h"
 #include "Note.hpp"
 
-int velocityFromDynamicLevel(DynamicLevel level) {
-    double minVelocity = 1;
-    double maxVelocity = 127;
-    double velocityRange = maxVelocity - minVelocity;
-    double numberOfLevels = ffff + 1;
-    
-    return ((level + 1.) / numberOfLevels) * velocityRange + minVelocity;
-}
+//int velocityFromDynamicLevel(DynamicLevel level) {
+//    double minVelocity = 1;
+//    double maxVelocity = 127;
+//    double velocityRange = maxVelocity - minVelocity;
+//    double numberOfLevels = ffff + 1;
+//
+//    return ((level + 1.) / numberOfLevels) * velocityRange + minVelocity;
+//}
 
-vector<Note> applyDynamics(vector<Note> source,
-                           Dynamics dynamics) {
-    
-    int highVelocity = velocityFromDynamicLevel(dynamics.range.high);
-    int medianVelocity = velocityFromDynamicLevel(dynamics.range.median);
-    int lowVelocity = velocityFromDynamicLevel(dynamics.range.low);
+vector<Note>& dynamics::shape(vector<Note>& source, Dynamics dynamics) {
+    int highVelocity = dynamics.range.high;
+    int medianVelocity = dynamics.range.median;
+    int lowVelocity = dynamics.range.low;
     
     switch (dynamics.shape) {
         case cresc:
-            return applyDynamics(source, lowVelocity, highVelocity);
+            return dynamics::shape(source, lowVelocity, highVelocity);
         case steady:
-            return applyDynamics(source, medianVelocity, medianVelocity);
+            return dynamics::shape(source, medianVelocity, medianVelocity);
         case decresc:
-            return applyDynamics(source, highVelocity, lowVelocity);
+            return dynamics::shape(source, highVelocity, lowVelocity);
         default:
             return source;
     }
@@ -45,11 +43,10 @@ vector<Note> applyDynamics(vector<Note> source,
 
 
 // shaping - want to be generic over pitch, velocity, pressure, generic CC, uhhhh note length, uh,, other stuff, idk
-vector<Note> applyDynamics(vector<Note> source,
-                           int originVelocity,
-                           int targetVelocity) {
+vector<Note>& dynamics::shape(vector<Note>& source, int originVelocity, int targetVelocity)
+{
     if (source.size() == 0) { return source; }
-    vector<Note> expressive;
+//    vector<Note> expressive;
     
     // possible approaches:
     // shape wise:
@@ -72,11 +69,43 @@ vector<Note> applyDynamics(vector<Note> source,
         return y;
     };
     for (double i = 0.; i < source.size(); i++) {
-        Note note = source[i];
+//        Note note = source[i];
         double x = (i / (double)source.size());
-        note.velocity = linear(x);
-        expressive.push_back(note);
+        source[i].velocity = linear(x);
+//        expressive.push_back(note);
     }
     
-    return expressive;
+//    return expressive;
+    return source;
 }
+
+vector<Note>& dynamics::stretch(vector<Note>& source, DynamicRange targetRange)
+{
+    int currentMinVelocity = 127;
+    int currentMaxVelocity = 1;
+    
+    for (Note note : source) {
+        currentMaxVelocity = max(note.velocity, currentMaxVelocity);
+        currentMinVelocity = min(note.velocity, currentMinVelocity);
+    }
+    
+    double currentRangeWidth = currentMaxVelocity - currentMinVelocity;
+    
+    double targetRangeWidth = targetRange.high - targetRange.low;
+    double scaler = targetRangeWidth / currentRangeWidth;
+    double transposer = targetRange.low < targetRange.high // if you want I think you could flip dynamics by giving targetRange.high < targetRange.low
+                        ? targetRange.low
+                        : 2 * targetRange.high + targetRange.low;
+    for (Note &note : source) {
+        note.velocity = (note.velocity - currentMinVelocity) * scaler + transposer;
+    }
+    
+    return source;
+}
+
+vector<Note>& dynamics::stretch(vector<Note>& source, DynamicLevel targetMinimum, DynamicLevel targetMaximum)
+{
+    return dynamics::stretch(source, DynamicRange { .low = targetMinimum, .high = targetMaximum });
+}
+
+
