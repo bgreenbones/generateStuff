@@ -266,6 +266,142 @@ Phrase Phrase::randomClave() const {
     return clave;
 }
 
+
+Phrase Phrase::claveFrom(Phrase other) const {
+    Phrase clave(*this);
+    clave.notes.clear();
+    
+    const auto subdivision = clave.primarySubdivision();
+    const auto phraseLength = clave.duration;
+    
+    // NEW APPROACH:
+    // calculate notes on left and right like other clave method.
+    // chose that many from cascara, maybe shifting a little
+    int minNoteLengthInSubdivisions = 2; // todo: parameterizing these would be fun
+    int maxNoteLengthInSubdivisions = 4;
+    float minNoteLength = minNoteLengthInSubdivisions * subdivision;
+    float maxNoteLength = maxNoteLengthInSubdivisions * subdivision;
+    
+    // aspects of clave:
+    //   1. groupings of 2, 3, and 4
+    //   2. 2-sided - 2-3 and 3-2 - even 2-1 and 1-2 -  maybe 3-4 and 4-3 - maybe 2-4 and 4-2?
+    //      a. the longer they are, the more can fit in?
+    auto sideLength = phraseLength / 2.0;
+    
+    
+    // TODO: cascaras are assumed to have more notes than a clave...what if we want to generate a clave from something with fewer notes.
+    int maxNumNotes = min<float>(phraseLength, other.notes.size()); // diff from other clave method
+    int minNumNotes = ceil(phraseLength / maxNoteLength);
+    auto numNotesRange = maxNumNotes - minNumNotes;
+    if (numNotesRange <= 0) { throw exception(); }
+    auto numNotes = uniformInt(minNumNotes, maxNumNotes); // todo: parameterize, but keep random option
+    if (numNotes % 2 == 0) { // force odd nums for 2-3, 3-2, 3-4, 4-3, etc.
+        if (numNotes + 1 > maxNumNotes) {
+            numNotes--;
+        } else if (numNotes - 1 < minNumNotes) {
+            numNotes++;
+        } else {
+            if (rollDie(3) == 1) { // more likely to subtract - gives more space to rhythms
+                numNotes--;
+            } else {
+                numNotes++;
+            }
+        }
+    }
+    if (numNotes > maxNumNotes) { throw exception(); }
+    
+    // choose which side gets how many notes
+    // one rule: can't have same # on each side
+    bool moreOnLeft = flipCoin();
+    auto notesOnLeft = floor (float(numNotes) / 2.0);
+    auto notesOnRight = ceil (float(numNotes) / 2.0);
+    if (moreOnLeft) {
+        auto temp = notesOnRight;
+        notesOnRight = notesOnLeft;
+        notesOnLeft = temp;
+    }
+    if (notesOnLeft + notesOnRight != numNotes) { throw exception(); }
+    
+    
+    // TODO: check if there are enough notes on each side for the assigned number of notes
+    // notesOnLeft <= actual # notes on left of cascara, etc.
+    // should be able to also fix assumption of more notes than a clave
+    
+    int attempts = 0;
+    bool constraintsBroken = false;
+    do {
+        attempts++;
+        constraintsBroken = false;
+        clave.notes.clear();
+        short notesNeededOnLeft = notesOnLeft;
+        short notesNeededOnRight = notesOnRight;
+        if (other.notes.size() < notesNeededOnLeft + notesNeededOnRight) { throw exception(); }
+        for (auto noteIt = other.notes.begin();
+             noteIt != other.notes.end();
+             noteIt++)
+        {
+            // TODO:: make us land inbetween notes sometimes. probably if there's a double coming up or something.
+            bool isNoteOnLeft = noteIt->startTime < sideLength;
+            Note note = Note();
+            if (notesNeededOnLeft > 0) {
+                if (isNoteOnLeft) {
+                    if (flipCoin()) { // todo: check previous note's time and make it more likely the longer it gets, and definitely not if it's 1 subdivision since last note
+                        note.startTime = noteIt->startTime;
+                        note.accented = true;
+                        note.ornamented = ornamentProbabilityClave;
+                        notesNeededOnLeft--;
+                        clave.addNote(note);
+                    }
+                } else {
+                    constraintsBroken = true;
+                    break;
+                }
+            }
+            
+            if (notesNeededOnRight > 0) {
+                if (!isNoteOnLeft) {
+                    if (flipCoin()) { // todo: check previous note's time and make it more likely the longer it gets, and definitely not if it's 1 subdivision since last note
+                        note.startTime = noteIt->startTime;
+                        note.accented = true;
+                        note.ornamented = ornamentProbabilityClave;
+                        notesNeededOnRight--;
+                        clave.addNote(note);
+                    }
+                }
+            }
+        }
+        
+        if (notesNeededOnLeft > 0 || notesNeededOnRight > 0) {
+            constraintsBroken = true;
+        }
+                
+        if (!constraintsBroken) {
+            clave.notes.legato();
+            for (auto note : clave.notes) {
+                if (note.duration < (double) minNoteLength || // bad length
+                    note.duration > (double) maxNoteLength) {
+                    constraintsBroken = true;
+                    break;
+                }
+            }
+        }
+
+        if (attempts > 2000) {
+            // give up
+            constraintsBroken = false;
+            break;
+        }
+    } while (constraintsBroken);
+
+    // maybe 2/3 - 3/4 of  accents end up being clave notes - the rest fall right next to clave notes. actually acheive these ratios - don't just use them as probabilities that you don't enforce.
+    // if two doubles in a row (xx.xx) maybe choose first x of first double and second x of second double, so it's a note of length 4 subdivs
+    
+    // string notes of length 2 subdivs? probably remove the middle one so it's a note of length 4
+    // careful cos there could be like 5 ina row really
+    
+    return clave;
+}
+
 Phrase Phrase::claveFromCascara() const {
 //    Phrase clave = Phrase(cascara.rhythm, cascara.phrasing);
     

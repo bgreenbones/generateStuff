@@ -8,12 +8,26 @@
 #include "Generator.hpp"
 #include "Pitch.h"
 
-Phrase Generator::cascara() {
+Phrase Generator::fromNothing(string phraseKey, function<Phrase(Phrase)> phraseFunction) {
     auto phrase = Phrase(editorState->getSubdivision(),
                          editorState->getStartTime(),
-                         editorState->getPhraseLength()).randomCascara();
-    playQueue->queuePhrase(cascaraKey, phrase);
+                         editorState->getPhraseLength());
+    phrase = phraseFunction(phrase);
+    playQueue->queuePhrase(phraseKey, phrase);
     return phrase;
+}
+
+Phrase Generator::from(string generatePhraseKey, string generateFromPhraseKey, function<Phrase(Phrase, Phrase)> phraseFunction) {
+    Position startTime = editorState->getStartTime();
+    Duration phraseLength = editorState->getPhraseLength();
+    if (playQueue->doesntHavePhrase(generateFromPhraseKey, startTime, phraseLength)) { this->generate(generateFromPhraseKey); }
+    Voice voice = playQueue->getVoice(generateFromPhraseKey);
+    auto result = Phrase(editorState->getSubdivision(),
+                        startTime,
+                        phraseLength);
+    result = phraseFunction(result, voice.base);
+    playQueue->queuePhrase(generatePhraseKey, result);
+    return result;
 }
 
 Phrase Generator::chords() {
@@ -72,25 +86,7 @@ Phrase Generator::chordsFrom(string phraseKey) {
     return phrase;
 }
 
-Phrase Generator::clave() {
-    auto phrase = Phrase(editorState->getSubdivision(),
-                         editorState->getStartTime(),
-                         editorState->getPhraseLength()).randomClave();
-    playQueue->queuePhrase(claveKey, phrase);
-    return phrase;
-}
 
-Phrase Generator::cascaraFrom(string phraseKey) {
-    Position startTime = editorState->getStartTime();
-    Duration phraseLength = editorState->getPhraseLength();
-    if (playQueue->doesntHavePhrase(phraseKey, startTime, phraseLength)) { this->clave(); }
-    Voice voice = playQueue->getVoice(phraseKey);
-    auto cascaraPhrase = Phrase(editorState->getSubdivision(),
-                                startTime,
-                                phraseLength).cascaraFrom(voice.base);
-    playQueue->queuePhrase(cascaraKey, cascaraPhrase);
-    return cascaraPhrase;
-}
 
 Phrase Generator::flipClave(string phraseKey) {
     Position startTime = editorState->getStartTime();
@@ -113,17 +109,6 @@ Phrase Generator::flipClave(string phraseKey) {
     }
     
     return flipped;
-}
-
-Phrase Generator::claveFromCascara() {
-    Position startTime = editorState->getStartTime();
-    Duration phraseLength = editorState->getPhraseLength();
-    if (playQueue->doesntHavePhrase(cascaraKey, startTime, phraseLength)) { this->cascara(); }
-    Voice voice = playQueue->getVoice(cascaraKey);
-    Phrase cascaraPhrase = voice.base;
-    auto clavePhrase = cascaraPhrase.claveFromCascara();
-    playQueue->queuePhrase(claveKey, clavePhrase);
-    return clavePhrase;
 }
 
 void Generator::roll(string phraseKey,

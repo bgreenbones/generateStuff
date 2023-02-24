@@ -94,6 +94,7 @@ public:
     Phrase randomClave() const;
     Phrase cascaraFrom(Phrase clave) const;
     Phrase claveFromCascara() const;
+    Phrase claveFrom(Phrase other) const;
     
     
     // Ornament stuff - TODO: i don't think these really belong in Phrase class

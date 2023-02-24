@@ -39,27 +39,25 @@ public:
     shared_ptr<PlayQueue> playQueue;
     shared_ptr<GenerateStuffEditorState> editorState;
     
-    Phrase cascara();
-    Phrase clave();
-    Phrase claveFromCascara();
-    Phrase cascaraFrom(string phraseKey);
+    Phrase fromNothing(string phraseKey, function<Phrase(Phrase)> phraseFunction);
+    Phrase from(string generatePhraseKey, string generateFromPhraseKey, function<Phrase(Phrase, Phrase)> phraseFunction);
     Phrase flipClave(string phraseKey);
     Phrase chords();
     Phrase chordsFrom(string phraseKey);
     Phrase generate(string phraseKey) { // TODO: get selected phrase key from editor state instead of passing it in?
-        if (phraseKey == cascaraKey) { return cascara(); }
-        if (phraseKey == claveKey) { return clave(); }
+        if (phraseKey == cascaraKey) { return fromNothing(cascaraKey, [](Phrase phrase) { return phrase.randomCascara(); }); }
+        if (phraseKey == claveKey) { return fromNothing(claveKey, [](Phrase phrase) { return phrase.randomClave(); }); }
         if (phraseKey == harmonyKey) { return chords(); }
         return Phrase();
     }
     Phrase generateFrom(string generatePhraseKey, string generateFromPhraseKey) {
         if (generatePhraseKey == cascaraKey) { // TODO: truly look inward and evaluate how we do this...
-//            if (generateFromPhraseKey == cascaraKey) { return cascara(); } // TODO: implement variations of a cascara
-            return cascaraFrom(generateFromPhraseKey);
+            auto cascarafromFunction = [](Phrase cascara, Phrase fromPhrase) { return cascara.cascaraFrom(fromPhrase); };
+            return from(generatePhraseKey, generateFromPhraseKey, cascarafromFunction);
         }
         if (generatePhraseKey == claveKey) {
-            if (generateFromPhraseKey == cascaraKey) { return claveFromCascara(); }
-            if (generateFromPhraseKey == claveKey) { return clave(); } // TODO: implement variations of a clave
+            auto clavefromFunction = [](Phrase clave, Phrase fromPhrase) { return clave.claveFrom(fromPhrase); };
+            return from(claveKey, generateFromPhraseKey, clavefromFunction);
         }
         if (generatePhraseKey == harmonyKey) {
             return chordsFrom(generateFromPhraseKey);
