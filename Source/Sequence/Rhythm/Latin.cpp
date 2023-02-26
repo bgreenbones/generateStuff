@@ -76,6 +76,7 @@ Phrase Phrase::cascaraFrom(Phrase clave) const {
         return this->randomCascara();
     }
 
+    if (clave.notes.isPolyphonic()) { clave.notes = clave.notes.toMonophonic(); }
     Phrase cascara(*this);
     Duration subdivision = cascara.primarySubdivision();
     cascara.notes.clear();
@@ -268,6 +269,7 @@ Phrase Phrase::randomClave() const {
 
 
 Phrase Phrase::claveFrom(Phrase other) const {
+    if (other.notes.isPolyphonic()) { other.notes = other.notes.toMonophonic(); }
     Phrase clave(*this);
     clave.notes.clear();
     
@@ -288,12 +290,11 @@ Phrase Phrase::claveFrom(Phrase other) const {
     //      a. the longer they are, the more can fit in?
     auto sideLength = phraseLength / 2.0;
     
-    
-    // TODO: cascaras are assumed to have more notes than a clave...what if we want to generate a clave from something with fewer notes.
     int maxNumNotes = min<float>(phraseLength, other.notes.size()); // diff from other clave method
     int minNumNotes = ceil(phraseLength / maxNoteLength);
+    if (maxNumNotes < minNumNotes) { maxNumNotes = phraseLength; }
     auto numNotesRange = maxNumNotes - minNumNotes;
-    if (numNotesRange <= 0) { throw exception(); }
+    if (numNotesRange < 0) { throw exception(); }
     auto numNotes = uniformInt(minNumNotes, maxNumNotes); // todo: parameterize, but keep random option
     if (numNotes % 2 == 0) { // force odd nums for 2-3, 3-2, 3-4, 4-3, etc.
         if (numNotes + 1 > maxNumNotes) {
@@ -335,7 +336,8 @@ Phrase Phrase::claveFrom(Phrase other) const {
         clave.notes.clear();
         short notesNeededOnLeft = notesOnLeft;
         short notesNeededOnRight = notesOnRight;
-        if (other.notes.size() < notesNeededOnLeft + notesNeededOnRight) { throw exception(); }
+        if (other.notes.size() < notesNeededOnLeft + notesNeededOnRight) { throw exception(); } // TODO: don't use other.notes.size()
+        // TODO: need a fillClave() which can take a skeleton of a clave and fill it in randomly with clave like stuff
         for (auto noteIt = other.notes.begin();
              noteIt != other.notes.end();
              noteIt++)

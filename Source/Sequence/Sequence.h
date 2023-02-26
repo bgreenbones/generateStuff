@@ -37,6 +37,7 @@ public:
     };
     
     bool monophonic = true;
+    bool isPolyphonic() { return !monophonic; }
     TimedEvent &parent;
 
     Sequence<T> toMonophonic() const;
