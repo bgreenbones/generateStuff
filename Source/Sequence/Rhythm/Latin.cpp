@@ -37,7 +37,7 @@ Phrase Phrase::fillCascara(Phrase cascara) const {
          noteIt++)
     {
         auto nextNote = next<Note>(cascara.notes, noteIt);
-        Duration timeBetweenNotes = timeBetween<Note>(noteIt, nextNote, cascara);
+        Duration timeBetweenNotes = timeBetween<Note>(*noteIt, *nextNote, cascara);
         
         Position spaceStartTime = noteIt->startTime;
         if (timeBetweenNotes > (2 * subdivision)) {
@@ -89,7 +89,7 @@ Phrase Phrase::cascaraFrom(Phrase clave) const {
          noteIt++)
     {
         auto nextNote = next<Note>(clave.notes, noteIt);
-        Duration timeBetweenNotes = timeBetween<Note>(noteIt, nextNote, clave);
+        Duration timeBetweenNotes = timeBetween<Note>(*noteIt, *nextNote, clave);
         double subdivisionsBetweenClaveNotes = timeBetweenNotes.asBeats() / subdivision.asBeats();
         Note& lastCascaraNote = cascara.notes.back();
         Duration timeSinceLastCascaraNoteStart = noteIt->startTime - lastCascaraNote.startTime;
@@ -336,7 +336,7 @@ Phrase Phrase::claveFrom(Phrase other) const {
         clave.notes.clear();
         short notesNeededOnLeft = notesOnLeft;
         short notesNeededOnRight = notesOnRight;
-        if (other.notes.size() < notesNeededOnLeft + notesNeededOnRight) { throw exception(); } // TODO: don't use other.notes.size()
+//        if (other.notes.size() < notesNeededOnLeft + notesNeededOnRight) { throw exception(); } // TODO: don't use other.notes.size()
         auto isNoteOnLeft = [=](Note note) { return note.startTime < sideLength; };
         for (auto noteIt = other.notes.begin();
              noteIt != other.notes.end();
@@ -376,23 +376,66 @@ Phrase Phrase::claveFrom(Phrase other) const {
         
         if (notesNeededOnLeft > 0 || notesNeededOnRight > 0) {
             // TODO: need a fillClave() which can take a skeleton of a clave and fill it in randomly with clave like stuff
-            // TODO: figure out fillClave here....
+            // TODO: figure out fillClave here...
+            Phrase filledClave(clave);
+            auto getSubdivisionsBetweenNotes = [=](Note const& first, Note const& second) {
+                Duration timeBetweenNotes = timeBetween<Note>(first, second, filledClave);
+                Position spaceStartTime = first.startTime;
+                double subdivisionsBetweenNotes = timeBetweenNotes.asQuarters() / subdivision.asQuarters();
+                return subdivisionsBetweenNotes;
+            };
+            
             for (auto noteIt = clave.notes.begin();
                  noteIt < clave.notes.end();
                  noteIt++)
             {
                 auto nextNote = next<Note>(clave.notes, noteIt);
-                Duration timeBetweenNotes = timeBetween<Note>(noteIt, nextNote, clave);
-                Position spaceStartTime = noteIt->startTime;
                 
-                bool nextNoteOnLeft = isNoteOnLeft(*nextNote);
-                double subdivisionsBetweenNotes = timeBetweenNotes.asQuarters() / subdivision.asQuarters();
-                double subdivisionsPerSide = sideLength / subdivision.asQuarters();
+//                Duration timeBetweenNotes = timeBetween<Note>(noteIt, nextNote, clave);
+//                Position spaceStartTime = noteIt->startTime;
                 
+//                bool thisNoteOnLeft = isNoteOnLeft(*noteIt);
+//                bool nextNoteOnLeft = isNoteOnLeft(*nextNote);
+//                double subdivisionsBetweenNotes = timeBetweenNotes.asQuarters() / subdivision.asQuarters();
+//                double subdivisionsPerSide = sideLength / subdivision.asQuarters();
+                
+                double subdivisionsBetweenNotes = getSubdivisionsBetweenNotes(*noteIt, *nextNote);
+                
+                if (subdivisionsBetweenNotes <= maxNoteLengthInSubdivisions) { continue; }
+                
+                int iters = 0;
+                Note currentNote = *noteIt;
+                while (subdivisionsBetweenNotes > maxNoteLengthInSubdivisions
+                       && (notesNeededOnLeft > 0 || notesNeededOnRight > 0))
+                {
+                    Position earliestNoteTime = currentNote.startTime + (subdivision * minNoteLengthInSubdivisions); // need to wrap around phrase bounds
+                    Position latestNoteTime = nextNote->startTime - (subdivision * minNoteLengthInSubdivisions); // need to wrap around phrase bounds
+                    // TODO: some validation on possible note times?
+                    int numberOfPossibleNoteTimes = ((latestNoteTime - earliestNoteTime).asQuarters() / subdivision.asQuarters()) + 1;
+                    Position chosenNoteTime = earliestNoteTime + subdivision * (rollDie(numberOfPossibleNoteTimes) - 1);
+                    Note newNote(chosenNoteTime, nextNote->startTime - chosenNoteTime);
+                    
+                    bool newNoteIsOnLeft = isNoteOnLeft(newNote);
+                    bool newNoteIsOnRight = !newNoteIsOnLeft;
+                    if (newNoteIsOnLeft && notesNeededOnLeft > 0) {
+                        notesNeededOnLeft--;
+                        filledClave.notes.add(newNote, PushBehavior::wrap, OverwriteBehavior::cutoff);
+                    } else if (newNoteIsOnRight && notesNeededOnRight > 0) {
+                        notesNeededOnRight--;
+                        filledClave.notes.add(newNote, PushBehavior::wrap, OverwriteBehavior::cutoff);
+                    }
+                    subdivisionsBetweenNotes = getSubdivisionsBetweenNotes(newNote, *nextNote);
+                    currentNote = newNote;
+                    
+                    if (subdivisionsBetweenNotes <= maxNoteLengthInSubdivisions) { break; }
+                    if (++iters > 100) {
+                        DBG ("we've tried too many times, something's wrong");
+                        constraintsBroken = true;
+                        break;
+                    }
+                }
             }
-            
-            
-            constraintsBroken = true;
+            clave = filledClave;
         }
                 
         if (!constraintsBroken) {

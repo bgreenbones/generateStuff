@@ -122,10 +122,10 @@ Phrase Phrase::concat(Phrase other, bool useLastNote, bool keepDuration) const {
     return phrase;
 }
 
-Phrase Phrase::insert(Phrase other, bool overwrite) const {
+Phrase Phrase::insert(Phrase other, OverwriteBehavior overwriteBehavior) const {
     Phrase phrase(*this);
     
-    if (overwrite) {
+    if (overwriteBehavior != OverwriteBehavior::ignore) {
         // TODO: notes and subdivisions and future expressions should be in a vector or map that will allow us to iterate over them.
         phrase.notes.erase(std::remove_if(phrase.notes.begin(), phrase.notes.end(),
                                 [other](TimedEvent t) { return other.containsPartially(t) || t.containsPartially(other); }),
@@ -138,8 +138,8 @@ Phrase Phrase::insert(Phrase other, bool overwrite) const {
     }
 
     
-    phrase.notes.insertSequence(other.notes, Position(0), PushBehavior::ignore, overwrite);
-    phrase.subdivisions.insertSequence(other.subdivisions, Position(0), PushBehavior::ignore, overwrite);
+    phrase.notes.insertSequence(other.notes, Position(0), PushBehavior::ignore, overwriteBehavior);
+    phrase.subdivisions.insertSequence(other.subdivisions, Position(0), PushBehavior::ignore, overwriteBehavior);
     phrase.subdivisions.tie();
     
     return phrase;

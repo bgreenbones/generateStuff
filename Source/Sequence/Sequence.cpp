@@ -31,7 +31,7 @@ Sequence<T> Sequence<T>::toMonophonic() const {
     Sequence<T> result(*this);
     result.clear();
     result.monophonic = true;
-    for (T toAdd : *this) { result.add(toAdd, PushBehavior::ignore, true); }
+    for (T toAdd : *this) { result.add(toAdd, PushBehavior::ignore, OverwriteBehavior::cutoff); }
     result.tie();
     
     return result;
@@ -46,7 +46,7 @@ Sequence<T> Sequence<T>::toPolyphonic() const {
 }
 
 template <class T>
-bool Sequence<T>::add(T toAdd, PushBehavior pushBehavior, bool overwrite) {
+bool Sequence<T>::add(T toAdd, PushBehavior pushBehavior, OverwriteBehavior overwriteBehavior) {
     if (!(this->parent.containsPartially(toAdd))) {
         double phraseLength = this->parent.duration.asQuarters();
         double eventStartTime = toAdd.startTime.asQuarters();
@@ -64,20 +64,37 @@ bool Sequence<T>::add(T toAdd, PushBehavior pushBehavior, bool overwrite) {
     }
     
     if (this->monophonic) {
-        if (overwrite) {
-            this->erase(std::remove_if(this->begin(), this->end(),
-                                        [toAdd](T t) { return toAdd.containsPartially(t) || t.containsPartially(toAdd); }),
-                                        this->end());
-        } else {
-            vector<T> bad_examples;
-            copy_if(this->begin(),
-                    this->end(),
-                    back_inserter(bad_examples),
-                    [toAdd](T t) { return toAdd.containsPartially(t) || t.containsPartially(toAdd); });
-            if (bad_examples.size() > 0) {
-                DBG ("trying to add timed event where other events are in its way");
-                return false;
-            }
+        vector<T> bad_examples;
+        switch (overwriteBehavior) {
+            case OverwriteBehavior::ignore:
+                copy_if(this->begin(),
+                        this->end(),
+                        back_inserter(bad_examples),
+                        [toAdd](T t) { return toAdd.containsPartially(t) || t.containsPartially(toAdd); });
+                if (bad_examples.size() > 0) {
+                    DBG ("trying to add timed event where other events are in its way");
+                    return false;
+                }
+                break;
+            case OverwriteBehavior::erase:
+                this->erase(std::remove_if(this->begin(), this->end(),
+                                           [toAdd](T t) { return toAdd.containsPartially(t) || t.containsPartially(toAdd); }),
+                            this->end());
+                break;
+            case OverwriteBehavior::cutoff:
+                this->erase(std::remove_if(this->begin(), this->end(),
+                                           [toAdd](T t) { return toAdd.startTime == t.startTime; }),
+                            this->end());
+                for (auto iter = this->begin(); iter != this->end(); iter++) {
+                    if (toAdd.contains(iter->startTime)) {
+                        toAdd.duration = iter->startTime - toAdd.startTime;
+                    } else if (iter->contains(toAdd.startTime)) {
+                        iter->duration = toAdd.startTime - iter->startTime;
+                    }
+                }
+                break;
+//            case default:
+//                break;
         }
     }
     
@@ -104,10 +121,10 @@ bool Sequence<T>::concat(Sequence<T> other, bool useLast, PushBehavior pushBehav
 }
 
 template <class T>
-bool Sequence<T>::insertVector(vector<T> other, Position startTime, PushBehavior pushBehavior, bool overwrite) {
+bool Sequence<T>::insertVector(vector<T> other, Position startTime, PushBehavior pushBehavior, OverwriteBehavior overwriteBehavior) {
     for (auto iter = other.begin(); iter < other.end(); iter++) {
             iter->startTime += startTime;
-        if (!(this->add(*iter, pushBehavior, overwrite))) {
+        if (!(this->add(*iter, pushBehavior, overwriteBehavior))) {
             DBG("problem inserting sequence");
             return false;
         }
@@ -117,8 +134,8 @@ bool Sequence<T>::insertVector(vector<T> other, Position startTime, PushBehavior
 
 
 template <class T>
-bool Sequence<T>::insertSequence(Sequence<T> other, Position startTime, PushBehavior pushBehavior, bool overwrite) {
-    return insertVector(other, startTime, pushBehavior, overwrite);
+bool Sequence<T>::insertSequence(Sequence<T> other, Position startTime, PushBehavior pushBehavior, OverwriteBehavior overwriteBehavior) {
+    return insertVector(other, startTime, pushBehavior, overwriteBehavior);
 }
 
 template <class T>
@@ -249,9 +266,9 @@ bool Sequence<T>::insertMininotation(std::string phraseString,
                                      Position startTime,
                                      Duration stepLength,
                                      PushBehavior pushBehavior,
-                                     bool overwrite)
+                                     OverwriteBehavior overwriteBehavior)
 {
-    return this->insertSequence(Sequence<T>::parseMininotation(phraseString, stepLength), startTime, pushBehavior, overwrite);
+    return this->insertSequence(Sequence<T>::parseMininotation(phraseString, stepLength), startTime, pushBehavior, overwriteBehavior);
 }
 
 

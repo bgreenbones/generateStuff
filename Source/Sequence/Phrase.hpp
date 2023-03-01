@@ -74,7 +74,8 @@ public:
     template <class T>
     vector<T> concatEvents(vector<T> eventList, vector<T> otherList) const;
     Phrase concat(Phrase other, bool useLastNote = false, bool keepDuration = false) const;
-    Phrase insert(Phrase other, bool overwrite = true) const;
+//    Phrase insert(Phrase other, bool overwrite = true) const;
+    Phrase insert(Phrase other, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignore) const;
     
     // Rhythmic thing.
     Phrase pulseAndDisplace(Duration pulse = 0.5, // TODO: create a rhythm type that gives access to these params RAW instead of the hardcoded cascara idea...
@@ -114,13 +115,16 @@ typename vector<T>::const_iterator next(Sequence<T> const& seq, typename vector<
 }
 
 template <class T>
-Duration timeBetween(typename vector<T>::const_iterator const& first,
-                     typename vector<T>::const_iterator const& second,
-                        Phrase phrase)
+//Duration timeBetween(typename vector<T>::const_iterator const& first,
+//                     typename vector<T>::const_iterator const& second,
+//                        Phrase phrase)
+Duration timeBetween(T const& first, T const& second, Phrase phrase)
+
 {
-    return first < second
-        ? second->startTime - first->startTime
-        : second->startTime + phrase.duration - first->startTime;
+//    return first < second
+    return first.startTime < second.startTime
+        ? second.startTime - first.startTime
+        : second.startTime + phrase.duration - first.startTime;
 }
 
 

@@ -19,6 +19,10 @@ typedef enum PushBehavior {
     ignore, truncate, wrap
 } PushBehavior;
 
+enum OverwriteBehavior {
+    ignore, erase, cutoff
+};
+
 // this can encapsulate functionality related to the various vectors inside phrase
 // ...notes...subdivisions...dynamics, and other expressions to be added down the line
 template <typename T> // T as to be TimedEvent subclass
@@ -51,12 +55,14 @@ public:
         return this->size() > 0 ? this->back().endTime() : Position(0);
     }
     
-    bool add(T toAdd, PushBehavior pushBehavior = PushBehavior::ignore, bool overwrite = false);
+    bool add(T toAdd, PushBehavior pushBehavior = PushBehavior::ignore, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignore);
     void tie();
     void legato();
     bool concat(Sequence<T> other, bool useLast = false, PushBehavior pushBehavior = PushBehavior::ignore);
-    bool insertVector(vector<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore, bool overwrite = false);
-    bool insertSequence(Sequence<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore, bool overwrite = false);
+//    bool insertVector(vector<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore, bool overwrite = false);
+//    bool insertSequence(Sequence<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore, bool overwrite = false);
+    bool insertVector(vector<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignore);
+    bool insertSequence(Sequence<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignore);
     bool chopAfterDuration(Duration duration);
     bool flip();
     
@@ -70,7 +76,8 @@ public:
     // Mininotation stuff
     Sequence<T> parseMininotation(std::string phraseString, Duration stepLength);
     bool append(std::string phraseString, Duration stepLength, PushBehavior pushBehavior = PushBehavior::ignore);
-    bool insertMininotation(std::string phraseString, Position startTime, Duration stepLength, PushBehavior pushBehavior = PushBehavior::ignore, bool overwrite = false);
+//    bool insertMininotation(std::string phraseString, Position startTime, Duration stepLength, PushBehavior pushBehavior = PushBehavior::ignore, bool overwrite = false);
+    bool insertMininotation(std::string phraseString, Position startTime, Duration stepLength, PushBehavior pushBehavior = PushBehavior::ignore, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignore);
     
     // 'visualization' / debugging
     std::string getStartTimesString();

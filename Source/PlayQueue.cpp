@@ -69,7 +69,7 @@ void PlayQueue::queuePhrase(VoiceName voiceName, Phrase phrase)
     if (!hasVoice(voiceName)) { return; }
     Voice &voice = queue.at(voiceName);
     if (!(phrase.notes.monophonic)) { voice.base = voice.base.toPolyphonic(); } // TODO: more rigorous way of syncing parameters between queued phrase and generated phrase?
-    voice.base = voice.base.insert(phrase, true); // overwrite if overlap
+    voice.base = voice.base.insert(phrase, OverwriteBehavior::erase); // overwrite if overlap
     voice.initPhraseVector(); // TODO: lol
 }
 
@@ -77,7 +77,7 @@ void PlayQueue::queueRoll(VoiceName voiceName, Phrase phrase)
 {
     if (!hasVoice(voiceName)) { return; }
     Voice &voice = queue.at(voiceName);
-    voice.rolls = voice.rolls.insert(phrase, true); // overwrite if overlap
+    voice.rolls = voice.rolls.insert(phrase, OverwriteBehavior::erase); // overwrite if overlap
     voice.initPhraseVector();
 }
 
@@ -85,7 +85,7 @@ void PlayQueue::queueOrnamentation(VoiceName voiceName, Phrase phrase)
 {
     if (!hasVoice(voiceName)) { return; }
     Voice &voice = queue.at(voiceName);
-    voice.ornamentation = voice.ornamentation.insert(phrase, true); // overwrite if overlap
+    voice.ornamentation = voice.ornamentation.insert(phrase, OverwriteBehavior::erase); // overwrite if overlap
     voice.initPhraseVector();
 }
 

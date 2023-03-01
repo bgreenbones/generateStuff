@@ -30,7 +30,7 @@ Sequence<Note> Note::placeOrnament(OrnamentSimple ornamentSimple, double breadth
         ornamentNote.isOrnament = true;
         ornamentNote.pitch += 7;
 //        ornamentNotes.push_back(ornamentNote);
-        ornamentNotes.add(ornamentNote);
+        ornamentNotes.add(ornamentNote, PushBehavior::ignore, OverwriteBehavior::ignore);
     }
     
     
