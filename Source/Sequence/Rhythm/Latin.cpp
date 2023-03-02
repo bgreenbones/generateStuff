@@ -336,47 +336,59 @@ Phrase Phrase::claveFrom(Phrase other) const {
         clave.notes.clear();
         short notesNeededOnLeft = notesOnLeft;
         short notesNeededOnRight = notesOnRight;
-//        if (other.notes.size() < notesNeededOnLeft + notesNeededOnRight) { throw exception(); } // TODO: don't use other.notes.size()
         auto isNoteOnLeft = [=](Note note) { return note.startTime < sideLength; };
+//                if (other.notes.size() < notesNeededOnLeft + notesNeededOnRight) { throw exception(); } // TODO: don't use other.notes.size()
+            
+            
+            
+            
+            
         for (auto noteIt = other.notes.begin();
              noteIt != other.notes.end();
              noteIt++)
         {
-            
-            // TODO:: make us land inbetween notes sometimes. probably if there's a double coming up or something.
-//            bool isNoteOnLeft = noteIt->startTime < sideLength;
-            Note note = Note();
-            if (notesNeededOnLeft > 0) {
-                if (isNoteOnLeft(*noteIt)) {
-                    if (flipCoin()) { // todo: check previous note's time and make it more likely the longer it gets, and definitely not if it's 1 subdivision since last note
-                        note.startTime = noteIt->startTime;
-                        note.accented = true;
-                        note.ornamented = ornamentProbabilityClave;
-                        notesNeededOnLeft--;
-                        clave.addNote(note);
-                    }
-                } else {
-                    constraintsBroken = true;
-                    break;
-                }
-            }
-            
-            if (notesNeededOnRight > 0) {
-                if (!isNoteOnLeft(*noteIt)) {
-                    if (flipCoin()) { // todo: check previous note's time and make it more likely the longer it gets, and definitely not if it's 1 subdivision since last note
-                        note.startTime = noteIt->startTime;
-                        note.accented = true;
-                        note.ornamented = ornamentProbabilityClave;
-                        notesNeededOnRight--;
-                        clave.addNote(note);
+     
+            if (other.notes.size() > notesOnLeft + notesOnRight) {
+                // TODO:: make us land inbetween notes sometimes. probably if there's a double coming up or something.
+    //            bool isNoteOnLeft = noteIt->startTime < sideLength;
+                Note note = Note();
+                if (notesNeededOnLeft > 0) {
+                    if (isNoteOnLeft(*noteIt)) {
+                        if (flipCoin()) { // todo: check previous note's time and make it more likely the longer it gets, and definitely not if it's 1 subdivision since last note
+                            note.startTime = noteIt->startTime;
+                            note.accented = true;
+                            note.ornamented = ornamentProbabilityClave;
+                            notesNeededOnLeft--;
+                            clave.addNote(note);
+                        }
+                    } else {
+                        constraintsBroken = true;
+                        break;
                     }
                 }
+                
+                if (notesNeededOnRight > 0) {
+                    if (!isNoteOnLeft(*noteIt)) {
+                        if (flipCoin()) { // todo: check previous note's time and make it more likely the longer it gets, and definitely not if it's 1 subdivision since last note
+                            note.startTime = noteIt->startTime;
+                            note.accented = true;
+                            note.ornamented = ornamentProbabilityClave;
+                            notesNeededOnRight--;
+                            clave.addNote(note);
+                        }
+                    }
+                }
+            } else {
+                Note note;
+                note.startTime = noteIt->startTime;
+                note.accented = true;
+                note.ornamented = ornamentProbabilityClave;
+                clave.addNote(note);
+                isNoteOnLeft(*noteIt) ? notesNeededOnLeft-- : notesNeededOnRight--;
             }
         }
         
         if (notesNeededOnLeft > 0 || notesNeededOnRight > 0) {
-            // TODO: need a fillClave() which can take a skeleton of a clave and fill it in randomly with clave like stuff
-            // TODO: figure out fillClave here...
             Phrase filledClave(clave);
             auto getSubdivisionsBetweenNotes = [=](Note const& first, Note const& second) {
                 Duration timeBetweenNotes = timeBetween<Note>(first, second, filledClave);
