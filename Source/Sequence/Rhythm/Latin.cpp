@@ -12,6 +12,13 @@
 
 
 Probability ornamentProbabilityClave = 0.75;
+int clavePitch = 60;
+DynamicLevel claveVelocity = ff;
+Note claveNote(Position startTime, Duration duration = 1) {
+    Note newClaveNote = Note(clavePitch, claveVelocity, startTime, duration).accent();
+    newClaveNote.ornamented = ornamentProbabilityClave;
+    return newClaveNote;
+}
 
 void applyCascaraAccents(Sequence<Note> &cascara, Duration displacement) { // TODO: should maybe take an accompanying clave to determine where accents are? or should just note the accents on the cascara itself when we generate...
     
@@ -236,9 +243,7 @@ Phrase Phrase::randomClave() const {
 //            }
 //            auto noteLength = randomNoteLengthInSubdivisions(clave.gen);
 //            setNotationLength(noteLength);
-            Note note = Note();
-            note.velocity = 100;
-            note.startTime = notePosition;
+            Note note = claveNote(notePosition);
             // note doesn't fall within its side, scrap it and try again
             if ((noteInd < notesOnLeft && note.startTime >= sideLength) ||
                 (noteInd >= notesOnLeft && (note.startTime < sideLength || note.startTime >= (double) length))) {
@@ -314,77 +319,59 @@ Phrase Phrase::claveFrom(Phrase other) const {
     // choose which side gets how many notes
     // one rule: can't have same # on each side
     bool moreOnLeft = flipCoin();
-    auto notesOnLeft = floor (float(numNotes) / 2.0);
-    auto notesOnRight = ceil (float(numNotes) / 2.0);
+    double notesOnLeft = floor (float(numNotes) / 2.0);
+    double notesOnRight = ceil (float(numNotes) / 2.0);
     if (moreOnLeft) {
         auto temp = notesOnRight;
         notesOnRight = notesOnLeft;
         notesOnLeft = temp;
     }
     if (notesOnLeft + notesOnRight != numNotes) { throw exception(); }
+    auto isNoteOnLeft = [=](Note note) { return note.startTime < sideLength; };
     
+    double otherNotesOnLeft = 0;
+    double otherNotesOnRight = 0;
     
-    // TODO: check if there are enough notes on each side for the assigned number of notes
-    // notesOnLeft <= actual # notes on left of cascara, etc.
-    // should be able to also fix assumption of more notes than a clave
+    for (auto note : other.notes)
+    {
+        if (isNoteOnLeft(note)) { otherNotesOnLeft++; }
+        else { otherNotesOnRight++; }
+    }
     
     int attempts = 0;
     bool constraintsBroken = false;
     do {
         attempts++;
         constraintsBroken = false;
+        double notesNeededOnLeft = notesOnLeft;
+        double notesNeededOnRight = notesOnRight;
         clave.notes.clear();
-        short notesNeededOnLeft = notesOnLeft;
-        short notesNeededOnRight = notesOnRight;
-        auto isNoteOnLeft = [=](Note note) { return note.startTime < sideLength; };
-//                if (other.notes.size() < notesNeededOnLeft + notesNeededOnRight) { throw exception(); } // TODO: don't use other.notes.size()
-            
-            
-            
-            
-            
+        
         for (auto noteIt = other.notes.begin();
              noteIt != other.notes.end();
              noteIt++)
         {
-     
-            if (other.notes.size() > notesOnLeft + notesOnRight) {
-                // TODO:: make us land inbetween notes sometimes. probably if there's a double coming up or something.
-    //            bool isNoteOnLeft = noteIt->startTime < sideLength;
-                Note note = Note();
-                if (notesNeededOnLeft > 0) {
-                    if (isNoteOnLeft(*noteIt)) {
-                        if (flipCoin()) { // todo: check previous note's time and make it more likely the longer it gets, and definitely not if it's 1 subdivision since last note
-                            note.startTime = noteIt->startTime;
-                            note.accented = true;
-                            note.ornamented = ornamentProbabilityClave;
-                            notesNeededOnLeft--;
-                            clave.addNote(note);
-                        }
-                    } else {
-                        constraintsBroken = true;
-                        break;
+            if (notesNeededOnLeft > 0) {
+                if (isNoteOnLeft(*noteIt)) {
+                    Probability needToAcceptNote = notesOnLeft / otherNotesOnLeft;
+                    if (flipWeightedCoin(needToAcceptNote)) { // todo: check previous note's time and make it more likely the longer it gets, and definitely not if it's 1 subdivision since last note
+                        notesNeededOnLeft--;
+                        clave.addNote(claveNote(noteIt->startTime));
+                    }
+                } else {
+                    constraintsBroken = true;
+                    break;
+                }
+            }
+            
+            if (notesNeededOnRight > 0) {
+                if (!isNoteOnLeft(*noteIt)) {
+                    Probability needToAcceptNote = notesOnRight / otherNotesOnRight;
+                    if (flipWeightedCoin(needToAcceptNote)) { // todo: check previous note's time and make it more likely the longer it gets, and definitely not if it's 1 subdivision since last note
+                        notesNeededOnRight--;
+                        clave.addNote(claveNote(noteIt->startTime));
                     }
                 }
-                
-                if (notesNeededOnRight > 0) {
-                    if (!isNoteOnLeft(*noteIt)) {
-                        if (flipCoin()) { // todo: check previous note's time and make it more likely the longer it gets, and definitely not if it's 1 subdivision since last note
-                            note.startTime = noteIt->startTime;
-                            note.accented = true;
-                            note.ornamented = ornamentProbabilityClave;
-                            notesNeededOnRight--;
-                            clave.addNote(note);
-                        }
-                    }
-                }
-            } else {
-                Note note;
-                note.startTime = noteIt->startTime;
-                note.accented = true;
-                note.ornamented = ornamentProbabilityClave;
-                clave.addNote(note);
-                isNoteOnLeft(*noteIt) ? notesNeededOnLeft-- : notesNeededOnRight--;
             }
         }
         
@@ -402,15 +389,6 @@ Phrase Phrase::claveFrom(Phrase other) const {
                  noteIt++)
             {
                 auto nextNote = next<Note>(clave.notes, noteIt);
-                
-//                Duration timeBetweenNotes = timeBetween<Note>(noteIt, nextNote, clave);
-//                Position spaceStartTime = noteIt->startTime;
-                
-//                bool thisNoteOnLeft = isNoteOnLeft(*noteIt);
-//                bool nextNoteOnLeft = isNoteOnLeft(*nextNote);
-//                double subdivisionsBetweenNotes = timeBetweenNotes.asQuarters() / subdivision.asQuarters();
-//                double subdivisionsPerSide = sideLength / subdivision.asQuarters();
-                
                 double subdivisionsBetweenNotes = getSubdivisionsBetweenNotes(*noteIt, *nextNote);
                 
                 if (subdivisionsBetweenNotes <= maxNoteLengthInSubdivisions) { continue; }
@@ -425,7 +403,7 @@ Phrase Phrase::claveFrom(Phrase other) const {
                     // TODO: some validation on possible note times?
                     int numberOfPossibleNoteTimes = ((latestNoteTime - earliestNoteTime).asQuarters() / subdivision.asQuarters()) + 1;
                     Position chosenNoteTime = earliestNoteTime + subdivision * (rollDie(numberOfPossibleNoteTimes) - 1);
-                    Note newNote(chosenNoteTime, nextNote->startTime - chosenNoteTime);
+                    Note newNote = claveNote(chosenNoteTime, nextNote->startTime - chosenNoteTime);
                     
                     bool newNoteIsOnLeft = isNoteOnLeft(newNote);
                     bool newNoteIsOnRight = !newNoteIsOnLeft;
@@ -556,15 +534,11 @@ Phrase Phrase::claveFromCascara() const {
             // make us land inbetween cascara notes sometimes. probably if there's a double coming up or something.
             
             bool isNoteOnLeft = noteIt->startTime < sideLength;
-            Note note = Note();
             if (notesNeededOnLeft > 0) {
                 if (isNoteOnLeft) {
                     if (flipCoin()) { // todo: check previous note's time and make it more likely the longer it gets, and definitely not if it's 1 subdivision since last note
-                        note.startTime = noteIt->startTime;
-                        note.accented = true;
-                        note.ornamented = ornamentProbabilityClave;
                         notesNeededOnLeft--;
-                        clave.addNote(note);
+                        clave.addNote(claveNote(noteIt->startTime));
                     }
                 } else {
                     constraintsBroken = true;
@@ -575,11 +549,8 @@ Phrase Phrase::claveFromCascara() const {
             if (notesNeededOnRight > 0) {
                 if (!isNoteOnLeft) {
                     if (flipCoin()) { // todo: check previous note's time and make it more likely the longer it gets, and definitely not if it's 1 subdivision since last note
-                        note.startTime = noteIt->startTime;
-                        note.accented = true;
-                        note.ornamented = ornamentProbabilityClave;
                         notesNeededOnRight--;
-                        clave.addNote(note);
+                        clave.addNote(claveNote(noteIt->startTime));
                     }
                 }
             }
