@@ -351,27 +351,20 @@ Phrase Phrase::claveFrom(Phrase other) const {
              noteIt != other.notes.end();
              noteIt++)
         {
-            if (notesNeededOnLeft > 0) {
-                if (isNoteOnLeft(*noteIt)) {
-                    Probability needToAcceptNote = notesOnLeft / otherNotesOnLeft;
-                    if (flipWeightedCoin(needToAcceptNote)) { // todo: check previous note's time and make it more likely the longer it gets, and definitely not if it's 1 subdivision since last note
-                        notesNeededOnLeft--;
-                        clave.addNote(claveNote(noteIt->startTime));
-                    }
-                } else {
-                    constraintsBroken = true;
-                    break;
-                }
-            }
             
-            if (notesNeededOnRight > 0) {
-                if (!isNoteOnLeft(*noteIt)) {
-                    Probability needToAcceptNote = notesOnRight / otherNotesOnRight;
-                    if (flipWeightedCoin(needToAcceptNote)) { // todo: check previous note's time and make it more likely the longer it gets, and definitely not if it's 1 subdivision since last note
-                        notesNeededOnRight--;
-                        clave.addNote(claveNote(noteIt->startTime));
-                    }
-                }
+            bool candidateOnLeft = notesNeededOnLeft > 0 && isNoteOnLeft(*noteIt);
+            bool candidateOnRight = notesNeededOnRight > 0 && !isNoteOnLeft(*noteIt);
+            
+            Probability needToAcceptNote = candidateOnLeft
+                ? notesOnLeft / otherNotesOnLeft
+                : (candidateOnRight
+                    ? notesOnRight / otherNotesOnRight
+                    : 0.);
+            
+            if (flipWeightedCoin(needToAcceptNote)) { // todo: check previous note's time and make it more likely the longer it gets, and definitely not if it's 1 subdivision since last note
+                candidateOnLeft ? notesNeededOnLeft-- : 0.;
+                candidateOnRight ? notesNeededOnRight-- : 0.;
+                clave.addNote(claveNote(noteIt->startTime));
             }
         }
         
@@ -398,11 +391,13 @@ Phrase Phrase::claveFrom(Phrase other) const {
                 while (subdivisionsBetweenNotes > maxNoteLengthInSubdivisions
                        && (notesNeededOnLeft > 0 || notesNeededOnRight > 0))
                 {
+                    Duration wrapAround = (nextNote->startTime < currentNote.startTime) ? clave.duration : Duration(0.);
                     Position earliestNoteTime = currentNote.startTime + (subdivision * minNoteLengthInSubdivisions); // need to wrap around phrase bounds
-                    Position latestNoteTime = nextNote->startTime - (subdivision * minNoteLengthInSubdivisions); // need to wrap around phrase bounds
+                    Position latestNoteTime = nextNote->startTime + wrapAround - (subdivision * minNoteLengthInSubdivisions);
                     // TODO: some validation on possible note times?
                     int numberOfPossibleNoteTimes = ((latestNoteTime - earliestNoteTime).asQuarters() / subdivision.asQuarters()) + 1;
                     Position chosenNoteTime = earliestNoteTime + subdivision * (rollDie(numberOfPossibleNoteTimes) - 1);
+                    chosenNoteTime = (chosenNoteTime > clave.duration) ? chosenNoteTime - clave.duration : chosenNoteTime;
                     Note newNote = claveNote(chosenNoteTime, nextNote->startTime - chosenNoteTime);
                     
                     bool newNoteIsOnLeft = isNoteOnLeft(newNote);
