@@ -77,6 +77,49 @@ public:
 //    Phrase insert(Phrase other, bool overwrite = true) const;
     Phrase insert(Phrase other, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignore) const;
     
+    
+    //
+    Duration halfLength() const { return duration / 2.; };
+    bool isNoteOnLeft(Note note) const { return note.startTime < halfLength(); };
+    bool isNoteOnRight(Note note) const { return !isNoteOnLeft(note); };
+    int getPotentialClaveNoteCount(Duration minNoteLength, Duration maxNoteLength) {
+        Phrase clave(*this);
+        Duration subdivision = clave.primarySubdivision();
+        // aspects of clave:
+        //   1. groupings of 2, 3, and 4
+        //   2. 2-sided - 2-3 and 3-2 - even 2-1 and 1-2 -  maybe 3-4 and 4-3 - maybe 2-4 and 4-2?
+        //      a. the longer they are, the more can fit in?
+        int maxNumNotes = floor(clave.duration / minNoteLength);
+        int minNumNotes = ceil(clave.duration / maxNoteLength);
+        auto numNotesRange = maxNumNotes - minNumNotes;
+        if (numNotesRange < 0) { throw exception(); }
+        auto numNotes = uniformInt(minNumNotes, maxNumNotes); // todo: parameterize, but keep random option
+        if (numNotes % 2 == 0) { // force odd nums for 2-3, 3-2, 3-4, 4-3, etc.
+            if (numNotes + 1 > maxNumNotes) {
+                numNotes--;
+            } else if (numNotes - 1 < minNumNotes) {
+                numNotes++;
+            } else {
+                if (rollDie(3) == 1) { // more likely to subtract - gives more space to rhythms
+                    numNotes--;
+                } else {
+                    numNotes++;
+                }
+            }
+        }
+        if (numNotes > maxNumNotes) { throw exception(); }
+        return numNotes;
+    }
+    int chooseNumberOfNotesOnLeft(double numNotes) {
+        // choose which side gets how many notes
+        // one rule: can't have same # on each side
+        bool moreOnLeft = flipCoin();
+        double notesOnLeft = moreOnLeft ? ceil (numNotes / 2.) : floor (numNotes / 2.);
+        return notesOnLeft;
+    }
+    
+    
+    
     // Rhythmic thing.
     Phrase pulseAndDisplace(Duration pulse = 0.5, // TODO: create a rhythm type that gives access to these params RAW instead of the hardcoded cascara idea...
                               Duration displacement = 0.25,
@@ -92,10 +135,9 @@ public:
     Phrase fillCascara(Phrase cascara) const;
     Phrase randomCascara(Probability pDisplace = 0.5,
                          Probability pDouble = 0.75) const;
-    Phrase randomClave() const;
+    Phrase randomClave(int minNoteLengthInSubdivisions = 2, int maxNoteLengthInSubdivisions = 4) const;
     Phrase cascaraFrom(Phrase clave) const;
-    Phrase claveFromCascara() const;
-    Phrase claveFrom(Phrase other) const;
+    Phrase claveFrom(Phrase other, int minNoteLengthInSubdivisions = 2, int maxNoteLengthInSubdivisions = 4) const;
     
     
     // Ornament stuff - TODO: i don't think these really belong in Phrase class
@@ -115,13 +157,9 @@ typename vector<T>::const_iterator next(Sequence<T> const& seq, typename vector<
 }
 
 template <class T>
-//Duration timeBetween(typename vector<T>::const_iterator const& first,
-//                     typename vector<T>::const_iterator const& second,
-//                        Phrase phrase)
 Duration timeBetween(T const& first, T const& second, Phrase phrase)
 
 {
-//    return first < second
     return first.startTime < second.startTime
         ? second.startTime - first.startTime
         : second.startTime + phrase.duration - first.startTime;

@@ -113,6 +113,7 @@ public:
     Duration operator-(const Duration other) const { return Duration(asQuarters() - other.asQuarters(), getTimeSignature(), dynamicTimeSignature); }
     Duration operator-(const double other) const { return *this - Duration(other, getTimeSignature(), dynamicTimeSignature); }
     Duration operator*(const double other) { return Duration(asQuarters() * other, getTimeSignature(), dynamicTimeSignature); }
+    double operator/(const Duration other) { return asQuarters() / other.asQuarters(); }
     Duration operator/(const double other) { return Duration(asQuarters() / other, getTimeSignature(), dynamicTimeSignature); }
     Duration operator%(const Duration other) const { return Duration(fmodf(asQuarters(), other.asQuarters()), getTimeSignature(), dynamicTimeSignature); }
     Duration operator%(const double other) const { return Duration(fmodf(asQuarters(), other), getTimeSignature(), dynamicTimeSignature); }
