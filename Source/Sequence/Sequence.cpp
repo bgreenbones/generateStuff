@@ -284,6 +284,17 @@ vector<T> Sequence<T>::byPosition(Position position) const {
 };
 
 template<class T>
+vector<T> Sequence<T>::byStartPosition(Position position) const {
+    vector<T> result;
+    for (auto it = this->begin(); it < this->end(); it++) {
+        if (it->startTime == position) {
+            result.push_back(*it);
+        }
+    }
+    return result;
+}
+
+template<class T>
 T Sequence<T>::drawByPosition(Position position) const {
     auto available = this->byPosition(position);
     Subdivision subdivision;

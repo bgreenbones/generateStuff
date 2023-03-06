@@ -37,7 +37,8 @@ void applyCascaraAccents(Sequence<Note> &cascara, Duration displacement) { // TO
 }
 
 
-Phrase Phrase::fillCascara(Phrase cascara) const {
+Phrase Phrase::fillCascara() const {
+    Phrase cascara(*this);
     Duration subdivision = cascara.primarySubdivision();
     Phrase filled(cascara);
     for (auto noteIt = cascara.notes.begin();
@@ -57,12 +58,49 @@ Phrase Phrase::fillCascara(Phrase cascara) const {
     return filled;
 };
 
-Phrase fillClave(Phrase clave,
-                 int notesNeededOnLeft,
-                 int notesNeededOnRight,
-                 Duration minNoteLength,
-                 Duration maxNoteLength) {
-    
+
+int Phrase::getPotentialClaveNoteCount(Duration minNoteLength, Duration maxNoteLength) const {
+    Phrase clave(*this);
+    Duration subdivision = clave.primarySubdivision();
+    // aspects of clave:
+    //   1. groupings of 2, 3, and 4
+    //   2. 2-sided - 2-3 and 3-2 - even 2-1 and 1-2 -  maybe 3-4 and 4-3 - maybe 2-4 and 4-2?
+    //      a. the longer they are, the more can fit in?
+    int maxNumNotes = floor(clave.duration / minNoteLength);
+    int minNumNotes = ceil(clave.duration / maxNoteLength);
+    auto numNotesRange = maxNumNotes - minNumNotes;
+    if (numNotesRange < 0) { throw exception(); }
+    auto numNotes = uniformInt(minNumNotes, maxNumNotes); // todo: parameterize, but keep random option
+    if (numNotes % 2 == 0) { // force odd nums for 2-3, 3-2, 3-4, 4-3, etc.
+        if (numNotes + 1 > maxNumNotes) {
+            numNotes--;
+        } else if (numNotes - 1 < minNumNotes) {
+            numNotes++;
+        } else {
+            if (rollDie(3) == 1) { // more likely to subtract - gives more space to rhythms
+                numNotes--;
+            } else {
+                numNotes++;
+            }
+        }
+    }
+    if (numNotes > maxNumNotes) { throw exception(); }
+    return numNotes;
+}
+
+int Phrase::chooseNumberOfNotesOnLeft(double numNotes) const {
+    // choose which side gets how many notes
+    // one rule: can't have same # on each side
+    bool moreOnLeft = flipCoin();
+    double notesOnLeft = moreOnLeft ? ceil (numNotes / 2.) : floor (numNotes / 2.);
+    return notesOnLeft;
+}
+
+Phrase Phrase::fillClave(int notesNeededOnLeft,
+                         int notesNeededOnRight,
+                         Duration minNoteLength,
+                         Duration maxNoteLength) const {
+    Phrase clave(*this);
     Duration subdivision = clave.primarySubdivision();
     
     Phrase filledClave(clave);
@@ -129,7 +167,8 @@ Phrase Phrase::randomCascara(Probability pDisplace,
     return cascara;
 }
 
-Phrase Phrase::cascaraFrom(Phrase clave) const {
+Phrase Phrase::cascaraFrom() const {
+    Phrase clave(*this);
     if (clave.notes.size() <= 0) {
         DBG ("no notes to generate a cascara from");
         return this->randomCascara();
@@ -211,7 +250,7 @@ Phrase Phrase::cascaraFrom(Phrase clave) const {
     // the clave when there are notes of length 3. maybe enforce these as ratios:
     // connecting 3/4s of the time, avoiding hitting together 1/4th
     
-    cascara = fillCascara(cascara);
+    cascara = cascara.fillCascara();
     dynamics::stretch(cascara.notes, unaccentedVelocity, accentVelocity);
     cascara.notes.legato();
 //    applyCascaraAccents(cascara.notes, subdivision);
@@ -277,7 +316,8 @@ Phrase Phrase::randomClave(int minNoteLengthInSubdivisions, int maxNoteLengthInS
 }
 
 
-Phrase Phrase::claveFrom(Phrase other, int minNoteLengthInSubdivisions, int maxNoteLengthInSubdivisions) const {
+Phrase Phrase::claveFrom(int minNoteLengthInSubdivisions, int maxNoteLengthInSubdivisions) const {
+    Phrase other(*this);
     if (other.notes.isPolyphonic()) { other.notes = other.notes.toMonophonic(); }
     Phrase clave(*this);
     clave.notes.clear();
@@ -329,7 +369,7 @@ Phrase Phrase::claveFrom(Phrase other, int minNoteLengthInSubdivisions, int maxN
         }
         
         // Fill in gaps left.
-        clave = fillClave(clave, notesNeededOnLeft, notesNeededOnRight, minNoteLength, maxNoteLength);
+        clave = clave.fillClave(notesNeededOnLeft, notesNeededOnRight, minNoteLength, maxNoteLength);
         constraintsBroken = clave.notes.empty();
         
         if (!constraintsBroken) {

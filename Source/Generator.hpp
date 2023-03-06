@@ -14,7 +14,7 @@
 #include <functional>
 #include <JuceHeader.h>
 #include "Phrase.hpp"
-#include "Playable.hpp"
+#include "Voice.h"
 #include "Syncopation.h"
 #include "HostSettings.h"
 #include "GenerateStuffEditorState.h"
@@ -40,7 +40,7 @@ public:
     shared_ptr<GenerateStuffEditorState> editorState;
     
     Phrase fromNothing(string phraseKey, function<Phrase(Phrase)> phraseFunction);
-    Phrase from(string generatePhraseKey, string generateFromPhraseKey, function<Phrase(Phrase, Phrase)> phraseFunction);
+    Phrase from(string generatePhraseKey, string generateFromPhraseKey, function<Phrase(Phrase const&)> phraseFunction);
     Phrase flipClave(string phraseKey);
     Phrase chords();
     Phrase chordsFrom(string phraseKey);
@@ -52,11 +52,11 @@ public:
     }
     Phrase generateFrom(string generatePhraseKey, string generateFromPhraseKey) {
         if (generatePhraseKey == cascaraKey) { // TODO: truly look inward and evaluate how we do this...
-            auto cascarafromFunction = [](Phrase cascara, Phrase fromPhrase) { return cascara.cascaraFrom(fromPhrase); };
+            auto cascarafromFunction = [](Phrase const& fromPhrase) { return fromPhrase.cascaraFrom(); };
             return from(generatePhraseKey, generateFromPhraseKey, cascarafromFunction);
         }
         if (generatePhraseKey == claveKey) {
-            auto clavefromFunction = [](Phrase clave, Phrase fromPhrase) { return clave.claveFrom(fromPhrase); };
+            auto clavefromFunction = [](Phrase const& fromPhrase) { return fromPhrase.claveFrom(); };
             return from(claveKey, generateFromPhraseKey, clavefromFunction);
         }
         if (generatePhraseKey == harmonyKey) {

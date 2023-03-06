@@ -91,7 +91,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0C0CD1DB349A26BD257035F9 /* Playable.hpp */ /* Playable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Playable.hpp; path = ../../Source/Playable.hpp; sourceTree = SOURCE_ROOT; };
 		112F2706E2F672BCC7C4AF67 /* include_juce_audio_plugin_client_ARA.cpp */ /* include_juce_audio_plugin_client_ARA.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = include_juce_audio_plugin_client_ARA.cpp; path = ../../JuceLibraryCode/include_juce_audio_plugin_client_ARA.cpp; sourceTree = SOURCE_ROOT; };
 		158A58EA3DDAC253FF7D9E3E /* JuceHeader.h */ /* JuceHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = JuceHeader.h; path = ../../JuceLibraryCode/JuceHeader.h; sourceTree = SOURCE_ROOT; };
 		233BB7DAA399028109846C2F /* Phrase.cpp */ /* Phrase.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Phrase.cpp; path = ../../Source/Sequence/Phrase.cpp; sourceTree = SOURCE_ROOT; };
@@ -202,6 +201,7 @@
 		FAD32D28DBCF9490B8858B1B /* HostSettings.cpp */ /* HostSettings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HostSettings.cpp; path = ../../Source/HostSettings.cpp; sourceTree = SOURCE_ROOT; };
 		FC7021B05B00E292B205D3B2 /* include_juce_data_structures.mm */ /* include_juce_data_structures.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_data_structures.mm; path = ../../JuceLibraryCode/include_juce_data_structures.mm; sourceTree = SOURCE_ROOT; };
 		FDDFD5E8297383C7E2F7FB5B /* PlayQueue.h */ /* PlayQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PlayQueue.h; path = ../../Source/PlayQueue.h; sourceTree = SOURCE_ROOT; };
+		FE829477346349B51CCD6BD7 /* Voice.h */ /* Voice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Voice.h; path = ../../Source/Voice.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -286,7 +286,6 @@
 				458A8579C0AD068D9147D393,
 				86D0BA20B99B8FFCA525D65B,
 				CC9A1AB2491837023652BD42,
-				0C0CD1DB349A26BD257035F9,
 				FDDFD5E8297383C7E2F7FB5B,
 				4EB2E8DEAF1A776C65B21E11,
 				D96EB940FF34910B2A3F05A4,
@@ -295,6 +294,7 @@
 				EC36FBF262D11B2162168902,
 				A977D577608473EF75CBBF19,
 				C867EB20474B73CBED1C845A,
+				FE829477346349B51CCD6BD7,
 			);
 			name = Source;
 			sourceTree = "<group>";

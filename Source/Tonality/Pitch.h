@@ -73,22 +73,31 @@ private:
     }
 public:
     int pitchValue;
+    operator int() const { return pitchValue; };
     Pitch(PitchClass pitchClass, int octave): pitchValue(getPitchValue(pitchClass, octave)) {}
     Pitch(int value): pitchValue(value) {
         if (value < 0 || value > 127) {
             cout << "this is bad";
         }
     }
-    Pitch(): pitchValue(getPitchValue(C, 3)) {}
+    Pitch(): pitchValue(getPitchValue(C, 5)) {}
     
-    PitchClass getPitchClass() {
+    PitchClass getPitchClass() const {
         int PitchClassValue = pitchValue % 12;
         PitchClass result = PitchClass(PitchClassValue);
         return result;
     }
-    Pitch pitchFromInterval(Interval interval, Direction direction) {
+    Pitch pitchFromInterval(Interval interval, Direction direction) const {
         int newPitchValue = pitchValue + interval * direction;
         return Pitch(newPitchValue);
+    }
+    Pitch operator+=(Interval interval) {
+        pitchValue += interval;
+        return *this;
+    }
+    Pitch operator-=(Interval interval) {
+        pitchValue += interval;
+        return *this;
     }
 };
 

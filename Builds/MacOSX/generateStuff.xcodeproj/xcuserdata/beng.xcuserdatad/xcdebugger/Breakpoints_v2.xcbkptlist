@@ -78,9 +78,9 @@
             filePath = "../../Source/Sequence/Rhythm/Latin.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "202"
-            endingLineNumber = "202"
-            landmarkName = "Phrase::cascaraFrom(clave)"
+            startingLineNumber = "241"
+            endingLineNumber = "241"
+            landmarkName = "Phrase::cascaraFrom()"
             landmarkType = "7">
             <Locations>
                <Location
@@ -126,9 +126,9 @@
             filePath = "../../Source/Sequence/Rhythm/Latin.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "199"
-            endingLineNumber = "199"
-            landmarkName = "Phrase::cascaraFrom(clave)"
+            startingLineNumber = "238"
+            endingLineNumber = "238"
+            landmarkName = "Phrase::cascaraFrom()"
             landmarkType = "7">
             <Locations>
                <Location
@@ -174,9 +174,9 @@
             filePath = "../../Source/Sequence/Rhythm/Latin.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "183"
-            endingLineNumber = "183"
-            landmarkName = "Phrase::cascaraFrom(clave)"
+            startingLineNumber = "222"
+            endingLineNumber = "222"
+            landmarkName = "Phrase::cascaraFrom()"
             landmarkType = "7">
             <Locations>
                <Location
@@ -222,9 +222,9 @@
             filePath = "../../Source/Sequence/Rhythm/Latin.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "167"
-            endingLineNumber = "167"
-            landmarkName = "Phrase::cascaraFrom(clave)"
+            startingLineNumber = "206"
+            endingLineNumber = "206"
+            landmarkName = "Phrase::cascaraFrom()"
             landmarkType = "7">
             <Locations>
                <Location
@@ -318,8 +318,8 @@
             filePath = "../../Source/Sequence/Phrase.hpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
             landmarkName = "equalsExcludingTime(other)"
             landmarkType = "7">
             <Locations>
@@ -366,9 +366,9 @@
             filePath = "../../Source/Sequence/Rhythm/Latin.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "142"
-            endingLineNumber = "142"
-            landmarkName = "Phrase::cascaraFrom(clave)"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
+            landmarkName = "Phrase::cascaraFrom()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -744,8 +744,8 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "292"
-            endingLineNumber = "292"
+            startingLineNumber = "303"
+            endingLineNumber = "303"
             landmarkName = "drawByPosition(position)"
             landmarkType = "9">
             <Locations>
@@ -984,8 +984,8 @@
             filePath = "../../Source/Tonality/Pitch.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
             landmarkName = "randomVoicing()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1000,8 +1000,8 @@
             filePath = "../../Source/Tonality/Pitch.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
             landmarkName = "getPitches()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1176,8 +1176,8 @@
             filePath = "../../Source/Generator.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
             landmarkName = "Generator::flipClave(phraseKey)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1192,8 +1192,8 @@
             filePath = "../../Source/Generator.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
             landmarkName = "Generator::chords()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1208,8 +1208,8 @@
             filePath = "../../Source/Generator.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
             landmarkName = "Generator::chords()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1224,8 +1224,8 @@
             filePath = "../../Source/Generator.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
             landmarkName = "Generator::chords()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1240,8 +1240,8 @@
             filePath = "../../Source/Generator.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
             landmarkName = "Generator::chordsFrom(phraseKey)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1256,8 +1256,8 @@
             filePath = "../../Source/Generator.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "75"
-            endingLineNumber = "75"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
             landmarkName = "Generator::chordsFrom(phraseKey)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1272,8 +1272,8 @@
             filePath = "../../Source/Sequence/Sequence.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "135"
-            endingLineNumber = "135"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
             landmarkName = "Note(mininotation, startTime, duration)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1304,9 +1304,9 @@
             filePath = "../../Source/Sequence/Rhythm/Latin.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "359"
-            endingLineNumber = "359"
-            landmarkName = "Phrase::claveFrom(other, minNoteLengthInSubdivisions, maxNoteLengthInSubdivisions)"
+            startingLineNumber = "399"
+            endingLineNumber = "399"
+            landmarkName = "Phrase::claveFrom(minNoteLengthInSubdivisions, maxNoteLengthInSubdivisions)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1320,9 +1320,9 @@
             filePath = "../../Source/Sequence/Rhythm/Latin.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "348"
-            endingLineNumber = "348"
-            landmarkName = "Phrase::claveFrom(other, minNoteLengthInSubdivisions, maxNoteLengthInSubdivisions)"
+            startingLineNumber = "388"
+            endingLineNumber = "388"
+            landmarkName = "Phrase::claveFrom(minNoteLengthInSubdivisions, maxNoteLengthInSubdivisions)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1336,8 +1336,8 @@
             filePath = "../../Source/Sequence/Rhythm/Latin.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "228"
-            endingLineNumber = "228"
+            startingLineNumber = "267"
+            endingLineNumber = "267"
             landmarkName = "Phrase::randomClave(minNoteLengthInSubdivisions, maxNoteLengthInSubdivisions)"
             landmarkType = "7">
          </BreakpointContent>

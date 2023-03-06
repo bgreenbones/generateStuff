@@ -69,7 +69,6 @@
       <FILE id="cVh7ht" name="Misc.h" compile="0" resource="0" file="Source/Misc.h"/>
       <FILE id="uF8Cts" name="Note.hpp" compile="0" resource="0" file="Source/Note.hpp"/>
       <FILE id="cI7sZr" name="Note.cpp" compile="1" resource="0" file="Source/Note.cpp"/>
-      <FILE id="KqKfYW" name="Playable.hpp" compile="0" resource="0" file="Source/Playable.hpp"/>
       <FILE id="xgyoQu" name="PlayQueue.h" compile="0" resource="0" file="Source/PlayQueue.h"/>
       <FILE id="L6n0cP" name="PlayQueue.cpp" compile="1" resource="0" file="Source/PlayQueue.cpp"/>
       <FILE id="cf7fQF" name="PluginProcessor.cpp" compile="1" resource="0"
@@ -80,6 +79,7 @@
       <FILE id="ve3L5v" name="Probability.h" compile="0" resource="0" file="Source/Probability.h"/>
       <FILE id="HoSZga" name="Random.cpp" compile="1" resource="0" file="Source/Random.cpp"/>
       <FILE id="TmiPLp" name="Random.h" compile="0" resource="0" file="Source/Random.h"/>
+      <FILE id="TcRHTY" name="Voice.h" compile="0" resource="0" file="Source/Voice.h"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>

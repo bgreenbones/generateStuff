@@ -16,11 +16,7 @@ void Phrase::addTimedEvent(T toAdd, vector<T>& eventList) {
          [](T const &a, T const &b) { return a.startTime < b.startTime; });
 }
 
-bool Phrase::addNote(Note toAdd) {
-    if (toAdd.pitch < 0 || toAdd.pitch > 127) {
-        return false;
-    }
-    
+bool Phrase::addNote(Note toAdd) {    
     bool fitsInPhrase = this->containsPartially(toAdd);
     if (fitsInPhrase) {
         notes.add(toAdd);
@@ -152,4 +148,28 @@ Phrase Phrase::parseMininotation(std::string phraseString, Subdivision subdivisi
     Phrase phrase = Phrase(subdivision, 0, Quarters(phraseLength));
     phrase.notes = notes.parseMininotation(phraseString, subdivision);
     return phrase;
+}
+
+
+Phrase Phrase::randomSubdivisions(vector<double> availableSubdivisions, vector<Probability> weights) const {
+    Phrase result(*this);
+    
+    
+    return result;
+}
+
+Phrase Phrase::ghostSubdivision(Pitch pitch) const {
+    Phrase result(*this);
+    
+    for (Subdivision subdiv : result.subdivisions) {
+        double numberOfGhosts = subdiv.duration / subdiv;
+        for (double ghost = 0; ghost < numberOfGhosts; ghost++) {
+            Position ghostPosition = subdiv.startTime + ghost * subdiv;
+            if (notes.byStartPosition(ghostPosition).empty()) {
+                result.addNote(Note(pitch, ppp, ghostPosition, subdiv));
+            }
+        }
+    }
+    
+    return result;
 }

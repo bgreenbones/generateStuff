@@ -17,15 +17,12 @@ Phrase Generator::fromNothing(string phraseKey, function<Phrase(Phrase)> phraseF
     return phrase;
 }
 
-Phrase Generator::from(string generatePhraseKey, string generateFromPhraseKey, function<Phrase(Phrase, Phrase)> phraseFunction) {
+Phrase Generator::from(string generatePhraseKey, string generateFromPhraseKey, function<Phrase(Phrase const&)> phraseFunction) {
     Position startTime = editorState->getStartTime();
     Duration phraseLength = editorState->getPhraseLength();
     if (playQueue->doesntHavePhrase(generateFromPhraseKey, startTime, phraseLength)) { this->generate(generateFromPhraseKey); }
     Voice voice = playQueue->getVoice(generateFromPhraseKey);
-    auto result = Phrase(editorState->getSubdivision(),
-                        startTime,
-                        phraseLength);
-    result = phraseFunction(result, voice.base);
+    auto result = phraseFunction(voice.base);
     playQueue->queuePhrase(generatePhraseKey, result);
     return result;
 }

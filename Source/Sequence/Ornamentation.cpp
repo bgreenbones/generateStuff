@@ -125,7 +125,7 @@ Phrase Phrase::addOrnaments(OrnamentSimple ornament, Probability prob, double br
 }
 
 
-int rollVelocity = 40;
+DynamicLevel rollVelocity = pp;
 vector<Note> roll(Duration length, Subdivision subdivision) {
     double numNotesInFill = length.asQuarters() / subdivision.asQuarters();
     if (std::fmod(numNotesInFill, 1.) != 0) {
@@ -134,7 +134,7 @@ vector<Note> roll(Duration length, Subdivision subdivision) {
     
     vector<Note> roll = Mininotation::parse<Note>(std::string(floor(numNotesInFill), 'x'), subdivision);
     for (Note &note : roll) {
-        note.pitch += 12; // TODO: idk
+        note.pitch += octave; // TODO: idk
         note.isOrnament = true;
         note.velocity = rollVelocity; // TODO: give a little variance above and below? crescendo/decrescendo into next note?
     }

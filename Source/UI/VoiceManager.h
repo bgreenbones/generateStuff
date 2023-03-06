@@ -65,7 +65,7 @@ public:
                 VoiceControls &voice = voices.at(voiceName);
                 bool improvise = !(voice.improviseButton.getToggleState());
                 if (improvise) {
-                    processor.loopTasks.queue(voiceName, [](){}); // do this actually.
+                    processor.loopTasks.queue(voiceName, [](){}); // TODO: do this actually.
                 } else {
                     processor.loopTasks.deactivate({ voiceName });
                 }

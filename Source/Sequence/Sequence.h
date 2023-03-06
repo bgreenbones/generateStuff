@@ -14,6 +14,7 @@
 #include "TimedEvent.h"
 #include "Subdivision.h"
 #include "Probability.h"
+#include "Pitch.h"
 
 typedef enum PushBehavior {
     ignore, truncate, wrap
@@ -49,6 +50,7 @@ public:
 
     T primary() const { return longest<T>(*this); }
     vector<T> byPosition(Position position) const;
+    vector<T> byStartPosition(Position position) const;
     T drawByPosition(Position position) const;
         
     Position endTime() const {
@@ -121,17 +123,17 @@ static const DynamicLevel accentVelocity = DynamicLevel::fff;
 static const DynamicLevel unaccentedVelocity = DynamicLevel::mp;
 static const DynamicLevel defaultVelocity = DynamicLevel::mf;
 
+static const Pitch defaultPitch(C, 5);
+
 class Note: public TimedEvent
 {
 public:
-    Note(int pitch = 60,
+    Note(Pitch pitch = defaultPitch,
          int velocity = defaultVelocity,
          Position startTime = 0,
-         Duration duration = 1):
-    TimedEvent(startTime, duration), pitch(pitch), velocity(velocity), accented(false), ornamented(false), isOrnament(false) { }
-
-    Note(Position startTime, Duration duration): Note(60, defaultVelocity, startTime, duration) { }
-    Note(char mininotation, Position startTime, Duration duration): Note(60, defaultVelocity, startTime, duration) {
+         Duration duration = 1): TimedEvent(startTime, duration), pitch(pitch), velocity(velocity), accented(false), ornamented(false), isOrnament(false) { }
+    Note(Position startTime, Duration duration): Note(defaultPitch, defaultVelocity, startTime, duration) { }
+    Note(char mininotation, Position startTime, Duration duration): Note(defaultPitch, defaultVelocity, startTime, duration) {
         if (Mininotation::isValue(mininotation)) {
             DBG ("ok, good");
         } else {
@@ -146,7 +148,8 @@ public:
         }
     }
     
-    static int accentVelocity;
+    static DynamicLevel accentVelocity;
+    operator int() const { return pitch.pitchValue; };
     
     Note operator+(const Duration duration);
     Note operator+(const Note pitch);
@@ -188,8 +191,8 @@ public:
     
     Sequence<Note> placeOrnament(OrnamentSimple ornamentSimple, double breadth) const;
     
-    int pitch; // todo: use my C pitch definitions
-    int velocity; // todo: use juce types for unsigned shorts and others?
+    Pitch pitch;
+    int velocity;
     Probability accented;
     Probability ornamented;
     bool isOrnament;

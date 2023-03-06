@@ -12,7 +12,7 @@
 #include "Dynamics.h"
 #include <cmath>
 
-int Note::accentVelocity = 120;
+DynamicLevel Note::accentVelocity = fffff;
 
 Sequence<Note> Note::placeOrnament(OrnamentSimple ornamentSimple, double breadth) const {
     Ornament ornament = getOrnament(ornamentSimple, breadth, gridded);
@@ -23,12 +23,12 @@ Sequence<Note> Note::placeOrnament(OrnamentSimple ornamentSimple, double breadth
     Sequence<Note> ornamentNotes(*parent);
     
     for (unsigned short notesLeft = ornament.numNotes; notesLeft > 0; notesLeft--) {
-        Note ornamentNote = Note();
+        Note ornamentNote;
         auto offset = ornament.placement * noteLength * notesLeft;
         ornamentNote.startTime = this->startTime + offset;
         ornamentNote.duration = trunc(noteLength * 100.) / 100.; // truncate to avoid overlapping notes
         ornamentNote.isOrnament = true;
-        ornamentNote.pitch += 7;
+        ornamentNote.pitch += P5;
 //        ornamentNotes.push_back(ornamentNote);
         ornamentNotes.add(ornamentNote, PushBehavior::ignore, OverwriteBehavior::ignore);
     }
