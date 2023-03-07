@@ -14,48 +14,57 @@
 #include "Voice.h"
 
 // TODO: change the key and the channel data into some other enum or struct type or something
-static const string cascaraKey = "cascara";
 static const string claveKey = "clave";
+static const string cascaraKey = "cascara";
+static const string subdivisionsKey = "subdivisions";
 static const string harmonyKey = "harmony";
-static const string pulseAndDisplaceKey = "pulseAndDisplace";
-//static const string bassKey = "bass";
+static const string bassKey = "bass";
+static const string melodyKey = "melody";
+//static const string pulseAndDisplaceKey = "pulseAndDisplace";
 
-static int cascaraChannel = 1;
-static int claveChannel = 2;
-static int chordChannel = 3;
-static int pulseAndDisplaceChannel = 4;
-//static int bassChannel = 5;
-
+static int claveChannel = 1;
+static int cascaraChannel = 2;
+static int subdivisionsChannel = 3;
+static int harmonyChannel = 4;
+static int bassChannel = 5;
+static int melodyChannel = 6;
+//static int pulseAndDisplaceChannel = 4;
 
 struct VoiceAndChannel {
     string voiceName;
     int midiChannel;
 };
-static vector<VoiceAndChannel> voicesAndChannels = {
-    VoiceAndChannel {
-        .voiceName = cascaraKey,
-        .midiChannel = cascaraChannel
-    },
+
+static const vector<VoiceAndChannel> voicesAndChannels = {
     VoiceAndChannel {
         .voiceName = claveKey,
         .midiChannel = claveChannel
     },
     VoiceAndChannel {
-        .voiceName = harmonyKey,
-        .midiChannel = chordChannel
+        .voiceName = cascaraKey,
+        .midiChannel = cascaraChannel
     },
     VoiceAndChannel {
-        .voiceName = pulseAndDisplaceKey,
-        .midiChannel = pulseAndDisplaceChannel
+        .voiceName = subdivisionsKey,
+        .midiChannel = subdivisionsChannel
+    },
+    VoiceAndChannel {
+        .voiceName = harmonyKey,
+        .midiChannel = harmonyChannel
+    },
+    VoiceAndChannel {
+        .voiceName = bassKey,
+        .midiChannel = bassChannel
+    },
+    VoiceAndChannel {
+        .voiceName = melodyKey,
+        .midiChannel = melodyChannel
     }
 };
 
-
-
 class PlayQueue {
-    unordered_map<VoiceName, Voice> queue;
+    map<VoiceName, Voice> queue;
 public:
-    
     PlayQueue() {
         for (VoiceAndChannel vc : voicesAndChannels) {
             queue.emplace(vc.voiceName, Voice(vc.voiceName, vc.midiChannel, false));

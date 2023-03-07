@@ -15,6 +15,7 @@
 
 std::mt19937 &getGen();
 int uniformInt(int min, int max);
+double uniformDouble(double min, double max);
 int rollDie(int sides);
 bool flipCoin();
 bool flipWeightedCoin(double pTrue);

@@ -58,7 +58,7 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
         subdivisionButton->setClickingTogglesState(true);
         addAndMakeVisible(subdivisionButton);
         subdivisionButton->setToggleState(false, juce::dontSendNotification);
-//        subdivisionButton->onClick = [=] { updateSubdivisionState (1.f / subdivisionDenominator); };
+        subdivisionButton->onClick = [=] { editorState->subdivision = 1. / subdivisionDenominator; };
     }
     int defaultSubdivisionIndex = (int) (1.0 / editorState->subdivision) - 1; // todo: set this
     subdivisionButtons[defaultSubdivisionIndex]->setToggleState(true, juce::dontSendNotification);

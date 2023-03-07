@@ -94,8 +94,8 @@ public:
     
     void setBounds(int xCursor, int yCursor, int buttonWidth, int buttonHeight, int spaceBetweenControls) {
         auto incrementCursor = [&]() { yCursor += buttonHeight + spaceBetweenControls; };
-        for (auto voiceIt = voices.begin(); voiceIt != voices.end(); voiceIt++) {
-            voiceIt->second.setBounds (xCursor, yCursor, buttonWidth, buttonHeight, spaceBetweenControls);
+        for (auto voiceIt = voicesAndChannels.begin(); voiceIt != voicesAndChannels.end(); voiceIt++) {
+            voices.at(voiceIt->voiceName).setBounds (xCursor, yCursor, buttonWidth, buttonHeight, spaceBetweenControls);
             incrementCursor();
         }
     }

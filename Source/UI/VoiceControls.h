@@ -88,7 +88,6 @@ public:
     
     VoiceControls(VoiceControls const& other): VoiceControls(other.voiceName, other.midiChannel.getSelectedId()) {};
 
-    
     ~VoiceControls()
     {
         buttons.clear();

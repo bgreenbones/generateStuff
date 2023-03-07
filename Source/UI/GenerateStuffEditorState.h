@@ -15,7 +15,7 @@
 class GenerateStuffEditorState {
 public:
     // general
-    beats subdivision = 1./2.;
+    beats subdivision = 1./4.;
     bars phraseLengthBars = 2.;
     beats phraseLengthBeats = 0.;
     beats displace = 0.;

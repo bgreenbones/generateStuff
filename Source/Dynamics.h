@@ -53,6 +53,7 @@ namespace dynamics {
     vector<Note>& shape(vector<Note>& source, Dynamics dynamics);
     vector<Note>& stretch(vector<Note> &source, DynamicRange targetRange);
     vector<Note>& stretch(vector<Note> &source, DynamicLevel targetMinimum, DynamicLevel targetMaximum);
+    vector<Note>& randomScale(vector<Note> &source, double minScale = 0.8, double maxScale = 1.2);
 }
 
 

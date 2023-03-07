@@ -34,6 +34,11 @@ int uniformInt(int min, int max) {
     return choice;
 }
 
+double uniformDouble(double min, double max) {
+    std::uniform_real_distribution<double> distribution(min, max);
+    return distribution(gen);
+}
+
 int rollDie(int sides) {
     if (sides < 1) {
         std::cout << "nonsensical random call";
