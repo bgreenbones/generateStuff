@@ -288,6 +288,17 @@ vector<T> Sequence<T>::byPosition(Position position) const {
 };
 
 template<class T>
+vector<T> Sequence<T>::bySpan(TimedEvent span) const {
+    vector<T> result;
+    for (auto it = this->begin(); it < this->end(); it++) {
+        if (span.contains(it->startTime)) {
+            result.push_back(*it);
+        }
+    }
+    return result;
+}
+
+template<class T>
 vector<T> Sequence<T>::byStartPosition(Position position) const {
     vector<T> result;
     for (auto it = this->begin(); it < this->end(); it++) {

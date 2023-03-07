@@ -180,15 +180,20 @@ Phrase Phrase::randomSubdivisions(vector<Duration> availableSubdivisions, vector
 }
 
 
-Phrase Phrase::randomGhostSubdivision(Probability probability, Pitch pitch) const {
+Phrase Phrase::randomGhostSubdivision(Probability ghostProbability, Probability subdivisionProbability, Pitch pitch, TimedEvent span) const {
     Phrase result(*this);
+    bool fillWholePhrase = span == nullTime;
     
     for (Subdivision subdiv : result.subdivisions) {
-        double numberOfGhosts = subdiv.duration / subdiv;
-        for (double ghost = 0; ghost < numberOfGhosts; ghost++) {
-            Position ghostPosition = subdiv.startTime + ghost * subdiv;
-            if (notes.byStartPosition(ghostPosition).empty() && probability) {
-                result.notes.add(Note(pitch, pppp, ghostPosition, subdiv), PushBehavior::ignore, OverwriteBehavior::cutoff);
+        if (subdivisionProbability) {
+            double numberOfGhosts = subdiv.duration / subdiv;
+            for (double ghost = 0; ghost < numberOfGhosts; ghost++) {
+                Position ghostPosition = subdiv.startTime + ghost * subdiv;
+                if (fillWholePhrase || span.contains(ghostPosition)) {
+                    if (notes.byStartPosition(ghostPosition).empty() && ghostProbability) {
+                        result.notes.add(Note(pitch, pppp, ghostPosition, subdiv), PushBehavior::ignore, OverwriteBehavior::cutoff);
+                    }
+                }
             }
         }
     }
@@ -196,6 +201,26 @@ Phrase Phrase::randomGhostSubdivision(Probability probability, Pitch pitch) cons
     return result;
 }
 
-Phrase Phrase::ghostSubdivision(Pitch pitch) const { return randomGhostSubdivision(1, pitch); }
+Phrase Phrase::ghostSubdivision(Pitch pitch) const { return randomGhostSubdivision(1, 1, pitch); }
+
+
+Phrase Phrase::randomGhostBursts(Duration minimumBurstLength, Duration maximumBurstLength,
+                         Probability ghostProbabilityWithinBurst,
+                         Probability burstProbability, Pitch pitch) const {
+    Phrase result(*this);
+    
+    Position cursor = 0;
+    double numberOfPossibleBurstLengths = (maximumBurstLength - minimumBurstLength) / sixteenths;
+    
+    while (cursor < result.duration) {
+        Duration burstLength = minimumBurstLength + (rollDie(numberOfPossibleBurstLengths) * sixteenths);
+        TimedEvent span(cursor, burstLength);
+        result = burstProbability ? result.randomGhostSubdivision(ghostProbabilityWithinBurst, 1, pitch, span) : result;
+        cursor += burstLength;
+    }
+    
+    return result;
+}
+
 
 

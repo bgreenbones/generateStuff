@@ -306,13 +306,12 @@ Phrase Phrase::randomClave(int minNoteLengthInSubdivisions, int maxNoteLengthInS
                 note.duration = randomNum * subdivision;
                 notePosition += note.duration;
             }
-            note.accented = true;
-            note.ornamented = ornamentProbabilityClave;
             clave.addNote(note);
         }
     } while (constraintsBroken);
     
-    clave = clave.randomSubdivisions({ triplets, sixteenths, quintuplets, thirtySeconds }, { 1, 2, 1, 2 }).randomGhostSubdivision(0.5);
+    // Playing around
+//    clave = clave.randomSubdivisions({ triplets, sixteenths, quintuplets }, { 1, 2, 1 }).randomGhostSubdivision(0.75, .5);
     
     return clave;
 }

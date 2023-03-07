@@ -51,6 +51,7 @@ public:
     T primary() const { return longest<T>(*this); }
     vector<T> byPosition(Position position) const;
     vector<T> byStartPosition(Position position) const;
+    vector<T> bySpan(TimedEvent span) const;
     T drawByPosition(Position position) const;
         
     Position endTime() const {

@@ -112,10 +112,15 @@ public:
     
     //
     Phrase randomSubdivisions(vector<Duration> availableSubdivisions, vector<double> weights) const;
-    Phrase randomGhostSubdivision(Probability probability = 0.25, Pitch pitch = defaultPitch) const;
+    Phrase randomGhostSubdivision(Probability ghostProbability = 0.6,
+                                  Probability subdivisionProbability = 1.,
+                                  Pitch pitch = defaultPitch,
+                                  TimedEvent span = nullTime) const;
     Phrase ghostSubdivision(Pitch pitch = defaultPitch) const;
-    
-    
+    Phrase randomGhostBursts(Duration minimumBurstLength = Beats(1./2.),
+                             Duration maximumBurstLength = Beats(2),
+                             Probability ghostProbabilityWithinBurst = 0.8,
+                             Probability burstProbability = 0.4, Pitch pitch = defaultPitch) const;
     
     
     // Ornament stuff - TODO: i don't think these really belong in Phrase class

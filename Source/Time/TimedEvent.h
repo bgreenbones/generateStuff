@@ -32,6 +32,8 @@ public:
         duration = other.duration;
         return *this;
     };
+    bool operator==(TimedEvent const& other) { return startTime == other.startTime && duration == other.duration; };
+    
     virtual ~TimedEvent() {};
     
     Position endTime() const { return this->startTime + this->duration; }
@@ -44,6 +46,8 @@ public:
         return false;
     };//= 0;
 };
+
+static const TimedEvent nullTime(0,0);
 
 
 
