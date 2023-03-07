@@ -312,6 +312,8 @@ Phrase Phrase::randomClave(int minNoteLengthInSubdivisions, int maxNoteLengthInS
         }
     } while (constraintsBroken);
     
+    clave = clave.randomSubdivisions({ triplets, sixteenths, quintuplets, thirtySeconds }, { 1, 2, 1, 2 }).randomGhostSubdivision(0.5);
+    
     return clave;
 }
 

@@ -150,26 +150,52 @@ Phrase Phrase::parseMininotation(std::string phraseString, Subdivision subdivisi
     return phrase;
 }
 
-
-Phrase Phrase::randomSubdivisions(vector<double> availableSubdivisions, vector<Probability> weights) const {
+Phrase Phrase::accents() const {
     Phrase result(*this);
+    result.notes.erase(std::remove_if(result.notes.begin(), result.notes.end(),
+                       [](Note note) { return !(note.accented || note.velocity >= accentVelocity); }),
+                       result.notes.end());
+    return result;
+}
+
+Phrase Phrase::randomSubdivisions(vector<Duration> availableSubdivisions, vector<double> weights) const {
+    Phrase result(*this);
+    Sequence<Note> accents = result.accents().notes.legato();
+    result.subdivisions.clear();
     
+    if (weights.empty()) { weights.push_back(1); }
+    double average = accumulate(weights.begin(), weights.end(), 0) / (double) weights.size();
+    while (weights.size() < availableSubdivisions.size()) { weights.push_back(average); }
+    while (weights.size() > availableSubdivisions.size()) { weights.pop_back(); }
+    
+    std::discrete_distribution<int> subdivisionIndexDistribution (weights.begin(), weights.end());
+    
+    for (Note note : accents) {
+        int subdivisionIndex = subdivisionIndexDistribution(getGen());
+        Subdivision randomSubdivision(availableSubdivisions[subdivisionIndex], note.startTime, note.duration);
+        result.subdivisions.add(randomSubdivision);
+    }
     
     return result;
 }
 
-Phrase Phrase::ghostSubdivision(Pitch pitch) const {
+
+Phrase Phrase::randomGhostSubdivision(Probability probability, Pitch pitch) const {
     Phrase result(*this);
     
     for (Subdivision subdiv : result.subdivisions) {
         double numberOfGhosts = subdiv.duration / subdiv;
         for (double ghost = 0; ghost < numberOfGhosts; ghost++) {
             Position ghostPosition = subdiv.startTime + ghost * subdiv;
-            if (notes.byStartPosition(ghostPosition).empty()) {
-                result.addNote(Note(pitch, ppp, ghostPosition, subdiv));
+            if (notes.byStartPosition(ghostPosition).empty() && probability) {
+                result.notes.add(Note(pitch, pppp, ghostPosition, subdiv), PushBehavior::ignore, OverwriteBehavior::cutoff);
             }
         }
     }
     
     return result;
 }
+
+Phrase Phrase::ghostSubdivision(Pitch pitch) const { return randomGhostSubdivision(1, pitch); }
+
+

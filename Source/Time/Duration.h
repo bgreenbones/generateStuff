@@ -275,3 +275,9 @@ public:
     seconds asSeconds() const { return durationValueInSeconds; }
 //    operator double() const { return this->asBars(); };
 };
+
+
+static const Quarters triplets(1./3.);
+static const Quarters sixteenths(1./4.);
+static const Quarters quintuplets(1./5.);
+static const Quarters thirtySeconds(1./8.);

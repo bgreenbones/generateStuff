@@ -95,7 +95,7 @@ public:
     Phrase fillWithRolls(Probability rollProb,
                          Probability associationProb,
                          Probability rollLengthProb) const;
-    Phrase chooseAccents() const;
+    Phrase accents() const;
     Phrase flip() const;
     
     // Latin.cpp
@@ -111,8 +111,9 @@ public:
     Phrase claveFrom(int minNoteLengthInSubdivisions = 2, int maxNoteLengthInSubdivisions = 4) const;
     
     //
-    Phrase randomSubdivisions(vector<double> availableSubdivisions, vector<Probability> weights) const;
-    Phrase ghostSubdivision(Pitch pitch) const;
+    Phrase randomSubdivisions(vector<Duration> availableSubdivisions, vector<double> weights) const;
+    Phrase randomGhostSubdivision(Probability probability = 0.25, Pitch pitch = defaultPitch) const;
+    Phrase ghostSubdivision(Pitch pitch = defaultPitch) const;
     
     
     

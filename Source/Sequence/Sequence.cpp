@@ -139,9 +139,9 @@ bool Sequence<T>::insertSequence(Sequence<T> other, Position startTime, PushBeha
 }
 
 template <class T>
-void Sequence<T>::tie() {
+Sequence<T> Sequence<T>::tie() {
     if (this->size() <= 1) {
-        return;
+        return *this;
     }
     bool tryAgain = false;
     vector<T> tiedEvents;
@@ -159,12 +159,14 @@ void Sequence<T>::tie() {
         this->assignEvents(tiedEvents);
         this->tie();
     }
+    
+    return *this;
 }
 
 template <class T>
-void Sequence<T>::legato() {
+Sequence<T> Sequence<T>::legato() {
     if (this->size() <= 1) {
-        return;
+        return *this;
     }
     for (auto event = this->begin(); event < this->end(); event++) {
         auto nextEvent = event + 1;
@@ -177,6 +179,8 @@ void Sequence<T>::legato() {
             event->duration = nextEvent->startTime - event->startTime;
         }
     }
+    
+    return *this;
 }
 
 
