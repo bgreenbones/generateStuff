@@ -83,32 +83,32 @@ public:
     Duration halfLength() const { return duration / 2.; };
     bool isNoteOnLeft(Note note) const { return note.startTime < halfLength(); };
     bool isNoteOnRight(Note note) const { return !isNoteOnLeft(note); };
-    int getPotentialClaveNoteCount(Duration minNoteLength, Duration maxNoteLength) const;
-    int chooseNumberOfNotesOnLeft(double numNotes) const;
+//    int getPotentialClaveNoteCount(Duration minNoteLength, Duration maxNoteLength) const;
+//    int chooseNumberOfNotesOnLeft(double numNotes) const;
 
     
     // Rhythmic thing.
-    Phrase pulseAndDisplace(Duration pulse = 0.5, // TODO: create a rhythm type that gives access to these params RAW instead of the hardcoded cascara idea...
-                              Duration displacement = 0.25,
-                              Probability pDisplace = 0.5,
-                              Probability pDouble = 0.75) const; // (for forward displacement, set pDouble = 1 and displacement = 1 - amount to displace forward)
+//    Phrase pulseAndDisplace(Duration pulse = 0.5, // TODO: create a rhythm type that gives access to these params RAW instead of the hardcoded cascara idea...
+//                              Duration displacement = 0.25,
+//                              Probability pDisplace = 0.5,
+//                              Probability pDouble = 0.75) const; // (for forward displacement, set pDouble = 1 and displacement = 1 - amount to displace forward)
     Phrase fillWithRolls(Probability rollProb,
                          Probability associationProb,
                          Probability rollLengthProb) const;
     Phrase accents() const;
-    Phrase flip() const;
-    
-    // Latin.cpp
-    Phrase fillCascara() const;
-    Phrase fillClave(int notesNeededOnLeft,
-                     int notesNeededOnRight,
-                     Duration minNoteLength,
-                     Duration maxNoteLength) const;
-    Phrase randomCascara(Probability pDisplace = 0.5,
-                         Probability pDouble = 0.75) const;
-    Phrase randomClave(int minNoteLengthInSubdivisions = 2, int maxNoteLengthInSubdivisions = 4) const;
-    Phrase cascaraFrom() const;
-    Phrase claveFrom(int minNoteLengthInSubdivisions = 2, int maxNoteLengthInSubdivisions = 4) const;
+//    Phrase flip() const;
+//    
+//    // Latin.cpp
+//    Phrase fillCascara() const;
+//    Phrase fillClave(int notesNeededOnLeft,
+//                     int notesNeededOnRight,
+//                     Duration minNoteLength,
+//                     Duration maxNoteLength) const;
+//    Phrase randomCascara(Probability pDisplace = 0.5,
+//                         Probability pDouble = 0.75) const;
+//    Phrase randomClave(int minNoteLengthInSubdivisions = 2, int maxNoteLengthInSubdivisions = 4) const;
+//    Phrase cascaraFrom() const;
+//    Phrase claveFrom(int minNoteLengthInSubdivisions = 2, int maxNoteLengthInSubdivisions = 4) const;
     
     //
     Phrase randomSubdivisions(vector<Duration> availableSubdivisions, vector<double> weights) const;
@@ -148,7 +148,6 @@ Duration timeBetween(T const& first, T const& second, Phrase phrase)
         : second.startTime + phrase.duration - first.startTime;
 }
 
-
-
+typedef function<Phrase(Phrase)> GenerationFunction;
 
 #endif /* Phrase_hpp */

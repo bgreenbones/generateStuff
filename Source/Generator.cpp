@@ -27,81 +27,23 @@ Phrase Generator::from(string generatePhraseKey, string generateFromPhraseKey, f
     return result;
 }
 
-Phrase Generator::chords() {
-    Phrase phrase = Phrase(editorState->getSubdivision(),
-                           editorState->getStartTime(),
-                           editorState->getPhraseLength());
-    
-    int numberOfChords = phrase.duration.asBars();
-    vector<vector<Pitch>> chords;
-    while(numberOfChords-- > 0) { chords.push_back(randomChord()); }
-    
-    phrase.notes.monophonic = false;
-    numberOfChords = phrase.duration.asBars();
-    bars startTimeInBars = 0;
-    for (vector<Pitch> chordToAdd : chords) {
-        Bars startTime(startTimeInBars++);
-        Bars chordLength(min(numberOfChords--, 1));
-        for (Pitch pitchToAdd : chordToAdd) {
-            Note noteToAdd(pitchToAdd.pitchValue, 70, startTime, chordLength);
-            phrase.addNote(noteToAdd);
-        }
-    }
-    playQueue->queuePhrase(harmonyKey, phrase);
-    return phrase;
-}
-
-Phrase Generator::chordsFrom(string phraseKey) {
-    Position startTime = editorState->getStartTime();
-    Duration phraseLength = editorState->getPhraseLength();
-    if (playQueue->doesntHavePhrase(phraseKey, startTime, phraseLength)) { this->generate(phraseKey); }
-    Voice voice = playQueue->getVoice(phraseKey);
-    
-    Phrase phrase = Phrase(editorState->getSubdivision(),
-                           startTime,
-                           phraseLength).toPolyphonic();
-    
-    
-    Sequence<Note> notes = voice.base.notes.toMonophonic();
-    Sequence<Note> accents(notes);
-    accents.clear();
-    
-    copy_if(notes.begin(), notes.end(), back_inserter(accents), [](Note note) { return note.accented; });
-    accents.tie();
-    
-    for (Note accent : accents) {
-        if (Probability(0.6)) { // TODO: parameterize this
-            vector<Pitch> chord = randomChord();
-            for (Pitch pitchToAdd : chord) {
-                Note noteToAdd(pitchToAdd.pitchValue, 70, accent.startTime, accent.duration);
-                phrase.addNote(noteToAdd);
-            }
-        }
-    }
-    
-    playQueue->queuePhrase(harmonyKey, phrase);
-    return phrase;
-}
-
-
-
 Phrase Generator::flipClave(string phraseKey) {
     Position startTime = editorState->getStartTime();
     Duration phraseLength = editorState->getPhraseLength();
     if (playQueue->doesntHavePhrase(phraseKey, startTime, phraseLength)) { return Phrase(); } // TODO: use std::optional in failure cases.
     Voice voice = playQueue->getVoice(phraseKey );
-    auto flipped = voice.base.flip(); // TODO: segment the phrase by relevant start and duration
+    auto flipped = rhythm::flip(voice.base); // TODO: segment the phrase by relevant start and duration
     playQueue->queuePhrase(phraseKey, flipped);
     
     bool hasOrnaments = false; // TODO: make this possible
     bool hasRolls = false;
     if (hasOrnaments) {
-        auto ornamentsFlipped = voice.ornamentation.flip(); // TODO: segment the phrase by relevant start and duration
+        auto ornamentsFlipped = rhythm::flip(voice.ornamentation); // TODO: segment the phrase by relevant start and duration
         playQueue->queueOrnamentation(phraseKey, ornamentsFlipped);
     }
     
     if (hasRolls) {
-        auto rollsFlipped = voice.rolls.flip(); // TODO: segment the phrase by relevant start and duration
+        auto rollsFlipped = rhythm::flip(voice.rolls); // TODO: segment the phrase by relevant start and duration
         playQueue->queueRoll(phraseKey, rollsFlipped);
     }
     

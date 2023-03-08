@@ -20,31 +20,27 @@
 #include "GenerateStuffEditorState.h"
 #include "PlayQueue.h"
 
+#include "Harmony.h"
+#include "Rhythm.h"
+
 using std::shared_ptr, std::map, std::string;
-
-
-
-
-static const auto subdivisionsFunction = [](Phrase const& phrase) {
-    Phrase newPhrase(phrase);
-    newPhrase.notes.clear();
-    newPhrase = newPhrase.randomGhostSubdivision(0.9,1.);
-    dynamics::randomScale(newPhrase.notes);
-    return newPhrase;
-};
 
 // TODO: someday we want generator to be a place for all your phrase types which might not even exist at compile time
 // TODO: actually - maybe we have another layer called "Voice" which manages a bunch of phrases intended for one instrument or sound.
 // then generator becomes a sort of "Choir" or conductor which will keep manage each voice and relate them with each other.
 class Generator
 {
+private:
+    unordered_map<VoiceName, VoiceBindings> voiceFunctions;
 public:
-    Generator(): settings(HostSettings::instance()) {}
     Generator(shared_ptr<PlayQueue> playQueue,
               shared_ptr<GenerateStuffEditorState> editorState):
                 settings(HostSettings::instance()),
                 playQueue(playQueue),
-                editorState(editorState) { }
+                editorState(editorState)
+    {
+        for (VoiceBindings vb : voiceBindings) { voiceFunctions.emplace(vb.voiceName, vb); }
+    }
 
     HostSettings &settings;
     shared_ptr<PlayQueue> playQueue;
@@ -53,36 +49,12 @@ public:
     Phrase fromNothing(string phraseKey, function<Phrase(Phrase)> phraseFunction);
     Phrase from(string generatePhraseKey, string generateFromPhraseKey, function<Phrase(Phrase const&)> phraseFunction);
     Phrase flipClave(string phraseKey);
-    Phrase chords();
-    Phrase chordsFrom(string phraseKey);
+
     Phrase generate(string phraseKey) { // TODO: get selected phrase key from editor state instead of passing it in?
-        if (phraseKey == cascaraKey) { return fromNothing(phraseKey, [](Phrase phrase) { return phrase.randomCascara(); }); }
-        if (phraseKey == claveKey) { return fromNothing(phraseKey, [](Phrase phrase) { return phrase.randomClave(); }); }
-        if (phraseKey == subdivisionsKey)
-        {
-            return fromNothing(phraseKey, subdivisionsFunction);
-        }
-        if (phraseKey == harmonyKey) { return chords(); }
-        return Phrase();
+        return fromNothing(phraseKey, voiceFunctions.at(phraseKey).generate);
     }
     Phrase generateFrom(string generatePhraseKey, string generateFromPhraseKey) {
-        if (generatePhraseKey == claveKey) {
-            auto clavefromFunction = [](Phrase const& fromPhrase) { return fromPhrase.claveFrom(); };
-            return from(claveKey, generateFromPhraseKey, clavefromFunction);
-        }
-        if (generatePhraseKey == cascaraKey) { // TODO: truly look inward and evaluate how we do this...
-            auto cascarafromFunction = [](Phrase const& fromPhrase) { return fromPhrase.cascaraFrom(); };
-            return from(generatePhraseKey, generateFromPhraseKey, cascarafromFunction);
-        }
-        if (generatePhraseKey == subdivisionsKey)
-        {
-            return from(generatePhraseKey, generateFromPhraseKey, subdivisionsFunction);
-        }
-        if (generatePhraseKey == harmonyKey) {
-            return chordsFrom(generateFromPhraseKey);
-        }
-        
-        return Phrase();
+        return from(generatePhraseKey, generateFromPhraseKey, voiceFunctions.at(generatePhraseKey).generateFromOther);
     }
 
     void roll(string phraseKey, Probability rollProb, Probability associationProb, Probability rollLengthProb);
@@ -90,7 +62,6 @@ public:
     
     string rollsKey(string phraseKey);
     string ornamentsKey(string phraseKey);
-private:
 };
 
 #endif /* Generator_hpp */

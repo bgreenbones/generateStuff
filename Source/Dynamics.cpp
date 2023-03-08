@@ -108,7 +108,7 @@ vector<Note>& dynamics::stretch(vector<Note>& source, DynamicLevel targetMinimum
     return dynamics::stretch(source, DynamicRange { .low = targetMinimum, .high = targetMaximum });
 }
 
-vector<Note>& dynamics::randomScale(vector<Note>& source, double minScale, double maxScale) {
+vector<Note>& dynamics::randomFlux(vector<Note>& source, double minScale, double maxScale) {
     for (Note &note : source) { note.velocity *= uniformDouble(minScale, maxScale); }
     return source;
 }

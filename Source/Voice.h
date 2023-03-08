@@ -12,8 +12,75 @@
 
 #include <stdio.h>
 #include "Phrase.hpp"
+#include "Rhythm.h"
+#include "Harmony.h"
 
 typedef string VoiceName;
+
+// TODO: change the key and the channel data into some other enum or struct type or something
+static const string claveKey = "clave";
+static const string cascaraKey = "cascara";
+static const string subdivisionsKey = "subdivisions";
+static const string harmonyKey = "harmony";
+static const string bassKey = "bass";
+static const string melodyKey = "melody";
+//static const string pulseAndDisplaceKey = "pulseAndDisplace";
+
+static int claveChannel = 1;
+static int cascaraChannel = 2;
+static int subdivisionsChannel = 3;
+static int harmonyChannel = 4;
+static int bassChannel = 5;
+static int melodyChannel = 6;
+//static int pulseAndDisplaceChannel = 4;
+
+struct VoiceBindings {
+    VoiceName voiceName;
+    int midiChannel;
+    GenerationFunction generate;
+    GenerationFunction generateFromOther;
+};
+
+static const GenerationFunction placeholderGenerationFunction = [](Phrase phrase) { return phrase; };
+
+static const vector<VoiceBindings> voiceBindings = {
+    VoiceBindings {
+        .voiceName = claveKey,
+        .midiChannel = claveChannel,
+        .generate = rhythm::claveFunction,
+        .generateFromOther = rhythm::claveFromFunction
+    },
+    VoiceBindings {
+        .voiceName = cascaraKey,
+        .midiChannel = cascaraChannel,
+        .generate = rhythm::cascaraFunction,
+        .generateFromOther = rhythm::cascaraFromFunction
+    },
+    VoiceBindings {
+        .voiceName = subdivisionsKey,
+        .midiChannel = subdivisionsChannel,
+        .generate = rhythm::fillSubdivisionsFunction,
+        .generateFromOther = rhythm::fillSubdivisionsFunction
+    },
+    VoiceBindings {
+        .voiceName = harmonyKey,
+        .midiChannel = harmonyChannel,
+        .generate = chordsFunction,
+        .generateFromOther = chordsFromFunction
+    },
+    VoiceBindings {
+        .voiceName = bassKey,
+        .midiChannel = bassChannel,
+        .generate = placeholderGenerationFunction,
+        .generateFromOther = placeholderGenerationFunction
+    },
+    VoiceBindings {
+        .voiceName = melodyKey,
+        .midiChannel = melodyChannel,
+        .generate = placeholderGenerationFunction,
+        .generateFromOther = placeholderGenerationFunction
+    }
+};
 
 class Voice {
 public:
@@ -28,18 +95,11 @@ public:
     vector<Phrase> phrases; // TODO: maybe this  needs to be a dictionary
     
     Voice(VoiceName name, int midiChannel, bool mute):
-//        TimedEvent(0, Bars(512)),
         name(name), midiChannel(midiChannel), mute(mute) {
             initPhraseVector();
         };
     
-    bool equalsExcludingTime(TimedEvent &other) {
-        DBG("Not implemented yet");
-        return false;
-    }
-    
     void initPhraseVector() {
-//        phrases = { base, ornamentation, rolls };
         phrases.clear();
         phrases.push_back(base);
         phrases.push_back(ornamentation);

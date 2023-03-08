@@ -6,6 +6,12 @@
               cppLanguageStandard="17">
   <MAINGROUP id="MsxILz" name="generateStuff">
     <GROUP id="{00999AAF-F7D5-2407-527D-4524909F0912}" name="Source">
+      <GROUP id="{DCCBD608-3028-B941-FC99-E73F736C2121}" name="Music">
+        <FILE id="eVznFL" name="Harmony.h" compile="0" resource="0" file="Source/Music/Harmony.h"/>
+        <FILE id="pHKX2R" name="Melody.h" compile="0" resource="0" file="Source/Music/Melody.h"/>
+        <FILE id="ywZWEG" name="Rhythm.cpp" compile="1" resource="0" file="Source/Music/Rhythm.cpp"/>
+        <FILE id="tVvZ01" name="Rhythm.h" compile="0" resource="0" file="Source/Music/Rhythm.h"/>
+      </GROUP>
       <GROUP id="{F3A0C4B1-F867-8446-A664-D7913F7323C9}" name="UI">
         <FILE id="tkEiPc" name="CustomUIs.h" compile="0" resource="0" file="Source/UI/CustomUIs.h"/>
         <FILE id="WgZLAu" name="GenerateStuffEditorState.h" compile="0" resource="0"
@@ -26,10 +32,6 @@
         <FILE id="oZ2iVA" name="Sequence.h" compile="0" resource="0" file="Source/Sequence/Sequence.h"/>
         <FILE id="sipKuL" name="Phrase.cpp" compile="1" resource="0" file="Source/Sequence/Phrase.cpp"/>
         <FILE id="KHfI2V" name="Phrase.hpp" compile="0" resource="0" file="Source/Sequence/Phrase.hpp"/>
-        <GROUP id="{DAAC1CF5-B5A7-DBE1-2457-B61E6B07A312}" name="Rhythm">
-          <FILE id="No4I9r" name="Latin.cpp" compile="1" resource="0" file="Source/Sequence/Rhythm/Latin.cpp"/>
-          <FILE id="p8wtXv" name="Rhythm.cpp" compile="1" resource="0" file="Source/Sequence/Rhythm/Rhythm.cpp"/>
-        </GROUP>
         <FILE id="jAc6L1" name="Ornamentation.h" compile="0" resource="0" file="Source/Sequence/Ornamentation.h"/>
         <FILE id="iOGOg4" name="Ornamentation.cpp" compile="1" resource="0"
               file="Source/Sequence/Ornamentation.cpp"/>

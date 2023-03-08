@@ -32,8 +32,8 @@ public:
         generator(processor.generator),
         playQueue(processor.playQueue)
     {
-        for (VoiceAndChannel vc : voicesAndChannels) {
-            voices.emplace(vc.voiceName, VoiceControls(vc.voiceName, vc.midiChannel));
+        for (VoiceBindings vb : voiceBindings) {
+            voices.emplace(vb.voiceName, VoiceControls(vb.voiceName, vb.midiChannel));
         }
     }
     
@@ -94,7 +94,7 @@ public:
     
     void setBounds(int xCursor, int yCursor, int buttonWidth, int buttonHeight, int spaceBetweenControls) {
         auto incrementCursor = [&]() { yCursor += buttonHeight + spaceBetweenControls; };
-        for (auto voiceIt = voicesAndChannels.begin(); voiceIt != voicesAndChannels.end(); voiceIt++) {
+        for (auto voiceIt = voiceBindings.begin(); voiceIt != voiceBindings.end(); voiceIt++) {
             voices.at(voiceIt->voiceName).setBounds (xCursor, yCursor, buttonWidth, buttonHeight, spaceBetweenControls);
             incrementCursor();
         }
