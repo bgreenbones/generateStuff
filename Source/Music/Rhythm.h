@@ -13,6 +13,11 @@
 #include "Phrase.hpp"
 
 namespace rhythm {
+
+    // TODO: IDEAS:
+    Phrase additive(Duration subdivision, vector<int> groupings);
+
+
     Phrase pulseAndDisplace(Phrase fromPhrase,
                             Duration pulse = 0.5, // TODO: create a rhythm type that gives access to these params RAW instead of the hardcoded cascara idea...
                               Duration displacement = 0.25,

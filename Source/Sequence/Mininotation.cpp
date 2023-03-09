@@ -49,3 +49,4 @@ vector<T> Mininotation::parse(std::string phraseString, Duration stepLength) {
 
 template vector<Note> Mininotation::parse<Note>(std::string phraseString, Duration stepLength);
 template vector<Subdivision> Mininotation::parse<Subdivision>(std::string phraseString, Duration stepLength);
+template vector<Tonality> Mininotation::parse<Tonality>(std::string phraseString, Duration stepLength);

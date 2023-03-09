@@ -7,8 +7,15 @@
   <MAINGROUP id="MsxILz" name="generateStuff">
     <GROUP id="{00999AAF-F7D5-2407-527D-4524909F0912}" name="Source">
       <GROUP id="{DCCBD608-3028-B941-FC99-E73F736C2121}" name="Music">
+        <FILE id="UryfA1" name="Dynamics.cpp" compile="1" resource="0" file="Source/Music/Dynamics.cpp"/>
+        <FILE id="wWFaXB" name="Dynamics.h" compile="0" resource="0" file="Source/Music/Dynamics.h"/>
+        <FILE id="geLhjK" name="Harmony.cpp" compile="1" resource="0" file="Source/Music/Harmony.cpp"/>
         <FILE id="eVznFL" name="Harmony.h" compile="0" resource="0" file="Source/Music/Harmony.h"/>
+        <FILE id="UYI0BY" name="Melody.cpp" compile="1" resource="0" file="Source/Music/Melody.cpp"/>
         <FILE id="pHKX2R" name="Melody.h" compile="0" resource="0" file="Source/Music/Melody.h"/>
+        <FILE id="LFlTUE" name="Ornamentation.cpp" compile="1" resource="0"
+              file="Source/Music/Ornamentation.cpp"/>
+        <FILE id="iiReMp" name="Ornamentation.h" compile="0" resource="0" file="Source/Music/Ornamentation.h"/>
         <FILE id="ywZWEG" name="Rhythm.cpp" compile="1" resource="0" file="Source/Music/Rhythm.cpp"/>
         <FILE id="tVvZ01" name="Rhythm.h" compile="0" resource="0" file="Source/Music/Rhythm.h"/>
       </GROUP>
@@ -23,8 +30,6 @@
         <FILE id="tFOp4W" name="VoiceManager.h" compile="0" resource="0" file="Source/UI/VoiceManager.h"/>
       </GROUP>
       <GROUP id="{E84D5FE5-051D-49D6-86AD-21D645F5CBC0}" name="Sequence">
-        <FILE id="oDJqjh" name="Additive.cpp" compile="1" resource="0" file="Source/Sequence/Additive.cpp"/>
-        <FILE id="U2yQNV" name="Additive.h" compile="0" resource="0" file="Source/Sequence/Additive.h"/>
         <FILE id="gRlJlo" name="Mininotation.cpp" compile="1" resource="0"
               file="Source/Sequence/Mininotation.cpp"/>
         <FILE id="aCmneZ" name="Mininotation.h" compile="0" resource="0" file="Source/Sequence/Mininotation.h"/>
@@ -32,9 +37,6 @@
         <FILE id="oZ2iVA" name="Sequence.h" compile="0" resource="0" file="Source/Sequence/Sequence.h"/>
         <FILE id="sipKuL" name="Phrase.cpp" compile="1" resource="0" file="Source/Sequence/Phrase.cpp"/>
         <FILE id="KHfI2V" name="Phrase.hpp" compile="0" resource="0" file="Source/Sequence/Phrase.hpp"/>
-        <FILE id="jAc6L1" name="Ornamentation.h" compile="0" resource="0" file="Source/Sequence/Ornamentation.h"/>
-        <FILE id="iOGOg4" name="Ornamentation.cpp" compile="1" resource="0"
-              file="Source/Sequence/Ornamentation.cpp"/>
       </GROUP>
       <GROUP id="{7E9EEBA7-7D3A-0165-A4D4-0B38048879EB}" name="Time">
         <FILE id="KsrwWQ" name="Timing.cpp" compile="1" resource="0" file="Source/Time/Timing.cpp"/>
@@ -56,8 +58,6 @@
       </GROUP>
       <FILE id="kFP0O5" name="Constraint.cpp" compile="1" resource="0" file="Source/Constraint.cpp"/>
       <FILE id="YPjCl5" name="Constraint.hpp" compile="0" resource="0" file="Source/Constraint.hpp"/>
-      <FILE id="YXLH5e" name="Dynamics.cpp" compile="1" resource="0" file="Source/Dynamics.cpp"/>
-      <FILE id="TUNeUu" name="Dynamics.h" compile="0" resource="0" file="Source/Dynamics.h"/>
       <FILE id="q9sIZD" name="Generator.cpp" compile="1" resource="0" file="Source/Generator.cpp"/>
       <FILE id="po8Vvx" name="Generator.hpp" compile="0" resource="0" file="Source/Generator.hpp"/>
       <FILE id="IqXoVd" name="Heuristic.cpp" compile="1" resource="0" file="Source/Heuristic.cpp"/>

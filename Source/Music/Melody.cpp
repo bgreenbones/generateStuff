@@ -1,18 +1,12 @@
 /*
   ==============================================================================
 
-    Additive.h
-    Created: 27 Nov 2022 10:02:53pm
+    Melody.cpp
+    Created: 8 Mar 2023 10:51:07pm
     Author:  Benjamin Greenwood
 
   ==============================================================================
 */
 
-#pragma once
+#include "Melody.h"
 
-
-
-
-// TODO:
-// create a way to string together phrases of different lengths in time.
-// like 3/16 + 5/16 + 4/16 + 7/16 or something

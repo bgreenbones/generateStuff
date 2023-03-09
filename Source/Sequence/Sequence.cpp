@@ -380,3 +380,4 @@ Sequence<T> Sequence<T>::pulseAndDisplace(Duration pulse,
 
 template class Sequence<Note>;
 template class Sequence<Subdivision>;
+template class Sequence<Tonality>;

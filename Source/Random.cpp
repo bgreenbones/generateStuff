@@ -98,3 +98,4 @@ template Note draw<Note>(std::vector<Note> hat);
 template PitchClass draw<PitchClass>(std::vector<PitchClass> hat);
 template Pitch draw<Pitch>(std::vector<Pitch> hat);
 template Interval draw<Interval>(std::vector<Interval> hat);
+template Tonality draw<Tonality>(std::vector<Tonality> hat);

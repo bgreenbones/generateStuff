@@ -14,6 +14,7 @@
 #include "Phrase.hpp"
 #include "Rhythm.h"
 #include "Harmony.h"
+#include "Melody.h"
 
 typedef string VoiceName;
 
@@ -65,20 +66,20 @@ static const vector<VoiceBindings> voiceBindings = {
     VoiceBindings {
         .voiceName = harmonyKey,
         .midiChannel = harmonyChannel,
-        .generate = chordsFunction,
-        .generateFromOther = chordsFromFunction
+        .generate = harmony::chordsFunction,
+        .generateFromOther = harmony::chordsFromFunction
     },
     VoiceBindings {
         .voiceName = bassKey,
         .midiChannel = bassChannel,
-        .generate = placeholderGenerationFunction,
-        .generateFromOther = placeholderGenerationFunction
+        .generate = melody::bassFunction,
+        .generateFromOther = melody::bassFromFunction
     },
     VoiceBindings {
         .voiceName = melodyKey,
         .midiChannel = melodyChannel,
-        .generate = placeholderGenerationFunction,
-        .generateFromOther = placeholderGenerationFunction
+        .generate = melody::melodyFunction,
+        .generateFromOther = melody::melodyFromFunction
     }
 };
 

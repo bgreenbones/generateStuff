@@ -101,13 +101,19 @@ public:
     }
 };
 
-class Tonality {
+#include "TimedEvent.h"
+
+class Tonality: public TimedEvent {
 public:
     PitchClass root;
     vector<Interval> intervalsUpFromRoot;
     
-    Tonality(PitchClass root, vector<Interval> intervals): root(root), intervalsUpFromRoot(intervals) {};
-    Tonality(): root(C), intervalsUpFromRoot(ionian) {};
+    Tonality(PitchClass root, vector<Interval> intervals, Position startTime, Duration duration):
+        TimedEvent(startTime, duration), root(root), intervalsUpFromRoot(intervals) {};
+    Tonality(PitchClass root, vector<Interval> intervals): Tonality(root, intervals, 0, 0) {};
+    Tonality(Position startTime, Duration duration): Tonality(C, ionian, startTime, duration) {};
+    Tonality(): Tonality(C, ionian) {};
+    Tonality(char mininotation, Position startTime, Duration duration): Tonality(startTime, duration) {}
     
     vector<Pitch> getPitches(int octave = 3) {
         octave = (octave < -2 || octave > 8) ? 3 : octave;

@@ -34,24 +34,31 @@ public:
     Phrase(Duration subdivision, Position startTime, Duration duration):
         TimedEvent(startTime, duration),
         notes(*this),
-        subdivisions(*this)
+        subdivisions(*this),
+        tonalities(*this)
     {
         this->subdivisions.add(Subdivision(subdivision, startTime, duration));
     }
     Phrase(Position startTime, Duration duration): Phrase (defaultSubdivision, startTime, duration) {}
     Phrase(Duration duration): Phrase(defaultSubdivision, defaultStartTime, duration) {}
     Phrase(): Phrase(defaultSubdivision, defaultStartTime, defaultDuration) {}
-    Phrase(Phrase const& other): TimedEvent(other), notes(other.notes, *this), subdivisions(other.subdivisions, *this) {};
+    Phrase(Phrase const& other):
+        TimedEvent(other),
+        notes(other.notes, *this),
+        subdivisions(other.subdivisions, *this),
+        tonalities(other.tonalities, *this) {};
 
     Phrase& operator=(Phrase const& other) {
         TimedEvent::operator=(other);
         notes = Sequence<Note>(other.notes, *this);
         subdivisions = Sequence<Subdivision>(other.subdivisions, *this);
+        tonalities = Sequence<Tonality>(other.tonalities, *this);
         return *this;
     };
     
     Sequence<Note> notes;
     Sequence<Subdivision> subdivisions;
+    Sequence<Tonality> tonalities;
     
     Phrase toPolyphonic() const {
         if (!(notes.monophonic)) { return *this; }
@@ -83,34 +90,13 @@ public:
     Duration halfLength() const { return duration / 2.; };
     bool isNoteOnLeft(Note note) const { return note.startTime < halfLength(); };
     bool isNoteOnRight(Note note) const { return !isNoteOnLeft(note); };
-//    int getPotentialClaveNoteCount(Duration minNoteLength, Duration maxNoteLength) const;
-//    int chooseNumberOfNotesOnLeft(double numNotes) const;
 
-    
-    // Rhythmic thing.
-//    Phrase pulseAndDisplace(Duration pulse = 0.5, // TODO: create a rhythm type that gives access to these params RAW instead of the hardcoded cascara idea...
-//                              Duration displacement = 0.25,
-//                              Probability pDisplace = 0.5,
-//                              Probability pDouble = 0.75) const; // (for forward displacement, set pDouble = 1 and displacement = 1 - amount to displace forward)
     Phrase fillWithRolls(Probability rollProb,
                          Probability associationProb,
                          Probability rollLengthProb) const;
     Phrase accents() const;
-//    Phrase flip() const;
-//    
-//    // Latin.cpp
-//    Phrase fillCascara() const;
-//    Phrase fillClave(int notesNeededOnLeft,
-//                     int notesNeededOnRight,
-//                     Duration minNoteLength,
-//                     Duration maxNoteLength) const;
-//    Phrase randomCascara(Probability pDisplace = 0.5,
-//                         Probability pDouble = 0.75) const;
-//    Phrase randomClave(int minNoteLengthInSubdivisions = 2, int maxNoteLengthInSubdivisions = 4) const;
-//    Phrase cascaraFrom() const;
-//    Phrase claveFrom(int minNoteLengthInSubdivisions = 2, int maxNoteLengthInSubdivisions = 4) const;
-    
-    //
+
+    // TODO: move to rhythm namespace
     Phrase randomSubdivisions(vector<Duration> availableSubdivisions, vector<double> weights) const;
     Phrase randomGhostSubdivision(Probability ghostProbability = 0.6,
                                   Probability subdivisionProbability = 1.,
@@ -123,7 +109,7 @@ public:
                              Probability burstProbability = 0.4, Pitch pitch = defaultPitch) const;
     
     
-    // Ornament stuff - TODO: i don't think these really belong in Phrase class
+    // Ornament stuff - TODO: move to ornament namespace
     Phrase addOrnaments(vector<OrnamentSimple> possibleOrnaments, Probability prob, double breadth, vector<float> probabilities =  { }) const;
     Phrase addOrnaments(OrnamentSimple ornament, Probability prob, double breadth) const;
     Phrase withRoll(Position start, Position target, Association association) const;

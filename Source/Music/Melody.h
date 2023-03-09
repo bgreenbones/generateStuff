@@ -10,11 +10,32 @@
 
 #pragma once
 
-#include "Phrase.h"
+#include "Phrase.hpp"
 #include "GenerateStuffEditorState.h"
 
 
-Phrase melody(EditorState editorState, Phrase fromPhrase) {
-    // TODO: this
-    return fromPhrase;
+namespace melody {
+    
+    const GenerationFunction melodyFunction = [](Phrase fromPhrase) {
+        // TODO: this
+        return fromPhrase;
+    };
+
+    const GenerationFunction melodyFromFunction = [](Phrase fromPhrase) {
+        // TODO: this
+        return fromPhrase;
+    };
+
+    const GenerationFunction bassFunction = [](Phrase fromPhrase) {
+        // TODO: this
+        return fromPhrase;
+    };
+
+    const GenerationFunction bassFromFunction = [](Phrase fromPhrase) {
+        // TODO: this
+        return fromPhrase;
+    };
+
 }
+
+
