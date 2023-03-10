@@ -16,21 +16,23 @@
 
 
 namespace harmony {
-    Tonality randomTonality();
+    Tonality randomTonality(Position startTime = 0, Duration duration = Bars(1));
     vector<Pitch> randomChord();
         
     const GenerationFunction chordsFunction = [](Phrase phrase) {
-        int numberOfChords = phrase.duration.asBars();
-        vector<vector<Pitch>> chords;
-        while(numberOfChords-- > 0) { chords.push_back(harmony::randomChord()); }
-
         phrase.notes.monophonic = false;
-        numberOfChords = phrase.duration.asBars();
+        phrase.tonalities.monophonic = true;
+        phrase.notes.clear();
+        phrase.tonalities.clear();
+        
+        int numberOfChords = phrase.duration.asBars();
         bars startTimeInBars = 0;
-        for (vector<Pitch> chordToAdd : chords) {
+        while(numberOfChords-- > 0) {
             Bars startTime(startTimeInBars++);
             Bars chordLength(min(numberOfChords--, 1));
-            for (Pitch pitchToAdd : chordToAdd) {
+            Tonality tonality = randomTonality(startTime, chordLength);
+            phrase.tonalities.add(tonality);
+            for (Pitch pitchToAdd : tonality.randomVoicing()) {
                 Note noteToAdd(pitchToAdd.pitchValue, 70, startTime, chordLength);
                 phrase.addNote(noteToAdd);
             }
@@ -38,29 +40,23 @@ namespace harmony {
         return phrase;
     };
 
+
+    Phrase generateTonalities(Phrase fromPhrase, Probability chordProbabilityPerAccent = 0.6);
+
+
     const GenerationFunction chordsFromFunction = [](Phrase fromPhrase) {
-
         Phrase phrase = fromPhrase.toPolyphonic();
+        phrase = phrase.tonalities.empty() ? generateTonalities(phrase, 0.6) : phrase;
         phrase.notes.clear();
-        Sequence<Note> notes(fromPhrase.notes.toMonophonic());
-        Sequence<Note> accents(notes);
-        accents.clear();
-
-        copy_if(notes.begin(), notes.end(), back_inserter(accents), [](Note note) { return note.accented; });
-        accents.tie();
-
-        for (Note accent : accents) {
-            if (Probability(0.6)) { // TODO: parameterize this
-                vector<Pitch> chord = harmony::randomChord();
-                for (Pitch pitchToAdd : chord) {
-                    Note noteToAdd(pitchToAdd.pitchValue, 70, accent.startTime, accent.duration);
-                    phrase.addNote(noteToAdd);
-                }
+        
+        for (Tonality tonality : phrase.tonalities) {
+            for (Pitch pitchToAdd : tonality.randomVoicing()) {
+                Note noteToAdd(pitchToAdd.pitchValue, 70, tonality.startTime, tonality.duration);
+                phrase.addNote(noteToAdd);
             }
         }
-
+        
         return phrase;
     };
-
 }
 
