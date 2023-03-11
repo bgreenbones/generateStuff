@@ -131,12 +131,18 @@ Phrase Phrase::insert(Phrase other, OverwriteBehavior overwriteBehavior) const {
                                 [other](TimedEvent t) { return other.containsPartially(t) || t.containsPartially(other); }),
                                 phrase.subdivisions.end());
         
+        phrase.tonalities.erase(std::remove_if(phrase.tonalities.begin(), phrase.tonalities.end(),
+                                [other](TimedEvent t) { return other.containsPartially(t) || t.containsPartially(other); }),
+                                phrase.tonalities.end());
+        
     }
 
     
     phrase.notes.insertSequence(other.notes, Position(0), PushBehavior::ignore, overwriteBehavior);
     phrase.subdivisions.insertSequence(other.subdivisions, Position(0), PushBehavior::ignore, overwriteBehavior);
     phrase.subdivisions.tie();
+    phrase.tonalities.insertSequence(other.tonalities, Position(0), PushBehavior::ignore, overwriteBehavior);
+    phrase.tonalities.tie();
     
     return phrase;
 }
