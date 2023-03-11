@@ -333,10 +333,10 @@
             filePath = "../../Source/Sequence/Phrase.hpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
-            landmarkName = "equalsExcludingTime(other)"
-            landmarkType = "7">
+            startingLineNumber = "78"
+            endingLineNumber = "78"
+            landmarkName = "Phrase"
+            landmarkType = "3">
             <Locations>
                <Location
                   uuid = "24FE023C-EB5E-4E75-8CFC-52920A1B5E09 - 79372d73eb748da4"

@@ -60,6 +60,12 @@ public:
     Sequence<Subdivision> subdivisions;
     Sequence<Tonality> tonalities;
     
+    Phrase toMonophonic() const {
+        if (notes.monophonic) { return *this; }
+        Phrase result(*this);
+        result.notes = result.notes.toMonophonic();
+        return result;
+    }
     Phrase toPolyphonic() const {
         if (!(notes.monophonic)) { return *this; }
         Phrase result(*this);

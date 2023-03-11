@@ -37,10 +37,22 @@ namespace melody {
         phrase = phrase.tonalities.empty() ? harmony::generateTonalities(phrase, 0.6) : phrase;
         phrase.notes.clear();
         
-        for (Tonality tonality : phrase.tonalities) {
-            Note noteToAdd(Pitch(tonality.root, 3), 70, tonality.startTime, tonality.duration);
-            phrase.addNote(noteToAdd);
-        }
+        set<Position> keyPoints;
+        
+        auto notes = fromPhrase.toMonophonic();
+        auto accents = notes.accents();
+        
+        for (Note note : notes.notes) { keyPoints.emplace(note.startTime); }
+        for (Tonality tonality : phrase.tonalities) { keyPoints.emplace(tonality.startTime); }
+        
+        // TODO: use burst to come up with some rando beat repeat style rhythms.
+        
+        //            vector<Tonality> tonalities = phrase.tonalities.byPosition(note.startTime);
+        //            if (tonalities.empty()) { continue; }
+        //            Tonality tonality = tonalities.at(0);
+        //
+        //            Note noteToAdd(Pitch(tonality.root, 3), 70, tonality.startTime, tonality.duration);
+        //            phrase.addNote(noteToAdd);
         
         return phrase;
     };

@@ -227,6 +227,3 @@ Phrase Phrase::randomGhostBursts(Duration minimumBurstLength, Duration maximumBu
     
     return result;
 }
-
-
-

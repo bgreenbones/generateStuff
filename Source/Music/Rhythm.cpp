@@ -10,6 +10,28 @@
 
 #include "Rhythm.h"
 
+
+Phrase rhythm::burst(Phrase fromPhrase, Note note, Duration minimumBurstLength, Duration maximumBurstLength) {
+    
+    vector<Subdivision> subdivs = fromPhrase.subdivisions.byPosition(note.startTime);
+    Duration subdiv = subdivs.empty() ? sixteenths : subdivs.at(0).duration;
+    double numberOfPossibleBurstLengths = (maximumBurstLength - minimumBurstLength) / subdiv;
+    
+    int numberOfNotes = rollDie(numberOfPossibleBurstLengths);
+    Duration burstLength = minimumBurstLength + (numberOfNotes * subdiv);
+    TimedEvent span(note.startTime, burstLength);
+    
+    for (double repeat = 0; repeat < numberOfNotes; repeat++) {
+        Position position = note.startTime + repeat * subdiv;
+        if (span.contains(position) && fromPhrase.notes.byStartPosition(position).empty()) {
+            Note repeatNote(note.pitch, note.velocity, position, subdiv);
+            fromPhrase.notes.add(repeatNote, PushBehavior::ignore, OverwriteBehavior::cutoff);
+        }
+    }
+    
+    return fromPhrase;
+}
+
 Phrase rhythm::flip(Phrase fromPhrase) {
     fromPhrase.notes.flip();
     fromPhrase.subdivisions.flip();

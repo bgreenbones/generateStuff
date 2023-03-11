@@ -30,6 +30,11 @@ namespace rhythm {
     Phrase accents(Phrase fromPhrase);
     Phrase flip(Phrase fromPhrase);
 
+        
+    Phrase burst(Phrase fromPhrase, Note note, Duration minimumBurstLength, Duration maximumBurstLength);
+
+
+
 
     int getPotentialClaveNoteCount(Phrase fromPhrase, Duration minNoteLength, Duration maxNoteLength);
     int chooseNumberOfNotesOnLeft(double numNotes);
