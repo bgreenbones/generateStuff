@@ -21,8 +21,9 @@ public:
         Duration(divisionLength), TimedEvent(startTime, span) { };
     Subdivision(Duration divisionLength):
         Duration(divisionLength), TimedEvent(0, Bars(1)) { };
+    Subdivision(Position startTime, Duration span): Subdivision(Beats(1), startTime, span) { };
     Subdivision(): Duration(), TimedEvent() {};
-    Subdivision(char mininotation, Position startTime, Duration span): Subdivision(Beats(1), startTime, span) {
+    Subdivision(char mininotation, Position startTime, Duration span): Subdivision(startTime, span) {
         if (Mininotation::isValue(mininotation)) {
             DBG ("ok, good");
         } else {

@@ -31,7 +31,7 @@ namespace rhythm {
     Phrase flip(Phrase fromPhrase);
 
         
-    Phrase burst(Phrase fromPhrase, Note note, Duration minimumBurstLength, Duration maximumBurstLength);
+    Phrase burst(Phrase fromPhrase, Note note, int minimumRepeats, int maximumRepeats);
 
 
 

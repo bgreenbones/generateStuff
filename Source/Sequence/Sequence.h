@@ -30,6 +30,17 @@ template <typename T> // T as to be TimedEvent subclass
 class Sequence: public vector<T>
 {
 public:
+    static Sequence<T> burst(TimedEvent &parent, Duration eventLength, int numberOfEvents) {
+        Sequence<T> result(parent);
+        
+        for (int i = 0; i < numberOfEvents; i++) {
+            result.push_back(T(i, eventLength));
+        }
+        
+        return result;
+    }
+    
+    
     Sequence(vector<T> events, bool monophonic, TimedEvent& parent): vector<T>(events), monophonic(monophonic), parent(parent) {}
     Sequence(vector<T> events, TimedEvent& parent): Sequence(events, true, parent) {}
     Sequence(TimedEvent &parent): Sequence({}, parent) {}
