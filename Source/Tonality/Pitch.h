@@ -119,8 +119,8 @@ public:
     Tonality(): Tonality(C, ionian) {};
     Tonality(char mininotation, Position startTime, Duration duration): Tonality(startTime, duration) {}
     
-    
-    int step(Interval first, Direction direction) {
+private:
+    int stepHelper(Interval first, Direction direction) {
         auto tonalityMemberInterval = std::find(intervalsUpFromRoot.begin(), intervalsUpFromRoot.end(), first);
         bool notInTonality = tonalityMemberInterval == intervalsUpFromRoot.end();
         if (notInTonality) {
@@ -142,13 +142,14 @@ public:
         return *(tonalityMemberInterval + direction * 1);
     }
     
-    
+public:
     Pitch step(Pitch first, Direction direction) {
         Interval firstInterval = root > first.getPitchClass()
             ? (Interval) (12 + first.getPitchClass() - root)
             : (Interval) (first.getPitchClass() - root);
 
-        return Pitch(first.pitchValue + step(firstInterval, direction));
+        return Pitch(first.pitchValue + stepHelper(firstInterval, direction) - firstInterval);
+//        return Pitch(first.pitchValue + step(firstInterval, direction));
 
 //        auto interval = std::find(intervalsUpFromRoot.begin(), intervalsUpFromRoot.end(), firstInterval);
 //        if (interval == intervalsUpFromRoot.end()) {
