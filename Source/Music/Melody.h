@@ -27,12 +27,18 @@ namespace melody {
             vector<Tonality> tonalities = phrase.tonalities.byPosition(cursor);
             Tonality tonality = tonalities.empty() ? harmony::randomTonality() : tonalities.at(0);
             
+            
+            // TODO: why doesn't it work
+//            tonality = Tonality(C, chromatic, fromPhrase.startTime, fromPhrase.duration);
             vector<Subdivision> subdivs = phrase.subdivisions.byPosition(cursor);
             Duration subdiv = subdivs.empty() ? sixteenths : subdivs.at(0);
             
             Sequence<Note> burstOfNotes = Sequence<Note>::burst(phrase, subdiv, 1 + rollDie(4));
+            Pitch lastPitch = draw<Pitch>(tonality.getPitches());
             for (Note &note : burstOfNotes) {
-                note.pitch = draw<Pitch>(tonality.getPitches());
+                Direction direction = rollDie(2) == 2 ? Direction::down : Direction::up;
+                note.pitch = tonality.step(lastPitch, direction);
+                lastPitch = note.pitch;
             }
             
             phrase.notes.insertSequence(burstOfNotes, cursor);

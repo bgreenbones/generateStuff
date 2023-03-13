@@ -27,6 +27,7 @@ typedef enum Interval {
 static const Interval b5 = tritone;
 static const Interval s5 = m6;
 static const vector<Interval> intervals = { unison, m2, M2, m3, M3, P4, tritone, P5, m6, M6, m7, M7, octave };
+static const vector<Interval> chromatic = { unison, m2, M2, m3, M3, P4, tritone, P5, m6, M6, m7, M7 };
 
 typedef enum Direction {
     down = -1, up = 1
@@ -82,6 +83,7 @@ public:
     }
     Pitch(): pitchValue(getPitchValue(C, 5)) {}
     
+    int getOctave() const { return pitchValue / 12; }
     PitchClass getPitchClass() const {
         int PitchClassValue = pitchValue % 12;
         PitchClass result = PitchClass(PitchClassValue);
@@ -109,11 +111,70 @@ public:
     vector<Interval> intervalsUpFromRoot;
     
     Tonality(PitchClass root, vector<Interval> intervals, Position startTime, Duration duration):
-        TimedEvent(startTime, duration), root(root), intervalsUpFromRoot(intervals) {};
+        TimedEvent(startTime, duration), root(root), intervalsUpFromRoot(intervals) {
+            std::sort(intervalsUpFromRoot.begin(), intervalsUpFromRoot.end());
+        };
     Tonality(PitchClass root, vector<Interval> intervals): Tonality(root, intervals, 0, 0) {};
     Tonality(Position startTime, Duration duration): Tonality(C, ionian, startTime, duration) {};
     Tonality(): Tonality(C, ionian) {};
     Tonality(char mininotation, Position startTime, Duration duration): Tonality(startTime, duration) {}
+    
+    
+    int step(Interval first, Direction direction) {
+        auto tonalityMemberInterval = std::find(intervalsUpFromRoot.begin(), intervalsUpFromRoot.end(), first);
+        bool notInTonality = tonalityMemberInterval == intervalsUpFromRoot.end();
+        if (notInTonality) {
+            auto lessIt = intervalsUpFromRoot.begin();
+            while (lessIt + 1 != intervalsUpFromRoot.end() && *(lessIt + 1) < first) { lessIt++; }
+            int less = *lessIt < first ? *lessIt : *(intervalsUpFromRoot.end()) - 12;
+            int more = lessIt + 1 != intervalsUpFromRoot.end() ? *(lessIt + 1) : *intervalsUpFromRoot.begin() + 12;
+            return direction == Direction::up ? more : less;
+        }
+        
+        Interval beginInterval = *intervalsUpFromRoot.begin();
+        Interval endInterval = *(intervalsUpFromRoot.end() - 1);
+
+        bool wrapDownward = direction == Direction::down && *tonalityMemberInterval == beginInterval;
+        if (wrapDownward) { return endInterval - 12; }
+        bool wrapUpward = direction == Direction::up && *tonalityMemberInterval == endInterval;
+        if (wrapUpward) { return beginInterval + 12; }
+        
+        return *(tonalityMemberInterval + direction * 1);
+    }
+    
+    
+    Pitch step(Pitch first, Direction direction) {
+        Interval firstInterval = root > first.getPitchClass()
+            ? (Interval) (12 + first.getPitchClass() - root)
+            : (Interval) (first.getPitchClass() - root);
+
+        return Pitch(first.pitchValue + step(firstInterval, direction));
+
+//        auto interval = std::find(intervalsUpFromRoot.begin(), intervalsUpFromRoot.end(), firstInterval);
+//        if (interval == intervalsUpFromRoot.end()) {
+//            auto less = intervalsUpFromRoot.begin();
+//            while (less + 1 != intervalsUpFromRoot.end() && *(less + 1) < firstInterval) { less++; }
+//            auto more = less + 1 != intervalsUpFromRoot.end() ? less + 1 : intervalsUpFromRoot.begin();
+//            int octave = direction == Direction::up ? first.getOctave() + 1 : first.getOctave();
+//            Interval newInterval = direction == Direction::up ? *more : *less;
+//            return Pitch(root, octave).pitchFromInterval(newInterval, up);
+//        }
+//
+//        Interval beginInterval = *intervalsUpFromRoot.begin();
+//        Interval endInterval = *(intervalsUpFromRoot.end() - 1);
+//
+//        bool wrapDownward = direction == Direction::down && *interval == beginInterval;
+//        if (wrapDownward) {
+//            return Pitch(root, first.getOctave() - 1).pitchFromInterval(endInterval, up);
+//        }
+//
+//        bool wrapUpward = direction == Direction::up && *interval == endInterval;
+//        if (wrapUpward) {
+//            return Pitch(root, first.getOctave() + 1).pitchFromInterval(beginInterval, up);
+//        }
+//
+//        return Pitch(root, first.getOctave()).pitchFromInterval(*(interval + direction * 1), up);
+    }
     
     vector<Pitch> getPitches(int octave = 3) {
         octave = (octave < -2 || octave > 8) ? 3 : octave;
