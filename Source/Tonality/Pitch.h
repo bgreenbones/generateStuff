@@ -200,4 +200,16 @@ public:
     Tonality getMode(int n) const {
         return Tonality(root, nthMode(intervalsUpFromRoot, n));
     }
+    
+    bool equalsExcludingTime(Tonality &other) {
+        if (other.intervalsUpFromRoot.size() != intervalsUpFromRoot.size()) { return false; }
+
+        std::sort(other.intervalsUpFromRoot.begin(), other.intervalsUpFromRoot.end());
+        bool equals = root == other.root;
+        for (int i = 0; i < intervalsUpFromRoot.size(); i++) {
+            equals = equals && intervalsUpFromRoot.at(i) == other.intervalsUpFromRoot.at(i);
+        }
+        return equals;
+    }
+    
 };

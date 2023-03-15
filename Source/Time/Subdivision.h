@@ -42,9 +42,8 @@ public:
         return *this;
     };
     
-    bool equalsExcludingTime(TimedEvent &other) {
-        DBG("Not implemented yet");
-        return false;
+    bool equalsExcludingTime(Subdivision &other) {
+        return this->asQuarters() == other.asQuarters();
     }
     
 //    Subdivision operator=(const double other) {

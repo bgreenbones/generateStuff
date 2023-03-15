@@ -141,7 +141,7 @@ bool Sequence<T>::insertSequence(Sequence<T> other, Position startTime, PushBeha
 }
 
 template <class T>
-Sequence<T> Sequence<T>::tie() {
+Sequence<T> Sequence<T>::tie() { // TODO: this isn't working right??
     if (this->size() <= 1) {
         return *this;
     }
@@ -149,16 +149,32 @@ Sequence<T> Sequence<T>::tie() {
     vector<T> tiedEvents;
     for (auto event = this->begin(); event < this->end() - 1; event++) {
         auto otherEvent = event + 1;
-        if (event->equalsExcludingTime(*otherEvent)) {
+        if (otherEvent == this->end()) {
+            event->duration = parent.duration - event->startTime;
+            tiedEvents.push_back(*event);
+            continue;
+        }
+        
+        if (event->startTime >= otherEvent->startTime) {
+            DBG("aghh");
+        }
+        
+        event->duration = otherEvent->startTime - event->startTime;
+        
+        if (event->equalsExcludingTime(*otherEvent)) { // tie events together.
             T tiedEvent(*event);
             tiedEvent.startTime = event->startTime;
-            tiedEvent.duration = event->duration + otherEvent->duration;
+            tiedEvent.duration = otherEvent->endTime() - event->startTime; // event->duration + otherEvent->duration;
             tiedEvents.push_back(tiedEvent);
             tryAgain = true;
+        } else {
+            tiedEvents.push_back(*event);
         }
     }
+
+    this->assignEvents(tiedEvents);
+    
     if (tryAgain) {
-        this->assignEvents(tiedEvents);
         this->tie();
     }
     
