@@ -70,7 +70,7 @@ public:
     }
     
     bool add(T toAdd, PushBehavior pushBehavior = PushBehavior::ignore, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignore);
-    Sequence<T> tie();
+    Sequence<T> tie(bool fillBeginning = false);
     Sequence<T> legato();
     bool concat(Sequence<T> other, bool useLast = false, PushBehavior pushBehavior = PushBehavior::ignore);
 //    bool insertVector(vector<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore, bool overwrite = false);
@@ -213,9 +213,12 @@ public:
     bool operator< (const Note &other) { return startTime < other.startTime; }
     bool operator> (const Note &other) { return startTime > other.startTime; }
     
-    bool equalsExcludingTime(TimedEvent &other) {
-        DBG("Not implemented yet");
-        return false;
+    bool equalsExcludingTime(Note &other) {
+        return this->pitch == other.pitch &&
+            this->velocity == other.velocity &&
+            this->accented == other.accented &&
+            this->ornamented == other.ornamented &&
+            this->isOrnament == other.isOrnament;
     }
 };
 

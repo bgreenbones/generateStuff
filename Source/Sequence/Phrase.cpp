@@ -47,20 +47,7 @@ void Phrase::tieSubdivisions() {
     if (subdivisions.size() <= 1) {
         return;
     }
-    subdivisions.tie();
-//    bool tryAgain = false;
-//    vector<Subdivision> newSubdivisions;
-//    for (auto subdivIt = subdivisions.begin(); subdivIt < subdivisions.end() - 1; subdivIt++) {
-//        auto otherSubdivIt = subdivIt + 1;
-//        if (subdivIt->asQuarters() == otherSubdivIt->asQuarters() && subdivIt->endTime() == otherSubdivIt->startTime) {
-//            newSubdivisions.push_back(Subdivision(subdivIt->asQuarters(), subdivIt->startTime, subdivIt->duration + otherSubdivIt->duration));
-//            tryAgain = true;
-//        }
-//    }
-//    if (tryAgain) {
-//        this->subdivisions = newSubdivisions;
-//        tieSubdivisions();
-//    }
+    subdivisions.tie(true);
 }
 
 // TODO: call through to Sequence methods? or actually this just shouldn't exist...
@@ -108,11 +95,14 @@ Phrase Phrase::concat(Phrase other, bool useLastNote, bool keepDuration) const {
     // // // // // // /// Sequence version.
     phrase.notes.concat(other.notes, useLastNote);
     phrase.subdivisions.concat(other.subdivisions, useLastNote);
+    phrase.tonalities.concat(other.tonalities, useLastNote);
     if (keepDuration) {
         phrase.notes.chopAfterDuration(durationToPersist);
         phrase.subdivisions.chopAfterDuration(durationToPersist);
+        phrase.tonalities.chopAfterDuration(durationToPersist);
     }
-    phrase.subdivisions.tie();
+    phrase.subdivisions.tie(true);
+    phrase.tonalities.tie(true);
     // // // // // // ///
     
     return phrase;
@@ -140,9 +130,9 @@ Phrase Phrase::insert(Phrase other, OverwriteBehavior overwriteBehavior) const {
     
     phrase.notes.insertSequence(other.notes, Position(0), PushBehavior::ignore, overwriteBehavior);
     phrase.subdivisions.insertSequence(other.subdivisions, Position(0), PushBehavior::ignore, overwriteBehavior);
-    phrase.subdivisions.tie();
+    phrase.subdivisions.tie(true);
     phrase.tonalities.insertSequence(other.tonalities, Position(0), PushBehavior::ignore, overwriteBehavior);
-    phrase.tonalities.tie();
+    phrase.tonalities.tie(true);
     
     return phrase;
 }

@@ -32,7 +32,7 @@ Sequence<T> Sequence<T>::toMonophonic() const {
     result.clear();
     result.monophonic = true;
     for (T toAdd : *this) { result.add(toAdd, PushBehavior::ignore, OverwriteBehavior::cutoff); }
-    result.tie();
+//    result.tie();
     
     return result;
 }
@@ -141,24 +141,25 @@ bool Sequence<T>::insertSequence(Sequence<T> other, Position startTime, PushBeha
 }
 
 template <class T>
-Sequence<T> Sequence<T>::tie() { // TODO: this isn't working right??
+Sequence<T> Sequence<T>::tie(bool fillBeginning) { // TODO: this isn't working right??
     if (this->size() <= 1) {
         return *this;
     }
     bool tryAgain = false;
     vector<T> tiedEvents;
-    for (auto event = this->begin(); event < this->end() - 1; event++) {
+    for (auto event = this->begin(); event < this->end(); event++) {
         auto otherEvent = event + 1;
         if (otherEvent == this->end()) {
-            event->duration = parent.duration - event->startTime;
+            event->duration = parent.endTime() - event->startTime;
             tiedEvents.push_back(*event);
-            continue;
+            break;
         }
         
         if (event->startTime >= otherEvent->startTime) {
             DBG("aghh");
         }
         
+        if (event == this->begin() && fillBeginning) { event->startTime = parent.startTime; }
         event->duration = otherEvent->startTime - event->startTime;
         
         if (event->equalsExcludingTime(*otherEvent)) { // tie events together.
@@ -167,6 +168,7 @@ Sequence<T> Sequence<T>::tie() { // TODO: this isn't working right??
             tiedEvent.duration = otherEvent->endTime() - event->startTime; // event->duration + otherEvent->duration;
             tiedEvents.push_back(tiedEvent);
             tryAgain = true;
+            event++;
         } else {
             tiedEvents.push_back(*event);
         }
@@ -186,6 +188,7 @@ Sequence<T> Sequence<T>::legato() {
     if (this->size() <= 1) {
         return *this;
     }
+
     for (auto event = this->begin(); event < this->end(); event++) {
         auto nextEvent = event + 1;
         if (nextEvent == this->end()) {

@@ -31,7 +31,7 @@ Phrase harmony::generateTonalities(Phrase fromPhrase, Probability chordProbabili
     Sequence<Note> accents(notes);
     accents.clear();
     copy_if(notes.begin(), notes.end(), back_inserter(accents), [](Note note) { return note.accented; });
-    accents.tie();
+    accents.legato();
     
     if (accents.empty()) {
         int numberOfChords = fromPhrase.duration.asBars();

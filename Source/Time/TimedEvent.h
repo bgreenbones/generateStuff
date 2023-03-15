@@ -41,6 +41,8 @@ public:
     bool containsPartially(const TimedEvent &other) const { return this->startTime <= other.startTime && this->endTime() > other.startTime; }
     bool containsCompletely(const TimedEvent &other) const { return this->startTime <= other.startTime && this->endTime() >= other.endTime(); }
     
+    // TODO: siighhh ideally this is like, pure virtual, but then inheriting classes implementing it actually take their SPECIFIC class as argument, not a TimedEvent
+    // also we need instances of TimedEvent so it doesn't really work as purevirtual
 //    virtual bool equalsExcludingTime(TimedEvent &other) {
 //        DBG("...should this be pure virtual? but then timed event is an abstract class..which makes some things not work..");
 //        return false;
