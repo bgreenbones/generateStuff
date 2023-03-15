@@ -33,8 +33,8 @@ public:
     static Sequence<T> burst(TimedEvent &parent, Duration eventLength, int numberOfEvents) {
         Sequence<T> result(parent);
         
-        for (int i = 0; i < numberOfEvents; i++) {
-            result.push_back(T(i, eventLength));
+        for (double i = 0; i < numberOfEvents; i++) {
+            result.push_back(T(i * eventLength, eventLength));
         }
         
         return result;

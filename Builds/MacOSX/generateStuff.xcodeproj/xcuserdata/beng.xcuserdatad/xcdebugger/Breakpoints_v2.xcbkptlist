@@ -270,13 +270,13 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
             landmarkName = "concat(other, useLast, pushBehavior)"
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "3D5390AF-4046-40C9-924F-3545307DB23F - b513e334db5068f1"
+                  uuid = "3D5390AF-4046-40C9-924F-3545307DB23F - b513e334db50684f"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -286,12 +286,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "117"
-                  endingLineNumber = "117"
+                  startingLineNumber = "119"
+                  endingLineNumber = "119"
                   offsetFromSymbolStart = "352">
                </Location>
                <Location
-                  uuid = "3D5390AF-4046-40C9-924F-3545307DB23F - 90128ae941de6cf1"
+                  uuid = "3D5390AF-4046-40C9-924F-3545307DB23F - 90128ae941de6c4f"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -301,12 +301,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "117"
-                  endingLineNumber = "117"
+                  startingLineNumber = "119"
+                  endingLineNumber = "119"
                   offsetFromSymbolStart = "352">
                </Location>
                <Location
-                  uuid = "3D5390AF-4046-40C9-924F-3545307DB23F - 17e12fc7dfdcb8c9"
+                  uuid = "3D5390AF-4046-40C9-924F-3545307DB23F - 17e12fc7dfdcb877"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -316,8 +316,8 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "117"
-                  endingLineNumber = "117"
+                  startingLineNumber = "119"
+                  endingLineNumber = "119"
                   offsetFromSymbolStart = "352">
                </Location>
             </Locations>
@@ -397,13 +397,13 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
             landmarkName = "insertVector(other, startTime, pushBehavior, overwriteBehavior)"
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "5BFB9288-243B-4836-8C22-97C6A6605129 - 7cb395d50140a898"
+                  uuid = "5BFB9288-243B-4836-8C22-97C6A6605129 - 7cb395d50140a8de"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -413,12 +413,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "129"
-                  endingLineNumber = "129"
+                  startingLineNumber = "131"
+                  endingLineNumber = "131"
                   offsetFromSymbolStart = "300">
                </Location>
                <Location
-                  uuid = "5BFB9288-243B-4836-8C22-97C6A6605129 - 686837783c0c1555"
+                  uuid = "5BFB9288-243B-4836-8C22-97C6A6605129 - 686837783c0c1513"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -428,12 +428,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "129"
-                  endingLineNumber = "129"
+                  startingLineNumber = "131"
+                  endingLineNumber = "131"
                   offsetFromSymbolStart = "300">
                </Location>
                <Location
-                  uuid = "5BFB9288-243B-4836-8C22-97C6A6605129 - 130d144e99d5927a"
+                  uuid = "5BFB9288-243B-4836-8C22-97C6A6605129 - 130d144e99d5923c"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -443,8 +443,8 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "129"
-                  endingLineNumber = "129"
+                  startingLineNumber = "131"
+                  endingLineNumber = "131"
                   offsetFromSymbolStart = "300">
                </Location>
             </Locations>
@@ -677,13 +677,13 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "318"
-            endingLineNumber = "318"
+            startingLineNumber = "320"
+            endingLineNumber = "320"
             landmarkName = "drawByPosition(position)"
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "739B45F7-1DEC-4FB6-A7AB-51027BDA8156 - 261e227de1c5b67c"
+                  uuid = "739B45F7-1DEC-4FB6-A7AB-51027BDA8156 - 261e227de1c5b6be"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -693,12 +693,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "318"
-                  endingLineNumber = "318"
+                  startingLineNumber = "320"
+                  endingLineNumber = "320"
                   offsetFromSymbolStart = "172">
                </Location>
                <Location
-                  uuid = "739B45F7-1DEC-4FB6-A7AB-51027BDA8156 - 5d41ce268b9a417c"
+                  uuid = "739B45F7-1DEC-4FB6-A7AB-51027BDA8156 - 5d41ce268b9a41be"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -708,12 +708,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "318"
-                  endingLineNumber = "318"
+                  startingLineNumber = "320"
+                  endingLineNumber = "320"
                   offsetFromSymbolStart = "172">
                </Location>
                <Location
-                  uuid = "739B45F7-1DEC-4FB6-A7AB-51027BDA8156 - 5848b786841a80b2"
+                  uuid = "739B45F7-1DEC-4FB6-A7AB-51027BDA8156 - 5848b786841a8070"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -723,8 +723,8 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "318"
-                  endingLineNumber = "318"
+                  startingLineNumber = "320"
+                  endingLineNumber = "320"
                   offsetFromSymbolStart = "172">
                </Location>
             </Locations>
@@ -744,69 +744,6 @@
             endingLineNumber = "74"
             landmarkName = "boundedNormal(min, max, thickness, skew)"
             landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A7446C6C-E26A-4595-9B71-6C41C436D34C"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../Source/Sequence/Sequence.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
-            landmarkName = "add(toAdd, pushBehavior, overwriteBehavior)"
-            landmarkType = "9">
-            <Locations>
-               <Location
-                  uuid = "A7446C6C-E26A-4595-9B71-6C41C436D34C - cf55b86d9b09edca"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Sequence&lt;Note&gt;::add(Note, PushBehavior, OverwriteBehavior)"
-                  moduleName = "generateStuff2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "53"
-                  endingLineNumber = "53"
-                  offsetFromSymbolStart = "108">
-               </Location>
-               <Location
-                  uuid = "A7446C6C-E26A-4595-9B71-6C41C436D34C - 3d21be8bd1c448ca"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Sequence&lt;Subdivision&gt;::add(Subdivision, PushBehavior, OverwriteBehavior)"
-                  moduleName = "generateStuff2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "53"
-                  endingLineNumber = "53"
-                  offsetFromSymbolStart = "112">
-               </Location>
-               <Location
-                  uuid = "A7446C6C-E26A-4595-9B71-6C41C436D34C - 65b7c0caaf9ab03e"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Sequence&lt;Tonality&gt;::add(Tonality, PushBehavior, OverwriteBehavior)"
-                  moduleName = "generateStuff2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "53"
-                  endingLineNumber = "53"
-                  offsetFromSymbolStart = "108">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1059,8 +996,8 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "102"
-            endingLineNumber = "102"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
             landmarkName = "add(toAdd, pushBehavior, overwriteBehavior)"
             landmarkType = "9">
             <Locations>
@@ -1235,8 +1172,8 @@
             filePath = "../../Source/Music/Melody.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
             landmarkName = "unknown"
             landmarkType = "0">
             <Locations>
@@ -1406,8 +1343,8 @@
             filePath = "../../Source/Music/Melody.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -1416,7 +1353,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "8024167F-9DB6-4411-B1B0-EAAA82E23FEA"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/Music/Melody.h"
@@ -1494,14 +1431,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "2185BE99-8B46-4B43-9625-E93F26A1155D"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/Music/Melody.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
             landmarkName = "unknown"
             landmarkType = "0">
             <Locations>
@@ -1578,13 +1515,13 @@
             filePath = "../../Source/Music/Melody.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
             landmarkName = "unknown"
             landmarkType = "0">
             <Locations>
                <Location
-                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 57c2edeba8fd7cbf"
+                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 57c2edeba8fd7e01"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -1594,12 +1531,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "68"
-                  endingLineNumber = "68"
-                  offsetFromSymbolStart = "2800">
+                  startingLineNumber = "58"
+                  endingLineNumber = "58"
+                  offsetFromSymbolStart = "1784">
                </Location>
                <Location
-                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 57c2edeba8fd7cbf"
+                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 57c2edeba8fd7e01"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -1609,12 +1546,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "68"
-                  endingLineNumber = "68"
-                  offsetFromSymbolStart = "2800">
+                  startingLineNumber = "58"
+                  endingLineNumber = "58"
+                  offsetFromSymbolStart = "1784">
                </Location>
                <Location
-                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 57c2edeba8fd7cbf"
+                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 57c2edeba8fd7e01"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -1624,12 +1561,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "68"
-                  endingLineNumber = "68"
-                  offsetFromSymbolStart = "2800">
+                  startingLineNumber = "58"
+                  endingLineNumber = "58"
+                  offsetFromSymbolStart = "1784">
                </Location>
                <Location
-                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 57c2edeba8fd7cbf"
+                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 57c2edeba8fd7e01"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -1639,9 +1576,9 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "68"
-                  endingLineNumber = "68"
-                  offsetFromSymbolStart = "2800">
+                  startingLineNumber = "58"
+                  endingLineNumber = "58"
+                  offsetFromSymbolStart = "1784">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1650,14 +1587,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "9D36F889-C67B-459E-8617-8B940139AA1F"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/Music/Melody.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
             landmarkName = "unknown"
             landmarkType = "0">
             <Locations>
@@ -1722,6 +1659,238 @@
                   offsetFromSymbolStart = "1944">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "04B02E2A-533D-40C3-8594-C076EB188957"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Music/Melody.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "unknown"
+            landmarkType = "0">
+            <Locations>
+               <Location
+                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 57c2edeba8fd7eac"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "melody::$_7::operator()(Phrase) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
+                  offsetFromSymbolStart = "1600">
+               </Location>
+               <Location
+                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 57c2edeba8fd7eac"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "melody::$_7::operator()(Phrase) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
+                  offsetFromSymbolStart = "1612">
+               </Location>
+               <Location
+                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 57c2edeba8fd7eac"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "melody::$_7::operator()(Phrase) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
+                  offsetFromSymbolStart = "1600">
+               </Location>
+               <Location
+                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 57c2edeba8fd7eac"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "melody::$_7::operator()(Phrase) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
+                  offsetFromSymbolStart = "1612">
+               </Location>
+               <Location
+                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 57c2edeba8fd7eac"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "melody::$_7::operator()(Phrase) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
+                  offsetFromSymbolStart = "1600">
+               </Location>
+               <Location
+                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 57c2edeba8fd7eac"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "melody::$_7::operator()(Phrase) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
+                  offsetFromSymbolStart = "1612">
+               </Location>
+               <Location
+                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 57c2edeba8fd7eac"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "melody::$_7::operator()(Phrase) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
+                  offsetFromSymbolStart = "1600">
+               </Location>
+               <Location
+                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 57c2edeba8fd7eac"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "melody::$_7::operator()(Phrase) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
+                  offsetFromSymbolStart = "1612">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8527CE01-012E-4906-9B8D-93A5CAD0DB8F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Music/Melody.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "unknown"
+            landmarkType = "0">
+            <Locations>
+               <Location
+                  uuid = "8527CE01-012E-4906-9B8D-93A5CAD0DB8F - 57c2edeba8fd7857"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "melody::$_7::operator()(Phrase) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "44"
+                  endingLineNumber = "44"
+                  offsetFromSymbolStart = "1112">
+               </Location>
+               <Location
+                  uuid = "8527CE01-012E-4906-9B8D-93A5CAD0DB8F - 57c2edeba8fd7857"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "melody::$_7::operator()(Phrase) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "44"
+                  endingLineNumber = "44"
+                  offsetFromSymbolStart = "1112">
+               </Location>
+               <Location
+                  uuid = "8527CE01-012E-4906-9B8D-93A5CAD0DB8F - 57c2edeba8fd7857"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "melody::$_7::operator()(Phrase) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "44"
+                  endingLineNumber = "44"
+                  offsetFromSymbolStart = "1112">
+               </Location>
+               <Location
+                  uuid = "8527CE01-012E-4906-9B8D-93A5CAD0DB8F - 57c2edeba8fd7857"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "melody::$_7::operator()(Phrase) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "44"
+                  endingLineNumber = "44"
+                  offsetFromSymbolStart = "1112">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Music/Melody.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

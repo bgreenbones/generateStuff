@@ -23,15 +23,23 @@ namespace melody {
         phrase.notes.clear();
         
         Position cursor = 0;
+        Pitch lastPitch(uniformInt(55, 75));
+//        Tonality tonality = Tonality(C, chromatic);
         while (cursor < phrase.duration) {
             vector<Tonality> tonalities = phrase.tonalities.byPosition(cursor);
-            Tonality tonality = tonalities.empty() ? harmony::randomTonality() : tonalities.at(0);
+//            Tonality tonality = tonalities.empty() ? harmony::randomTonality() : tonalities.at(0);
+            if (tonalities.empty()) {
+                cursor += 1;
+                continue;
+            }
+            
+            Tonality tonality = tonalities.at(0);
             
             vector<Subdivision> subdivs = phrase.subdivisions.byPosition(cursor);
             Duration subdiv = subdivs.empty() ? sixteenths : subdivs.at(0);
             
-            Sequence<Note> burstOfNotes = Sequence<Note>::burst(phrase, subdiv, 1 + rollDie(4));
-            Pitch lastPitch = draw<Pitch>(tonality.getPitches());
+            Sequence<Note> burstOfNotes = Sequence<Note>::burst(phrase, subdiv, min(1 + rollDie(4), (int) ((tonality.endTime() - cursor) / subdiv)));
+//            Pitch lastPitch = draw<Pitch>(tonality.getPitches());
 
             for (Note &note : burstOfNotes) {
                 Direction direction = rollDie(2) == 2 ? Direction::down : Direction::up;
@@ -39,9 +47,17 @@ namespace melody {
                 lastPitch = note.pitch;
             }
             
-            phrase.notes.insertSequence(burstOfNotes, cursor);
+            phrase.notes.insertSequence(burstOfNotes, cursor, PushBehavior::truncate);
             
             cursor += (7 + rollDie(4)) * subdiv;
+        }
+        
+        vector<Position> startTimes;
+        for (Note note : phrase.notes) {
+            if (find(startTimes.begin(), startTimes.end(), note.startTime) != startTimes.end()) {
+                DBG("bad");
+            }
+            startTimes.push_back(note.startTime);
         }
 
         return phrase;

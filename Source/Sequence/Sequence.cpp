@@ -52,7 +52,9 @@ bool Sequence<T>::add(T toAdd, PushBehavior pushBehavior, OverwriteBehavior over
         double eventStartTime = toAdd.startTime.asQuarters();
         switch (pushBehavior) {
             case PushBehavior::truncate:
-                return false;
+                if (toAdd.startTime >= phraseLength) { return false; }
+                if (toAdd.endTime() >= phraseLength) { toAdd.duration = Quarters(phraseLength - eventStartTime); }
+                break;
             case PushBehavior::wrap:
                 toAdd.startTime = std::fmod(eventStartTime, phraseLength);
                 break;
