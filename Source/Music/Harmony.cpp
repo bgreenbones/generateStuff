@@ -19,7 +19,7 @@ Tonality harmony::randomTonality(Position startTime, Duration duration) {
     Interval seventh = draw<Interval>({ m7, M7 });
     Tonality harm(startTime, duration);
     harm.root = root;
-    harm.intervalsUpFromRoot = { unison, third, fifth, seventh };
+    harm.intervalsUpFromRoot = { unison, M2, third, P4, fifth, M6, seventh };
     return harm;
 }
 

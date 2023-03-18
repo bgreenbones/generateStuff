@@ -188,12 +188,16 @@ public:
     
     vector<Pitch> randomVoicing() {
         vector<Pitch> pitches = getPitches();
+        auto chooseOctave = []() { return uniformInt(4, 6); };
         vector<Pitch> voicing;
-        transform(pitches.begin(), pitches.end(), back_inserter(voicing),
-            [&](Pitch &pitch) {
-                int octaveChoice = uniformInt(4, 6);
-                return Pitch(pitch.getPitchClass(), octaveChoice);
-            });
+        for (int i = 0; 2*i < pitches.size(); i++) {
+            voicing.push_back(Pitch(pitches.at(2*i).getPitchClass(), chooseOctave()));
+        }
+//        transform(pitches.begin(), pitches.end(), back_inserter(voicing),
+//            [&](Pitch &pitch) {
+//                int octaveChoice = uniformInt(4, 6);
+//                return Pitch(pitch.getPitchClass(), octaveChoice);
+//            });
         return voicing;
     }
     
