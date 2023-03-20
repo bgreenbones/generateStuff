@@ -14,6 +14,7 @@
 #include "Mininotation.h"
 #include "Note.hpp"
 #include "Random.h"
+#include "Tonality.h"
 
 template <class T>
 bool Sequence<T>::flip() {

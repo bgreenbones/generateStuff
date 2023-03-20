@@ -12,6 +12,7 @@
 #include "Mininotation.h"
 #include "Note.hpp"
 #include "Subdivision.h"
+#include "Tonality.h"
 
 template <class T>
 vector<T> Mininotation::parse(std::string phraseString, Duration stepLength) {

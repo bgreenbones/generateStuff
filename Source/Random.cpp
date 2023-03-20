@@ -16,6 +16,7 @@
 #include "Syncopation.h"
 #include "Pitch.h"
 #include <algorithm>
+#include "Tonality.h"
 
 
 static std::random_device rd;

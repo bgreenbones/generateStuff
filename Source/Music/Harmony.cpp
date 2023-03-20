@@ -9,7 +9,7 @@
 */
 
 #include "Harmony.h"
-
+#include "Utility.h"
 
 
 Tonality harmony::randomTonality(Position startTime, Duration duration) {
@@ -17,9 +17,8 @@ Tonality harmony::randomTonality(Position startTime, Duration duration) {
     Interval third = draw<Interval>({ m3, M3 });
     Interval fifth = P5; // draw<Interval>({ b5, P5 });
     Interval seventh = draw<Interval>({ m7, M7 });
-    Tonality harm(startTime, duration);
-    harm.root = root;
-    harm.intervalsUpFromRoot = { unison, M2, third, P4, fifth, M6, seventh };
+    vector<Interval> scale = { unison, M2, third, P4, fifth, M6, seventh };
+    Tonality harm(root, scale, startTime, duration);
     return harm;
 }
 
@@ -29,8 +28,7 @@ Phrase harmony::generateTonalities(Phrase fromPhrase, Probability chordProbabili
 
     Sequence<Note> notes(fromPhrase.notes.toMonophonic());
     Sequence<Note> accents(notes);
-    accents.clear();
-    copy_if(notes.begin(), notes.end(), back_inserter(accents), [](Note note) { return note.accented; });
+    accents.assignEvents(filter<Note>(notes, [](Note note) { return note.accented; }));
     accents.legato();
     
     if (accents.empty()) {

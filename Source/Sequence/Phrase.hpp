@@ -20,6 +20,7 @@
 #include "Syncopation.h"
 #include "Random.h"
 #include "Pitch.h"
+#include "Tonality.h"
 
 using namespace std;
 
