@@ -12,7 +12,7 @@
 #include "Mininotation.h"
 #include "Note.hpp"
 #include "Subdivision.h"
-#include "Tonality.h"
+#include "ChordScale.h"
 
 template <class T>
 vector<T> Mininotation::parse(std::string phraseString, Duration stepLength) {
@@ -50,4 +50,4 @@ vector<T> Mininotation::parse(std::string phraseString, Duration stepLength) {
 
 template vector<Note> Mininotation::parse<Note>(std::string phraseString, Duration stepLength);
 template vector<Subdivision> Mininotation::parse<Subdivision>(std::string phraseString, Duration stepLength);
-template vector<Tonality> Mininotation::parse<Tonality>(std::string phraseString, Duration stepLength);
+template vector<ChordScale> Mininotation::parse<ChordScale>(std::string phraseString, Duration stepLength);

@@ -2,7 +2,7 @@
   ==============================================================================
 
     Tonality.h
-    Created: 19 Mar 2023 5:09:13pm
+    Created: 21 Mar 2023 5:01:59pm
     Author:  Benjamin Greenwood
 
   ==============================================================================
@@ -11,8 +11,8 @@
 #pragma once
 
 #include "Pitch.h"
-#include "TimedEvent.h"
-#include "Utility.h"
+
+
 
 static const vector<Interval> intervals = { unison, m2, M2, m3, M3, P4, tritone, P5, m6, M6, m7, M7, octave };
 static const vector<Interval> chromatic = { unison, m2, M2, m3, M3, P4, tritone, P5, m6, M6, m7, M7 };
@@ -45,18 +45,20 @@ static const vector<Interval> melodicMinorScaleUp = { unison, M2, m3, P4, P5, M6
 static const vector<Interval> melodicMinorScaleDown = minorScale;
 static const vector<Interval> harmonicMinorScale = { unison, M2, m3, P4, P5, m6, M7 };
 
-class Tonality: public TimedEvent {
+static const vector<vector<Interval>> diatonicModes = {
+  ionian, dorian, phrygian, lydian, mixolydian, aolean, lochrian
+};
+
+
+
+
+class Tonality {
 public:
     PitchClass root;
-    vector<Interval> scale;
-    PitchClass harmonyRoot;
-    vector<Interval> harmony;
+    vector<Interval> intervalsUpFromRoot;
     
-    Tonality(PitchClass root, vector<Interval> intervals, Position startTime, Duration duration);
     Tonality(PitchClass root, vector<Interval> intervals);
-    Tonality(Position startTime, Duration duration);
     Tonality();
-    Tonality(char mininotation, Position startTime, Duration duration);
     
 private:
     int stepHelper(Interval first, Direction direction) const;
@@ -65,6 +67,8 @@ public:
     vector<Pitch> getPitches(int octave = 3) const;
     vector<Pitch> randomVoicing() const;
     Tonality getMode(int n) const;
-    bool equalsExcludingTime(Tonality &other) const;
-
+    Tonality harmonyToScale() const;
+    Tonality scaleToHarmony() const;
+    
+    bool operator==(Tonality other) const;
 };

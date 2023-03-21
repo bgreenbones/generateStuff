@@ -37,6 +37,7 @@
 		27A63CBDAA77F58BF846F292 /* Random.cpp */ = {isa = PBXBuildFile; fileRef = A977D577608473EF75CBBF19; };
 		2C1A9DD4C46A55A356F27E77 /* Timing.cpp */ = {isa = PBXBuildFile; fileRef = F1E68E9065FE496F6C19FF0B; };
 		2F4DB1090B1A708AE384F056 /* PlayQueue.cpp */ = {isa = PBXBuildFile; fileRef = 4EB2E8DEAF1A776C65B21E11; };
+		33171CD9ED89CDF812D2F375 /* ChordScale.cpp */ = {isa = PBXBuildFile; fileRef = B816D53A4946C4135609C0D2; };
 		3A3FF9A49612F0588A1B0A9D /* Ornamentation.cpp */ = {isa = PBXBuildFile; fileRef = 631FE658B59C60B28881F4EE; };
 		44EBB61B0778A66975569F07 /* Foundation.framework */ = {isa = PBXBuildFile; fileRef = A09378663FA1B61A3377D988; };
 		4597EF49A7FF23EFA7768C9A /* include_juce_audio_plugin_client_VST_utils.mm */ = {isa = PBXBuildFile; fileRef = 43B4D03C8902B82E8CF3C2FF; };
@@ -143,6 +144,7 @@
 		79B2D7D1BC4C123D10F785CE /* juce_audio_processors */ /* juce_audio_processors */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_audio_processors; path = /Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_processors; sourceTree = "<absolute>"; };
 		7BB7A31E599A1C8C06D11583 /* juce_gui_basics */ /* juce_gui_basics */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_gui_basics; path = /Users/beng/experiments/musicDevelopment/JUCE/modules/juce_gui_basics; sourceTree = "<absolute>"; };
 		7BCD7EA70DB985E4FA0D17E4 /* LoopTasks.h */ /* LoopTasks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LoopTasks.h; path = ../../Source/LoopTasks.h; sourceTree = SOURCE_ROOT; };
+		7D37C0BA319DD10F547E5FAD /* ChordScale.h */ /* ChordScale.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ChordScale.h; path = ../../Source/Tonality/ChordScale.h; sourceTree = SOURCE_ROOT; };
 		7F3B23A40387C2FAE75E5185 /* juce_graphics */ /* juce_graphics */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_graphics; path = /Users/beng/experiments/musicDevelopment/JUCE/modules/juce_graphics; sourceTree = "<absolute>"; };
 		83193370C3C165FAC9A3C284 /* Tonality.cpp */ /* Tonality.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Tonality.cpp; path = ../../Source/Tonality/Tonality.cpp; sourceTree = SOURCE_ROOT; };
 		83863F92A4505A9B7C25DE9A /* juce_audio_basics */ /* juce_audio_basics */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_audio_basics; path = /Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_basics; sourceTree = "<absolute>"; };
@@ -172,6 +174,7 @@
 		AFF6250C2FA10015D8FCAFCD /* Rhythm.cpp */ /* Rhythm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Rhythm.cpp; path = ../../Source/Music/Rhythm.cpp; sourceTree = SOURCE_ROOT; };
 		B4457D2B6E2E844D13E9CB0B /* Mininotation.cpp */ /* Mininotation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Mininotation.cpp; path = ../../Source/Sequence/Mininotation.cpp; sourceTree = SOURCE_ROOT; };
 		B613FC046ED691FF794882D8 /* Constraint.hpp */ /* Constraint.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Constraint.hpp; path = ../../Source/Constraint.hpp; sourceTree = SOURCE_ROOT; };
+		B816D53A4946C4135609C0D2 /* ChordScale.cpp */ /* ChordScale.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ChordScale.cpp; path = ../../Source/Tonality/ChordScale.cpp; sourceTree = SOURCE_ROOT; };
 		BB2F100C77050EAB82E55AE1 /* CoreAudioKit.framework */ /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
 		BB5208C7929338EF34050B29 /* Dynamics.h */ /* Dynamics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Dynamics.h; path = ../../Source/Music/Dynamics.h; sourceTree = SOURCE_ROOT; };
 		C062414E3F3547CA3A3C9A65 /* Info-VST3.plist */ /* Info-VST3.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-VST3.plist"; path = "Info-VST3.plist"; sourceTree = SOURCE_ROOT; };
@@ -311,6 +314,8 @@
 		28877AC289A47127A70A2A1E /* Tonality */ = {
 			isa = PBXGroup;
 			children = (
+				B816D53A4946C4135609C0D2,
+				7D37C0BA319DD10F547E5FAD,
 				3A643EBC0251D50F8A46A29D,
 				41340FE5CF72EB5F5D311A18,
 				83193370C3C165FAC9A3C284,
@@ -771,6 +776,7 @@
 				46BDE511C0D3F041E3A3540C,
 				81BC61FC801BB395EE08EAF7,
 				54731A308FEA123B88D64AC0,
+				33171CD9ED89CDF812D2F375,
 				48332618CACA5C3426A1BDFD,
 				D048825E84039B7D60F29FAB,
 				D86D8003B709B46C7242BFD5,

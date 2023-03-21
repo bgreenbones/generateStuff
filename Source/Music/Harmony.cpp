@@ -12,19 +12,16 @@
 #include "Utility.h"
 
 
-Tonality harmony::randomTonality(Position startTime, Duration duration) {
+ChordScale harmony::randomChordScale(Position startTime, Duration duration) {
     PitchClass root = draw<PitchClass>(pitches);
-    Interval third = draw<Interval>({ m3, M3 });
-    Interval fifth = P5; // draw<Interval>({ b5, P5 });
-    Interval seventh = draw<Interval>({ m7, M7 });
-    vector<Interval> scale = { unison, M2, third, P4, fifth, M6, seventh };
-    Tonality harm(root, scale, startTime, duration);
+    vector<Interval> scale = draw<vector<Interval>>(diatonicModes);
+    ChordScale harm(root, scale, startTime, duration);
     return harm;
 }
 
 
-Phrase harmony::generateTonalities(Phrase fromPhrase, Probability chordProbabilityPerAccent) {
-    fromPhrase.tonalities.clear();
+Phrase harmony::generateChordScales(Phrase fromPhrase, Probability chordProbabilityPerAccent) {
+    fromPhrase.chordScales.clear();
 
     Sequence<Note> notes(fromPhrase.notes.toMonophonic());
     Sequence<Note> accents(notes);
@@ -37,14 +34,14 @@ Phrase harmony::generateTonalities(Phrase fromPhrase, Probability chordProbabili
         while(numberOfChords-- > 0) {
             Bars startTime(startTimeInBars++);
             Bars chordLength(min(numberOfChords--, 1));
-            Tonality tonality = randomTonality(startTime, chordLength);
-            fromPhrase.tonalities.add(tonality);
+            ChordScale chordScale = randomChordScale(startTime, chordLength);
+            fromPhrase.chordScales.add(chordScale);
         }
     } else {
         for (Note accent : accents) {
             if (chordProbabilityPerAccent) {
-                Tonality tonality = randomTonality(accent.startTime, accent.duration);
-                fromPhrase.tonalities.add(tonality);
+                ChordScale chordScale = randomChordScale(accent.startTime, accent.duration);
+                fromPhrase.chordScales.add(chordScale);
             }
         }
     }
@@ -56,4 +53,4 @@ Phrase harmony::generateTonalities(Phrase fromPhrase, Probability chordProbabili
 
 
 
-vector<Pitch> harmony::randomChord() { return randomTonality().randomVoicing(); }
+vector<Pitch> harmony::randomChord() { return randomChordScale().harmony.randomVoicing(); }

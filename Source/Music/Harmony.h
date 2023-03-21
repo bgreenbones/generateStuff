@@ -16,23 +16,23 @@
 
 
 namespace harmony {
-    Tonality randomTonality(Position startTime = 0, Duration duration = Bars(1));
+    ChordScale randomChordScale(Position startTime = 0, Duration duration = Bars(1));
     vector<Pitch> randomChord();
         
     const GenerationFunction chordsFunction = [](Phrase phrase) {
         phrase.notes.monophonic = false;
-        phrase.tonalities.monophonic = true;
+        phrase.chordScales.monophonic = true;
         phrase.notes.clear();
-        phrase.tonalities.clear();
+        phrase.chordScales.clear();
         
         int numberOfChords = phrase.duration.asBars();
         bars startTimeInBars = 0;
         while(numberOfChords-- > 0) {
             Bars startTime(startTimeInBars++);
             Bars chordLength(min(numberOfChords--, 1));
-            Tonality tonality = randomTonality(startTime, chordLength);
-            phrase.tonalities.add(tonality);
-            for (Pitch pitchToAdd : tonality.randomVoicing()) {
+            ChordScale chordScale = randomChordScale(startTime, chordLength);
+            phrase.chordScales.add(chordScale);
+            for (Pitch pitchToAdd : chordScale.harmony.randomVoicing()) {
                 Note noteToAdd(pitchToAdd.pitchValue, 70, startTime, chordLength);
                 phrase.addNote(noteToAdd);
             }
@@ -41,17 +41,17 @@ namespace harmony {
     };
 
 
-    Phrase generateTonalities(Phrase fromPhrase, Probability chordProbabilityPerAccent = 0.6);
+    Phrase generateChordScales(Phrase fromPhrase, Probability chordProbabilityPerAccent = 0.6);
 
 
     const GenerationFunction chordsFromFunction = [](Phrase fromPhrase) {
         Phrase phrase = fromPhrase.toPolyphonic();
-        phrase = phrase.tonalities.empty() ? generateTonalities(phrase, 0.6) : phrase;
+        phrase = phrase.chordScales.empty() ? generateChordScales(phrase, 0.6) : phrase;
         phrase.notes.clear();
         
-        for (Tonality tonality : phrase.tonalities) {
-            for (Pitch pitchToAdd : tonality.randomVoicing()) {
-                Note noteToAdd(pitchToAdd.pitchValue, 70, tonality.startTime, tonality.duration);
+        for (ChordScale chordScale : phrase.chordScales) {
+            for (Pitch pitchToAdd : chordScale.harmony.randomVoicing()) {
+                Note noteToAdd(pitchToAdd.pitchValue, 70, chordScale.startTime, chordScale.duration);
                 phrase.addNote(noteToAdd);
             }
         }

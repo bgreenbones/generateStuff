@@ -95,14 +95,14 @@ Phrase Phrase::concat(Phrase other, bool useLastNote, bool keepDuration) const {
     // // // // // // /// Sequence version.
     phrase.notes.concat(other.notes, useLastNote);
     phrase.subdivisions.concat(other.subdivisions, useLastNote);
-    phrase.tonalities.concat(other.tonalities, useLastNote);
+    phrase.chordScales.concat(other.chordScales, useLastNote);
     if (keepDuration) {
         phrase.notes.chopAfterDuration(durationToPersist);
         phrase.subdivisions.chopAfterDuration(durationToPersist);
-        phrase.tonalities.chopAfterDuration(durationToPersist);
+        phrase.chordScales.chopAfterDuration(durationToPersist);
     }
     phrase.subdivisions.tie(true);
-    phrase.tonalities.tie(true);
+    phrase.chordScales.tie(true);
     // // // // // // ///
     
     return phrase;
@@ -121,9 +121,9 @@ Phrase Phrase::insert(Phrase other, OverwriteBehavior overwriteBehavior) const {
                                 [other](TimedEvent t) { return other.containsPartially(t) || t.containsPartially(other); }),
                                 phrase.subdivisions.end());
         
-        phrase.tonalities.erase(std::remove_if(phrase.tonalities.begin(), phrase.tonalities.end(),
+        phrase.chordScales.erase(std::remove_if(phrase.chordScales.begin(), phrase.chordScales.end(),
                                 [other](TimedEvent t) { return other.containsPartially(t) || t.containsPartially(other); }),
-                                phrase.tonalities.end());
+                                phrase.chordScales.end());
         
     }
 
@@ -131,8 +131,8 @@ Phrase Phrase::insert(Phrase other, OverwriteBehavior overwriteBehavior) const {
     phrase.notes.insertSequence(other.notes, Position(0), PushBehavior::ignore, overwriteBehavior);
     phrase.subdivisions.insertSequence(other.subdivisions, Position(0), PushBehavior::ignore, overwriteBehavior);
     phrase.subdivisions.tie(true);
-    phrase.tonalities.insertSequence(other.tonalities, Position(0), PushBehavior::ignore, overwriteBehavior);
-    phrase.tonalities.tie(true);
+    phrase.chordScales.insertSequence(other.chordScales, Position(0), PushBehavior::ignore, overwriteBehavior);
+    phrase.chordScales.tie(true);
     
     return phrase;
 }

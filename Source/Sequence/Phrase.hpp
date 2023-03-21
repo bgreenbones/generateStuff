@@ -20,7 +20,7 @@
 #include "Syncopation.h"
 #include "Random.h"
 #include "Pitch.h"
-#include "Tonality.h"
+#include "ChordScale.h"
 
 using namespace std;
 
@@ -36,7 +36,7 @@ public:
         TimedEvent(startTime, duration),
         notes(*this),
         subdivisions(*this),
-        tonalities(*this)
+        chordScales(*this)
     {
         this->subdivisions.add(Subdivision(subdivision, startTime, duration));
     }
@@ -47,19 +47,19 @@ public:
         TimedEvent(other),
         notes(other.notes, *this),
         subdivisions(other.subdivisions, *this),
-        tonalities(other.tonalities, *this) {};
+        chordScales(other.chordScales, *this) {};
 
     Phrase& operator=(Phrase const& other) {
         TimedEvent::operator=(other);
         notes = Sequence<Note>(other.notes, *this);
         subdivisions = Sequence<Subdivision>(other.subdivisions, *this);
-        tonalities = Sequence<Tonality>(other.tonalities, *this);
+        chordScales = Sequence<ChordScale>(other.chordScales, *this);
         return *this;
     };
     
     Sequence<Note> notes;
     Sequence<Subdivision> subdivisions;
-    Sequence<Tonality> tonalities;
+    Sequence<ChordScale> chordScales;
     
     Phrase toMonophonic() const {
         if (notes.monophonic) { return *this; }

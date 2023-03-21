@@ -53,10 +53,12 @@
         <FILE id="re9oif" name="TimeSignature.h" compile="0" resource="0" file="Source/Time/TimeSignature.h"/>
       </GROUP>
       <GROUP id="{EBBA1525-C900-BFC1-3830-38A33443FD8B}" name="Tonality">
+        <FILE id="SVHwwr" name="ChordScale.cpp" compile="1" resource="0" file="Source/Tonality/ChordScale.cpp"/>
+        <FILE id="An8IJh" name="ChordScale.h" compile="0" resource="0" file="Source/Tonality/ChordScale.h"/>
         <FILE id="DhmxLA" name="Pitch.cpp" compile="1" resource="0" file="Source/Tonality/Pitch.cpp"/>
         <FILE id="fFOpjL" name="Pitch.h" compile="0" resource="0" file="Source/Tonality/Pitch.h"/>
-        <FILE id="LCK0nN" name="Tonality.cpp" compile="1" resource="0" file="Source/Tonality/Tonality.cpp"/>
-        <FILE id="MguiPe" name="Tonality.h" compile="0" resource="0" file="Source/Tonality/Tonality.h"/>
+        <FILE id="xipFlx" name="Tonality.cpp" compile="1" resource="0" file="Source/Tonality/Tonality.cpp"/>
+        <FILE id="ZlWV6J" name="Tonality.h" compile="0" resource="0" file="Source/Tonality/Tonality.h"/>
       </GROUP>
       <FILE id="kFP0O5" name="Constraint.cpp" compile="1" resource="0" file="Source/Constraint.cpp"/>
       <FILE id="YPjCl5" name="Constraint.hpp" compile="0" resource="0" file="Source/Constraint.hpp"/>

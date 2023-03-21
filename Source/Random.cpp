@@ -16,7 +16,7 @@
 #include "Syncopation.h"
 #include "Pitch.h"
 #include <algorithm>
-#include "Tonality.h"
+#include "ChordScale.h"
 
 
 static std::random_device rd;
@@ -99,4 +99,6 @@ template Note draw<Note>(std::vector<Note> hat);
 template PitchClass draw<PitchClass>(std::vector<PitchClass> hat);
 template Pitch draw<Pitch>(std::vector<Pitch> hat);
 template Interval draw<Interval>(std::vector<Interval> hat);
+template vector<Interval> draw<vector<Interval>>(std::vector<vector<Interval>> hat);
 template Tonality draw<Tonality>(std::vector<Tonality> hat);
+template ChordScale draw<ChordScale>(std::vector<ChordScale> hat);

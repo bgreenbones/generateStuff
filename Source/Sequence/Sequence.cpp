@@ -14,7 +14,7 @@
 #include "Mininotation.h"
 #include "Note.hpp"
 #include "Random.h"
-#include "Tonality.h"
+#include "ChordScale.h"
 
 template <class T>
 bool Sequence<T>::flip() {
@@ -402,4 +402,4 @@ Sequence<T> Sequence<T>::pulseAndDisplace(Duration pulse,
 
 template class Sequence<Note>;
 template class Sequence<Subdivision>;
-template class Sequence<Tonality>;
+template class Sequence<ChordScale>;
