@@ -102,8 +102,8 @@ int rhythm::getPotentialClaveNoteCount(Phrase fromPhrase, Duration minNoteLength
     //   1. groupings of 2, 3, and 4
     //   2. 2-sided - 2-3 and 3-2 - even 2-1 and 1-2 -  maybe 3-4 and 4-3 - maybe 2-4 and 4-2?
     //      a. the longer they are, the more can fit in?
-    int maxNumNotes = floor(clave.duration / minNoteLength);
-    int minNumNotes = ceil(clave.duration / maxNoteLength);
+    int maxNumNotes = floor(clave.duration / minNoteLength) - 1;
+    int minNumNotes = ceil(clave.duration / maxNoteLength) + 1;
     auto numNotesRange = maxNumNotes - minNumNotes;
     if (numNotesRange < 0) { throw exception(); }
     auto numNotes = uniformInt(minNumNotes, maxNumNotes); // todo: parameterize, but keep random option
