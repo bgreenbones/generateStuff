@@ -60,7 +60,7 @@ vector<Pitch> Tonality::getPitches(int octave) const {
 
 vector<Pitch> Tonality::randomVoicing() const {
     vector<Pitch> pitches = getPitches();
-    vecgtor<Pitch> voicing;
+    vector<Pitch> voicing;
     transform(pitches.begin(), pitches.end(), back_inserter(voicing), [](Pitch pitch) {
         int octave = uniformInt(4, 6);
         return Pitch(pitch.getPitchClass(), octave);
