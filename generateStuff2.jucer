@@ -26,7 +26,11 @@
         <FILE id="RFls1u" name="PluginEditor.cpp" compile="1" resource="0"
               file="Source/PluginEditor.cpp"/>
         <FILE id="Aj4u7Y" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+        <FILE id="WtdASJ" name="VoiceControls.cpp" compile="1" resource="0"
+              file="Source/UI/VoiceControls.cpp"/>
         <FILE id="pmqAD1" name="VoiceControls.h" compile="0" resource="0" file="Source/UI/VoiceControls.h"/>
+        <FILE id="SOso99" name="VoiceManager.cpp" compile="1" resource="0"
+              file="Source/UI/VoiceManager.cpp"/>
         <FILE id="tFOp4W" name="VoiceManager.h" compile="0" resource="0" file="Source/UI/VoiceManager.h"/>
       </GROUP>
       <GROUP id="{E84D5FE5-051D-49D6-86AD-21D645F5CBC0}" name="Sequence">

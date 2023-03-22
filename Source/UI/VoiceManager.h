@@ -15,8 +15,10 @@
 #include <string>
 #include <vector>
 #include "VoiceControls.h"
+#include "PluginProcessor.h"
+#include "Generator.hpp"
 
-using std::string, std::vector;
+using std::string, std::vector, std::map;
 
 class VoiceManager {
 private:
@@ -48,31 +50,7 @@ public:
         playQueue->setMidiChannel(voiceName, midiChannel);
     }
     
-    void setOnClicks() {
-        for (auto voiceIt = voices.begin(); voiceIt != voices.end(); voiceIt++) {
-            VoiceControls &voice = voiceIt->second;
-            string voiceName = voice.voiceName;
-            voice.midiChannel.onChange = [this, voiceName]() { midiChannelChanged(voiceName); };
-            voice.generateButton.onClick = [this, voiceName]() { generator.generate(voiceName); };
-            voice.generateFromButton.onClick = [this, voiceName]() { generator.generateFrom(voiceName, useAsSourcePhraseKeyState); };
-            voice.muteButton.onClick = [this, voiceName]() {
-                bool muted = playQueue->toggleMuteVoice(voiceName);
-                voices.at(voiceName).muteButton.setToggleState(muted, juce::dontSendNotification);
-            };
-            voice.selectButton.onClick = [this]() { updateSelectedPhraseState(); };
-            voice.useAsSourceButton.onClick = [this]() { updateUseAsSourceState(); };
-            voice.improviseButton.onClick = [this, voiceName]() {
-                VoiceControls &voice = voices.at(voiceName);
-                bool improvise = !(voice.improviseButton.getToggleState());
-                if (improvise) {
-                    processor.loopTasks.queue(voiceName, [](){}); // TODO: do this actually.
-                } else {
-                    processor.loopTasks.deactivate({ voiceName });
-                }
-                voice.improviseButton.setToggleState(improvise, juce::dontSendNotification);
-            };
-        }
-    }
+    void setOnClicks();
     
     void callAddAndMakeVisible(Component *editor) {
         for (auto voiceIt = voices.begin(); voiceIt != voices.end(); voiceIt++) {

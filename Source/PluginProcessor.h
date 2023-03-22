@@ -37,9 +37,12 @@ public:
     shared_ptr<GenerateStuffEditorState> editorState;
     Generator generator; // TODO: make shared ptr?
     vector<juce::MidiMessage> allNotesOff;
+    vector<juce::MidiMessage> midiMessageQueue;
     unsigned long currentNoteOff;
     bool noteOffIssued;
     LoopTasks loopTasks; // TODO: make shared at all?
+    
+    void issueNoteOff(int midiChannel);
     
     //============================================================================
     

@@ -262,8 +262,8 @@ void GenerateStuffAudioProcessor::playPlayables(
                     auto noteOn = juce::MidiMessage::noteOn (midiChannel,
                                                             note.pitch,
                                                             (juce::uint8) note.velocity);
-                    bool success = midiMessages.addEvent (noteOn,
-                                                bufferTimeFromPpqTime(noteOnTimeInQuarters));
+                    double onTime = bufferTimeFromPpqTime(noteOnTimeInQuarters);
+                    bool success = midiMessages.addEvent (noteOn, onTime);
                     if (!success) {
                         cout << "failed to add note on\n";
                     }
@@ -274,8 +274,8 @@ void GenerateStuffAudioProcessor::playPlayables(
                     auto noteOff = juce::MidiMessage::noteOff (midiChannel,
                                                               note.pitch,
                                                               (juce::uint8) note.velocity);
-                    bool success = midiMessages.addEvent (noteOff,
-                                           bufferTimeFromPpqTime(noteOffTimeInQuarters));
+                    double offTime = bufferTimeFromPpqTime(noteOffTimeInQuarters) - 2; // maybe prevent some notes from missing their note off by ending them earlier
+                    bool success = midiMessages.addEvent (noteOff, offTime);
                     if (!success) {
                         cout << "failed to add note off\n";
                     }
@@ -285,11 +285,24 @@ void GenerateStuffAudioProcessor::playPlayables(
     }
 }
 
+
+void GenerateStuffAudioProcessor::issueNoteOff(int midiChannel) {
+    for (int pitch = 0; pitch <= 127; pitch++) {
+        auto noteOff = juce::MidiMessage::noteOff (midiChannel, pitch, (juce::uint8) 0);
+        midiMessageQueue.push_back(noteOff);
+   }
+}
+
 void GenerateStuffAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
     buffer.clear();
     if (!midiMessages.isEmpty()) {
         midiMessages.clear();
+    }
+    
+    while (midiMessageQueue.size() > 0) {
+        midiMessages.addEvent(midiMessageQueue.back(), 0);
+        midiMessageQueue.pop_back();
     }
 
     auto playhead = getPlayHead();
@@ -309,7 +322,7 @@ void GenerateStuffAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
                     for (auto i = currentNoteOff; i < upperBound; i++) {
                         bool success = midiMessages.addEvent(allNotesOff[i], 0);
                         if (!success) {
-                            throw exception();
+//                            throw exception();
                         }
                     }
                     currentNoteOff = upperBound;
