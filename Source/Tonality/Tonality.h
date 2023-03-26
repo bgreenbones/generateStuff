@@ -63,7 +63,8 @@ public:
 private:
     int stepHelper(Interval first, Direction direction) const;
 public:
-    Pitch step(Pitch first, Direction direction) const;
+    Pitch step(Pitch first, Direction direction = Direction::up) const;
+    Pitch multiStep(Pitch first, int steps, Direction direction = Direction::up) const;
     vector<Pitch> getPitches(int octave = 3) const;
     vector<Pitch> randomVoicing() const;
     Tonality getMode(int n) const;

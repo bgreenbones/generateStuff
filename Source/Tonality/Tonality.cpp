@@ -49,6 +49,14 @@ Pitch Tonality::step(Pitch first, Direction direction) const {
     return Pitch(first.pitchValue + stepHelper(firstInterval, direction) - firstInterval);
 }
 
+Pitch Tonality::multiStep(Pitch first, int steps, Direction direction) const {
+    Pitch newPitch(first);
+    while (steps-- > 0) {
+        newPitch = step(newPitch, direction);
+    }
+    return newPitch;
+}
+
 vector<Pitch> Tonality::getPitches(int octave) const {
     octave = (octave < -2 || octave > 8) ? 3 : octave;
     Pitch rootPitch = Pitch(root, octave);

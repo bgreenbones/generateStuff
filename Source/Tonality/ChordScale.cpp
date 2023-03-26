@@ -11,11 +11,11 @@
 #include "ChordScale.h"
 
 
-ChordScale::ChordScale(PitchClass root, vector<Interval> intervals, Position startTime, Duration duration):
-    TimedEvent(startTime, duration), scale(Tonality(root, intervals)) {
-        harmony = scale.scaleToHarmony();
-        // TODO: functions for seeing if scale tones are chord tones or not...
-    };
+ChordScale::ChordScale(Tonality scale, Position startTime, Duration duration): TimedEvent(startTime, duration), scale(scale) {
+    harmony = scale.scaleToHarmony();
+    // TODO: functions for seeing if scale tones are chord tones or not...
+}
+ChordScale::ChordScale(PitchClass root, vector<Interval> intervals, Position startTime, Duration duration): ChordScale(Tonality(root, intervals), startTime, duration) {};
 ChordScale::ChordScale(PitchClass root, vector<Interval> intervals): ChordScale(root, intervals, 0, 0) {};
 ChordScale::ChordScale(Position startTime, Duration duration): ChordScale(C, ionian, startTime, duration) {};
 ChordScale::ChordScale(): ChordScale(C, ionian) {};

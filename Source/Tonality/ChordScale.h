@@ -18,6 +18,7 @@ public:
     Tonality scale;
     Tonality harmony;
 
+    ChordScale(Tonality scale, Position startTime, Duration duration);
     ChordScale(PitchClass root, vector<Interval> intervals, Position startTime, Duration duration);
     ChordScale(PitchClass root, vector<Interval> intervals);
     ChordScale(Position startTime, Duration duration);

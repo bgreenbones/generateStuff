@@ -19,7 +19,33 @@ ChordScale harmony::randomChordScale(Position startTime, Duration duration) {
     return harm;
 }
 
+ChordScale harmony::newChordSameScale(ChordScale previousChordScale, Position startTime, Duration duration) {
+    Tonality scale = previousChordScale.scale;
+    ChordScale nextChordScale(scale, startTime, duration);
+    
+    if (scale.intervalsUpFromRoot.size() > 1) {
+        PitchClass newChordRoot = pitchClassIncrement(scale.root, draw<Interval>(scale.intervalsUpFromRoot));
+        while (newChordRoot == scale.root) {
+            newChordRoot = pitchClassIncrement(scale.root, draw<Interval>(scale.intervalsUpFromRoot));
+        }
+        
+        Pitch rootPitch = Pitch(newChordRoot, 0);
+        Pitch thirdish = scale.multiStep(rootPitch, 2);
+        Pitch fifthish = scale.multiStep(rootPitch, 4);
+        
+        Interval thirdInterval = thirdish - rootPitch;
+        Interval fifthInterval = fifthish - rootPitch;
+        
+        nextChordScale.harmony = Tonality(newChordRoot, { unison, thirdInterval, fifthInterval });
+    }
 
+    return nextChordScale;
+}
+
+
+
+// TODO: generate different chords in the same scale...
+// TODO: distance measure from tonality to tonality...and/or a way of stepping from tonality to a closely related tonality, so we get smooth changes.
 Phrase harmony::generateChordScales(Phrase fromPhrase, Probability chordProbabilityPerAccent) {
     fromPhrase.chordScales.clear();
 
@@ -34,13 +60,17 @@ Phrase harmony::generateChordScales(Phrase fromPhrase, Probability chordProbabil
         while(numberOfChords-- > 0) {
             Bars startTime(startTimeInBars++);
             Bars chordLength(min(numberOfChords--, 1));
-            ChordScale chordScale = randomChordScale(startTime, chordLength);
+            ChordScale chordScale = fromPhrase.chordScales.empty()
+                ? randomChordScale(startTime, chordLength)
+                : newChordSameScale(fromPhrase.chordScales.back(), startTime, chordLength);
             fromPhrase.chordScales.add(chordScale);
         }
     } else {
         for (Note accent : accents) {
             if (chordProbabilityPerAccent) {
-                ChordScale chordScale = randomChordScale(accent.startTime, accent.duration);
+                ChordScale chordScale = fromPhrase.chordScales.empty()
+                    ? randomChordScale(accent.startTime, accent.duration)
+                    : newChordSameScale(fromPhrase.chordScales.back(), accent.startTime, accent.duration);
                 fromPhrase.chordScales.add(chordScale);
             }
         }

@@ -30,6 +30,8 @@ typedef enum Direction {
     down = -1, up = 1
 } Direction;
 
+PitchClass pitchClassIncrement(PitchClass pitch, Interval interval);
+
 class Pitch {
 private:
     static int getPitchValue(PitchClass pitchClass, int octave);
@@ -45,4 +47,5 @@ public:
     Pitch pitchFromInterval(Interval interval, Direction direction) const;
     Pitch operator+=(Interval interval);
     Pitch operator-=(Interval interval);
+    Interval operator-(Pitch other);
 };

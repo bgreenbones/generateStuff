@@ -10,6 +10,9 @@
 
 #include "Pitch.h"
 
+PitchClass pitchClassIncrement(PitchClass pitch, Interval interval) {
+    return Pitch(pitch, 0).pitchFromInterval(interval, Direction::up).getPitchClass();
+}
 
 int Pitch::getPitchValue(PitchClass pitchClass, int octave) {
     int value = octave * 12 + pitchClass;
@@ -48,4 +51,8 @@ Pitch Pitch::operator+=(Interval interval) {
 Pitch Pitch::operator-=(Interval interval) {
     pitchValue += interval;
     return *this;
+}
+
+Interval Pitch::operator-(Pitch other) {
+    return (Interval) abs(pitchValue - other.pitchValue);
 }
