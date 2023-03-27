@@ -127,4 +127,41 @@ Tonality Tonality::scaleToHarmony() const {
     return Tonality(root, harmony);
 }
 
+vector<PitchClass> Tonality::getPitchClasses() const {
+    vector<Pitch> pitches = getPitches();
+    vector<PitchClass> pitchClasses;
+    
+    transform(pitches.begin(), pitches.end(), back_inserter(pitchClasses),
+        [](Pitch pitch) { return pitch.getPitchClass(); });
+    
+    sort(pitchClasses.begin(), pitchClasses.end());
+    return pitchClasses;
+}
+
+double Tonality::similarity(Tonality other) const {
+    double containedInOther = 0; // will be 1. if all pitch classes in this are also in other
+    double containedInThis = 0; // will be 1. if all pitch classes in other are also in this
+    // will be < 1. (but >= 0) if some are missing
+    
+    for(PitchClass inThis : this->getPitchClasses()) {
+        bool isInOther = false;
+        for(PitchClass inOther : other.getPitchClasses()) {
+            isInOther = isInOther || inThis == inOther;
+        }
+        containedInOther += isInOther ? 1. : 0.;
+    }
+    containedInOther /= this->getPitchClasses().size();
+    
+    for(PitchClass inOther : other.getPitchClasses()) {
+        bool isInThis = false;
+        for(PitchClass inThis : this->getPitchClasses()) {
+            isInThis = isInThis || inThis == inOther;
+        }
+        containedInThis += isInThis ? 1. : 0.;
+    }
+    containedInThis /= other.getPitchClasses().size();
+
+    return (containedInThis + containedInOther) / 2.; // return average of two contain measures. 
+}
+
 

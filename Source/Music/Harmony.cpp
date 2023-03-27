@@ -19,6 +19,7 @@ ChordScale harmony::randomChordScale(Position startTime, Duration duration) {
     return harm;
 }
 
+// TODO: and a way of stepping from tonality to a closely related tonality, so we get smooth changes.
 ChordScale harmony::newChordSameScale(ChordScale previousChordScale, Position startTime, Duration duration) {
     Tonality scale = previousChordScale.scale;
     ChordScale nextChordScale(scale, startTime, duration);
@@ -42,10 +43,6 @@ ChordScale harmony::newChordSameScale(ChordScale previousChordScale, Position st
     return nextChordScale;
 }
 
-
-
-// TODO: generate different chords in the same scale...
-// TODO: distance measure from tonality to tonality...and/or a way of stepping from tonality to a closely related tonality, so we get smooth changes.
 Phrase harmony::generateChordScales(Phrase fromPhrase, Probability chordProbabilityPerAccent) {
     fromPhrase.chordScales.clear();
 

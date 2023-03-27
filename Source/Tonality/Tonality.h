@@ -66,10 +66,12 @@ public:
     Pitch step(Pitch first, Direction direction = Direction::up) const;
     Pitch multiStep(Pitch first, int steps, Direction direction = Direction::up) const;
     vector<Pitch> getPitches(int octave = 3) const;
+    vector<PitchClass> getPitchClasses() const;
     vector<Pitch> randomVoicing() const;
     Tonality getMode(int n) const;
     Tonality harmonyToScale() const;
     Tonality scaleToHarmony() const;
+    double similarity(Tonality other) const;
     
     bool operator==(Tonality other) const;
 };
