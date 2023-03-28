@@ -662,6 +662,21 @@
                   endingLineNumber = "87"
                   offsetFromSymbolStart = "52">
                </Location>
+               <Location
+                  uuid = "7BFA9637-126F-47C4-A826-7AAD9DA7F02B - f88fbc6cb72b7569"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Direction draw&lt;Direction&gt;(std::__1::vector&lt;Direction, std::__1::allocator&lt;Direction&gt; &gt;)"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Random.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "87"
+                  endingLineNumber = "87"
+                  offsetFromSymbolStart = "44">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -1514,6 +1529,21 @@
                   endingLineNumber = "64"
                   offsetFromSymbolStart = "2332">
                </Location>
+               <Location
+                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 57c2edeba8fd7d3b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "melody::$_7::operator()(Phrase) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "64"
+                  endingLineNumber = "64"
+                  offsetFromSymbolStart = "2332">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -1730,6 +1760,36 @@
                   endingLineNumber = "59"
                   offsetFromSymbolStart = "2160">
                </Location>
+               <Location
+                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 57c2edeba8fd7e66"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "melody::$_7::operator()(Phrase) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "59"
+                  endingLineNumber = "59"
+                  offsetFromSymbolStart = "2148">
+               </Location>
+               <Location
+                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 57c2edeba8fd7e66"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "melody::$_7::operator()(Phrase) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "59"
+                  endingLineNumber = "59"
+                  offsetFromSymbolStart = "2160">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -1826,6 +1886,21 @@
             landmarkName = "unknown"
             landmarkType = "0">
             <Locations>
+               <Location
+                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 57c2edeba8fd79db"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "melody::$_7::operator()(Phrase) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "32"
+                  endingLineNumber = "32"
+                  offsetFromSymbolStart = "500">
+               </Location>
                <Location
                   uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 57c2edeba8fd79db"
                   shouldBeEnabled = "Yes"

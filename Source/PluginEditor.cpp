@@ -8,6 +8,7 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "CustomUIs.h"
 #include <string>
 #include <stdexcept>
 
@@ -24,7 +25,7 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (1200, 500);
+    setSize (editorWidth, editorHeight);
     voiceManager.configure(this);
 
     
@@ -38,17 +39,19 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
 //    addAndMakeVisible (&probabilityOfDouble);
 //
     
-    addRollsButton.onClick = [this]() {
-        double rollProb = Probability(rollProbability.getValue());
-        double associationProb = Probability(rollAssociation.getValue());
-        double rollLengthProb = Probability(rollLength.getValue());
-
-        generator.roll(voiceManager.selectedPhraseKeyState, rollProb, associationProb, rollLengthProb);
-        string id = generator.rollsKey(voiceManager.selectedPhraseKeyState);
-        function<void()> task = [=]() { generator.roll(voiceManager.selectedPhraseKeyState, rollProb, associationProb, rollLengthProb); };
-        audioProcessor.loopTasks.queue(id, task, regenerateRolls.getToggleState());
-    };
-    addAndMakeVisible (&addRollsButton);
+    
+    // TODO: move to transform menu
+//    addRollsButton.onClick = [this]() {
+//        double rollProb = Probability(rollProbability.getValue());
+//        double associationProb = Probability(rollAssociation.getValue());
+//        double rollLengthProb = Probability(rollLength.getValue());
+//
+//        generator.roll(voiceManager.selectedPhraseKeyState, rollProb, associationProb, rollLengthProb);
+//        string id = generator.rollsKey(voiceManager.selectedPhraseKeyState);
+//        function<void()> task = [=]() { generator.roll(voiceManager.selectedPhraseKeyState, rollProb, associationProb, rollLengthProb); };
+//        audioProcessor.loopTasks.queue(id, task, regenerateRolls.getToggleState());
+//    };
+//    addAndMakeVisible (&addRollsButton);
 
     int subdivisionGroupId = 1832; // just some number
     for (float subdivisionDenominator = 1; subdivisionDenominator <= 9; subdivisionDenominator++) {
@@ -153,92 +156,90 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     addAndMakeVisible (&regenerateRolls);
     addAndMakeVisible (&regenerateOrnaments);
     
-    clearRollsButton.onClick = [this]() {
-        string rollsKey = generator.rollsKey(voiceManager.selectedPhraseKeyState);
-        playQueue->toggleMuteRolls(rollsKey);
-    };
-    
-    addAndMakeVisible(&clearRollsButton);
-    clearOrnamentsButton.onClick = [this]() {
-        string ornamentsKey = generator.ornamentsKey(voiceManager.selectedPhraseKeyState);
-        playQueue->toggleMuteOrnamentation(ornamentsKey);
-    };
-    addAndMakeVisible(&clearOrnamentsButton);
+    // TODO: move to transform menu
+//    clearRollsButton.onClick = [this]() {
+//        string rollsKey = generator.rollsKey(voiceManager.selectedPhraseKeyState);
+//        playQueue->toggleMuteRolls(rollsKey);
+//    };
+//
+//    addAndMakeVisible(&clearRollsButton);
+//    clearOrnamentsButton.onClick = [this]() {
+//        string ornamentsKey = generator.ornamentsKey(voiceManager.selectedPhraseKeyState);
+//        playQueue->toggleMuteOrnamentation(ornamentsKey);
+//    };
+//    addAndMakeVisible(&clearOrnamentsButton);
 
     voiceManager.updateState();
         
-    addAndMakeVisible(&rollProbability);
-    rollProbability.setSliderStyle (juce::Slider::LinearBarVertical);
-    rollProbability.setRange (0.0, 1.0, 0.01);
-    rollProbability.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
-    rollProbability.setPopupDisplayEnabled (true, false, this);
-    rollProbability.setTextValueSuffix (" p(roll)");
-    rollProbability.setValue(1.0);
-    
-    addAndMakeVisible(&rollAssociation);
-    rollAssociation.setSliderStyle (juce::Slider::LinearBarVertical);
-    rollAssociation.setRange (0.0, 1.0, 0.01);
-    rollAssociation.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
-    rollAssociation.setPopupDisplayEnabled (true, false, this);
-    rollAssociation.setTextValueSuffix (" roll association / swing");
-    rollAssociation.setValue(0.5);
-    
-    addAndMakeVisible(&rollLength);
-    rollLength.setSliderStyle (juce::Slider::LinearBarVertical);
-    rollLength.setRange (0.0, 1.0, 0.01);
-    rollLength.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
-    rollLength.setPopupDisplayEnabled (true, false, this);
-    rollLength.setTextValueSuffix (" roll length");
-    rollLength.setValue(0.5);
-    
-    flamButton.setClickingTogglesState(true);
-    flamButton.setToggleState(false, juce::dontSendNotification);
-    addAndMakeVisible(&flamButton);
-    dragButton.setClickingTogglesState(true);
-    dragButton.setToggleState(false, juce::dontSendNotification);
-    addAndMakeVisible(&dragButton);
-    ruffButton.setClickingTogglesState(true);
-    ruffButton.setToggleState(false, juce::dontSendNotification);
-    addAndMakeVisible(&ruffButton);
-    addOrnamentsButton.onClick = [this]() {
-        Probability prob = ornamentProbability.getValue();
-        double breadth = ornamentBreadth.getValue();
-        bool flams = flamButton.getToggleState();
-        bool drags = dragButton.getToggleState();
-        bool ruffs = ruffButton.getToggleState();
-        
-        generator.ornament(voiceManager.selectedPhraseKeyState, prob, breadth, flams, drags, ruffs);
-        
-        string id = generator.ornamentsKey(voiceManager.selectedPhraseKeyState);
-        function<void()> task = [=]() { generator.ornament(voiceManager.selectedPhraseKeyState, prob, breadth, flams, drags, ruffs); };
-        audioProcessor.loopTasks.queue(id, task, regenerateOrnaments.getToggleState());
-    };
-    addAndMakeVisible(&addOrnamentsButton);
-
-    addAndMakeVisible(&ornamentProbability);
-    ornamentProbability.setSliderStyle (juce::Slider::LinearBarVertical);
-    ornamentProbability.setRange (0.0, 1.0, 0.01);
-    ornamentProbability.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
-    ornamentProbability.setPopupDisplayEnabled (true, false, this);
-    ornamentProbability.setTextValueSuffix (" ornament probability");
-    ornamentProbability.setValue(0.3);
-    
-    addAndMakeVisible(&ornamentBreadth);
-    ornamentBreadth.setSliderStyle (juce::Slider::LinearBarVertical);
-    ornamentBreadth.setRange (0.0, 4.0, 0.01);
-    ornamentBreadth.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
-    ornamentBreadth.setPopupDisplayEnabled (true, false, this);
-    ornamentBreadth.setTextValueSuffix (" ornament breadth");
-    ornamentBreadth.setValue(1.0);
-    
-    flipButton.onClick = [this]() {
-        generator.flipClave(voiceManager.selectedPhraseKeyState);
-//        string ornamentsKey = generator.ornamentsKey(voiceManager.selectedPhraseKeyState);
-//        if (generator.hasPhrase(ornamentsKey)) { generator.flipClave(ornamentsKey); }
-//        string rollsKey = generator.rollsKey(voiceManager.selectedPhraseKeyState);
-//        if (generator.hasPhrase(rollsKey)) { generator.flipClave(rollsKey); }
-    };
-    addAndMakeVisible(&flipButton);
+    // TODO: move to transform menu
+//    addAndMakeVisible(&rollProbability);
+//    rollProbability.setSliderStyle (juce::Slider::LinearBarVertical);
+//    rollProbability.setRange (0.0, 1.0, 0.01);
+//    rollProbability.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
+//    rollProbability.setPopupDisplayEnabled (true, false, this);
+//    rollProbability.setTextValueSuffix (" p(roll)");
+//    rollProbability.setValue(1.0);
+//
+//    addAndMakeVisible(&rollAssociation);
+//    rollAssociation.setSliderStyle (juce::Slider::LinearBarVertical);
+//    rollAssociation.setRange (0.0, 1.0, 0.01);
+//    rollAssociation.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
+//    rollAssociation.setPopupDisplayEnabled (true, false, this);
+//    rollAssociation.setTextValueSuffix (" roll association / swing");
+//    rollAssociation.setValue(0.5);
+//
+//    addAndMakeVisible(&rollLength);
+//    rollLength.setSliderStyle (juce::Slider::LinearBarVertical);
+//    rollLength.setRange (0.0, 1.0, 0.01);
+//    rollLength.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
+//    rollLength.setPopupDisplayEnabled (true, false, this);
+//    rollLength.setTextValueSuffix (" roll length");
+//    rollLength.setValue(0.5);
+//
+//    flamButton.setClickingTogglesState(true);
+//    flamButton.setToggleState(false, juce::dontSendNotification);
+//    addAndMakeVisible(&flamButton);
+//    dragButton.setClickingTogglesState(true);
+//    dragButton.setToggleState(false, juce::dontSendNotification);
+//    addAndMakeVisible(&dragButton);
+//    ruffButton.setClickingTogglesState(true);
+//    ruffButton.setToggleState(false, juce::dontSendNotification);
+//    addAndMakeVisible(&ruffButton);
+//    addOrnamentsButton.onClick = [this]() {
+//        Probability prob = ornamentProbability.getValue();
+//        double breadth = ornamentBreadth.getValue();
+//        bool flams = flamButton.getToggleState();
+//        bool drags = dragButton.getToggleState();
+//        bool ruffs = ruffButton.getToggleState();
+//
+//        generator.ornament(voiceManager.selectedPhraseKeyState, prob, breadth, flams, drags, ruffs);
+//
+//        string id = generator.ornamentsKey(voiceManager.selectedPhraseKeyState);
+//        function<void()> task = [=]() { generator.ornament(voiceManager.selectedPhraseKeyState, prob, breadth, flams, drags, ruffs); };
+//        audioProcessor.loopTasks.queue(id, task, regenerateOrnaments.getToggleState());
+//    };
+//    addAndMakeVisible(&addOrnamentsButton);
+//
+//    addAndMakeVisible(&ornamentProbability);
+//    ornamentProbability.setSliderStyle (juce::Slider::LinearBarVertical);
+//    ornamentProbability.setRange (0.0, 1.0, 0.01);
+//    ornamentProbability.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
+//    ornamentProbability.setPopupDisplayEnabled (true, false, this);
+//    ornamentProbability.setTextValueSuffix (" ornament probability");
+//    ornamentProbability.setValue(0.3);
+//
+//    addAndMakeVisible(&ornamentBreadth);
+//    ornamentBreadth.setSliderStyle (juce::Slider::LinearBarVertical);
+//    ornamentBreadth.setRange (0.0, 4.0, 0.01);
+//    ornamentBreadth.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
+//    ornamentBreadth.setPopupDisplayEnabled (true, false, this);
+//    ornamentBreadth.setTextValueSuffix (" ornament breadth");
+//    ornamentBreadth.setValue(1.0);
+//
+//    flipButton.onClick = [this]() {
+//        generator.flipClave(voiceManager.selectedPhraseKeyState);
+//    };
+//    addAndMakeVisible(&flipButton);
 }
 
 GenerateStuffAudioProcessorEditor::~GenerateStuffAudioProcessorEditor()
@@ -271,7 +272,6 @@ void GenerateStuffAudioProcessorEditor::resized()
     // subcomponents in your editor..
     int height = getHeight() - 2 * yPadding;
     int width = getWidth() - 2 * xPadding;
-    int spaceBetweenControls = 10;
     int sliderWidth = 20;
     int numSliders = 6;
     int buttonColumns = voiceManager.getNumberOfColumns() + 7;
@@ -332,7 +332,7 @@ void GenerateStuffAudioProcessorEditor::resized()
 //    probabilityOfDouble.setBounds (xCursor, yCursor, sliderWidth, height);
 //    xCursor += sliderWidth + spaceBetweenControls;
     
-    auto getButtonHeight = [height, spaceBetweenControls] (int rows) { return (height - spaceBetweenControls * (rows - 1)) / rows; };
+    auto getButtonHeight = [height] (int rows) { return (height - spaceBetweenControls * (rows - 1)) / rows; };
     int buttonHeight = getButtonHeight(voiceManager.getNumberOfVoices());
 
     voiceManager.setBounds(xCursor, yCursor, buttonWidth, buttonHeight, spaceBetweenControls);

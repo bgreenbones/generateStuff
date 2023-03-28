@@ -61,8 +61,10 @@ public:
     juce::TextButton generateFromButton;
     juce::TextButton useAsSourceButton;
     juce::TextButton muteButton;
-    juce::TextButton selectButton;
+//    juce::TextButton selectButton;
     juce::TextButton improviseButton;
+    juce::TextButton settingsButton;
+    juce::TextButton transformButton;
 
     static const int selectVoiceGroupId = 98374; // random
     static const int useAsSourceGroupId = 29384;
@@ -75,10 +77,12 @@ public:
         generateFromButton(juce::TextButton("new " + name + " from source")),
         useAsSourceButton(juce::TextButton("use " + name + " as source")),
         muteButton(juce::TextButton("mute " + name)),
-        selectButton(juce::TextButton("select " + name)),
-        improviseButton("improvise " + name)
+//        selectButton(juce::TextButton("select " + name)),
+        improviseButton("improvise " + name),
+        settingsButton("settings"),
+        transformButton("transform")
     {
-        buttons = { &generateButton, &generateFromButton, &useAsSourceButton, &muteButton, &selectButton, &improviseButton };
+        buttons = { &generateButton, &generateFromButton, &useAsSourceButton, &muteButton, &improviseButton, &settingsButton, &transformButton };
         for (auto button : buttons) { button->setLookAndFeel (&lookAndFeel); }
         for (int channel = midiChannelLowerBound; channel <= midiChannelUpperBound; channel++) { midiChannel.addItem(juce::String(channel), channel); }
 //        defaultMidiChannel = max(midiChannelLowerBound, defaultMidiChannel); // TODO: why does this cause undefined symbol
@@ -94,41 +98,9 @@ public:
         buttons.shrink_to_fit();
     }
     
-    void configureButtons() {
-        selectButton.setRadioGroupId(selectVoiceGroupId);
-        selectButton.setClickingTogglesState(true);
-        selectButton.setToggleState(false, juce::dontSendNotification);
-        
-        useAsSourceButton.setRadioGroupId(useAsSourceGroupId);
-        useAsSourceButton.setClickingTogglesState(true);
-        useAsSourceButton.setToggleState(false, juce::dontSendNotification);
-    }
-    
-    std::size_t getNumberOfButtons() {
-        return buttons.size();
-    }
-    
-    std::size_t getNumberOfColumns() {
-        return getNumberOfButtons() + 1;
-    }
-
-    void callAddAndMakeVisible(Component *editor) {
-        editor->addAndMakeVisible (midiChannel);
-        for (auto button : buttons) {
-            editor->addAndMakeVisible (button);
-        }
-    }
-    
-    void setBounds(int xCursor, int yCursor, int buttonWidth, int buttonHeight, int spaceBetweenControls) {
-        auto incrementCursor = [&]() { xCursor += buttonWidth + spaceBetweenControls; };
-        int comboBoxHeight = 40;
-        int comboBoxY = yCursor + buttonHeight / 2 - comboBoxHeight / 2;
-        midiChannel.setBounds(xCursor, comboBoxY, buttonWidth, comboBoxHeight);
-        incrementCursor();
-        for (auto button : buttons) {
-            button->setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
-            incrementCursor();
-        }
-    }
-    
+    void configureButtons();
+    std::size_t getNumberOfButtons();
+    std::size_t getNumberOfColumns();
+    void callAddAndMakeVisible(Component *editor);
+    void setBounds(int xCursor, int yCursor, int buttonWidth, int buttonHeight, int spaceBetweenControls);
 };
