@@ -72,6 +72,9 @@ public:
     Tonality harmonyToScale() const;
     Tonality scaleToHarmony() const;
     double similarity(Tonality other) const;
+    Tonality smoothModulation(int n, Direction direction) const;
+    Tonality raise(int n) const;
+    Tonality lower(int n) const;
     
     bool operator==(Tonality other) const;
 };

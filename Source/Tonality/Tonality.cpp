@@ -164,4 +164,47 @@ double Tonality::similarity(Tonality other) const {
     return (containedInThis + containedInOther) / 2.; // return average of two contain measures. 
 }
 
+Tonality Tonality::smoothModulation(int n, Direction direction) const {
+    if (n <= 0) {
+        return *this;
+    }
+    vector<Interval> options;
+    
+    for (auto interval_it = intervalsUpFromRoot.begin(); interval_it < intervalsUpFromRoot.end(); interval_it++) {
+        Interval interval = *interval_it;
+        int previous = interval_it == intervalsUpFromRoot.begin() ? intervalsUpFromRoot.back() - octave : *(interval_it - 1);
+        int next = interval_it == intervalsUpFromRoot.end() - 1 ? intervalsUpFromRoot.front() + octave : *(interval_it + 1);
+        
+        Interval between_previous = (Interval) (interval - previous);
+        Interval between_next = (Interval) (next - interval);
+        
+        if ((direction == Direction::up && (between_previous < M2 && between_next >= M2))
+            || (direction == Direction::down && (between_next < M2 && between_previous >= M2))) {
+            options.push_back(interval);
+        }
+    }
+    
+    if (options.empty()) {
+        return *this; // nothing to raise...
+    }
+    
+    Interval toModulate = draw<Interval>(options);
+    Interval modulated = (Interval) (toModulate + direction);
+    
+    vector<Interval> newIntervalsUpFromRoot;
+    transform(intervalsUpFromRoot.begin(), intervalsUpFromRoot.end(), back_inserter(newIntervalsUpFromRoot), [toModulate, modulated](Interval interval) {
+        return interval == toModulate ? modulated : interval;
+    });
+    
+    return Tonality(root, newIntervalsUpFromRoot).smoothModulation(n - 1, direction);
+}
+
+
+Tonality Tonality::raise(int n) const {
+    return smoothModulation(n, Direction::up);
+}
+
+Tonality Tonality::lower(int n) const {
+    return smoothModulation(n, Direction::down);
+}
 

@@ -18,6 +18,8 @@
 namespace harmony {
     ChordScale randomChordScale(Position startTime = 0, Duration duration = Bars(1));
     ChordScale newChordSameScale(ChordScale previousChordScale, Position startTime, Duration duration);
+    ChordScale subtleModulations(ChordScale previousChordScale, Position startTime, Duration duration);
+
     vector<Pitch> randomChord();
         
     const GenerationFunction chordsFunction = [](Phrase phrase) {
@@ -33,7 +35,8 @@ namespace harmony {
             Bars chordLength(min(numberOfChords--, 1));
             ChordScale chordScale = phrase.chordScales.empty()
                 ? randomChordScale(startTime, chordLength)
-                : newChordSameScale(phrase.chordScales.back(), startTime, chordLength);
+//                : newChordSameScale(phrase.chordScales.back(), startTime, chordLength);
+                : subtleModulations(phrase.chordScales.back(), startTime, chordLength);
             phrase.chordScales.add(chordScale);
             for (Pitch pitchToAdd : chordScale.harmony.randomVoicing()) {
                 Note noteToAdd(pitchToAdd.pitchValue, 70, startTime, chordLength);

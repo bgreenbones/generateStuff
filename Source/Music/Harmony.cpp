@@ -19,7 +19,6 @@ ChordScale harmony::randomChordScale(Position startTime, Duration duration) {
     return harm;
 }
 
-// TODO: and a way of stepping from tonality to a closely related tonality, so we get smooth changes.
 ChordScale harmony::newChordSameScale(ChordScale previousChordScale, Position startTime, Duration duration) {
     Tonality scale = previousChordScale.scale;
     ChordScale nextChordScale(scale, startTime, duration);
@@ -43,6 +42,12 @@ ChordScale harmony::newChordSameScale(ChordScale previousChordScale, Position st
     return nextChordScale;
 }
 
+ChordScale harmony::subtleModulations(ChordScale previousChordScale, Position startTime, Duration duration) {
+    ChordScale newChordScale(previousChordScale.scale.smoothModulation(1, draw<Direction>({ up, down })), startTime, duration);
+    newChordScale.harmony = previousChordScale.harmony;
+    return newChordSameScale(newChordScale, startTime, duration);
+}
+
 Phrase harmony::generateChordScales(Phrase fromPhrase, Probability chordProbabilityPerAccent) {
     fromPhrase.chordScales.clear();
 
@@ -59,7 +64,8 @@ Phrase harmony::generateChordScales(Phrase fromPhrase, Probability chordProbabil
             Bars chordLength(min(numberOfChords--, 1));
             ChordScale chordScale = fromPhrase.chordScales.empty()
                 ? randomChordScale(startTime, chordLength)
-                : newChordSameScale(fromPhrase.chordScales.back(), startTime, chordLength);
+//                : newChordSameScale(fromPhrase.chordScales.back(), startTime, chordLength);
+                : subtleModulations(fromPhrase.chordScales.back(), startTime, chordLength);
             fromPhrase.chordScales.add(chordScale);
         }
     } else {
@@ -67,7 +73,8 @@ Phrase harmony::generateChordScales(Phrase fromPhrase, Probability chordProbabil
             if (chordProbabilityPerAccent) {
                 ChordScale chordScale = fromPhrase.chordScales.empty()
                     ? randomChordScale(accent.startTime, accent.duration)
-                    : newChordSameScale(fromPhrase.chordScales.back(), accent.startTime, accent.duration);
+//                    : newChordSameScale(fromPhrase.chordScales.back(), accent.startTime, accent.duration);
+                    : subtleModulations(fromPhrase.chordScales.back(), accent.startTime, accent.duration);
                 fromPhrase.chordScales.add(chordScale);
             }
         }
