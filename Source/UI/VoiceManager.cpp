@@ -147,13 +147,13 @@ void VoiceManager::setOnClicks() {
         voice.settingsButton.onClick = [this]() {
             VoiceSettingsMenuComponent *voiceSettings = new VoiceSettingsMenuComponent();
             this->mainEditor->addAndMakeVisible(voiceSettings);
-            voiceSettings->setBounds(0, 0, editorWidth, editorHeight);
+            voiceSettings->resized(); // TODO: super gross that i am needing to manually call resized() to get the actual subclass's implementation...
         };
         
         voice.transformButton.onClick = [this]() {
-            TransformPhraseMenuComponent *voiceSettings = new TransformPhraseMenuComponent();
-            this->mainEditor->addAndMakeVisible(voiceSettings);
-            voiceSettings->setBounds(0, 0, editorWidth, editorHeight);
+            TransformPhraseMenuComponent *transformMenu = new TransformPhraseMenuComponent();
+            this->mainEditor->addAndMakeVisible(transformMenu);
+            transformMenu->resized();
         };
     }
 }
