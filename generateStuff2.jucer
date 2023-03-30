@@ -20,6 +20,28 @@
         <FILE id="tVvZ01" name="Rhythm.h" compile="0" resource="0" file="Source/Music/Rhythm.h"/>
       </GROUP>
       <GROUP id="{F3A0C4B1-F867-8446-A664-D7913F7323C9}" name="UI">
+        <GROUP id="{9B7978C6-AC3F-FD23-CEF7-795A11D27B1D}" name="PopUps">
+          <FILE id="hrKEgJ" name="ExpressionMenuComponent.cpp" compile="1" resource="0"
+                file="Source/UI/PopUps/ExpressionMenuComponent.cpp"/>
+          <FILE id="I4mKCU" name="ExpressionMenuComponent.h" compile="0" resource="0"
+                file="Source/UI/PopUps/ExpressionMenuComponent.h"/>
+          <FILE id="P4da0Y" name="OrnamentationMenuComponent.cpp" compile="1"
+                resource="0" file="Source/UI/PopUps/OrnamentationMenuComponent.cpp"/>
+          <FILE id="pSv6mc" name="OrnamentationMenuComponent.h" compile="0" resource="0"
+                file="Source/UI/PopUps/OrnamentationMenuComponent.h"/>
+          <FILE id="ljCE1Z" name="PopUpComponent.cpp" compile="1" resource="0"
+                file="Source/UI/PopUps/PopUpComponent.cpp"/>
+          <FILE id="Aw7sAs" name="PopUpComponent.h" compile="0" resource="0"
+                file="Source/UI/PopUps/PopUpComponent.h"/>
+          <FILE id="NXzWQJ" name="TransformPhraseMenuComponent.cpp" compile="1"
+                resource="0" file="Source/UI/PopUps/TransformPhraseMenuComponent.cpp"/>
+          <FILE id="Qv9HEa" name="TransformPhraseMenuComponent.h" compile="0"
+                resource="0" file="Source/UI/PopUps/TransformPhraseMenuComponent.h"/>
+          <FILE id="iHoZth" name="VoiceSettingsMenuComponent.cpp" compile="1"
+                resource="0" file="Source/UI/PopUps/VoiceSettingsMenuComponent.cpp"/>
+          <FILE id="JOd51K" name="VoiceSettingsMenuComponent.h" compile="0" resource="0"
+                file="Source/UI/PopUps/VoiceSettingsMenuComponent.h"/>
+        </GROUP>
         <FILE id="tkEiPc" name="CustomUIs.h" compile="0" resource="0" file="Source/UI/CustomUIs.h"/>
         <FILE id="WgZLAu" name="GenerateStuffEditorState.h" compile="0" resource="0"
               file="Source/UI/GenerateStuffEditorState.h"/>

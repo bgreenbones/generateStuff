@@ -92,9 +92,6 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     displace.setInputRestrictions (4, juce::String {".1234567890"});
     startBar.setInputRestrictions (4, juce::String {".1234567890"});
     stopBar.setInputRestrictions (4, juce::String {".1234567890"});
-//    displace.onTextChange = [this] { updateDisplacementState(); };
-//    startBar.onTextChange = [this] { updateStartingBarState(); };
-//    stopBar.onTextChange = [this] { updateStoppingBarState(); };
     displace.onTextChange = [this] { updateEditorState(); };
     startBar.onTextChange = [this] { updateEditorState(); };
     stopBar.onTextChange = [this] { updateEditorState(); };
@@ -122,9 +119,9 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     stopBar.setText(stopBarString);
 
     regenerateRolls.setClickingTogglesState(true);
-    regenerateRolls.setToggleState(editorState->improviseRolls, juce::dontSendNotification);
+//    regenerateRolls.setToggleState(editorState->improviseRolls, juce::dontSendNotification);
     regenerateOrnaments.setClickingTogglesState(true);
-    regenerateOrnaments.setToggleState(editorState->improviseOrnaments, juce::dontSendNotification);
+//    regenerateOrnaments.setToggleState(editorState->improviseOrnaments, juce::dontSendNotification);
     regenerateRolls.onClick = [this]() {
         vector<const string> rollKeys = voiceManager.getRollKeys();
         bool improviseRolls = regenerateRolls.getToggleState();
@@ -139,7 +136,7 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
             ? audioProcessor.loopTasks.activate(ornamentKeys)
             : audioProcessor.loopTasks.deactivate(ornamentKeys);
         
-        editorState->improviseOrnaments = regenerateOrnaments.getToggleState();
+//        editorState->improviseOrnaments = regenerateOrnaments.getToggleState();
     };
     addAndMakeVisible (&regenerateRolls);
     addAndMakeVisible (&regenerateOrnaments);

@@ -61,10 +61,11 @@ public:
     juce::TextButton generateFromButton;
     juce::TextButton useAsSourceButton;
     juce::TextButton muteButton;
-//    juce::TextButton selectButton;
     juce::TextButton improviseButton;
     juce::TextButton settingsButton;
     juce::TextButton transformButton;
+    juce::TextButton expressionButton; // TODO: make these menu!! and move the other pop ups to their own files...
+    juce::TextButton ornamentButton;
 
     static const int selectVoiceGroupId = 98374; // random
     static const int useAsSourceGroupId = 29384;
@@ -73,16 +74,18 @@ public:
     
     VoiceControls(string name, int defaultMidiChannel):
         voiceName(name),
-        generateButton(juce::TextButton("new " + name)),
-        generateFromButton(juce::TextButton("new " + name + " from source")),
-        useAsSourceButton(juce::TextButton("use " + name + " as source")),
+        generateButton(juce::TextButton(name)),
+        generateFromButton(juce::TextButton("from source")),
+        useAsSourceButton(juce::TextButton("use as source")),
         muteButton(juce::TextButton("mute " + name)),
-//        selectButton(juce::TextButton("select " + name)),
-        improviseButton("improvise " + name),
+        improviseButton("improvise"),
         settingsButton("settings"),
+        expressionButton("expression"),
+        ornamentButton("ornament"),
         transformButton("transform")
     {
-        buttons = { &generateButton, &generateFromButton, &useAsSourceButton, &muteButton, &improviseButton, &settingsButton, &transformButton };
+        buttons = { &generateButton, &generateFromButton, &useAsSourceButton, &muteButton, &improviseButton,
+                    &settingsButton, &expressionButton, &ornamentButton, &transformButton };
         for (auto button : buttons) { button->setLookAndFeel (&lookAndFeel); }
         for (int channel = midiChannelLowerBound; channel <= midiChannelUpperBound; channel++) { midiChannel.addItem(juce::String(channel), channel); }
 //        defaultMidiChannel = max(midiChannelLowerBound, defaultMidiChannel); // TODO: why does this cause undefined symbol

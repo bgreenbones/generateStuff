@@ -11,19 +11,23 @@
 #pragma once
 
 #include "Duration.h"
+#include "Subdivision.h"
 
-class GenerateStuffEditorState {
+
+class TransformEditorState {
+    
+};
+
+class ExpressionEditorState {
+    
+};
+
+class VoiceSettingsEditorState {
+    
+};
+
+class OrnamentationEditorState {
 public:
-    // general
-    beats subdivision = 1./4.;
-    bars phraseLengthBars = 2.;
-    beats phraseLengthBeats = 0.;
-    beats displace = 0.;
-    bars startBar = 1.;
-    bars stopBar = 3.;
-
-    double probabilityOfDouble; // not yet using for 'cascara' abstraction
-
     // rolls / runs
     bool muteRolls = false;
     bool muteOrnaments = false;
@@ -39,6 +43,25 @@ public:
     bool allowRuffs = false;
     double ornamentProbability = 0.5;
     double ornamentBreadth = 0.5;
+};
+
+class GenerateStuffEditorState {
+public:
+    // general
+    beats subdivision = 1./4.;
+    bars phraseLengthBars = 2.;
+    beats phraseLengthBeats = 0.;
+    beats displace = 0.;
+    bars startBar = 1.;
+    bars stopBar = 3.;
+    
+    typedef string VoiceName;
+    map<VoiceName, OrnamentationEditorState> ornamentationStates;
+    map<VoiceName, TransformEditorState> transformStates;
+    map<VoiceName, ExpressionEditorState> expressionStates;
+    map<VoiceName, VoiceSettingsEditorState> voiceSettingsStates;
+
+    double probabilityOfDouble; // not yet using for 'cascara' abstraction
     
     Bars getStartTime() { return Bars(startBar - 1., true); }
     Bars getStopTime() { return Bars(startBar - 1., true); }

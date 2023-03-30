@@ -9,7 +9,10 @@
 */
 
 #include "VoiceManager.h"
-#include "CustomUIs.h"
+#include "VoiceSettingsMenuComponent.h"
+#include "TransformPhraseMenuComponent.h"
+#include "OrnamentationMenuComponent.h"
+#include "ExpressionMenuComponent.h"
 
 
 VoiceManager::VoiceManager(GenerateStuffAudioProcessor& processor):
@@ -73,16 +76,6 @@ size_t VoiceManager::getNumberOfVoices() {
     return voices.size();
 }
 
-//void VoiceManager::updateSelectedPhraseState() {
-//    for (auto voiceIt = voices.begin(); voiceIt != voices.end(); voiceIt++) {
-//        bool voiceSelected = voiceIt->second.selectButton.getToggleState();
-//        if (voiceSelected) {
-//            this->selectedPhraseKeyState = voiceIt->second.voiceName;
-//            break;
-//        }
-//    }
-//};
-
 void VoiceManager::updateUseAsSourceState() {
     for (auto voiceIt = voices.begin(); voiceIt != voices.end(); voiceIt++) {
         bool voiceSelected = voiceIt->second.useAsSourceButton.getToggleState();
@@ -94,7 +87,6 @@ void VoiceManager::updateUseAsSourceState() {
 }
 
 void VoiceManager::updateState() {
-//    updateSelectedPhraseState();
     updateUseAsSourceState();
 }
 
@@ -144,16 +136,28 @@ void VoiceManager::setOnClicks() {
             voice.improviseButton.setToggleState(improvise, juce::dontSendNotification);
         };
         
-        voice.settingsButton.onClick = [this]() {
-            VoiceSettingsMenuComponent *voiceSettings = new VoiceSettingsMenuComponent();
+        voice.settingsButton.onClick = [voice, this]() {
+            VoiceSettingsMenuComponent *voiceSettings = new VoiceSettingsMenuComponent(voice.voiceName, processor.editorState);
             this->mainEditor->addAndMakeVisible(voiceSettings);
             voiceSettings->resized(); // TODO: super gross that i am needing to manually call resized() to get the actual subclass's implementation...
         };
         
-        voice.transformButton.onClick = [this]() {
-            TransformPhraseMenuComponent *transformMenu = new TransformPhraseMenuComponent();
+        voice.transformButton.onClick = [voice, this]() {
+            TransformPhraseMenuComponent *transformMenu = new TransformPhraseMenuComponent(voice.voiceName, processor.editorState);
             this->mainEditor->addAndMakeVisible(transformMenu);
             transformMenu->resized();
+        };
+        
+        voice.ornamentButton.onClick = [voice, this]() {
+            OrnamentationMenuComponent *ornamentationMenu = new OrnamentationMenuComponent(voice.voiceName, processor.editorState);
+            this->mainEditor->addAndMakeVisible(ornamentationMenu);
+            ornamentationMenu->resized();
+        };
+        
+        voice.expressionButton.onClick = [voice, this]() {
+            ExpressionMenuComponent *expressionMenu = new ExpressionMenuComponent(voice.voiceName, processor.editorState);
+            this->mainEditor->addAndMakeVisible(expressionMenu);
+            expressionMenu->resized();
         };
     }
 }

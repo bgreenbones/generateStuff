@@ -19,12 +19,12 @@
 typedef string VoiceName;
 
 // TODO: change the key and the channel data into some other enum or struct type or something
-static const string claveKey = "clave";
-static const string cascaraKey = "cascara";
-static const string subdivisionsKey = "subdivisions";
-static const string harmonyKey = "harmony";
-static const string bassKey = "bass";
-static const string melodyKey = "melody";
+static const VoiceName claveKey = "clave";
+static const VoiceName cascaraKey = "cascara";
+static const VoiceName subdivisionsKey = "subdivisions";
+static const VoiceName harmonyKey = "harmony";
+static const VoiceName bassKey = "bass";
+static const VoiceName melodyKey = "melody";
 //static const string pulseAndDisplaceKey = "pulseAndDisplace";
 
 static int claveChannel = 1;
