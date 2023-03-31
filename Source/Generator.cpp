@@ -8,21 +8,21 @@
 #include "Generator.hpp"
 #include "Pitch.h"
 
-Phrase Generator::fromNothing(string phraseKey, function<Phrase(Phrase)> phraseFunction) {
+Phrase Generator::fromNothing(string phraseKey, GenerationFunction phraseFunction) {
     auto phrase = Phrase(editorState->getSubdivision(),
                          editorState->getStartTime(),
                          editorState->getPhraseLength());
-    phrase = phraseFunction(phrase);
+    phrase = phraseFunction(phrase, *editorState.get(), phraseKey);
     playQueue->queuePhrase(phraseKey, phrase);
     return phrase;
 }
 
-Phrase Generator::from(string generatePhraseKey, string generateFromPhraseKey, function<Phrase(Phrase const&)> phraseFunction) {
+Phrase Generator::from(string generatePhraseKey, string generateFromPhraseKey, GenerationFunction phraseFunction) {
     Position startTime = editorState->getStartTime();
     Duration phraseLength = editorState->getPhraseLength();
     if (playQueue->doesntHavePhrase(generateFromPhraseKey, startTime, phraseLength)) { this->generate(generateFromPhraseKey); }
     Voice voice = playQueue->getVoice(generateFromPhraseKey);
-    auto result = phraseFunction(voice.base);
+    auto result = phraseFunction(voice.base, *editorState.get(), generatePhraseKey);
     playQueue->queuePhrase(generatePhraseKey, result);
     return result;
 }

@@ -21,6 +21,7 @@
 #include "Random.h"
 #include "Pitch.h"
 #include "ChordScale.h"
+#include "GenerateStuffEditorState.h"
 
 using namespace std;
 
@@ -141,6 +142,7 @@ Duration timeBetween(T const& first, T const& second, Phrase phrase)
         : second.startTime + phrase.duration - first.startTime;
 }
 
-typedef function<Phrase(Phrase)> GenerationFunction;
+typedef string VoiceName;
+typedef function<Phrase(Phrase, GenerateStuffEditorState const&, VoiceName)> GenerationFunction;
 
 #endif /* Phrase_hpp */

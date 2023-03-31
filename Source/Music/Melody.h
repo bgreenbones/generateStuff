@@ -16,7 +16,7 @@
 #include "Rhythm.h"
 
 namespace melody {
-    const GenerationFunction melodyFromFunction = [](Phrase fromPhrase) {
+    const GenerationFunction melodyFromFunction = [](Phrase fromPhrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) {
         Phrase phrase(fromPhrase);
         phrase.notes = fromPhrase.notes.toMonophonic();
         phrase = phrase.chordScales.empty() ? harmony::generateChordScales(phrase, 0.6) : phrase;
@@ -64,11 +64,11 @@ namespace melody {
         return phrase;
     };
 
-    const GenerationFunction melodyFunction = [](Phrase fromPhrase) {
-        return melodyFromFunction(harmony::generateChordScales(fromPhrase));
+    const GenerationFunction melodyFunction = [](Phrase fromPhrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) {
+        return melodyFromFunction(harmony::generateChordScales(fromPhrase), editorState, voiceName);
     };
 
-    const GenerationFunction bassFromFunction = [](Phrase const& fromPhrase) {
+    const GenerationFunction bassFromFunction = [](Phrase const& fromPhrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) {
         Phrase phrase(fromPhrase);
         phrase.notes = fromPhrase.notes.toMonophonic();
         phrase = phrase.chordScales.empty() ? harmony::generateChordScales(phrase, 0.6) : phrase;
@@ -98,8 +98,8 @@ namespace melody {
         return phrase;
     };
 
-    const GenerationFunction bassFunction = [](Phrase fromPhrase) {
-        return bassFromFunction(harmony::generateChordScales(fromPhrase));
+    const GenerationFunction bassFunction = [](Phrase fromPhrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) {
+        return bassFromFunction(harmony::generateChordScales(fromPhrase), editorState, voiceName);
     };
 
 }

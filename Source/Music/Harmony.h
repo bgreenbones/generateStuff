@@ -22,7 +22,7 @@ namespace harmony {
 
     vector<Pitch> randomChord();
         
-    const GenerationFunction chordsFunction = [](Phrase phrase) {
+    const GenerationFunction chordsFunction = [](Phrase phrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) {
         phrase.notes.monophonic = false;
         phrase.chordScales.monophonic = true;
         phrase.notes.clear();
@@ -50,7 +50,7 @@ namespace harmony {
     Phrase generateChordScales(Phrase fromPhrase, Probability chordProbabilityPerAccent = 0.6);
 
 
-    const GenerationFunction chordsFromFunction = [](Phrase fromPhrase) {
+    const GenerationFunction chordsFromFunction = [](Phrase fromPhrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) {
         Phrase phrase = fromPhrase.toPolyphonic();
         phrase = phrase.chordScales.empty() ? generateChordScales(phrase, 0.6) : phrase;
         phrase.notes.clear();

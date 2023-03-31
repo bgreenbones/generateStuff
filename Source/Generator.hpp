@@ -46,8 +46,8 @@ public:
     shared_ptr<PlayQueue> playQueue;
     shared_ptr<GenerateStuffEditorState> editorState;
     
-    Phrase fromNothing(string phraseKey, function<Phrase(Phrase)> phraseFunction);
-    Phrase from(string generatePhraseKey, string generateFromPhraseKey, function<Phrase(Phrase const&)> phraseFunction);
+    Phrase fromNothing(string phraseKey, GenerationFunction phraseFunction);
+    Phrase from(string generatePhraseKey, string generateFromPhraseKey, GenerationFunction phraseFunction);
     Phrase flipClave(string phraseKey);
 
     Phrase generate(string phraseKey) { // TODO: get selected phrase key from editor state instead of passing it in?

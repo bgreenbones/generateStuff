@@ -12,6 +12,9 @@
 
 #include "Phrase.hpp"
 
+
+typedef string VoiceName;
+
 namespace rhythm {
 
     // TODO: IDEAS:
@@ -58,7 +61,7 @@ namespace rhythm {
                      int minNoteLengthInSubdivisions = 2,
                      int maxNoteLengthInSubdivisions = 4);
 
-    const GenerationFunction fillSubdivisionsFunction = [](Phrase const& phrase) {
+    const GenerationFunction fillSubdivisionsFunction = [](Phrase const& phrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) {
         Phrase newPhrase(phrase);
         newPhrase.notes.clear();
         newPhrase = newPhrase.randomGhostSubdivision(0.9,1.);
@@ -66,10 +69,10 @@ namespace rhythm {
         return newPhrase;
     };
 
-    const function<Phrase(Phrase)> cascaraFunction = [](Phrase phrase) { return randomCascara(phrase); };
-    const function<Phrase(Phrase)> claveFunction = [](Phrase phrase) { return randomClave(phrase); };
-    const function<Phrase(Phrase)> cascaraFromFunction = [](Phrase phrase) { return cascaraFrom(phrase); };
-    const function<Phrase(Phrase)> claveFromFunction = [](Phrase phrase) { return claveFrom(phrase); };
+    const GenerationFunction cascaraFunction = [](Phrase phrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) { return randomCascara(phrase); };
+    const GenerationFunction claveFunction = [](Phrase phrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) { return randomClave(phrase); };
+    const GenerationFunction cascaraFromFunction = [](Phrase phrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) { return cascaraFrom(phrase); };
+    const GenerationFunction claveFromFunction = [](Phrase phrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) { return claveFrom(phrase); };
 }
 
 
