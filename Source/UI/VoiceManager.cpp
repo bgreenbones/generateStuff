@@ -21,7 +21,7 @@ VoiceManager::VoiceManager(GenerateStuffAudioProcessor& processor):
     playQueue(processor.playQueue)
 {
     for (VoiceBindings vb : voiceBindings) {
-        voices.emplace(vb.voiceName, VoiceControls(vb.voiceName, vb.midiChannel));
+        voices.emplace(vb.voiceName, VoiceControls(vb));
     }
 }
 
@@ -137,7 +137,7 @@ void VoiceManager::setOnClicks() {
         };
         
         voice.settingsButton.onClick = [voice, this]() {
-            VoiceSettingsMenuComponent *voiceSettings = new VoiceSettingsMenuComponent(voice.voiceName, processor.editorState);
+            VoiceSettingsMenuComponent *voiceSettings = new VoiceSettingsMenuComponent(voice.voiceName, processor, voice.getParameters);
             this->mainEditor->addAndMakeVisible(voiceSettings);
             voiceSettings->resized(); // TODO: super gross that i am needing to manually call resized() to get the actual subclass's implementation...
         };

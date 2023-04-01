@@ -11,12 +11,15 @@
 #pragma once
 #include "PopUpComponent.h"
 #include "GenerateStuffEditorState.h"
+#include "PluginProcessor.h"
 
 using std::shared_ptr;
 
 class VoiceSettingsMenuComponent : public VoiceEditor {
+    GenerateStuffAudioProcessor &processor;
+    juce::AudioProcessorValueTreeState apvts;
 public:
-    VoiceSettingsMenuComponent(VoiceName voiceName, shared_ptr<GenerateStuffEditorState> editorState);
+    VoiceSettingsMenuComponent(VoiceName voiceName, GenerateStuffAudioProcessor& processor, ParameterLayoutFunction getParams);
     int placeWorkspace() override;
     void updateMenuState() override;
 };

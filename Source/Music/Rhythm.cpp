@@ -96,6 +96,7 @@ Phrase rhythm::fillCascara(Phrase fromPhrase) {
 
 
 int rhythm::getPotentialClaveNoteCount(Phrase fromPhrase, Duration minNoteLength, Duration maxNoteLength) {
+    cout << "get potential clave count" << std::endl;
     Phrase clave(fromPhrase);
     Duration subdivision = clave.primarySubdivision();
     // aspects of clave:

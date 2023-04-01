@@ -12,11 +12,7 @@
 
 
 
-void VoiceControls::configureButtons() {
-//    selectButton.setRadioGroupId(selectVoiceGroupId);
-//    selectButton.setClickingTogglesState(true);
-//    selectButton.setToggleState(false, juce::dontSendNotification);
-    
+void VoiceControls::configureButtons() {    
     useAsSourceButton.setRadioGroupId(useAsSourceGroupId);
     useAsSourceButton.setClickingTogglesState(true);
     useAsSourceButton.setToggleState(false, juce::dontSendNotification);

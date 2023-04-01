@@ -14,7 +14,8 @@
 #include <string>
 #include <vector>
 #include <JuceHeader.h>
-
+#include "Voice.h"
+ 
 using std::string, std::vector;
 
 
@@ -57,6 +58,7 @@ class VoiceControls {
 public:
     const string voiceName;
     juce::ComboBox midiChannel;
+    ParameterLayoutFunction getParameters;
     juce::TextButton generateButton;
     juce::TextButton generateFromButton;
     juce::TextButton useAsSourceButton;
@@ -72,17 +74,19 @@ public:
     static const int midiChannelLowerBound = 1; // TODO: find a place for these?
     static const int midiChannelUpperBound = 15;
     
-    VoiceControls(string name, int defaultMidiChannel):
+    VoiceControls(VoiceBindings vb): VoiceControls(vb.voiceName, vb.midiChannel, vb.getParameters) {}
+    VoiceControls(string name, int defaultMidiChannel, ParameterLayoutFunction getParameters):
         voiceName(name),
+        getParameters(getParameters),
         generateButton(juce::TextButton(name)),
         generateFromButton(juce::TextButton("from source")),
         useAsSourceButton(juce::TextButton("use as source")),
         muteButton(juce::TextButton("mute " + name)),
         improviseButton("improvise"),
         settingsButton("settings"),
+        transformButton("transform"),
         expressionButton("expression"),
-        ornamentButton("ornament"),
-        transformButton("transform")
+        ornamentButton("ornament")
     {
         buttons = { &generateButton, &generateFromButton, &useAsSourceButton, &muteButton, &improviseButton,
                     &settingsButton, &expressionButton, &ornamentButton, &transformButton };
@@ -93,7 +97,7 @@ public:
         midiChannel.setSelectedId(defaultMidiChannel);
     }
     
-    VoiceControls(VoiceControls const& other): VoiceControls(other.voiceName, other.midiChannel.getSelectedId()) {};
+    VoiceControls(VoiceControls const& other): VoiceControls(other.voiceName, other.midiChannel.getSelectedId(), other.getParameters) {};
 
     ~VoiceControls()
     {

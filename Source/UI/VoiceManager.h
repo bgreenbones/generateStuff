@@ -29,7 +29,6 @@ public:
     shared_ptr<PlayQueue> playQueue;
     Component* mainEditor;
     
-//    string selectedPhraseKeyState;
     string useAsSourcePhraseKeyState;
     
     VoiceManager(GenerateStuffAudioProcessor& processor);
@@ -44,7 +43,6 @@ public:
     size_t getNumberOfButtons();
     size_t getNumberOfColumns();
     size_t getNumberOfVoices();
-//    void updateSelectedPhraseState();
     void updateUseAsSourceState();
     void updateState();
     vector<const string> getRollKeys();
