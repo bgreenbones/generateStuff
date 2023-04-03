@@ -17,9 +17,8 @@ using std::shared_ptr;
 
 class VoiceSettingsMenuComponent : public VoiceEditor {
     GenerateStuffAudioProcessor &processor;
-    juce::AudioProcessorValueTreeState apvts;
 public:
-    VoiceSettingsMenuComponent(VoiceName voiceName, GenerateStuffAudioProcessor& processor, ParameterLayoutFunction getParams);
+    VoiceSettingsMenuComponent(VoiceName voiceName, GenerateStuffAudioProcessor& processor);
     int placeWorkspace() override;
     void updateMenuState() override;
 };

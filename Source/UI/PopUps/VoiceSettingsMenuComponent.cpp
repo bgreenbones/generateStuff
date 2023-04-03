@@ -11,11 +11,9 @@
 #include "VoiceSettingsMenuComponent.h"
 
 
-VoiceSettingsMenuComponent::VoiceSettingsMenuComponent(VoiceName voiceName,
-                                                       GenerateStuffAudioProcessor& processor, ParameterLayoutFunction getParams):
+VoiceSettingsMenuComponent::VoiceSettingsMenuComponent(VoiceName voiceName, GenerateStuffAudioProcessor& processor):
                                                             VoiceEditor(voiceName, processor.editorState),
-                                                            processor(processor),
-                                                            apvts(processor, nullptr, voiceName.data(), getParams())
+                                                            processor(processor)
 {
     if (editorState->voiceSettingsStates.find(voiceName) == editorState->voiceSettingsStates.end()) {
         editorState->voiceSettingsStates.emplace(voiceName, VoiceSettingsEditorState());

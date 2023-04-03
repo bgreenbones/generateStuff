@@ -26,7 +26,8 @@ GenerateStuffAudioProcessor::GenerateStuffAudioProcessor()
         playQueue(make_shared<PlayQueue>(PlayQueue())),
         editorState(make_shared<GenerateStuffEditorState>(GenerateStuffEditorState {})),
         generator(Generator(playQueue, editorState)),
-        noteOffIssued(true)
+        noteOffIssued(true),
+        apvts(*this, nullptr, "parameters", getVoiceParameters())
 #endif
 {
     for (int pitch = 0; pitch <= 127; pitch ++) { // yikes. for now this is the only thing that turns off note on messages when we stop playing

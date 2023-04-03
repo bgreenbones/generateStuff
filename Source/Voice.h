@@ -30,19 +30,24 @@ static const VoiceName melodyKey = "melody";
 //static const string pulseAndDisplaceKey = "pulseAndDisplace";
 
 
-static juce::AudioProcessorValueTreeState::ParameterLayout getClaveParameters() {
-    vector<unique_ptr<juce::RangedAudioParameter>> params;
-    params.push_back(make_unique<juce::AudioParameterFloat>("CLAVEKNOB", "clave knob", 0.f, 1.f, 0.5f));
-    return { params.begin(), params.end() };
+static juce::AudioProcessorParameterGroup getClaveParameters() {
+    juce::AudioProcessorParameterGroup parameterGroup(claveKey, claveKey, ":");
+    parameterGroup.addChild(make_unique<juce::AudioParameterFloat>("CLAVEKNOB", "clave knob", 0.f, 1.f, 0.5f));
+    return parameterGroup;
 }
 
-static juce::AudioProcessorValueTreeState::ParameterLayout getCascaraParameters() {
-    vector<unique_ptr<juce::RangedAudioParameter>> params;
-    params.push_back(make_unique<juce::AudioParameterFloat>("CASCARAKNOB", "cascara knob", 0.f, 2.f, 1.f));
-    return { params.begin(), params.end() };
+static juce::AudioProcessorParameterGroup getCascaraParameters() {
+    juce::AudioProcessorParameterGroup parameterGroup(cascaraKey, cascaraKey, ":");
+    parameterGroup.addChild(make_unique<juce::AudioParameterFloat>("CASCARAKNOB", "cascara knob", 0.f, 2.f, 1.f));
+    return parameterGroup;
 }
 
-typedef function<juce::AudioProcessorValueTreeState::ParameterLayout()> ParameterLayoutFunction;
+static juce::AudioProcessorValueTreeState::ParameterLayout getVoiceParameters() {
+    juce::AudioProcessorValueTreeState::ParameterLayout parameterLayout;
+    parameterLayout.add(make_unique<juce::AudioProcessorParameterGroup>(getClaveParameters()));
+    parameterLayout.add(make_unique<juce::AudioProcessorParameterGroup>(getCascaraParameters()));
+    return parameterLayout;
+}
 
 static int claveChannel = 1;
 static int cascaraChannel = 2;
@@ -57,7 +62,6 @@ struct VoiceBindings {
     int midiChannel;
     GenerationFunction generate;
     GenerationFunction generateFromOther;
-    ParameterLayoutFunction getParameters;
 };
 
 static const GenerationFunction placeholderGenerationFunction = [](Phrase phrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) { return phrase; };
@@ -68,42 +72,42 @@ static const vector<VoiceBindings> voiceBindings = {
         .midiChannel = claveChannel,
         .generate = rhythm::claveFunction,
         .generateFromOther = rhythm::claveFromFunction,
-        .getParameters = getClaveParameters
+//        .getParameters = getClaveParameters
     },
     VoiceBindings {
         .voiceName = cascaraKey,
         .midiChannel = cascaraChannel,
         .generate = rhythm::cascaraFunction,
         .generateFromOther = rhythm::cascaraFromFunction,
-        .getParameters = getCascaraParameters
+//        .getParameters = getCascaraParameters
     },
     VoiceBindings {
         .voiceName = subdivisionsKey,
         .midiChannel = subdivisionsChannel,
         .generate = rhythm::fillSubdivisionsFunction,
         .generateFromOther = rhythm::fillSubdivisionsFunction,
-        .getParameters = getClaveParameters
+//        .getParameters = getClaveParameters
     },
     VoiceBindings {
         .voiceName = harmonyKey,
         .midiChannel = harmonyChannel,
         .generate = harmony::chordsFunction,
         .generateFromOther = harmony::chordsFromFunction,
-        .getParameters = getClaveParameters
+//        .getParameters = getClaveParameters
     },
     VoiceBindings {
         .voiceName = bassKey,
         .midiChannel = bassChannel,
         .generate = melody::bassFunction,
         .generateFromOther = melody::bassFromFunction,
-        .getParameters = getClaveParameters
+//        .getParameters = getClaveParameters
     },
     VoiceBindings {
         .voiceName = melodyKey,
         .midiChannel = melodyChannel,
         .generate = melody::melodyFunction,
         .generateFromOther = melody::melodyFromFunction,
-        .getParameters = getClaveParameters
+//        .getParameters = getClaveParameters
     }
 };
 

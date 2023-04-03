@@ -137,7 +137,7 @@ void VoiceManager::setOnClicks() {
         };
         
         voice.settingsButton.onClick = [voice, this]() {
-            VoiceSettingsMenuComponent *voiceSettings = new VoiceSettingsMenuComponent(voice.voiceName, processor, voice.getParameters);
+            VoiceSettingsMenuComponent *voiceSettings = new VoiceSettingsMenuComponent(voice.voiceName, processor);
             this->mainEditor->addAndMakeVisible(voiceSettings);
             voiceSettings->resized(); // TODO: super gross that i am needing to manually call resized() to get the actual subclass's implementation...
         };

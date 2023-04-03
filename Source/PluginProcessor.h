@@ -41,6 +41,7 @@ public:
     unsigned long currentNoteOff;
     bool noteOffIssued;
     LoopTasks loopTasks; // TODO: make shared at all?
+    juce::AudioProcessorValueTreeState apvts;
     
     void issueNoteOff(int midiChannel);
     

@@ -58,7 +58,6 @@ class VoiceControls {
 public:
     const string voiceName;
     juce::ComboBox midiChannel;
-    ParameterLayoutFunction getParameters;
     juce::TextButton generateButton;
     juce::TextButton generateFromButton;
     juce::TextButton useAsSourceButton;
@@ -74,10 +73,9 @@ public:
     static const int midiChannelLowerBound = 1; // TODO: find a place for these?
     static const int midiChannelUpperBound = 15;
     
-    VoiceControls(VoiceBindings vb): VoiceControls(vb.voiceName, vb.midiChannel, vb.getParameters) {}
-    VoiceControls(string name, int defaultMidiChannel, ParameterLayoutFunction getParameters):
+    VoiceControls(VoiceBindings vb): VoiceControls(vb.voiceName, vb.midiChannel) {}
+    VoiceControls(string name, int defaultMidiChannel):
         voiceName(name),
-        getParameters(getParameters),
         generateButton(juce::TextButton(name)),
         generateFromButton(juce::TextButton("from source")),
         useAsSourceButton(juce::TextButton("use as source")),
@@ -97,7 +95,7 @@ public:
         midiChannel.setSelectedId(defaultMidiChannel);
     }
     
-    VoiceControls(VoiceControls const& other): VoiceControls(other.voiceName, other.midiChannel.getSelectedId(), other.getParameters) {};
+    VoiceControls(VoiceControls const& other): VoiceControls(other.voiceName, other.midiChannel.getSelectedId()) {};
 
     ~VoiceControls()
     {
