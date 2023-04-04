@@ -32,13 +32,15 @@ static const VoiceName melodyKey = "melody";
 
 static juce::AudioProcessorParameterGroup getClaveParameters() {
     juce::AudioProcessorParameterGroup parameterGroup(claveKey, claveKey, ":");
-    parameterGroup.addChild(make_unique<juce::AudioParameterFloat>("CLAVEKNOB", "clave knob", 0.f, 1.f, 0.5f));
+    for (int i = 0; i < 15; i++) {
+        parameterGroup.addChild(make_unique<juce::AudioParameterFloat>("CLAVEKNOB", "CLAVEKNOB", 0.f, 1.f, 0.5f));
+    }
     return parameterGroup;
 }
 
 static juce::AudioProcessorParameterGroup getCascaraParameters() {
     juce::AudioProcessorParameterGroup parameterGroup(cascaraKey, cascaraKey, ":");
-    parameterGroup.addChild(make_unique<juce::AudioParameterFloat>("CASCARAKNOB", "cascara knob", 0.f, 2.f, 1.f));
+    parameterGroup.addChild(make_unique<juce::AudioParameterFloat>("CASCARAKNOB", "CASCARAKNOB", 0.f, 2.f, 1.f));
     return parameterGroup;
 }
 
