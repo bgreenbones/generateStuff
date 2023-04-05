@@ -14,6 +14,7 @@
 #include "Subdivision.h"
 
 
+
 class TransformEditorState {
     
 };
@@ -47,6 +48,7 @@ public:
 
 class GenerateStuffEditorState {
 public:
+    GenerateStuffEditorState(juce::AudioProcessorValueTreeState const& apvts): apvts(apvts) {}
     // general
     beats subdivision = 1./4.;
     bars phraseLengthBars = 2.;
@@ -60,6 +62,7 @@ public:
     map<VoiceName, TransformEditorState> transformStates;
     map<VoiceName, ExpressionEditorState> expressionStates;
     map<VoiceName, VoiceSettingsEditorState> voiceSettingsStates;
+    juce::AudioProcessorValueTreeState const& apvts;
 
     double probabilityOfDouble; // not yet using for 'cascara' abstraction
     
@@ -76,5 +79,28 @@ public:
     }
     
     Beats getDisplacement() { return Beats(displace, true); }
+    
+    
+    float getKnobValue(string parameterId) const {
+        juce::RangedAudioParameter *parameter = apvts.getParameter(parameterId);
+        auto floatParameter = dynamic_cast<juce::AudioParameterFloat*>(parameter);
+        jassert (floatParameter);  // If you get an error, the parameter doesn't exist or is of different type
+        return floatParameter->get();
+    }
+
+    bool getButtonValue(string parameterId) const {
+        juce::RangedAudioParameter *parameter = apvts.getParameter(parameterId);
+        auto boolParameter = dynamic_cast<juce::AudioParameterBool*>(parameter);
+        jassert (boolParameter);  // If you get an error, the parameter doesn't exist or is of different type
+        return boolParameter->get();
+    }
+
+    juce::String getChoiceValue(string parameterId) const {
+        juce::RangedAudioParameter *parameter = apvts.getParameter(parameterId);
+        auto choiceParameter = dynamic_cast<juce::AudioParameterChoice*>(parameter);
+        jassert (choiceParameter);  // If you get an error, the parameter doesn't exist or is of different type
+        return choiceParameter->getCurrentChoiceName();
+    }
+
     
 };

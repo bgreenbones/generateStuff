@@ -11,6 +11,7 @@
 #pragma once
 
 #include "Phrase.hpp"
+#include "VoiceParameters.h"
 
 
 typedef string VoiceName;
@@ -70,7 +71,11 @@ namespace rhythm {
     };
 
     const GenerationFunction cascaraFunction = [](Phrase phrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) { return randomCascara(phrase); };
-    const GenerationFunction claveFunction = [](Phrase phrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) { return randomClave(phrase); };
+    const GenerationFunction claveFunction = [](Phrase phrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) {
+        int minNoteLengthInSubdivisions = editorState.getKnobValue(claveMinNoteLengthKey);
+        int maxNoteLengthInSubdivisions = editorState.getKnobValue(claveMaxNoteLengthKey);
+        return randomClave(phrase, minNoteLengthInSubdivisions, maxNoteLengthInSubdivisions);
+    };
     const GenerationFunction cascaraFromFunction = [](Phrase phrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) { return cascaraFrom(phrase); };
     const GenerationFunction claveFromFunction = [](Phrase phrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) { return claveFrom(phrase); };
 }

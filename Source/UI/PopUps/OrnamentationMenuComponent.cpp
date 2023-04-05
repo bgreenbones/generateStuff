@@ -114,47 +114,47 @@ int OrnamentationMenuComponent::placeWorkspace() {
     int yCursor = margin * 2;
     int yCursorReset = yCursor;
     
-    int menuWidth = editorWidth - margin * 2;
-    int menuHeight = editorHeight - margin * 2;
-    workspaceHeight = menuHeight - margin * 2 - finalizeButtonHeight - spaceBetweenControls * 2;
+    int menuWidth = ui::editorWidth - margin * 2;
+    int menuHeight = ui::editorHeight - margin * 2;
+    workspaceHeight = menuHeight - margin * 2 - finalizeButtonHeight - ui::spaceBetweenControls * 2;
     int buttonWidth = menuWidth / 8;
     int buttonHeight = menuHeight / 6;
     int sliderHeight = workspaceHeight;
     
-    rollProbability.setBounds (xCursor, yCursor, sliderWidth, sliderHeight);
-    xCursor += sliderWidth + spaceBetweenControls;
-    rollAssociation.setBounds (xCursor, yCursor, sliderWidth, sliderHeight);
-    xCursor += sliderWidth + spaceBetweenControls;
-    rollLength.setBounds (xCursor, yCursor, sliderWidth, sliderHeight);
-    xCursor += sliderWidth + spaceBetweenControls;
+    rollProbability.setBounds (xCursor, yCursor, ui::sliderWidth, sliderHeight);
+    xCursor += ui::sliderWidth + ui::spaceBetweenControls;
+    rollAssociation.setBounds (xCursor, yCursor, ui::sliderWidth, sliderHeight);
+    xCursor += ui::sliderWidth + ui::spaceBetweenControls;
+    rollLength.setBounds (xCursor, yCursor, ui::sliderWidth, sliderHeight);
+    xCursor += ui::sliderWidth + ui::spaceBetweenControls;
     
     addRollsButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
-    yCursor += buttonHeight + spaceBetweenControls;
+    yCursor += buttonHeight + ui::spaceBetweenControls;
     clearRollsButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
-    xCursor += buttonWidth + spaceBetweenControls;
+    xCursor += buttonWidth + ui::spaceBetweenControls;
     yCursor = yCursorReset;
     
-    buttonHeight = getButtonHeight(3, workspaceHeight);
+    buttonHeight = ui::getButtonHeight(3, workspaceHeight);
     flamButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
-    yCursor += buttonHeight + spaceBetweenControls;
+    yCursor += buttonHeight + ui::spaceBetweenControls;
     dragButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
-    yCursor += buttonHeight + spaceBetweenControls;
+    yCursor += buttonHeight + ui::spaceBetweenControls;
     ruffButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
-    xCursor += buttonWidth + spaceBetweenControls;
+    xCursor += buttonWidth + ui::spaceBetweenControls;
     yCursor = yCursorReset;
     
-    ornamentProbability.setBounds (xCursor, yCursor, sliderWidth, sliderHeight);
-    xCursor += sliderWidth + spaceBetweenControls;
-    ornamentBreadth.setBounds (xCursor, yCursor, sliderWidth, sliderHeight);
-    xCursor += sliderWidth + spaceBetweenControls;
+    ornamentProbability.setBounds (xCursor, yCursor, ui::sliderWidth, sliderHeight);
+    xCursor += ui::sliderWidth + ui::spaceBetweenControls;
+    ornamentBreadth.setBounds (xCursor, yCursor, ui::sliderWidth, sliderHeight);
+    xCursor += ui::sliderWidth + ui::spaceBetweenControls;
     
-    addOrnamentsButton.setBounds (xCursor, yCursor, buttonWidth, getButtonHeight(2, workspaceHeight));
-    yCursor += getButtonHeight(2, workspaceHeight) + spaceBetweenControls;
-    clearOrnamentsButton.setBounds (xCursor, yCursor, buttonWidth, getButtonHeight(2, workspaceHeight));
-    xCursor += buttonWidth + spaceBetweenControls;
+    addOrnamentsButton.setBounds (xCursor, yCursor, buttonWidth, ui::getButtonHeight(2, workspaceHeight));
+    yCursor += ui::getButtonHeight(2, workspaceHeight) + ui::spaceBetweenControls;
+    clearOrnamentsButton.setBounds (xCursor, yCursor, buttonWidth, ui::getButtonHeight(2, workspaceHeight));
+    xCursor += buttonWidth + ui::spaceBetweenControls;
     yCursor = yCursorReset;
     
-    return 2 * margin + workspaceHeight + spaceBetweenControls;
+    return 2 * margin + workspaceHeight + ui::spaceBetweenControls;
 }
 
 void OrnamentationMenuComponent::updateMenuState() {

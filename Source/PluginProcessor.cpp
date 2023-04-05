@@ -11,6 +11,29 @@
 #include "PluginEditor.h"
 #include "HostSettings.h"
 
+juce::AudioProcessorParameterGroup getVoiceParameters(VoiceName voiceName, vector<Parameter> voiceParameters) {
+    juce::AudioProcessorParameterGroup parameterGroup(voiceName, voiceName, ":");
+    for (auto parameter : voiceParameters) {
+        switch (parameter.type) {
+            case ParameterType::knob:
+                parameterGroup.addChild(make_unique<juce::AudioParameterFloat>(parameter.key, parameter.name, parameter.knobRange, parameter.defaultKnobValue, parameter.units));
+                break;
+            case ParameterType::button:
+                parameterGroup.addChild(make_unique<juce::AudioParameterBool>(parameter.key, parameter.name, parameter.defaultButtonValue, parameter.units));
+                break;
+            case ParameterType::choice:
+                parameterGroup.addChild(make_unique<juce::AudioParameterChoice>(parameter.key, parameter.name, parameter.choices, parameter.defaultChoiceIndex, parameter.units));
+                break;
+        }
+    }
+    return parameterGroup;
+}
+
+juce::AudioProcessorValueTreeState::ParameterLayout getParameterLayout() {
+    juce::AudioProcessorValueTreeState::ParameterLayout parameterLayout;
+    parameterLayout.add(make_unique<juce::AudioProcessorParameterGroup>(getVoiceParameters(claveKey, claveParameters)));
+    return parameterLayout;
+}
 
 //==============================================================================
 GenerateStuffAudioProcessor::GenerateStuffAudioProcessor()
@@ -24,10 +47,10 @@ GenerateStuffAudioProcessor::GenerateStuffAudioProcessor()
                      #endif
                        ),
         playQueue(make_shared<PlayQueue>(PlayQueue())),
-        editorState(make_shared<GenerateStuffEditorState>(GenerateStuffEditorState {})),
+        editorState(make_shared<GenerateStuffEditorState>(GenerateStuffEditorState(apvts))),
         generator(Generator(playQueue, editorState)),
         noteOffIssued(true),
-        apvts(*this, nullptr, "parameters", getVoiceParameters())
+        apvts(*this, nullptr, "parameters", getParameterLayout())
 #endif
 {
     for (int pitch = 0; pitch <= 127; pitch ++) { // yikes. for now this is the only thing that turns off note on messages when we stop playing

@@ -23,7 +23,7 @@ protected:
     int finalizeButtonWidth = 150;
     int finalizeButtonHeight = 30;
     int workspaceHeight = 0;
-    int workspaceWidth = editorWidth - margin * 4;
+    int workspaceWidth = ui::editorWidth - margin * 4;
 public:
     PopUpComponent();
     

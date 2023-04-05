@@ -25,7 +25,7 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (editorWidth, editorHeight);
+    setSize (ui::editorWidth, ui::editorHeight);
     voiceManager.configure(this);
 
     
@@ -177,7 +177,7 @@ void GenerateStuffAudioProcessorEditor::resized()
 
     int numSliders = 6;
     int buttonColumns = voiceManager.getNumberOfColumns() + 1;
-    int buttonWidth = (width - numSliders * sliderWidth - spaceBetweenControls * (numSliders + buttonColumns)) / buttonColumns;
+    int buttonWidth = (width - numSliders * ui::sliderWidth - ui::spaceBetweenControls * (numSliders + buttonColumns)) / buttonColumns;
     
     int xCursor = xPadding;
     int yCursor = yPadding;
@@ -203,10 +203,10 @@ void GenerateStuffAudioProcessorEditor::resized()
     yCursor += firstColumnElementHeight + spaceBetween1stRowElements;
     stopBarLabel.setBounds (xCursor - numberInputWidth, yCursor, numberInputWidth, firstColumnElementHeight);
     yCursor += firstColumnElementHeight + spaceBetween1stRowElements;
-    regenerateRolls.setBounds (xCursor + spaceBetweenControls, yCursor, numberInputWidth * 2, firstColumnElementHeight);
+    regenerateRolls.setBounds (xCursor + ui::spaceBetweenControls, yCursor, numberInputWidth * 2, firstColumnElementHeight);
     yCursor += firstColumnElementHeight + spaceBetween1stRowElements;
-    regenerateOrnaments.setBounds (xCursor + spaceBetweenControls, yCursor, numberInputWidth * 2, firstColumnElementHeight);
-    xCursor += numberInputWidth + spaceBetweenControls;
+    regenerateOrnaments.setBounds (xCursor + ui::spaceBetweenControls, yCursor, numberInputWidth * 2, firstColumnElementHeight);
+    xCursor += numberInputWidth + ui::spaceBetweenControls;
     yCursor = yPadding;
     
     phraseLengthBars.setBounds (xCursor, yCursor, numberInputWidth, firstColumnElementHeight);
@@ -219,7 +219,7 @@ void GenerateStuffAudioProcessorEditor::resized()
     startBar.setBounds (xCursor, yCursor, numberInputWidth, firstColumnElementHeight);
     yCursor += firstColumnElementHeight + spaceBetween1stRowElements;
     stopBar.setBounds (xCursor, yCursor, numberInputWidth, firstColumnElementHeight);
-    xCursor += numberInputWidth + spaceBetweenControls;
+    xCursor += numberInputWidth + ui::spaceBetweenControls;
     yCursor = yPadding;
     
 //    buttonHeight = (height - totalSpaceBetweenSubDivButtons) / subdivisionButtons.size();
@@ -228,16 +228,16 @@ void GenerateStuffAudioProcessorEditor::resized()
         yCursor += subDivButtonHeight + spaceBetweenSubDivButtons;
     }
     
-    xCursor += buttonWidth + spaceBetweenControls;
+    xCursor += buttonWidth + ui::spaceBetweenControls;
     yCursor = yPadding;
     
 //    probabilityOfDouble.setBounds (xCursor, yCursor, sliderWidth, height);
 //    xCursor += sliderWidth + spaceBetweenControls;
     
-    int buttonHeight = getButtonHeight(voiceManager.getNumberOfVoices(), height);
+    int buttonHeight = ui::getButtonHeight(voiceManager.getNumberOfVoices(), height);
 
-    voiceManager.setBounds(xCursor, yCursor, buttonWidth, buttonHeight, spaceBetweenControls);
-    xCursor += (buttonWidth + spaceBetweenControls) * voiceManager.getNumberOfColumns();
+    voiceManager.setBounds(xCursor, yCursor, buttonWidth, buttonHeight, ui::spaceBetweenControls);
+    xCursor += (buttonWidth + ui::spaceBetweenControls) * voiceManager.getNumberOfColumns();
     
 //    decorationDividerX = xCursor;
 //    xCursor += spaceBetweenControls;
@@ -247,7 +247,7 @@ void GenerateStuffAudioProcessorEditor::resized()
     
 }
 
-void GenerateStuffAudioProcessorEditor::updateEditorState() {
+void GenerateStuffAudioProcessorEditor::updateEditorState() {    
     double subDiv = 1./2.;
     for (float subdivisionDenominator = 1; subdivisionDenominator <= 9; subdivisionDenominator++) {
         int subdivisionIndex = subdivisionDenominator - 1;

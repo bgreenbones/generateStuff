@@ -15,6 +15,7 @@
 #include "Rhythm.h"
 #include "Harmony.h"
 #include "Melody.h"
+#include "VoiceParameters.h"
 #include <JuceHeader.h>
 
 typedef string VoiceName;
@@ -29,27 +30,30 @@ static const VoiceName bassKey = "bass";
 static const VoiceName melodyKey = "melody";
 //static const string pulseAndDisplaceKey = "pulseAndDisplace";
 
-
-static juce::AudioProcessorParameterGroup getClaveParameters() {
-    juce::AudioProcessorParameterGroup parameterGroup(claveKey, claveKey, ":");
-    for (int i = 0; i < 15; i++) {
-        parameterGroup.addChild(make_unique<juce::AudioParameterFloat>("CLAVEKNOB", "CLAVEKNOB", 0.f, 1.f, 0.5f));
-    }
-    return parameterGroup;
-}
-
-static juce::AudioProcessorParameterGroup getCascaraParameters() {
-    juce::AudioProcessorParameterGroup parameterGroup(cascaraKey, cascaraKey, ":");
-    parameterGroup.addChild(make_unique<juce::AudioParameterFloat>("CASCARAKNOB", "CASCARAKNOB", 0.f, 2.f, 1.f));
-    return parameterGroup;
-}
-
-static juce::AudioProcessorValueTreeState::ParameterLayout getVoiceParameters() {
-    juce::AudioProcessorValueTreeState::ParameterLayout parameterLayout;
-    parameterLayout.add(make_unique<juce::AudioProcessorParameterGroup>(getClaveParameters()));
-    parameterLayout.add(make_unique<juce::AudioProcessorParameterGroup>(getCascaraParameters()));
-    return parameterLayout;
-}
+//static juce::AudioProcessorParameterGroup getVoiceParameters(VoiceName voiceName, vector<Parameter> voiceParameters) {
+//    juce::AudioProcessorParameterGroup parameterGroup(voiceName, voiceName, ":");
+//    for (auto parameter : voiceParameters) {
+//        switch (parameter.type) {
+//            case ParameterType::knob:
+//                parameterGroup.addChild(make_unique<juce::AudioParameterFloat>(parameter.key, parameter.name, parameter.knobRange, parameter.defaultKnobValue, parameter.units));
+//                break;
+//            case ParameterType::button:
+//                parameterGroup.addChild(make_unique<juce::AudioParameterBool>(parameter.key, parameter.name, parameter.defaultButtonValue, parameter.units));
+//                break;
+//            case ParameterType::choice:
+//                parameterGroup.addChild(make_unique<juce::AudioParameterChoice>(parameter.key, parameter.name, parameter.choices, parameter.defaultChoiceIndex, parameter.units));
+//                break;
+//        }
+//    }
+//    return parameterGroup;
+//}
+//
+//static juce::AudioProcessorValueTreeState::ParameterLayout getParameterLayout() {
+//    juce::AudioProcessorValueTreeState::ParameterLayout parameterLayout;
+//    parameterLayout.add(make_unique<juce::AudioProcessorParameterGroup>(getVoiceParameters(claveKey, claveParameters)));
+////    parameterLayout.add(make_unique<juce::AudioProcessorParameterGroup>(getCascaraParameters()));
+//    return parameterLayout;
+//}
 
 static int claveChannel = 1;
 static int cascaraChannel = 2;

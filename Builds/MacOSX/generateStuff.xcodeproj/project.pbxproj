@@ -226,6 +226,7 @@
 		F15EB812904DA2754DFEC21D /* Duration.h */ /* Duration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Duration.h; path = ../../Source/Time/Duration.h; sourceTree = SOURCE_ROOT; };
 		F1E68E9065FE496F6C19FF0B /* Timing.cpp */ /* Timing.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Timing.cpp; path = ../../Source/Time/Timing.cpp; sourceTree = SOURCE_ROOT; };
 		F1F133C7500EDB0639D1DF4A /* include_juce_audio_basics.mm */ /* include_juce_audio_basics.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_audio_basics.mm; path = ../../JuceLibraryCode/include_juce_audio_basics.mm; sourceTree = SOURCE_ROOT; };
+		F484CBAE7CBE1E23E2E3C548 /* VoiceParameters.h */ /* VoiceParameters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = VoiceParameters.h; path = ../../Source/VoiceParameters.h; sourceTree = SOURCE_ROOT; };
 		F8B697DA310D15677AC0FD33 /* Syncopation.cpp */ /* Syncopation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Syncopation.cpp; path = ../../Source/Time/Syncopation.cpp; sourceTree = SOURCE_ROOT; };
 		F9B56493696C461892DE29CD /* ExpressionMenuComponent.cpp */ /* ExpressionMenuComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ExpressionMenuComponent.cpp; path = ../../Source/UI/PopUps/ExpressionMenuComponent.cpp; sourceTree = SOURCE_ROOT; };
 		FAD32D28DBCF9490B8858B1B /* HostSettings.cpp */ /* HostSettings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HostSettings.cpp; path = ../../Source/HostSettings.cpp; sourceTree = SOURCE_ROOT; };
@@ -324,6 +325,7 @@
 				A977D577608473EF75CBBF19,
 				C867EB20474B73CBED1C845A,
 				FE829477346349B51CCD6BD7,
+				F484CBAE7CBE1E23E2E3C548,
 				60F92EC3B8098DA46BF3A3BD,
 				613088A89AC26D5884746A9E,
 			);

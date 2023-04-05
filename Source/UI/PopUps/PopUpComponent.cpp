@@ -13,8 +13,8 @@
 
 PopUpComponent::PopUpComponent()
 {
-    this->setBounds(0, 0, editorWidth, editorHeight);
-    setSize(editorWidth, editorHeight);
+    this->setBounds(0, 0, ui::editorWidth, ui::editorHeight);
+    setSize(ui::editorWidth, ui::editorHeight);
     addAndMakeVisible (okButton);
     addAndMakeVisible (cancelButton);
     
@@ -39,11 +39,11 @@ void PopUpComponent::paint (juce::Graphics& g)
     int cornerSize = 10;
     g.setColour (juce::Colours::black);
     g.setOpacity(1.);
-    g.drawRoundedRectangle(margin, margin, editorWidth - 2 * margin, editorHeight - 2 * margin, cornerSize, 1.0);
+    g.drawRoundedRectangle(margin, margin, ui::editorWidth - 2 * margin, ui::editorHeight - 2 * margin, cornerSize, 1.0);
     
     g.setColour (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
     g.setOpacity(0.95);
-    g.fillRoundedRectangle(margin, margin, editorWidth - 2 * margin, editorHeight - 2 * margin, cornerSize);
+    g.fillRoundedRectangle(margin, margin, ui::editorWidth - 2 * margin, ui::editorHeight - 2 * margin, cornerSize);
     
     g.setOpacity(1.);
 }
@@ -59,8 +59,8 @@ void PopUpComponent::resized()
 }
 
 void PopUpComponent::drawFinalizeButtons(int cursorY) {
-    int okButtonX = editorWidth / 2 - finalizeButtonWidth  - spaceBetweenControls / 2;
-    int cancelButtonX = editorWidth / 2 + spaceBetweenControls / 2;
+    int okButtonX = ui::editorWidth / 2 - finalizeButtonWidth  - ui::spaceBetweenControls / 2;
+    int cancelButtonX = ui::editorWidth / 2 + ui::spaceBetweenControls / 2;
     okButton.setBounds (okButtonX, cursorY, finalizeButtonWidth, finalizeButtonHeight);
     cancelButton.setBounds (cancelButtonX, cursorY, finalizeButtonWidth, finalizeButtonHeight);
 }

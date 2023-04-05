@@ -21,7 +21,13 @@ class VoiceSettingsMenuComponent : public VoiceEditor {
     juce::OwnedArray<juce::Label> sliderLabels;
     juce::OwnedArray<juce::Slider> sliders;
     juce::OwnedArray<juce::AudioProcessorValueTreeState::SliderAttachment> sliderAttachments;
-    vector<juce::TextButton> buttons;
+    
+    juce::OwnedArray<juce::TextButton> buttons;
+    juce::OwnedArray<juce::AudioProcessorValueTreeState::ButtonAttachment> buttonAttachments;
+    
+    juce::OwnedArray<juce::Label> comboBoxLabels;
+    juce::OwnedArray<juce::ComboBox> comboBoxes;
+    juce::OwnedArray<juce::AudioProcessorValueTreeState::ComboBoxAttachment> comboBoxAttachments;
     
 public:
     VoiceSettingsMenuComponent(VoiceName voiceName, GenerateStuffAudioProcessor& processor);

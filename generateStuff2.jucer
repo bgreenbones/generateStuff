@@ -112,6 +112,8 @@
       <FILE id="HoSZga" name="Random.cpp" compile="1" resource="0" file="Source/Random.cpp"/>
       <FILE id="TmiPLp" name="Random.h" compile="0" resource="0" file="Source/Random.h"/>
       <FILE id="TcRHTY" name="Voice.h" compile="0" resource="0" file="Source/Voice.h"/>
+      <FILE id="sQSYQ8" name="VoiceParameters.h" compile="0" resource="0"
+            file="Source/VoiceParameters.h"/>
       <FILE id="ZCKUEe" name="Utility.h" compile="0" resource="0" file="Source/Utility.h"/>
       <FILE id="Zab2un" name="Utility.cpp" compile="1" resource="0" file="Source/Utility.cpp"/>
     </GROUP>
