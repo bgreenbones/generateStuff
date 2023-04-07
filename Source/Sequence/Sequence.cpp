@@ -383,6 +383,8 @@ Sequence<T> Sequence<T>::pulseAndDisplace(Duration pulse,
         if (decideToDisplace()) {
             if (decideToDouble()) {
                 sequence.append("x", displacement);
+            } else if (sequence.size() > 0) {
+                sequence.back().duration += displacement;
             }
         }
         sequence.append("x", pulse);

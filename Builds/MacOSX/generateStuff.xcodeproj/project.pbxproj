@@ -89,6 +89,7 @@
 		DB90FDE524224E387DC34CFE /* include_juce_audio_plugin_client_VST3.cpp */ = {isa = PBXBuildFile; fileRef = 8FF19224A2A4990EE2CA6CCE; };
 		E3F673A9FF9E51C02DFFC5F8 /* WebKit.framework */ = {isa = PBXBuildFile; fileRef = 2D1DB2292123E773E24562A1; };
 		E5D98175A801BE1862C50A6A /* HostSettings.cpp */ = {isa = PBXBuildFile; fileRef = FAD32D28DBCF9490B8858B1B; };
+		EB3E79B8065336BDF7955274 /* CustomUIs.cpp */ = {isa = PBXBuildFile; fileRef = 9B4D40F8CBEB9452AF3BEF79; };
 		ECE093401CC8AF65EF953245 /* include_juce_gui_basics.mm */ = {isa = PBXBuildFile; fileRef = DF4CD75D20F2BA92E5F110BF; };
 		EEFC10B32977AF25D9970045 /* QuartzCore.framework */ = {isa = PBXBuildFile; fileRef = AE5F27E6322D2279CFF389DC; };
 		F1C682CF6BDDAC87A24803EF /* CoreAudioKit.framework */ = {isa = PBXBuildFile; fileRef = BB2F100C77050EAB82E55AE1; };
@@ -177,6 +178,7 @@
 		953DE402B158EFBC2C3EC488 /* Timing.h */ /* Timing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Timing.h; path = ../../Source/Time/Timing.h; sourceTree = SOURCE_ROOT; };
 		9629B94820097F61F11E39D0 /* include_juce_events.mm */ /* include_juce_events.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_events.mm; path = ../../JuceLibraryCode/include_juce_events.mm; sourceTree = SOURCE_ROOT; };
 		969C052267921B6FBE9B0EE1 /* Rhythm.h */ /* Rhythm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Rhythm.h; path = ../../Source/Music/Rhythm.h; sourceTree = SOURCE_ROOT; };
+		9B4D40F8CBEB9452AF3BEF79 /* CustomUIs.cpp */ /* CustomUIs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CustomUIs.cpp; path = ../../Source/UI/CustomUIs.cpp; sourceTree = SOURCE_ROOT; };
 		9D3111DA3AA6732D9B3D1C56 /* Ornamentation.h */ /* Ornamentation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Ornamentation.h; path = ../../Source/Music/Ornamentation.h; sourceTree = SOURCE_ROOT; };
 		9F324CD03AB05ECC93A1BD31 /* HostSettings.h */ /* HostSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HostSettings.h; path = ../../Source/HostSettings.h; sourceTree = SOURCE_ROOT; };
 		A09378663FA1B61A3377D988 /* Foundation.framework */ /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -349,6 +351,7 @@
 			isa = PBXGroup;
 			children = (
 				EA814AC7BEC055940F1DEA56,
+				9B4D40F8CBEB9452AF3BEF79,
 				EB0B1662DF168106B31B0F91,
 				4295DD60F5A0A85C4FAA71FC,
 				A21D300D94C75F3C89A1BCE0,
@@ -813,6 +816,7 @@
 				57923F447945AE7D9C26B4B3,
 				D4AED44F3FDB48BAAF10FDAE,
 				1D375AC75E46F14784ACCFD0,
+				EB3E79B8065336BDF7955274,
 				03B382C952781A4EB552C3C8,
 				8AF6162ACD98F451F69F6614,
 				0C49E54E7D2C5F59E077BA1E,

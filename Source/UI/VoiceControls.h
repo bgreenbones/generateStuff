@@ -67,6 +67,7 @@ public:
     juce::TextButton transformButton;
     juce::TextButton expressionButton; // TODO: make these menu!! and move the other pop ups to their own files...
     juce::TextButton ornamentButton;
+    function<void()> improviseFunction;
 
     static const int selectVoiceGroupId = 98374; // random
     static const int useAsSourceGroupId = 29384;

@@ -70,14 +70,24 @@ namespace rhythm {
         return newPhrase;
     };
 
-    const GenerationFunction cascaraFunction = [](Phrase phrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) { return randomCascara(phrase); };
+    const GenerationFunction cascaraFunction = [](Phrase phrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) {
+        float pDisplace = editorState.getKnobValue(cascaraDisplaceProbabilityKey);
+        float pDouble = editorState.getKnobValue(cascaraDoubleProbabilityKey);
+        return randomCascara(phrase, pDisplace, pDouble);
+    };
     const GenerationFunction claveFunction = [](Phrase phrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) {
         int minNoteLengthInSubdivisions = editorState.getKnobValue(claveMinNoteLengthKey);
         int maxNoteLengthInSubdivisions = editorState.getKnobValue(claveMaxNoteLengthKey);
         return randomClave(phrase, minNoteLengthInSubdivisions, maxNoteLengthInSubdivisions);
     };
-    const GenerationFunction cascaraFromFunction = [](Phrase phrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) { return cascaraFrom(phrase); };
-    const GenerationFunction claveFromFunction = [](Phrase phrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) { return claveFrom(phrase); };
+    const GenerationFunction cascaraFromFunction = [](Phrase phrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) {
+        return cascaraFrom(phrase);
+    };
+    const GenerationFunction claveFromFunction = [](Phrase phrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) {
+        int minNoteLengthInSubdivisions = editorState.getKnobValue(claveMinNoteLengthKey);
+        int maxNoteLengthInSubdivisions = editorState.getKnobValue(claveMaxNoteLengthKey);
+        return claveFrom(phrase, minNoteLengthInSubdivisions, maxNoteLengthInSubdivisions);
+    };
 }
 
 

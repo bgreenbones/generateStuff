@@ -53,3 +53,33 @@ static const vector<Parameter> claveParameters {
     Parameter(claveMinNoteLengthKey, "min note length", claveNoteLengthRange, 2, " subdivisions"),
     Parameter(claveMaxNoteLengthKey, "max note length", claveNoteLengthRange, 4, " subdivisions")
 };
+
+
+static const juce::NormalisableRange<float> probabilityRange(0.f, 1.f, 0.01);
+static const string cascaraDisplaceProbabilityKey = "cascaraDisplaceProbability";
+static const string cascaraDoubleProbabilityKey = "cascaraDoubleProbability";
+
+static const vector<Parameter> cascaraParameters {
+    Parameter(cascaraDisplaceProbabilityKey, "displacement probability", probabilityRange, 0.5, " probability"),
+    Parameter(cascaraDoubleProbabilityKey, "probability of double", probabilityRange, 0.75, " probability")
+};
+
+
+static const string harmonyApproachKey = "harmonyApproach";
+static const juce::String randomHarmonyApproachKey = "random";
+static const juce::String diatonicHarmonyApproachKey = "diatonic";
+static const juce::String smoothishModulationsHarmonyApprachKey = "smoothish modulations";
+static const vector<Parameter> harmonyParameters {
+    Parameter(harmonyApproachKey, "approach", { randomHarmonyApproachKey, diatonicHarmonyApproachKey, smoothishModulationsHarmonyApprachKey }, 1)
+//    Probability chordProbabilityPerAccent = 0.6);
+};
+
+static const string bassBurstLengthMinKey = "bassBurstLengthMin";
+static const string bassBurstLengthMaxKey = "bassBurstLengthMax";
+static const juce::NormalisableRange<float> burstLengthRange(1.f, 8.f, 1.0);
+static const string bassBurstGroupingOneKey = "bassBurstGroupingOne";
+static const string bassBurstGroupingTwoKey = "bassBurstGroupingTwo";
+static const string bassBurstGroupingThreeKey = "bassBurstGroupingThree";
+static const vector<Parameter> bassParameters {
+    // TODO: add bass parameters and use them
+};

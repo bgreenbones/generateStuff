@@ -32,6 +32,8 @@ juce::AudioProcessorParameterGroup getVoiceParameters(VoiceName voiceName, vecto
 juce::AudioProcessorValueTreeState::ParameterLayout getParameterLayout() {
     juce::AudioProcessorValueTreeState::ParameterLayout parameterLayout;
     parameterLayout.add(make_unique<juce::AudioProcessorParameterGroup>(getVoiceParameters(claveKey, claveParameters)));
+    parameterLayout.add(make_unique<juce::AudioProcessorParameterGroup>(getVoiceParameters(cascaraKey, cascaraParameters)));
+    parameterLayout.add(make_unique<juce::AudioProcessorParameterGroup>(getVoiceParameters(harmonyKey, harmonyParameters)));
     return parameterLayout;
 }
 

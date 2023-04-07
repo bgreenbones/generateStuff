@@ -19,15 +19,13 @@ namespace melody {
     const GenerationFunction melodyFromFunction = [](Phrase fromPhrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) {
         Phrase phrase(fromPhrase);
         phrase.notes = fromPhrase.notes.toMonophonic();
-        phrase = phrase.chordScales.empty() ? harmony::generateChordScales(phrase, 0.6) : phrase;
+        phrase = phrase.chordScales.empty() ? harmony::generateChordScales(phrase, editorState) : phrase;
         phrase.notes.clear();
         
         Position cursor = 0;
         Pitch lastPitch(uniformInt(55, 75));
-//        Tonality tonality = Tonality(C, chromatic);
         while (cursor < phrase.duration) {
             vector<ChordScale> chordScales = phrase.chordScales.byPosition(cursor);
-//            Tonality tonality = tonalities.empty() ? harmony::randomTonality() : tonalities.at(0);
             if (chordScales.empty()) {
                 cursor += 1;
                 continue;
@@ -40,7 +38,6 @@ namespace melody {
             Duration subdiv = subdivs.empty() ? sixteenths : subdivs.at(0);
             
             Sequence<Note> burstOfNotes = Sequence<Note>::burst(phrase, subdiv, min(1 + rollDie(4), (int) ((chordScale.endTime() - cursor) / subdiv)));
-//            Pitch lastPitch = draw<Pitch>(tonality.getPitches());
 
             for (Note &note : burstOfNotes) {
                 Direction direction = rollDie(2) == 2 ? Direction::down : Direction::up;
@@ -65,25 +62,22 @@ namespace melody {
     };
 
     const GenerationFunction melodyFunction = [](Phrase fromPhrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) {
-        return melodyFromFunction(harmony::generateChordScales(fromPhrase), editorState, voiceName);
+        return melodyFromFunction(harmony::generateChordScales(fromPhrase, editorState), editorState, voiceName);
     };
 
     const GenerationFunction bassFromFunction = [](Phrase const& fromPhrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) {
         Phrase phrase(fromPhrase);
         phrase.notes = fromPhrase.notes.toMonophonic();
-        phrase = phrase.chordScales.empty() ? harmony::generateChordScales(phrase, 0.6) : phrase;
+        phrase = phrase.chordScales.empty() ? harmony::generateChordScales(phrase, editorState) : phrase;
         phrase.notes.clear();
         
-        set<Position> keyPoints;
+        set<Position> keyPoints { phrase.startTime };
         
         auto notes = fromPhrase.toMonophonic();
         auto accents = notes.accents();
         
         for (Note note : notes.notes) { keyPoints.emplace(note.startTime); }
         for (ChordScale tonality : phrase.chordScales) { keyPoints.emplace(tonality.startTime); }
-        
-        
-        // TODO: use burst to come up with some rando beat repeat style rhythms.
 
         for (Position keyPoint : keyPoints) {
             vector<ChordScale> chordScales = phrase.chordScales.byPosition(keyPoint);
@@ -99,7 +93,7 @@ namespace melody {
     };
 
     const GenerationFunction bassFunction = [](Phrase fromPhrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) {
-        return bassFromFunction(harmony::generateChordScales(fromPhrase), editorState, voiceName);
+        return bassFromFunction(harmony::generateChordScales(fromPhrase, editorState), editorState, voiceName);
     };
 
 }

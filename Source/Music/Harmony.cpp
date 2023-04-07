@@ -12,6 +12,21 @@
 #include "Utility.h"
 
 
+
+ChordScale harmony::selectApproachAndGenerate(juce::String approach, Sequence<ChordScale> chordScales, Position startTime, Duration chordLength) {
+    if (approach == randomHarmonyApproachKey || chordScales.empty()) {
+        return randomChordScale(startTime, chordLength);
+    }
+    if (approach == diatonicHarmonyApproachKey) {
+        return newChordSameScale(chordScales.back(), startTime, chordLength);
+    }
+    if (approach == smoothishModulationsHarmonyApprachKey) {
+        return subtleModulations(chordScales.back(), startTime, chordLength);
+    }
+    return randomChordScale(startTime, chordLength);
+};
+
+
 ChordScale harmony::randomChordScale(Position startTime, Duration duration) {
     PitchClass root = draw<PitchClass>(pitches);
     vector<Interval> scale = draw<vector<Interval>>(diatonicModes);
@@ -48,7 +63,7 @@ ChordScale harmony::subtleModulations(ChordScale previousChordScale, Position st
     return newChordSameScale(newChordScale, startTime, duration);
 }
 
-Phrase harmony::generateChordScales(Phrase fromPhrase, Probability chordProbabilityPerAccent) {
+Phrase harmony::generateChordScales(Phrase fromPhrase, GenerateStuffEditorState const& editorState) {
     fromPhrase.chordScales.clear();
 
     Sequence<Note> notes(fromPhrase.notes.toMonophonic());
@@ -56,25 +71,23 @@ Phrase harmony::generateChordScales(Phrase fromPhrase, Probability chordProbabil
     accents.assignEvents(filter<Note>(notes, [](Note note) { return note.accented; }));
     accents.legato();
     
+    Probability chordProbabilityPerAccent = 0.6;
+    juce::String harmonyApproach = editorState.getChoiceValue(harmonyApproachKey);
+    
+    
     if (accents.empty()) {
         int numberOfChords = fromPhrase.duration.asBars();
         bars startTimeInBars = 0;
         while(numberOfChords-- > 0) {
             Bars startTime(startTimeInBars++);
             Bars chordLength(min(numberOfChords--, 1));
-            ChordScale chordScale = fromPhrase.chordScales.empty()
-                ? randomChordScale(startTime, chordLength)
-//                : newChordSameScale(fromPhrase.chordScales.back(), startTime, chordLength);
-                : subtleModulations(fromPhrase.chordScales.back(), startTime, chordLength);
+            ChordScale chordScale = selectApproachAndGenerate(harmonyApproach, fromPhrase.chordScales, startTime, chordLength);
             fromPhrase.chordScales.add(chordScale);
         }
     } else {
         for (Note accent : accents) {
             if (chordProbabilityPerAccent) {
-                ChordScale chordScale = fromPhrase.chordScales.empty()
-                    ? randomChordScale(accent.startTime, accent.duration)
-//                    : newChordSameScale(fromPhrase.chordScales.back(), accent.startTime, accent.duration);
-                    : subtleModulations(fromPhrase.chordScales.back(), accent.startTime, accent.duration);
+                ChordScale chordScale = selectApproachAndGenerate(harmonyApproach, fromPhrase.chordScales, accent.startTime, accent.duration);
                 fromPhrase.chordScales.add(chordScale);
             }
         }

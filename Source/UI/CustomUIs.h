@@ -23,9 +23,7 @@ namespace ui {
     const int sliderWidth = 20;
     const int spaceBetweenControls = 10;
 
-    static int getButtonHeight(int rows, int height) {
-        return (height - spaceBetweenControls * (rows - 1)) / rows;
-    };
+    int getButtonHeight(int rows, int height);
 }
 
 

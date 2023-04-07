@@ -316,12 +316,23 @@ Phrase rhythm::randomClave(Phrase fromPhrase, int minNoteLengthInSubdivisions, i
     //   1. groupings of 2, 3, and 4
     //   2. 2-sided - 2-3 and 3-2 - even 2-1 and 1-2 -  maybe 3-4 and 4-3 - maybe 2-4 and 4-2?
     //      a. the longer they are, the more can fit in?
-    const auto numNotes = getPotentialClaveNoteCount(clave, minNoteLength, maxNoteLength);
+    int numNotes = getPotentialClaveNoteCount(clave, minNoteLength, maxNoteLength);
+    const int maxClaveNotes = 10; // a regular clave rhythm should really not have too many notes.
+    while (numNotes > maxClaveNotes) {
+        clave.duration -= Bars(1);
+        numNotes = getPotentialClaveNoteCount(clave, minNoteLength, maxNoteLength);
+    }
     int notesOnLeft = chooseNumberOfNotesOnLeft(numNotes);
 
     bool constraintsBroken = false;
+    int attempts = 0;
     do {
         constraintsBroken = false;
+        attempts++;
+        if (attempts > 2000) {
+            //give up even if it's wrongish
+            break;
+        }
         clave.notes.clear();
         float notePosition = subdivision * (rollDie(maxNoteLengthInSubdivisions) - 1);
         for (int noteInd = 0; noteInd < numNotes; noteInd++) {
@@ -348,6 +359,11 @@ Phrase rhythm::randomClave(Phrase fromPhrase, int minNoteLengthInSubdivisions, i
             clave.addNote(note);
         }
     } while (constraintsBroken);
+    
+    while (clave.duration < fromPhrase.duration) {
+        clave.notes.concat(clave.notes);
+        clave.duration = 2 * clave.duration;
+    }
     
     return clave;
 }

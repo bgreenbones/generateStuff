@@ -30,31 +30,6 @@ static const VoiceName bassKey = "bass";
 static const VoiceName melodyKey = "melody";
 //static const string pulseAndDisplaceKey = "pulseAndDisplace";
 
-//static juce::AudioProcessorParameterGroup getVoiceParameters(VoiceName voiceName, vector<Parameter> voiceParameters) {
-//    juce::AudioProcessorParameterGroup parameterGroup(voiceName, voiceName, ":");
-//    for (auto parameter : voiceParameters) {
-//        switch (parameter.type) {
-//            case ParameterType::knob:
-//                parameterGroup.addChild(make_unique<juce::AudioParameterFloat>(parameter.key, parameter.name, parameter.knobRange, parameter.defaultKnobValue, parameter.units));
-//                break;
-//            case ParameterType::button:
-//                parameterGroup.addChild(make_unique<juce::AudioParameterBool>(parameter.key, parameter.name, parameter.defaultButtonValue, parameter.units));
-//                break;
-//            case ParameterType::choice:
-//                parameterGroup.addChild(make_unique<juce::AudioParameterChoice>(parameter.key, parameter.name, parameter.choices, parameter.defaultChoiceIndex, parameter.units));
-//                break;
-//        }
-//    }
-//    return parameterGroup;
-//}
-//
-//static juce::AudioProcessorValueTreeState::ParameterLayout getParameterLayout() {
-//    juce::AudioProcessorValueTreeState::ParameterLayout parameterLayout;
-//    parameterLayout.add(make_unique<juce::AudioProcessorParameterGroup>(getVoiceParameters(claveKey, claveParameters)));
-////    parameterLayout.add(make_unique<juce::AudioProcessorParameterGroup>(getCascaraParameters()));
-//    return parameterLayout;
-//}
-
 static int claveChannel = 1;
 static int cascaraChannel = 2;
 static int subdivisionsChannel = 3;
@@ -78,42 +53,36 @@ static const vector<VoiceBindings> voiceBindings = {
         .midiChannel = claveChannel,
         .generate = rhythm::claveFunction,
         .generateFromOther = rhythm::claveFromFunction,
-//        .getParameters = getClaveParameters
     },
     VoiceBindings {
         .voiceName = cascaraKey,
         .midiChannel = cascaraChannel,
         .generate = rhythm::cascaraFunction,
         .generateFromOther = rhythm::cascaraFromFunction,
-//        .getParameters = getCascaraParameters
     },
     VoiceBindings {
         .voiceName = subdivisionsKey,
         .midiChannel = subdivisionsChannel,
         .generate = rhythm::fillSubdivisionsFunction,
         .generateFromOther = rhythm::fillSubdivisionsFunction,
-//        .getParameters = getClaveParameters
     },
     VoiceBindings {
         .voiceName = harmonyKey,
         .midiChannel = harmonyChannel,
         .generate = harmony::chordsFunction,
         .generateFromOther = harmony::chordsFromFunction,
-//        .getParameters = getClaveParameters
     },
     VoiceBindings {
         .voiceName = bassKey,
         .midiChannel = bassChannel,
         .generate = melody::bassFunction,
         .generateFromOther = melody::bassFromFunction,
-//        .getParameters = getClaveParameters
     },
     VoiceBindings {
         .voiceName = melodyKey,
         .midiChannel = melodyChannel,
         .generate = melody::melodyFunction,
         .generateFromOther = melody::melodyFromFunction,
-//        .getParameters = getClaveParameters
     }
 };
 

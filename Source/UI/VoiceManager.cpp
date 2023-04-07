@@ -113,23 +113,26 @@ void VoiceManager::setOnClicks() {
         voice.generateButton.onClick = [this, voiceName]() {
             processor.issueNoteOff(playQueue->getMidiChannel(voiceName));
             generator.generate(voiceName);
+            VoiceControls &voice = voices.at(voiceName);
+            voice.improviseFunction = [&]() { generator.generate(voiceName); };
         };
         voice.generateFromButton.onClick = [this, voiceName]() {
             processor.issueNoteOff(playQueue->getMidiChannel(voiceName));
             generator.generateFrom(voiceName, useAsSourcePhraseKeyState);
+            VoiceControls &voice = voices.at(voiceName);
+            voice.improviseFunction = [&]() { generator.generateFrom(voiceName, useAsSourcePhraseKeyState); };
         };
         voice.muteButton.onClick = [this, voiceName]() {
             processor.issueNoteOff(playQueue->getMidiChannel(voiceName));
             bool muted = playQueue->toggleMuteVoice(voiceName);
             voices.at(voiceName).muteButton.setToggleState(muted, juce::dontSendNotification);
         };
-//        voice.selectButton.onClick = [this]() { updateSelectedPhraseState(); };
         voice.useAsSourceButton.onClick = [this]() { updateUseAsSourceState(); };
         voice.improviseButton.onClick = [this, voiceName]() {
             VoiceControls &voice = voices.at(voiceName);
             bool improvise = !(voice.improviseButton.getToggleState());
             if (improvise) {
-                processor.loopTasks.queue(voiceName, [](){}); // TODO: do this actually.
+                processor.loopTasks.queue(voiceName, voice.improviseFunction);
             } else {
                 processor.loopTasks.deactivate({ voiceName });
             }

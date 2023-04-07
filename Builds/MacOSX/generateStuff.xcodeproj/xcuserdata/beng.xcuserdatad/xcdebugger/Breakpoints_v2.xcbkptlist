@@ -833,8 +833,8 @@
             filePath = "../../Source/PluginProcessor.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "281"
-            endingLineNumber = "281"
+            startingLineNumber = "283"
+            endingLineNumber = "283"
             landmarkName = "GenerateStuffAudioProcessor::playPlayables(positionInfo, midiMessages)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1105,9 +1105,9 @@
             filePath = "../../Source/Music/Harmony.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
-            landmarkName = "harmony::generateChordScales(fromPhrase, chordProbabilityPerAccent)"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
+            landmarkName = "harmony::generateChordScales(fromPhrase, editorState)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1121,8 +1121,8 @@
             filePath = "../../Source/Music/Melody.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
             landmarkName = "unknown"
             landmarkType = "0">
             <Locations>
@@ -1199,8 +1199,8 @@
             filePath = "../../Source/Music/Harmony.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
             landmarkName = "unknown"
             landmarkType = "0">
             <Locations>
@@ -1292,8 +1292,8 @@
             filePath = "../../Source/Music/Melody.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -1386,8 +1386,8 @@
             filePath = "../../Source/Music/Melody.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
             landmarkName = "unknown"
             landmarkType = "0">
             <Locations>
@@ -1464,8 +1464,8 @@
             filePath = "../../Source/Music/Melody.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
             landmarkName = "unknown"
             landmarkType = "0">
             <Locations>
@@ -1482,7 +1482,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "64"
                   endingLineNumber = "64"
-                  offsetFromSymbolStart = "2336">
+                  offsetFromSymbolStart = "2316">
                </Location>
                <Location
                   uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - d7d21b935e7b66e3"
@@ -1497,7 +1497,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "64"
                   endingLineNumber = "64"
-                  offsetFromSymbolStart = "2336">
+                  offsetFromSymbolStart = "2316">
                </Location>
                <Location
                   uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - d7d21b935e7b66e3"
@@ -1512,7 +1512,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "64"
                   endingLineNumber = "64"
-                  offsetFromSymbolStart = "2336">
+                  offsetFromSymbolStart = "2316">
                </Location>
                <Location
                   uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - d7d21b935e7b66e3"
@@ -1527,7 +1527,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "64"
                   endingLineNumber = "64"
-                  offsetFromSymbolStart = "2336">
+                  offsetFromSymbolStart = "2316">
                </Location>
                <Location
                   uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - d7d21b935e7b66e3"
@@ -1542,7 +1542,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "64"
                   endingLineNumber = "64"
-                  offsetFromSymbolStart = "2336">
+                  offsetFromSymbolStart = "2316">
                </Location>
                <Location
                   uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - d7d21b935e7b66e3"
@@ -1557,7 +1557,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "64"
                   endingLineNumber = "64"
-                  offsetFromSymbolStart = "2336">
+                  offsetFromSymbolStart = "2316">
                </Location>
                <Location
                   uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - d7d21b935e7b66e3"
@@ -1572,7 +1572,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "64"
                   endingLineNumber = "64"
-                  offsetFromSymbolStart = "2336">
+                  offsetFromSymbolStart = "2316">
                </Location>
                <Location
                   uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - d7d21b935e7b66e3"
@@ -1587,7 +1587,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "64"
                   endingLineNumber = "64"
-                  offsetFromSymbolStart = "2336">
+                  offsetFromSymbolStart = "2316">
                </Location>
                <Location
                   uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - d7d21b935e7b66e3"
@@ -1602,7 +1602,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "64"
                   endingLineNumber = "64"
-                  offsetFromSymbolStart = "2336">
+                  offsetFromSymbolStart = "2316">
                </Location>
                <Location
                   uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - d7d21b935e7b66e3"
@@ -1617,7 +1617,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "64"
                   endingLineNumber = "64"
-                  offsetFromSymbolStart = "2336">
+                  offsetFromSymbolStart = "2316">
                </Location>
                <Location
                   uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - d7d21b935e7b66e3"
@@ -1632,7 +1632,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "64"
                   endingLineNumber = "64"
-                  offsetFromSymbolStart = "2336">
+                  offsetFromSymbolStart = "2316">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1647,8 +1647,8 @@
             filePath = "../../Source/Music/Melody.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
             landmarkName = "unknown"
             landmarkType = "0">
             <Locations>
@@ -1725,8 +1725,8 @@
             filePath = "../../Source/Music/Melody.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
             landmarkName = "unknown"
             landmarkType = "0">
             <Locations>
@@ -1743,7 +1743,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "59"
                   endingLineNumber = "59"
-                  offsetFromSymbolStart = "2152">
+                  offsetFromSymbolStart = "2132">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - d7d21b935e7b65be"
@@ -1758,7 +1758,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "59"
                   endingLineNumber = "59"
-                  offsetFromSymbolStart = "2164">
+                  offsetFromSymbolStart = "2144">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - d7d21b935e7b65be"
@@ -1773,7 +1773,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "59"
                   endingLineNumber = "59"
-                  offsetFromSymbolStart = "2152">
+                  offsetFromSymbolStart = "2132">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - d7d21b935e7b65be"
@@ -1788,7 +1788,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "59"
                   endingLineNumber = "59"
-                  offsetFromSymbolStart = "2164">
+                  offsetFromSymbolStart = "2144">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - d7d21b935e7b65be"
@@ -1803,7 +1803,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "59"
                   endingLineNumber = "59"
-                  offsetFromSymbolStart = "2152">
+                  offsetFromSymbolStart = "2132">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - d7d21b935e7b65be"
@@ -1818,7 +1818,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "59"
                   endingLineNumber = "59"
-                  offsetFromSymbolStart = "2164">
+                  offsetFromSymbolStart = "2144">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - d7d21b935e7b65be"
@@ -1833,7 +1833,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "59"
                   endingLineNumber = "59"
-                  offsetFromSymbolStart = "2152">
+                  offsetFromSymbolStart = "2132">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - d7d21b935e7b65be"
@@ -1848,7 +1848,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "59"
                   endingLineNumber = "59"
-                  offsetFromSymbolStart = "2164">
+                  offsetFromSymbolStart = "2144">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - d7d21b935e7b65be"
@@ -1863,7 +1863,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "59"
                   endingLineNumber = "59"
-                  offsetFromSymbolStart = "2152">
+                  offsetFromSymbolStart = "2132">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - d7d21b935e7b65be"
@@ -1878,7 +1878,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "59"
                   endingLineNumber = "59"
-                  offsetFromSymbolStart = "2164">
+                  offsetFromSymbolStart = "2144">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - d7d21b935e7b65be"
@@ -1893,7 +1893,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "59"
                   endingLineNumber = "59"
-                  offsetFromSymbolStart = "2152">
+                  offsetFromSymbolStart = "2132">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - d7d21b935e7b65be"
@@ -1908,7 +1908,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "59"
                   endingLineNumber = "59"
-                  offsetFromSymbolStart = "2164">
+                  offsetFromSymbolStart = "2144">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - d7d21b935e7b65be"
@@ -1923,7 +1923,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "59"
                   endingLineNumber = "59"
-                  offsetFromSymbolStart = "2152">
+                  offsetFromSymbolStart = "2132">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - d7d21b935e7b65be"
@@ -1938,7 +1938,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "59"
                   endingLineNumber = "59"
-                  offsetFromSymbolStart = "2164">
+                  offsetFromSymbolStart = "2144">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - d7d21b935e7b65be"
@@ -1953,7 +1953,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "59"
                   endingLineNumber = "59"
-                  offsetFromSymbolStart = "2152">
+                  offsetFromSymbolStart = "2132">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - d7d21b935e7b65be"
@@ -1968,7 +1968,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "59"
                   endingLineNumber = "59"
-                  offsetFromSymbolStart = "2164">
+                  offsetFromSymbolStart = "2144">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - d7d21b935e7b65be"
@@ -1983,7 +1983,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "59"
                   endingLineNumber = "59"
-                  offsetFromSymbolStart = "2152">
+                  offsetFromSymbolStart = "2132">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - d7d21b935e7b65be"
@@ -1998,7 +1998,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "59"
                   endingLineNumber = "59"
-                  offsetFromSymbolStart = "2164">
+                  offsetFromSymbolStart = "2144">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - d7d21b935e7b65be"
@@ -2013,7 +2013,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "59"
                   endingLineNumber = "59"
-                  offsetFromSymbolStart = "2152">
+                  offsetFromSymbolStart = "2132">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - d7d21b935e7b65be"
@@ -2028,7 +2028,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "59"
                   endingLineNumber = "59"
-                  offsetFromSymbolStart = "2164">
+                  offsetFromSymbolStart = "2144">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - d7d21b935e7b65be"
@@ -2043,7 +2043,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "59"
                   endingLineNumber = "59"
-                  offsetFromSymbolStart = "2152">
+                  offsetFromSymbolStart = "2132">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - d7d21b935e7b65be"
@@ -2058,7 +2058,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "59"
                   endingLineNumber = "59"
-                  offsetFromSymbolStart = "2164">
+                  offsetFromSymbolStart = "2144">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -2073,8 +2073,8 @@
             filePath = "../../Source/Music/Melody.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
             landmarkName = "unknown"
             landmarkType = "0">
             <Locations>
@@ -2151,8 +2151,8 @@
             filePath = "../../Source/Music/Melody.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
             landmarkName = "unknown"
             landmarkType = "0">
             <Locations>
@@ -2169,7 +2169,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "32"
                   endingLineNumber = "32"
-                  offsetFromSymbolStart = "504">
+                  offsetFromSymbolStart = "484">
                </Location>
                <Location
                   uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - d7d21b935e7b6203"
@@ -2184,7 +2184,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "32"
                   endingLineNumber = "32"
-                  offsetFromSymbolStart = "504">
+                  offsetFromSymbolStart = "484">
                </Location>
                <Location
                   uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - d7d21b935e7b6203"
@@ -2199,7 +2199,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "32"
                   endingLineNumber = "32"
-                  offsetFromSymbolStart = "504">
+                  offsetFromSymbolStart = "484">
                </Location>
                <Location
                   uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - d7d21b935e7b6203"
@@ -2214,7 +2214,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "32"
                   endingLineNumber = "32"
-                  offsetFromSymbolStart = "504">
+                  offsetFromSymbolStart = "484">
                </Location>
                <Location
                   uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - d7d21b935e7b6203"
@@ -2229,7 +2229,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "32"
                   endingLineNumber = "32"
-                  offsetFromSymbolStart = "504">
+                  offsetFromSymbolStart = "484">
                </Location>
                <Location
                   uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - d7d21b935e7b6203"
@@ -2244,7 +2244,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "32"
                   endingLineNumber = "32"
-                  offsetFromSymbolStart = "504">
+                  offsetFromSymbolStart = "484">
                </Location>
                <Location
                   uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - d7d21b935e7b6203"
@@ -2259,7 +2259,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "32"
                   endingLineNumber = "32"
-                  offsetFromSymbolStart = "504">
+                  offsetFromSymbolStart = "484">
                </Location>
                <Location
                   uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - d7d21b935e7b6203"
@@ -2274,7 +2274,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "32"
                   endingLineNumber = "32"
-                  offsetFromSymbolStart = "504">
+                  offsetFromSymbolStart = "484">
                </Location>
                <Location
                   uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - d7d21b935e7b6203"
@@ -2289,7 +2289,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "32"
                   endingLineNumber = "32"
-                  offsetFromSymbolStart = "504">
+                  offsetFromSymbolStart = "484">
                </Location>
                <Location
                   uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - d7d21b935e7b6203"
@@ -2304,7 +2304,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "32"
                   endingLineNumber = "32"
-                  offsetFromSymbolStart = "504">
+                  offsetFromSymbolStart = "484">
                </Location>
                <Location
                   uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - d7d21b935e7b6203"
@@ -2319,7 +2319,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "32"
                   endingLineNumber = "32"
-                  offsetFromSymbolStart = "504">
+                  offsetFromSymbolStart = "484">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -2537,8 +2537,8 @@
             filePath = "../../Source/PluginProcessor.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "349"
-            endingLineNumber = "349"
+            startingLineNumber = "351"
+            endingLineNumber = "351"
             landmarkName = "GenerateStuffAudioProcessor::processBlock(buffer, midiMessages)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2556,6 +2556,101 @@
             startingLineNumber = "40"
             endingLineNumber = "40"
             landmarkName = "VoiceSettingsMenuComponent::placeWorkspace()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "52049F85-4C35-4EC0-B14B-21BDDC6CA849"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Sequence/Sequence.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "379"
+            endingLineNumber = "379"
+            landmarkName = "pulseAndDisplace(pulse, displacement, pDisplace, pDouble, length)"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "52049F85-4C35-4EC0-B14B-21BDDC6CA849 - 8bf455507b9f17ce"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Sequence&lt;Note&gt;::pulseAndDisplace(Duration, Duration, Probability, Probability, Duration) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "379"
+                  endingLineNumber = "379"
+                  offsetFromSymbolStart = "88">
+               </Location>
+               <Location
+                  uuid = "52049F85-4C35-4EC0-B14B-21BDDC6CA849 - 28c018bdbb8f9c68"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Sequence&lt;Subdivision&gt;::pulseAndDisplace(Duration, Duration, Probability, Probability, Duration) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "379"
+                  endingLineNumber = "379"
+                  offsetFromSymbolStart = "88">
+               </Location>
+               <Location
+                  uuid = "52049F85-4C35-4EC0-B14B-21BDDC6CA849 - 2179491abbd47afe"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Sequence&lt;ChordScale&gt;::pulseAndDisplace(Duration, Duration, Probability, Probability, Duration) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "379"
+                  endingLineNumber = "379"
+                  offsetFromSymbolStart = "88">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "069A2BD5-FAB0-4EFF-B6BE-8F280E25DD36"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Music/Rhythm.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "343"
+            endingLineNumber = "343"
+            landmarkName = "rhythm::randomClave(fromPhrase, minNoteLengthInSubdivisions, maxNoteLengthInSubdivisions)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "02456719-8721-47F8-B3C1-785B910735EA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Music/Rhythm.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "351"
+            endingLineNumber = "351"
+            landmarkName = "rhythm::randomClave(fromPhrase, minNoteLengthInSubdivisions, maxNoteLengthInSubdivisions)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
