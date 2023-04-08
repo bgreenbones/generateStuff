@@ -90,6 +90,7 @@ T draw(std::vector<T> hat) {
     return hat[rollDie((int) hat.size()) - 1];
 }
 
+template float draw<float>(std::vector<float> hat);
 template OrnamentSimple draw<OrnamentSimple>(std::vector<OrnamentSimple> hat);
 template Subdivision draw<Subdivision>(std::vector<Subdivision> hat);
 template SyncopationType draw<SyncopationType>(std::vector<SyncopationType> hat);

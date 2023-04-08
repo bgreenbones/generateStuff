@@ -11,17 +11,17 @@
 #include "Rhythm.h"
 
 
-Phrase rhythm::burst(Phrase fromPhrase, Note note, int minimumRepeats, int maximumRepeats) {
-    
+Phrase rhythm::burst(Phrase fromPhrase, Note note, int minimumRepeats, int maximumRepeats, float noteLengthInSubdivisions) {
     vector<Subdivision> subdivs = fromPhrase.subdivisions.byPosition(note.startTime);
     Duration subdiv = subdivs.empty() ? sixteenths : subdivs.at(0);
+    Duration noteLength = noteLengthInSubdivisions * subdiv;
     int numberOfPossibleBurstLengths = maximumRepeats - minimumRepeats;
     int numberOfNotes = rollDie(numberOfPossibleBurstLengths);
     
     for (double repeat = 0; repeat < numberOfNotes; repeat++) {
-        Position position = note.startTime + repeat * subdiv;
+        Position position = note.startTime + repeat * noteLength;
         if (fromPhrase.notes.byStartPosition(position).empty()) {
-            Note repeatNote(note.pitch, note.velocity, position, subdiv);
+            Note repeatNote(note.pitch, note.velocity, position, noteLength);
             fromPhrase.notes.add(repeatNote, PushBehavior::ignore, OverwriteBehavior::cutoff);
         }
     }

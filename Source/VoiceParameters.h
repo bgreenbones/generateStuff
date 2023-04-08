@@ -77,9 +77,15 @@ static const vector<Parameter> harmonyParameters {
 static const string bassBurstLengthMinKey = "bassBurstLengthMin";
 static const string bassBurstLengthMaxKey = "bassBurstLengthMax";
 static const juce::NormalisableRange<float> burstLengthRange(1.f, 8.f, 1.0);
-static const string bassBurstGroupingOneKey = "bassBurstGroupingOne";
-static const string bassBurstGroupingTwoKey = "bassBurstGroupingTwo";
-static const string bassBurstGroupingThreeKey = "bassBurstGroupingThree";
+static const string bassBurstNoteLengthHalfKey = "bassBurstNoteLengthHalf";
+static const string bassBurstNoteLengthOneKey = "bassBurstNoteLengthOne";
+static const string bassBurstNoteLengthTwoKey = "bassBurstNoteLengthTwo";
+static const string bassBurstNoteLengthThreeKey = "bassBurstNoteLengthThree";
 static const vector<Parameter> bassParameters {
-    // TODO: add bass parameters and use them
+    Parameter(bassBurstLengthMinKey, "min burst length", burstLengthRange, 1, " notes"),
+    Parameter(bassBurstLengthMaxKey, "max burst length", burstLengthRange, 4, " notes"),
+    Parameter(bassBurstNoteLengthHalfKey, "burst note length 1/2", false, " subdivisions"),
+    Parameter(bassBurstNoteLengthOneKey, "burst note length 1", true, " subdivisions"),
+    Parameter(bassBurstNoteLengthTwoKey, "burst note length 2", false, " subdivisions"),
+    Parameter(bassBurstNoteLengthThreeKey, "burst note length 3", false, " subdivisions")
 };

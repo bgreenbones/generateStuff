@@ -66,6 +66,26 @@ namespace melody {
     };
 
     const GenerationFunction bassFromFunction = [](Phrase const& fromPhrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) {
+//        Parameter(bassBurstLengthMinKey, "min burst length", burstLengthRange, 1, " notes"),
+//        Parameter(bassBurstLengthMaxKey, "max burst length", burstLengthRange, 4, " notes"),
+//        Parameter(bassBurstNoteLengthHalfKey, "burst note length 1/2", false, " subdivisions"),
+//        Parameter(bassBurstNoteLengthOneKey, "burst note length 1", true, " subdivisions"),
+//        Parameter(bassBurstNoteLengthTwoKey, "burst note length 2", false, " subdivisions"),
+//        Parameter(bassBurstNoteLengthThreeKey, "burst note length 3", false, " subdivisions")
+        
+        int burstLengthMin = editorState.getKnobValue(bassBurstLengthMinKey);
+        int burstLengthMax = editorState.getKnobValue(bassBurstLengthMaxKey);
+        
+        
+        vector<float> burstNoteLengthChoices;
+        if (editorState.getButtonValue(bassBurstNoteLengthHalfKey)) { burstNoteLengthChoices.push_back(0.5); };
+        if (editorState.getButtonValue(bassBurstNoteLengthOneKey)) { burstNoteLengthChoices.push_back(1); };
+        if (editorState.getButtonValue(bassBurstNoteLengthTwoKey)) { burstNoteLengthChoices.push_back(2); };
+        if (editorState.getButtonValue(bassBurstNoteLengthThreeKey)) { burstNoteLengthChoices.push_back(3); };
+        
+        
+        
+        
         Phrase phrase(fromPhrase);
         phrase.notes = fromPhrase.notes.toMonophonic();
         phrase = phrase.chordScales.empty() ? harmony::generateChordScales(phrase, editorState) : phrase;
@@ -85,8 +105,10 @@ namespace melody {
             ChordScale chordScale = chordScales.at(0);
             Tonality tonality = chordScale.harmony;
             
+            float burstNoteLengthInSubdivisions = draw<float>(burstNoteLengthChoices);
+            
             Note noteToAdd(Pitch(tonality.root, 3), 70, chordScale.startTime, chordScale.duration);
-            phrase = rhythm::burst(phrase, noteToAdd, 1, 4);
+            phrase = rhythm::burst(phrase, noteToAdd, burstLengthMin, burstLengthMax, burstNoteLengthInSubdivisions);
         }
 
         return phrase;
