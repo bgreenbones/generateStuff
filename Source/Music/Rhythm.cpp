@@ -11,6 +11,27 @@
 #include "Rhythm.h"
 
 
+float rhythm::stability(Phrase context, Position position) {
+    vector<Subdivision> subdivs = context.subdivisions.byPosition(position);
+    Duration subdiv = subdivs.empty() ? sixteenths : subdivs.at(0);
+    
+    Beats startingPoint = floor(position.asBeats());
+    Beats positionInBeat = position - startingPoint;
+    if (positionInBeat == Beats(0.)) { positionInBeat += Beats(1); }
+    
+//    int subdivsPerBeat = 1. / subdiv.asBeats();
+//    bool subDivIsEven = subdivsPerBeat % 2;
+    
+    bool inFirstHalf = positionInBeat < Beats(0.5);
+    Beats halfWisePosition = inFirstHalf ? positionInBeat : positionInBeat - Beats(0.5);
+    double halfWiseStability = halfWisePosition / Beats(0.5);
+    
+    
+    // TODO: we need to use this to get -- lower stability scores in first half of beat, higher stability scores in second half of beat (highest of those is on the half way marker though) and highest scores are ON the beat
+    
+}
+
+
 Phrase rhythm::burst(Phrase fromPhrase, Note note, int minimumRepeats, int maximumRepeats, float noteLengthInSubdivisions) {
     vector<Subdivision> subdivs = fromPhrase.subdivisions.byPosition(note.startTime);
     Duration subdiv = subdivs.empty() ? sixteenths : subdivs.at(0);

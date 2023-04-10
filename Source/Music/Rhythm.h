@@ -38,6 +38,8 @@ namespace rhythm {
     Phrase burst(Phrase fromPhrase, Note note, int minimumRepeats, int maximumRepeats, float noteLengthInSubdivisions = 1.);
 
 
+    // 0. is super not stable, 1. is super stable.
+    float stability(Phrase context, Position position);
 
 
     int getPotentialClaveNoteCount(Phrase fromPhrase, Duration minNoteLength, Duration maxNoteLength);
