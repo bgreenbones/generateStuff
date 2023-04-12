@@ -11,9 +11,9 @@
 #include "Rhythm.h"
 
 
-float rhythm::stability(Phrase context, Position position) {
-    vector<Subdivision> subdivs = context.subdivisions.byPosition(position);
-    Duration subdiv = subdivs.empty() ? sixteenths : subdivs.at(0);
+double rhythm::beatWiseStability(Position position) {
+//    vector<Subdivision> subdivs = context.subdivisions.byPosition(position);
+//    Duration subdiv = subdivs.empty() ? sixteenths : subdivs.at(0);
     
     Beats startingPoint = floor(position.asBeats());
     Beats positionInBeat = position - startingPoint;
@@ -22,13 +22,17 @@ float rhythm::stability(Phrase context, Position position) {
 //    int subdivsPerBeat = 1. / subdiv.asBeats();
 //    bool subDivIsEven = subdivsPerBeat % 2;
     
-    bool inFirstHalf = positionInBeat < Beats(0.5);
+    bool inFirstHalf = positionInBeat <= Beats(0.5);
     Beats halfWisePosition = inFirstHalf ? positionInBeat : positionInBeat - Beats(0.5);
     double halfWiseStability = halfWisePosition / Beats(0.5);
-    
+
     
     // TODO: we need to use this to get -- lower stability scores in first half of beat, higher stability scores in second half of beat (highest of those is on the half way marker though) and highest scores are ON the beat
+    double secondHalfStablenessBoost = 0.4;
+    double stability = inFirstHalf ? halfWiseStability : halfWiseStability + secondHalfStablenessBoost; // higher stabilities for second half
+    stability /= (1. + secondHalfStablenessBoost); // normalize between 0 and 1
     
+    return stability;
 }
 
 
