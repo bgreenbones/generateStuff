@@ -40,7 +40,7 @@ namespace rhythm {
 
     // 0. is super not stable, 1. is super stable.
     double beatWiseStability(Position position);
-Phrase stabilityBased(Phrase fromPhrase, Probability filter = 0.8); // TODO: implement
+    Phrase stabilityBased(Phrase fromPhrase, Probability filter = 0.8);
 
 
     int getPotentialClaveNoteCount(Phrase fromPhrase, Duration minNoteLength, Duration maxNoteLength);

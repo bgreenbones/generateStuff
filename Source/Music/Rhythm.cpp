@@ -36,6 +36,27 @@ double rhythm::beatWiseStability(Position position) {
 }
 
 
+Phrase rhythm::stabilityBased(Phrase fromPhrase, Probability filter)
+{
+    Phrase newPhrase(fromPhrase);
+    newPhrase.notes.clear();
+    
+    Position cursor = fromPhrase.startTime;
+    while (cursor < fromPhrase.endTime()) {
+        Subdivision subdiv = fromPhrase.subdivisions.drawByPosition(cursor);
+        
+        if(Probability(rhythm::beatWiseStability(cursor)) && filter) {
+            newPhrase.addNote(Note(cursor, subdiv));
+        }
+        
+        cursor += subdiv;
+    }
+    
+    return newPhrase;
+}
+
+
+
 Phrase rhythm::burst(Phrase fromPhrase, Note note, int minimumRepeats, int maximumRepeats, float noteLengthInSubdivisions) {
     vector<Subdivision> subdivs = fromPhrase.subdivisions.byPosition(note.startTime);
     Duration subdiv = subdivs.empty() ? sixteenths : subdivs.at(0);
