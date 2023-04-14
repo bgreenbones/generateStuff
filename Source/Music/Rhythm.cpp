@@ -38,21 +38,49 @@ double rhythm::beatWiseStability(Position position) {
 
 Phrase rhythm::stabilityBased(Phrase fromPhrase, Probability filter)
 {
-    Phrase newPhrase(fromPhrase);
-    newPhrase.notes.clear();
-    
+    fromPhrase.notes.clear();
     Position cursor = fromPhrase.startTime;
     while (cursor < fromPhrase.endTime()) {
         Subdivision subdiv = fromPhrase.subdivisions.drawByPosition(cursor);
         
         if(Probability(rhythm::beatWiseStability(cursor)) && filter) {
-            newPhrase.addNote(Note(cursor, subdiv));
+            fromPhrase.addNote(Note(cursor, subdiv));
         }
         
         cursor += subdiv;
     }
     
-    return newPhrase;
+    return fromPhrase;
+}
+
+
+Phrase rhythm::stabilityFilter(Phrase fromPhrase) {
+    for (Note &note : fromPhrase.notes) {
+        Probability noteStability = Probability(rhythm::beatWiseStability(note.startTime));
+        bool changeStartTime = !noteStability;
+        if (changeStartTime) {
+            Position next = fromPhrase.nextSubdivision(note.startTime);
+            Position previous = fromPhrase.previousSubdivision(note.startTime);
+            bool noNotesAfter = fromPhrase.notes.byPosition(next).empty();
+            bool noNotesBefore = fromPhrase.notes.byPosition(previous).empty();
+            if (noNotesAfter) {
+                if (Probability(next) > Probability(previous) || !noNotesBefore) {
+                    if (Probability(next) > noteStability) {
+                        note.startTime = next;
+                        continue;
+                    }
+                }
+             }
+            
+            if (noNotesBefore) {
+                if (Probability(previous) > noteStability) {
+                    note.startTime = next;
+                }
+             }
+            
+        }
+    }
+    return fromPhrase;
 }
 
 
@@ -411,7 +439,7 @@ Phrase rhythm::randomClave(Phrase fromPhrase, int minNoteLengthInSubdivisions, i
         clave.duration = 2 * clave.duration;
     }
     
-    return clave;
+    return rhythm::stabilityFilter(clave);
 }
 
 

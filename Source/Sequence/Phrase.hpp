@@ -60,6 +60,8 @@ public:
     
     Sequence<Note> notes;
     Sequence<Subdivision> subdivisions;
+    Position nextSubdivision(Position position);
+    Position previousSubdivision(Position position);
     Sequence<ChordScale> chordScales;
     
     Phrase toMonophonic() const {

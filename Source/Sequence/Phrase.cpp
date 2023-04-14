@@ -8,6 +8,32 @@
 #include "Phrase.hpp"
 #include <JuceHeader.h>
 
+Position Phrase::nextSubdivision(Position position) {
+    Subdivision atPosition = subdivisions.drawByPosition(position);
+    Position next = position + atPosition;
+    if (next >= endTime()) {
+        return startTime;
+    }
+    
+    Subdivision atNextPosition = subdivisions.drawByPosition(next);
+    if (atPosition.duration == atNextPosition.duration) { return next; }
+    return atNextPosition.startTime;
+}
+
+Position Phrase::previousSubdivision(Position position) {
+    Subdivision atPosition = subdivisions.drawByPosition(position);
+    Position previous = position - atPosition;
+    if (previous >= startTime) {
+        Subdivision atEnd = subdivisions.drawByPosition(endTime());
+        return endTime() - atEnd;
+    }
+    
+    Subdivision atPreviousPosition = subdivisions.drawByPosition(previous);
+    if (atPosition.duration == atPreviousPosition.duration) { return previous; }
+    return atPreviousPosition.endTime();
+}
+
+
 template <class T>
 void Phrase::addTimedEvent(T toAdd, vector<T>& eventList) {
     eventList.push_back(toAdd);
