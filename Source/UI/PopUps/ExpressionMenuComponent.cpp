@@ -13,8 +13,8 @@
 
 
 ExpressionMenuComponent::ExpressionMenuComponent(VoiceName voiceName,
-                                                       shared_ptr<GenerateStuffEditorState> editorState):
-                                                            VoiceEditor(voiceName, editorState)
+                                                 GenerateStuffAudioProcessor &processor):
+                                                            VoiceEditor(voiceName, processor)
 {
     if (editorState->expressionStates.find(voiceName) == editorState->expressionStates.end()) {
         editorState->expressionStates.emplace(voiceName, ExpressionEditorState());

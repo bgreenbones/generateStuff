@@ -13,6 +13,8 @@
 #include "CustomUIs.h"
 #include "Voice.h"
 #include "GenerateStuffEditorState.h"
+#include "PlayQueue.h"
+#include "PluginProcessor.h"
 
 using std::unique_ptr;
 
@@ -47,8 +49,9 @@ class VoiceEditor : public PopUpComponent {
 public:
     VoiceName voiceName;
     shared_ptr<GenerateStuffEditorState> editorState;
+    shared_ptr<PlayQueue> playQueue;
     VoiceEditor(VoiceName voiceName,
-                shared_ptr<GenerateStuffEditorState> editorState): voiceName(voiceName), editorState(editorState) {
+                GenerateStuffAudioProcessor &processor): voiceName(voiceName), editorState(processor.editorState), playQueue(processor.playQueue) {
         
     }
 };

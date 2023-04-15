@@ -12,6 +12,9 @@
 #include "PopUpComponent.h"
 #include "Probability.h"
 #include "GenerateStuffEditorState.h"
+#include "PlayQueue.h"
+#include "Rhythm.h"
+#include "PluginProcessor.h"
 
 
 using std::shared_ptr;
@@ -19,10 +22,12 @@ using std::shared_ptr;
 
 class TransformPhraseMenuComponent : public VoiceEditor {
     juce::TextButton flipButton { "flip" };
+    juce::TextButton stabilizeRhythmButton { "stabilize rhythm" };
+    juce::TextButton destabilizeRhythmButton { "destabilize rhythm" };
 public:
     
     TransformPhraseMenuComponent(VoiceName voiceName,
-                                 shared_ptr<GenerateStuffEditorState> editorState);
+                                 GenerateStuffAudioProcessor& processor);
     
 //    void resized() override {
     int placeWorkspace() override;

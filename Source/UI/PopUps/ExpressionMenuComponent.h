@@ -18,7 +18,7 @@ using std::shared_ptr;
 
 class ExpressionMenuComponent : public VoiceEditor {
 public:
-    ExpressionMenuComponent(VoiceName voiceName, shared_ptr<GenerateStuffEditorState> editorState);
+    ExpressionMenuComponent(VoiceName voiceName, GenerateStuffAudioProcessor &processor);
     int placeWorkspace() override;
     void updateMenuState() override;
 };

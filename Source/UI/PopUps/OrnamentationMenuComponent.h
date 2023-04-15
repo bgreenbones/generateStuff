@@ -32,7 +32,7 @@ class OrnamentationMenuComponent : public VoiceEditor {
 public:
     
     OrnamentationMenuComponent(VoiceName voiceName,
-                                 shared_ptr<GenerateStuffEditorState> editorState);
+                               GenerateStuffAudioProcessor &processor);
     
 //    void resized() override {
     int placeWorkspace() override;

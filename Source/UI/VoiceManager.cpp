@@ -146,19 +146,19 @@ void VoiceManager::setOnClicks() {
         };
         
         voice.transformButton.onClick = [voice, this]() {
-            TransformPhraseMenuComponent *transformMenu = new TransformPhraseMenuComponent(voice.voiceName, processor.editorState);
+            TransformPhraseMenuComponent *transformMenu = new TransformPhraseMenuComponent(voice.voiceName, processor);
             this->mainEditor->addAndMakeVisible(transformMenu);
             transformMenu->resized();
         };
         
         voice.ornamentButton.onClick = [voice, this]() {
-            OrnamentationMenuComponent *ornamentationMenu = new OrnamentationMenuComponent(voice.voiceName, processor.editorState);
+            OrnamentationMenuComponent *ornamentationMenu = new OrnamentationMenuComponent(voice.voiceName, processor);
             this->mainEditor->addAndMakeVisible(ornamentationMenu);
             ornamentationMenu->resized();
         };
         
         voice.expressionButton.onClick = [voice, this]() {
-            ExpressionMenuComponent *expressionMenu = new ExpressionMenuComponent(voice.voiceName, processor.editorState);
+            ExpressionMenuComponent *expressionMenu = new ExpressionMenuComponent(voice.voiceName, processor);
             this->mainEditor->addAndMakeVisible(expressionMenu);
             expressionMenu->resized();
         };

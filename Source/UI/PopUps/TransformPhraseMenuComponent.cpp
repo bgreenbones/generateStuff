@@ -13,17 +13,27 @@
 
 
 TransformPhraseMenuComponent::TransformPhraseMenuComponent(VoiceName voiceName,
-                                                           shared_ptr<GenerateStuffEditorState> editorState):
-                                                                VoiceEditor(voiceName, editorState)
+                                                           GenerateStuffAudioProcessor &processor):
+                                                                VoiceEditor(voiceName, processor)
 {
     if (editorState->transformStates.find(voiceName) == editorState->transformStates.end()) {
         editorState->transformStates.emplace(voiceName, TransformEditorState());
     }
 
     flipButton.onClick = [this]() {
-//            generator.flipClave(voiceManager.selectedPhraseKeyState);
+        rhythm::flipClave(playQueue->getVoice(this->voiceName).base);
     };
     addAndMakeVisible(&flipButton);
+
+    
+    stabilizeRhythmButton.onClick = [this]() {
+        rhythm::stabilityFilter(playQueue->getVoice(this->voiceName).base);
+    };
+    destabilizeRhythmButton.onClick = [this]() {
+        rhythm::stabilityFilter(playQueue->getVoice(this->voiceName).base);
+    };
+    addAndMakeVisible(&stabilizeRhythmButton);
+    addAndMakeVisible(&destabilizeRhythmButton);
 
 }
 

@@ -12,7 +12,7 @@
 
 
 VoiceSettingsMenuComponent::VoiceSettingsMenuComponent(VoiceName voiceName, GenerateStuffAudioProcessor& processor):
-                                                            VoiceEditor(voiceName, processor.editorState),
+                                                            VoiceEditor(voiceName, processor),
                                                             processor(processor)
 {
     if (editorState->voiceSettingsStates.find(voiceName) == editorState->voiceSettingsStates.end()) {

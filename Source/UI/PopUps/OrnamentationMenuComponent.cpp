@@ -13,8 +13,8 @@
 
 
 OrnamentationMenuComponent::OrnamentationMenuComponent(VoiceName voiceName,
-                                                           shared_ptr<GenerateStuffEditorState> editorState):
-                                                                VoiceEditor(voiceName, editorState)
+                                                       GenerateStuffAudioProcessor &processor):
+                                                                VoiceEditor(voiceName, processor)
 {
     if (editorState->ornamentationStates.find(voiceName) == editorState->ornamentationStates.end()) {
         editorState->ornamentationStates.emplace(voiceName, OrnamentationEditorState());
