@@ -21,16 +21,19 @@ TransformPhraseMenuComponent::TransformPhraseMenuComponent(VoiceName voiceName,
     }
 
     flipButton.onClick = [this]() {
-        rhythm::flipClave(playQueue->getVoice(this->voiceName).base);
+        Phrase flipped = rhythm::flip(playQueue->getVoice(this->voiceName).base);
+        playQueue->queuePhrase(this->voiceName, flipped);
     };
     addAndMakeVisible(&flipButton);
 
     
     stabilizeRhythmButton.onClick = [this]() {
-        rhythm::stabilityFilter(playQueue->getVoice(this->voiceName).base);
+        Phrase stabilized = rhythm::stabilityFilter(playQueue->getVoice(this->voiceName).base, Direction::up);
+        playQueue->queuePhrase(this->voiceName, stabilized);
     };
     destabilizeRhythmButton.onClick = [this]() {
-        rhythm::stabilityFilter(playQueue->getVoice(this->voiceName).base);
+        Phrase destabilized = rhythm::stabilityFilter(playQueue->getVoice(this->voiceName).base, Direction::down);
+        playQueue->queuePhrase(this->voiceName, destabilized);
     };
     addAndMakeVisible(&stabilizeRhythmButton);
     addAndMakeVisible(&destabilizeRhythmButton);
@@ -50,6 +53,12 @@ int TransformPhraseMenuComponent::placeWorkspace() {
 //    int sliderHeight = workspaceHeight;
     
     flipButton.setBounds (xCursor, yCursor, buttonWidth, ui::getButtonHeight(1, workspaceHeight));
+    xCursor += buttonWidth + ui::spaceBetweenControls;
+    
+    stabilizeRhythmButton.setBounds (xCursor, yCursor, buttonWidth, ui::getButtonHeight(1, workspaceHeight));
+    xCursor += buttonWidth + ui::spaceBetweenControls;
+    
+    destabilizeRhythmButton.setBounds (xCursor, yCursor, buttonWidth, ui::getButtonHeight(1, workspaceHeight));
     xCursor += buttonWidth + ui::spaceBetweenControls;
     
     return 2 * margin + workspaceHeight + ui::spaceBetweenControls;

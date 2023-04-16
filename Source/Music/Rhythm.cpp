@@ -54,18 +54,22 @@ Phrase rhythm::stabilityBased(Phrase fromPhrase, Probability filter)
 }
 
 
-Phrase rhythm::stabilityFilter(Phrase fromPhrase) {
+Phrase rhythm::stabilityFilter(Phrase fromPhrase, Direction direction) {
     for (Note &note : fromPhrase.notes) {
-        Probability noteStability = Probability(rhythm::beatWiseStability(note.startTime));
-        bool changeStartTime = !noteStability;
+        double noteStability = rhythm::beatWiseStability(note.startTime);
+        Probability noteStabilityProb = Probability(noteStability);
+        bool changeStartTime = (direction == Direction::up) ? (bool) (!noteStabilityProb) : (bool) noteStabilityProb;
         if (changeStartTime) {
             Position next = fromPhrase.nextSubdivision(note.startTime);
+            double nextStability = rhythm::beatWiseStability(next);
             Position previous = fromPhrase.previousSubdivision(note.startTime);
-            bool noNotesAfter = fromPhrase.notes.byPosition(next).empty();
-            bool noNotesBefore = fromPhrase.notes.byPosition(previous).empty();
+            double previousStability = rhythm::beatWiseStability(previous);
+            bool noNotesAfter = fromPhrase.notes.byStartPosition(next).empty();
+            bool noNotesBefore = fromPhrase.notes.byStartPosition(previous).empty();
             if (noNotesAfter) {
-                if (Probability(next) > Probability(previous) || !noNotesBefore) {
-                    if (Probability(next) > noteStability) {
+                if (direction * nextStability > direction * previousStability || !noNotesBefore) {
+                    if (direction * nextStability > direction * noteStability) {
+                        note.duration -= next - note.startTime;
                         note.startTime = next;
                         continue;
                     }
@@ -73,8 +77,9 @@ Phrase rhythm::stabilityFilter(Phrase fromPhrase) {
              }
             
             if (noNotesBefore) {
-                if (Probability(previous) > noteStability) {
-                    note.startTime = next;
+                if (direction * previousStability > direction * noteStability) {
+                    note.duration += note.startTime - previous;
+                    note.startTime = previous;
                 }
              }
             

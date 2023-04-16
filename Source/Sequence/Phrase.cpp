@@ -23,14 +23,14 @@ Position Phrase::nextSubdivision(Position position) {
 Position Phrase::previousSubdivision(Position position) {
     Subdivision atPosition = subdivisions.drawByPosition(position);
     Position previous = position - atPosition;
-    if (previous >= startTime) {
-        Subdivision atEnd = subdivisions.drawByPosition(endTime());
+    if (previous < startTime) {
+        Subdivision atEnd = subdivisions.drawByPosition(endTime() - Beats(0.001));
         return endTime() - atEnd;
     }
     
     Subdivision atPreviousPosition = subdivisions.drawByPosition(previous);
     if (atPosition.duration == atPreviousPosition.duration) { return previous; }
-    return atPreviousPosition.endTime();
+    return atPreviousPosition.endTime() - atPreviousPosition;
 }
 
 

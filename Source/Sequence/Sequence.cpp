@@ -334,7 +334,6 @@ vector<T> Sequence<T>::byStartPosition(Position position) const {
 template<class T>
 T Sequence<T>::drawByPosition(Position position) const {
     auto available = this->byPosition(position);
-    Subdivision subdivision;
     if (available.empty()) {
         DBG ("Nothing to draw from :(");
         return T();
