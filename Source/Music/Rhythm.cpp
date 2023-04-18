@@ -55,36 +55,51 @@ Phrase rhythm::stabilityBased(Phrase fromPhrase, Probability filter)
 
 
 Phrase rhythm::stabilityFilter(Phrase fromPhrase, Direction direction) {
-    for (Note &note : fromPhrase.notes) {
+    // TODO: maybe parameterize number of notes to move, or likelihood of any note moving
+    // TODO: think about what part of the phrase to move a note...based on idea of moving from tension to resolution or vice versa
+    // TODO: make a cool thing that moves around startTimes in a chord so we get a sweep effect.
+    bool searchingForMovableNote = true;
+//    int notesBefore = fromPhrase.notes.size();
+    
+    vector<Note> monoNotesCopy = fromPhrase.notes.toMonophonic();
+    while (searchingForMovableNote && !monoNotesCopy.empty()) {
+        shuffle(monoNotesCopy.begin(), monoNotesCopy.end(), getGen());
+        Note note = monoNotesCopy.back(); // sample without replacement.
+        monoNotesCopy.pop_back();
+//        int noteIndex = rollDie(fromPhrase.notes.size());
+//        Note &note = fromPhrase.notes[noteIndex];
         double noteStability = rhythm::beatWiseStability(note.startTime);
-        Probability noteStabilityProb = Probability(noteStability);
-        bool changeStartTime = (direction == Direction::up) ? (bool) (!noteStabilityProb) : (bool) noteStabilityProb;
-        if (changeStartTime) {
-            Position next = fromPhrase.nextSubdivision(note.startTime);
-            double nextStability = rhythm::beatWiseStability(next);
-            Position previous = fromPhrase.previousSubdivision(note.startTime);
-            double previousStability = rhythm::beatWiseStability(previous);
-            bool noNotesAfter = fromPhrase.notes.byStartPosition(next).empty();
-            bool noNotesBefore = fromPhrase.notes.byStartPosition(previous).empty();
-            if (noNotesAfter) {
-                if (direction * nextStability > direction * previousStability || !noNotesBefore) {
-                    if (direction * nextStability > direction * noteStability) {
-                        note.duration -= next - note.startTime;
-                        note.startTime = next;
-                        continue;
-                    }
-                }
-             }
-            
-            if (noNotesBefore) {
-                if (direction * previousStability > direction * noteStability) {
-                    note.duration += note.startTime - previous;
-                    note.startTime = previous;
-                }
-             }
-            
+
+        Position next = fromPhrase.nextSubdivision(note.startTime);
+        double nextStability = rhythm::beatWiseStability(next);
+        Position previous = fromPhrase.previousSubdivision(note.startTime);
+        double previousStability = rhythm::beatWiseStability(previous);
+        bool noNotesAfter = fromPhrase.notes.byStartPosition(next).empty();
+        bool noNotesBefore = fromPhrase.notes.byStartPosition(previous).empty();
+        
+        bool canMoveForward = noNotesAfter && direction * nextStability > direction * noteStability;
+        bool canMoveBackward = noNotesBefore && direction * previousStability > direction * noteStability;
+        
+        if (!(canMoveForward || canMoveBackward)) { continue; }
+        searchingForMovableNote = false;
+        bool moveForward = canMoveForward;
+        if (canMoveForward && canMoveBackward) {
+            bool moveForward = flipCoin();
+        }
+        
+        Duration durationChange = moveForward ? next - note.startTime : note.startTime - previous;
+        Position newStartTime = moveForward ? next : previous;
+        
+        for(Note &otherNote : fromPhrase.notes) {
+            if (otherNote.startTime == note.startTime) {
+                otherNote.startTime = newStartTime;
+                otherNote.duration = moveForward ? otherNote.duration - durationChange : otherNote.duration + durationChange;
+            }
         }
     }
+//    int notesNow = fromPhrase.notes.size();
+//
+//    int notesDiff = notesNow - notesBefore;
     return fromPhrase;
 }
 
