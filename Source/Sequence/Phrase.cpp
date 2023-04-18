@@ -8,7 +8,7 @@
 #include "Phrase.hpp"
 #include <JuceHeader.h>
 
-Position Phrase::nextSubdivision(Position position) {
+Position Phrase::nextSubdivisionPosition(Position position) {
     Subdivision atPosition = subdivisions.drawByPosition(position);
     Position next = position + atPosition;
     if (next >= endTime()) {
@@ -20,7 +20,7 @@ Position Phrase::nextSubdivision(Position position) {
     return atNextPosition.startTime;
 }
 
-Position Phrase::previousSubdivision(Position position) {
+Position Phrase::previousSubdivisionPosition(Position position) {
     Subdivision atPosition = subdivisions.drawByPosition(position);
     Position previous = position - atPosition;
     if (previous < startTime) {
@@ -154,10 +154,10 @@ Phrase Phrase::insert(Phrase other, OverwriteBehavior overwriteBehavior) const {
     }
 
     
-    phrase.notes.insertSequence(other.notes, Position(0), PushBehavior::ignore, overwriteBehavior);
-    phrase.subdivisions.insertSequence(other.subdivisions, Position(0), PushBehavior::ignore, overwriteBehavior);
+    phrase.notes.insertSequence(other.notes, phrase.startTime, PushBehavior::ignore, overwriteBehavior);
+    phrase.subdivisions.insertSequence(other.subdivisions, phrase.startTime, PushBehavior::ignore, overwriteBehavior);
     phrase.subdivisions.tie(true);
-    phrase.chordScales.insertSequence(other.chordScales, Position(0), PushBehavior::ignore, overwriteBehavior);
+    phrase.chordScales.insertSequence(other.chordScales, phrase.startTime, PushBehavior::ignore, overwriteBehavior);
     phrase.chordScales.tie(true);
     
     return phrase;

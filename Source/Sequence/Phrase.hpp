@@ -60,8 +60,8 @@ public:
     
     Sequence<Note> notes;
     Sequence<Subdivision> subdivisions;
-    Position nextSubdivision(Position position);
-    Position previousSubdivision(Position position);
+    Position nextSubdivisionPosition(Position position);
+    Position previousSubdivisionPosition(Position position);
     Sequence<ChordScale> chordScales;
     
     Phrase toMonophonic() const {
@@ -92,7 +92,6 @@ public:
     template <class T>
     vector<T> concatEvents(vector<T> eventList, vector<T> otherList) const;
     Phrase concat(Phrase other, bool useLastNote = false, bool keepDuration = false) const;
-//    Phrase insert(Phrase other, bool overwrite = true) const;
     Phrase insert(Phrase other, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignore) const;
     
     
@@ -130,8 +129,15 @@ public:
 
 };
 
+// THIS ASSUMES SEQUENCE SORTED BY STARTTIME
 template <class T>
-typename vector<T>::const_iterator next(Sequence<T> const& seq, typename vector<T>::const_iterator const& iter) {
+typename vector<T>::const_iterator next(Sequence<T> const& seq, typename vector<T>::const_iterator iter) {
+//    typename vector<T>::const_iterator next(Sequence<T> const& seq, typename vector<T>::const_iterator const& iter) {
+    Position startTime = iter->startTime;
+    while(iter->startTime == startTime) {
+        iter = iter + 1 == seq.end() ? seq.begin() : iter + 1;
+        if (iter == seq.begin()) { break; }
+    }
     return iter + 1 == seq.end() ? seq.begin() : iter + 1;
 }
 

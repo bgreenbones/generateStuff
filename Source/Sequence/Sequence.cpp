@@ -17,6 +17,21 @@
 #include "ChordScale.h"
 
 template <class T>
+Position Sequence<T>::nextStartTime(Position previousStartTime) const {
+    Position nextStartTime = parent.endTime();
+    if (previousStartTime >= nextStartTime) {
+        return this->begin()->startTime;
+    }
+    for (auto event = this->begin(); event < this->end(); event++) {
+        if (event->startTime > previousStartTime && event->startTime < nextStartTime) {
+            nextStartTime = event->startTime;
+        }
+    }
+    return nextStartTime;
+}
+
+
+template <class T>
 bool Sequence<T>::flip() {
     auto flipTime = [this](std::__wrap_iter<T*> t) { return (t->startTime + (parent.duration / 2.)) % parent.duration; };
     for (auto event = this->begin(); event < this->end(); event++) {

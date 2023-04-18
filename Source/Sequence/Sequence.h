@@ -64,6 +64,7 @@ public:
     vector<T> byStartPosition(Position position) const;
     vector<T> bySpan(TimedEvent span) const;
     T drawByPosition(Position position) const;
+    Position nextStartTime(Position previousStartTime) const;
         
     Position endTime() const {
         return this->size() > 0 ? this->back().endTime() : Position(0);
@@ -73,8 +74,6 @@ public:
     Sequence<T> tie(bool fillBeginning = false);
     Sequence<T> legato();
     bool concat(Sequence<T> other, bool useLast = false, PushBehavior pushBehavior = PushBehavior::ignore);
-//    bool insertVector(vector<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore, bool overwrite = false);
-//    bool insertSequence(Sequence<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore, bool overwrite = false);
     bool insertVector(vector<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignore);
     bool insertSequence(Sequence<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignore);
     bool chopAfterDuration(Duration duration);

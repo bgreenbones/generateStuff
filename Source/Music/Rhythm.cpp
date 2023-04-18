@@ -61,7 +61,7 @@ Phrase rhythm::stabilityFilter(Phrase fromPhrase, Direction direction) {
     bool searchingForMovableNote = true;
 //    int notesBefore = fromPhrase.notes.size();
     
-    vector<Note> monoNotesCopy = fromPhrase.notes.toMonophonic();
+    Sequence<Note> monoNotesCopy = fromPhrase.notes.toMonophonic();
     while (searchingForMovableNote && !monoNotesCopy.empty()) {
         shuffle(monoNotesCopy.begin(), monoNotesCopy.end(), getGen());
         Note note = monoNotesCopy.back(); // sample without replacement.
@@ -70,9 +70,9 @@ Phrase rhythm::stabilityFilter(Phrase fromPhrase, Direction direction) {
 //        Note &note = fromPhrase.notes[noteIndex];
         double noteStability = rhythm::beatWiseStability(note.startTime);
 
-        Position next = fromPhrase.nextSubdivision(note.startTime);
+        Position next = fromPhrase.nextSubdivisionPosition(note.startTime);
         double nextStability = rhythm::beatWiseStability(next);
-        Position previous = fromPhrase.previousSubdivision(note.startTime);
+        Position previous = fromPhrase.previousSubdivisionPosition(note.startTime);
         double previousStability = rhythm::beatWiseStability(previous);
         bool noNotesAfter = fromPhrase.notes.byStartPosition(next).empty();
         bool noNotesBefore = fromPhrase.notes.byStartPosition(previous).empty();
@@ -87,13 +87,14 @@ Phrase rhythm::stabilityFilter(Phrase fromPhrase, Direction direction) {
             bool moveForward = flipCoin();
         }
         
-        Duration durationChange = moveForward ? next - note.startTime : note.startTime - previous;
         Position newStartTime = moveForward ? next : previous;
+        Position nextNoteStartTime = monoNotesCopy.nextStartTime(newStartTime);
+        Duration newDuration = min(nextNoteStartTime - newStartTime, note.duration);
         
         for(Note &otherNote : fromPhrase.notes) {
             if (otherNote.startTime == note.startTime) {
                 otherNote.startTime = newStartTime;
-                otherNote.duration = moveForward ? otherNote.duration - durationChange : otherNote.duration + durationChange;
+                otherNote.duration = newDuration;
             }
         }
     }
@@ -448,8 +449,8 @@ Phrase rhythm::randomClave(Phrase fromPhrase, int minNoteLengthInSubdivisions, i
             } else {
                 auto randomNum = randomNoteLengthInSubdivisions(getGen());
                 note.duration = randomNum * subdivision;
-                notePosition += note.duration;
             }
+            notePosition += note.duration;
             clave.addNote(note);
         }
     } while (constraintsBroken);
@@ -459,7 +460,7 @@ Phrase rhythm::randomClave(Phrase fromPhrase, int minNoteLengthInSubdivisions, i
         clave.duration = 2 * clave.duration;
     }
     
-    return rhythm::stabilityFilter(clave);
+    return clave;
 }
 
 
