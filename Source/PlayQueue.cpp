@@ -55,6 +55,22 @@ bool PlayQueue::toggleMuteRolls(VoiceName voiceName)
     return newMuteState;
 }
 
+bool PlayQueue::toggleMuteRolls(VoiceName voiceName, bool newMuteState)
+{
+    if (!hasVoice(voiceName)) { return true; };
+    Voice voice = queue.at(voiceName);
+    queue.at(voiceName).muteRolls = newMuteState;
+    return newMuteState;
+}
+
+bool PlayQueue::toggleMuteOrnamentation(VoiceName voiceName, bool newMuteState)
+{
+    if (!hasVoice(voiceName)) { return true; };
+    Voice voice = queue.at(voiceName);
+    queue.at(voiceName).muteOrnamentation = newMuteState;
+    return newMuteState;
+}
+
 bool PlayQueue::toggleMuteOrnamentation(VoiceName voiceName)
 {
     if (!hasVoice(voiceName)) { return true; };

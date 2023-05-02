@@ -85,6 +85,10 @@ private:
     //==============================================================================
     void updateTimeSignature(juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo);
     void updateBpm(juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo);
-    void playPlayables(juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo,
-                       juce::MidiBuffer& midiMessages);
+    void playPlayables(juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo, juce::MidiBuffer& midiMessages);
+    float bufferTimeFromPpqTime(juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo,
+                                double ppqPosition, 
+                                float ppqTime);
+    bool isPpqTimeInBuffer(juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo, double ppqPosition, float ppqTime);
+    void playPhrase(juce::MidiBuffer& midiMessages, juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo, const double ppqPosition, Phrase phrase, int midiChannel);
 };

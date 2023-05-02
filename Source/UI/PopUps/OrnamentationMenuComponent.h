@@ -18,12 +18,12 @@ using std::shared_ptr;
 
 class OrnamentationMenuComponent : public VoiceEditor {
     juce::TextButton addRollsButton { "rolls" };
-    juce::TextButton clearRollsButton { "clearRolls" }; // TODO: instead of clear, make a mute toggle
+    juce::TextButton muteRollsButton { "mute rolls" };
     juce::Slider rollProbability;
     juce::Slider rollAssociation;
     juce::Slider rollLength;
     juce::TextButton addOrnamentsButton { "orns" };
-    juce::TextButton clearOrnamentsButton { "clear orns" };  // TODO: instead of clear, make a mute toggle
+    juce::TextButton muteOrnamentsButton { "mute ornaments" };
     juce::TextButton flamButton { "flam" };
     juce::TextButton dragButton { "drag" };
     juce::TextButton ruffButton { "ruff" };

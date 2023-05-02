@@ -29,7 +29,9 @@ public:
     void clearVoice(VoiceName voiceName);
     bool toggleMuteVoice(VoiceName voiceName);
     bool toggleMuteRolls(VoiceName voiceName);
+    bool toggleMuteRolls(VoiceName voiceName, bool muteState);
     bool toggleMuteOrnamentation(VoiceName voiceName); // TODO: decouple this class from concept of rolls/ornamentation.
+    bool toggleMuteOrnamentation(VoiceName voiceName, bool muteState); // TODO: decouple this class from concept of rolls/ornamentation.
     void queuePhrase(VoiceName voiceName, Phrase phrase);
     void queueRoll(VoiceName voiceName, Phrase phrase);
     void queueOrnamentation(VoiceName voiceName, Phrase phrase);

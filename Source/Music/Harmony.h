@@ -23,18 +23,6 @@ namespace harmony {
     vector<Pitch> randomChord();
         
     ChordScale selectApproachAndGenerate(juce::String approach, Sequence<ChordScale> chordScales, Position startTime, Duration chordLength);
-//{
-//        if (approach == randomHarmonyApproachKey || chordScales.empty()) {
-//            return randomChordScale(startTime, chordLength);
-//        }
-//        if (approach == diatonicHarmonyApproachKey) {
-//            return newChordSameScale(chordScales.back(), startTime, chordLength);
-//        }
-//        if (approach == smoothishModulationsHarmonyApprachKey) {
-//            return subtleModulations(chordScales.back(), startTime, chordLength);
-//        }
-//        return randomChordScale(startTime, chordLength);
-//    };
 
     const GenerationFunction chordsFunction = [](Phrase phrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) {
         phrase.notes.monophonic = false;
@@ -48,7 +36,7 @@ namespace harmony {
         bars startTimeInBars = 0;
         while(numberOfChords-- > 0) {
             Bars startTime(startTimeInBars++);
-            Bars chordLength(min(numberOfChords--, 1));
+            Bars chordLength(min(numberOfChords, 1));
             ChordScale chordScale = selectApproachAndGenerate(harmonyApproach, phrase.chordScales, startTime, chordLength);
             phrase.chordScales.add(chordScale);
             for (Pitch pitchToAdd : chordScale.harmony.randomVoicing()) {
@@ -56,6 +44,7 @@ namespace harmony {
                 phrase.addNote(noteToAdd);
             }
         }
+        // phrase.chordScales.tie();
         return phrase;
     };
 

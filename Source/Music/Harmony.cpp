@@ -71,10 +71,10 @@ Phrase harmony::generateChordScales(Phrase fromPhrase, GenerateStuffEditorState 
     accents.assignEvents(filter<Note>(notes, [](Note note) { return note.accented; }));
     accents.legato();
     
-    Probability chordProbabilityPerAccent = 0.6;
     juce::String harmonyApproach = editorState.getChoiceValue(harmonyApproachKey);
-    
-    
+    Probability chordProbabilityPerAccent =editorState.getKnobValue(harmonyProbabilityKey);
+    double harmonicDensity = editorState.getKnobValue(harmonyDensityKey);
+
     if (accents.empty()) {
         int numberOfChords = fromPhrase.duration.asBars();
         bars startTimeInBars = 0;
@@ -87,12 +87,16 @@ Phrase harmony::generateChordScales(Phrase fromPhrase, GenerateStuffEditorState 
     } else {
         for (Note accent : accents) {
             if (chordProbabilityPerAccent) {
-                ChordScale chordScale = selectApproachAndGenerate(harmonyApproach, fromPhrase.chordScales, accent.startTime, accent.duration);
-                fromPhrase.chordScales.add(chordScale);
+                bool firstChord = fromPhrase.chordScales.empty();
+                double previousChordLength = firstChord ? 1. / harmonicDensity : (accent.startTime - fromPhrase.chordScales.back().startTime).asSeconds();
+                if (Probability(harmonicDensity * previousChordLength)) {
+                  ChordScale chordScale = selectApproachAndGenerate(harmonyApproach, fromPhrase.chordScales, accent.startTime, accent.duration);
+                  fromPhrase.chordScales.add(chordScale);
+                }
             }
         }
     }
-
+    fromPhrase.chordScales.tie();
     return fromPhrase;
 }
 

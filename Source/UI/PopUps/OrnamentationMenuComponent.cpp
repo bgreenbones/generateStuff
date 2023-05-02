@@ -35,15 +35,19 @@ OrnamentationMenuComponent::OrnamentationMenuComponent(VoiceName voiceName,
     };
     addAndMakeVisible (&addRollsButton);
     
-    clearRollsButton.onClick = [this, voiceName]() {
-       playQueue->toggleMuteRolls(voiceName);
+    muteRollsButton.setClickingTogglesState(true);
+    muteRollsButton.setToggleState(false, juce::dontSendNotification);
+    muteRollsButton.onClick = [this, voiceName]() {
+       playQueue->toggleMuteRolls(voiceName, muteRollsButton.getToggleState());
     };
 
-    addAndMakeVisible(&clearRollsButton);
-    clearOrnamentsButton.onClick = [this, voiceName]() {
-       playQueue->toggleMuteOrnamentation(voiceName);
+    addAndMakeVisible(&muteRollsButton);
+    muteOrnamentsButton.setClickingTogglesState(true);
+    muteOrnamentsButton.setToggleState(false, juce::dontSendNotification);
+    muteOrnamentsButton.onClick = [this, voiceName]() {
+       playQueue->toggleMuteOrnamentation(voiceName, muteOrnamentsButton.getToggleState());
     };
-    addAndMakeVisible(&clearOrnamentsButton);
+    addAndMakeVisible(&muteOrnamentsButton);
     
     addAndMakeVisible(&rollProbability);
     rollProbability.setSliderStyle (juce::Slider::LinearBarVertical);
@@ -150,7 +154,7 @@ int OrnamentationMenuComponent::placeWorkspace() {
     
     addRollsButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
     yCursor += buttonHeight + ui::spaceBetweenControls;
-    clearRollsButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
+    muteRollsButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
     xCursor += buttonWidth + ui::spaceBetweenControls;
     yCursor = yCursorReset;
     
@@ -170,7 +174,7 @@ int OrnamentationMenuComponent::placeWorkspace() {
     
     addOrnamentsButton.setBounds (xCursor, yCursor, buttonWidth, ui::getButtonHeight(2, workspaceHeight));
     yCursor += ui::getButtonHeight(2, workspaceHeight) + ui::spaceBetweenControls;
-    clearOrnamentsButton.setBounds (xCursor, yCursor, buttonWidth, ui::getButtonHeight(2, workspaceHeight));
+    muteOrnamentsButton.setBounds (xCursor, yCursor, buttonWidth, ui::getButtonHeight(2, workspaceHeight));
     xCursor += buttonWidth + ui::spaceBetweenControls;
     yCursor = yCursorReset;
     
@@ -183,7 +187,7 @@ int OrnamentationMenuComponent::placeWorkspace() {
 
 void OrnamentationMenuComponent::updateMenuState() {
     // rolls / runs
-    editorState->ornamentationStates.at(voiceName).muteRolls = clearRollsButton.getToggleState();
+    editorState->ornamentationStates.at(voiceName).muteRolls = muteRollsButton.getToggleState();
     editorState->ornamentationStates.at(voiceName).rollProbability = rollProbability.getValue();
     editorState->ornamentationStates.at(voiceName).rollAssociation = rollAssociation.getValue();
     editorState->ornamentationStates.at(voiceName).rollLength = rollLength.getValue();
@@ -191,7 +195,7 @@ void OrnamentationMenuComponent::updateMenuState() {
 //    editorState->ornamentationStates.at(voiceName).improviseOrnaments = regenerateOrnaments.getToggleState();
 
     // ornaments
-    editorState->ornamentationStates.at(voiceName).muteOrnaments = clearOrnamentsButton.getToggleState();
+    editorState->ornamentationStates.at(voiceName).muteOrnaments = muteOrnamentsButton.getToggleState();
     editorState->ornamentationStates.at(voiceName).allowflams = flamButton.getToggleState();
     editorState->ornamentationStates.at(voiceName).allowDrags = dragButton.getToggleState();
     editorState->ornamentationStates.at(voiceName).allowRuffs = ruffButton.getToggleState();
