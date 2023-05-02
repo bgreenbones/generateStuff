@@ -12,21 +12,14 @@
 
 
 double rhythm::beatWiseStability(Position position) {
-//    vector<Subdivision> subdivs = context.subdivisions.byPosition(position);
-//    Duration subdiv = subdivs.empty() ? sixteenths : subdivs.at(0);
-    
     Beats startingPoint = floor(position.asBeats());
     Beats positionInBeat = position - startingPoint;
     if (positionInBeat == Beats(0.)) { positionInBeat += Beats(1); }
-    
-//    int subdivsPerBeat = 1. / subdiv.asBeats();
-//    bool subDivIsEven = subdivsPerBeat % 2;
     
     bool inFirstHalf = positionInBeat <= Beats(0.5);
     Beats halfWisePosition = inFirstHalf ? positionInBeat : positionInBeat - Beats(0.5);
     double halfWiseStability = halfWisePosition / Beats(0.5);
 
-    
     // TODO: we need to use this to get -- lower stability scores in first half of beat, higher stability scores in second half of beat (highest of those is on the half way marker though) and highest scores are ON the beat
     double secondHalfStablenessBoost = 0.4;
     double stability = inFirstHalf ? halfWiseStability : halfWiseStability + secondHalfStablenessBoost; // higher stabilities for second half
@@ -59,15 +52,12 @@ Phrase rhythm::stabilityFilter(Phrase fromPhrase, Direction direction) {
     // TODO: think about what part of the phrase to move a note...based on idea of moving from tension to resolution or vice versa
     // TODO: make a cool thing that moves around startTimes in a chord so we get a sweep effect.
     bool searchingForMovableNote = true;
-//    int notesBefore = fromPhrase.notes.size();
     
     Sequence<Note> monoNotesCopy = fromPhrase.notes.toMonophonic();
     while (searchingForMovableNote && !monoNotesCopy.empty()) {
         shuffle(monoNotesCopy.begin(), monoNotesCopy.end(), getGen());
         Note note = monoNotesCopy.back(); // sample without replacement.
         monoNotesCopy.pop_back();
-//        int noteIndex = rollDie(fromPhrase.notes.size());
-//        Note &note = fromPhrase.notes[noteIndex];
         double noteStability = rhythm::beatWiseStability(note.startTime);
 
         Position next = fromPhrase.nextSubdivisionPosition(note.startTime);
@@ -98,9 +88,6 @@ Phrase rhythm::stabilityFilter(Phrase fromPhrase, Direction direction) {
             }
         }
     }
-//    int notesNow = fromPhrase.notes.size();
-//
-//    int notesDiff = notesNow - notesBefore;
     return fromPhrase;
 }
 

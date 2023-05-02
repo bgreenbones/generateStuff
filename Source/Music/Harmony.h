@@ -19,7 +19,7 @@ namespace harmony {
     ChordScale randomChordScale(Position startTime = 0, Duration duration = Bars(1));
     ChordScale newChordSameScale(ChordScale previousChordScale, Position startTime, Duration duration);
     ChordScale subtleModulations(ChordScale previousChordScale, Position startTime, Duration duration);
-
+    
     vector<Pitch> randomChord();
         
     ChordScale selectApproachAndGenerate(juce::String approach, Sequence<ChordScale> chordScales, Position startTime, Duration chordLength);

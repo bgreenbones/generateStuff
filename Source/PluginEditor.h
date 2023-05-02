@@ -61,8 +61,6 @@ private:
     juce::TextEditor startBar;
     juce::Label stopBarLabel; // stop bar / just go forever? / loop going forward in timeline?
     juce::TextEditor stopBar;
-    juce::TextButton regenerateRolls { "regen rolls" }; // re-gen rolls on loop
-    juce::TextButton regenerateOrnaments { "regen orns" }; // re-gen ornaments on loop
     
 
     void updateEditorState();

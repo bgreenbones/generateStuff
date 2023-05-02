@@ -28,19 +28,6 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     setSize (ui::editorWidth, ui::editorHeight);
     voiceManager.configure(this);
 
-    
-    
-//    probabilityOfDouble.setSliderStyle (juce::Slider::LinearBarVertical);
-//    probabilityOfDouble.setRange (0.0, 1.0, 0.01);
-//    probabilityOfDouble.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
-//    probabilityOfDouble.setPopupDisplayEnabled (true, false, this);
-//    probabilityOfDouble.setTextValueSuffix (" p(double)");
-//    probabilityOfDouble.setValue(0.2);
-//    addAndMakeVisible (&probabilityOfDouble);
-//
-    
-    
-
     int subdivisionGroupId = 1832; // just some number
     for (float subdivisionDenominator = 1; subdivisionDenominator <= 9; subdivisionDenominator++) {
         int subdivisionIndex = subdivisionDenominator - 1;
@@ -118,28 +105,6 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     startBar.setText(startBarString);
     stopBar.setText(stopBarString);
 
-    regenerateRolls.setClickingTogglesState(true);
-//    regenerateRolls.setToggleState(editorState->improviseRolls, juce::dontSendNotification);
-    regenerateOrnaments.setClickingTogglesState(true);
-//    regenerateOrnaments.setToggleState(editorState->improviseOrnaments, juce::dontSendNotification);
-    regenerateRolls.onClick = [this]() {
-        vector<const string> rollKeys = voiceManager.getRollKeys();
-        bool improviseRolls = regenerateRolls.getToggleState();
-        improviseRolls
-            ? audioProcessor.loopTasks.activate(rollKeys)
-            : audioProcessor.loopTasks.deactivate(rollKeys);
-    };
-    regenerateOrnaments.onClick = [this]() {
-        vector<const string> ornamentKeys = voiceManager.getOrnamentKeys();
-        bool improviseOrnaments = regenerateOrnaments.getToggleState();
-        improviseOrnaments
-            ? audioProcessor.loopTasks.activate(ornamentKeys)
-            : audioProcessor.loopTasks.deactivate(ornamentKeys);
-        
-//        editorState->improviseOrnaments = regenerateOrnaments.getToggleState();
-    };
-    addAndMakeVisible (&regenerateRolls);
-    addAndMakeVisible (&regenerateOrnaments);
     
     voiceManager.updateState();
 }
@@ -202,10 +167,6 @@ void GenerateStuffAudioProcessorEditor::resized()
     startBarLabel.setBounds (xCursor - numberInputWidth, yCursor, numberInputWidth, firstColumnElementHeight);
     yCursor += firstColumnElementHeight + spaceBetween1stRowElements;
     stopBarLabel.setBounds (xCursor - numberInputWidth, yCursor, numberInputWidth, firstColumnElementHeight);
-    yCursor += firstColumnElementHeight + spaceBetween1stRowElements;
-    regenerateRolls.setBounds (xCursor + ui::spaceBetweenControls, yCursor, numberInputWidth * 2, firstColumnElementHeight);
-    yCursor += firstColumnElementHeight + spaceBetween1stRowElements;
-    regenerateOrnaments.setBounds (xCursor + ui::spaceBetweenControls, yCursor, numberInputWidth * 2, firstColumnElementHeight);
     xCursor += numberInputWidth + ui::spaceBetweenControls;
     yCursor = yPadding;
     

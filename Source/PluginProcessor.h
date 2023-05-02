@@ -40,7 +40,7 @@ public:
     vector<juce::MidiMessage> midiMessageQueue;
     unsigned long currentNoteOff;
     bool noteOffIssued;
-    LoopTasks loopTasks; // TODO: make shared at all?
+    LoopTasks loopTasks;
     juce::AudioProcessorValueTreeState apvts;
     
     void issueNoteOff(int midiChannel);

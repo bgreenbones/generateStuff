@@ -259,6 +259,47 @@ void GenerateStuffAudioProcessor::playPlayables(
         }
     }
 
+    // TODO: pull this and other lambda functions out so we don't create them every time through the processing loop
+    auto playPhrase = [this, isPpqTimeInBuffer, ppqPosition, bufferTimeFromPpqTime, &midiMessages](Phrase phrase, int midiChannel) {
+        for (auto noteIt = phrase.notes.begin(); noteIt != phrase.notes.end(); ++noteIt) {
+            Note note = *noteIt;
+            
+            Bars playPeriod = editorState->stopBar - editorState->startBar;
+            double loopStart = editorState->getStartTime();
+            double loopEnd = editorState->getStopTime();
+            double noteOnTimeInQuarters = loopStart + ((editorState->getDisplacement() + phrase.startTime + note.startTime) % playPeriod);
+            while (ppqPosition > noteOnTimeInQuarters) { // might as well set it to be in the future
+                noteOnTimeInQuarters += phrase.duration;
+            }
+            if (noteOnTimeInQuarters >= loopEnd) { // but don't go too far in the future, we've set an end bar
+                noteOnTimeInQuarters = (Quarters(noteOnTimeInQuarters - loopStart) % playPeriod) + loopStart;
+            }
+            double noteOffTimeInQuarters = noteOnTimeInQuarters + note.duration;
+            
+            if (isPpqTimeInBuffer(noteOnTimeInQuarters)) {
+                auto noteOn = juce::MidiMessage::noteOn (midiChannel,
+                                                        note.pitch,
+                                                        (juce::uint8) note.velocity);
+                double onTime = bufferTimeFromPpqTime(noteOnTimeInQuarters);
+                bool success = midiMessages.addEvent (noteOn, onTime);
+                if (!success) {
+                    cout << "failed to add note on\n";
+                }
+                
+            }
+            
+            if (isPpqTimeInBuffer(noteOffTimeInQuarters)) {
+                auto noteOff = juce::MidiMessage::noteOff (midiChannel,
+                                                            note.pitch,
+                                                            (juce::uint8) note.velocity);
+                double offTime = bufferTimeFromPpqTime(noteOffTimeInQuarters) - 2; // maybe prevent some notes from missing their note off by ending them earlier
+                bool success = midiMessages.addEvent (noteOff, offTime);
+                if (!success) {
+                    cout << "failed to add note off\n";
+                }
+            }
+        }
+    };
 
     for (auto voiceIt = playQueue->begin(); voiceIt != playQueue->end(); ++voiceIt) {
         string voiceName = voiceIt->first;
@@ -266,48 +307,12 @@ void GenerateStuffAudioProcessor::playPlayables(
         if (voice.mute) { continue; }
         int midiChannel = voice.midiChannel;
 
-        for (auto phraseIt = voice.phrases.begin(); phraseIt != voice.phrases.end(); ++phraseIt) {
-            Phrase phrase = *phraseIt;
-            // TODO: ...how...do we ....mute just ornaments?? need to know that a phrase is an ornament phrase...
-            
-            for (auto noteIt = phrase.notes.begin(); noteIt != phrase.notes.end(); ++noteIt) {
-                Note note = *noteIt;
-                
-                Bars playPeriod = editorState->stopBar - editorState->startBar;
-                double loopStart = editorState->getStartTime();
-                double loopEnd = editorState->getStopTime();
-                double noteOnTimeInQuarters = loopStart + ((editorState->getDisplacement() + phrase.startTime + note.startTime) % playPeriod);
-                while (ppqPosition > noteOnTimeInQuarters) { // might as well set it to be in the future
-                    noteOnTimeInQuarters += phrase.duration;
-                }
-                if (noteOnTimeInQuarters >= loopEnd) { // but don't go too far in the future, we've set an end bar
-                    noteOnTimeInQuarters = (Quarters(noteOnTimeInQuarters - loopStart) % playPeriod) + loopStart;
-                }
-                double noteOffTimeInQuarters = noteOnTimeInQuarters + note.duration;
-                
-                if (isPpqTimeInBuffer(noteOnTimeInQuarters)) {
-                    auto noteOn = juce::MidiMessage::noteOn (midiChannel,
-                                                            note.pitch,
-                                                            (juce::uint8) note.velocity);
-                    double onTime = bufferTimeFromPpqTime(noteOnTimeInQuarters);
-                    bool success = midiMessages.addEvent (noteOn, onTime);
-                    if (!success) {
-                        cout << "failed to add note on\n";
-                    }
-                    
-                }
-                
-                if (isPpqTimeInBuffer(noteOffTimeInQuarters)) {
-                    auto noteOff = juce::MidiMessage::noteOff (midiChannel,
-                                                              note.pitch,
-                                                              (juce::uint8) note.velocity);
-                    double offTime = bufferTimeFromPpqTime(noteOffTimeInQuarters) - 2; // maybe prevent some notes from missing their note off by ending them earlier
-                    bool success = midiMessages.addEvent (noteOff, offTime);
-                    if (!success) {
-                        cout << "failed to add note off\n";
-                    }
-                }
-            }
+        playPhrase(voice.base, midiChannel);
+        if (!voice.muteRolls) {
+          playPhrase(voice.rolls, midiChannel);
+        }
+        if (!voice.muteOrnamentation) {
+          playPhrase(voice.ornamentation, midiChannel);
         }
     }
 }

@@ -14,34 +14,35 @@
 
 OrnamentationMenuComponent::OrnamentationMenuComponent(VoiceName voiceName,
                                                        GenerateStuffAudioProcessor &processor):
-                                                                VoiceEditor(voiceName, processor)
+                                                                VoiceEditor(voiceName, processor),
+                                                                audioProcessor(processor)
 {
     if (editorState->ornamentationStates.find(voiceName) == editorState->ornamentationStates.end()) {
         editorState->ornamentationStates.emplace(voiceName, OrnamentationEditorState());
     }
                                                                     
-    addRollsButton.onClick = [this]() {
+    addRollsButton.onClick = [this, voiceName]() {
         double rollProb = Probability(rollProbability.getValue());
         double associationProb = Probability(rollAssociation.getValue());
         double rollLengthProb = Probability(rollLength.getValue());
 
-//            generator.roll(voiceManager.selectedPhraseKeyState, rollProb, associationProb, rollLengthProb);
-//            string id = generator.rollsKey(voiceManager.selectedPhraseKeyState);
-//            function<void()> task = [=]() { generator.roll(voiceManager.selectedPhraseKeyState, rollProb, associationProb, rollLengthProb); };
-//            audioProcessor.loopTasks.queue(id, task, regenerateRolls.getToggleState());
+        string id = audioProcessor.generator.rollsKey(voiceName);
+        function<void()> task = [=]() {
+          audioProcessor.generator.roll(voiceName, rollProb, associationProb, rollLengthProb);
+        };
+        task();
+        audioProcessor.loopTasks.queue(id, task, regenerateRolls.getToggleState());
     };
     addAndMakeVisible (&addRollsButton);
     
-//        clearRollsButton.onClick = [this]() {
-//            string rollsKey = generator.rollsKey(voiceManager.selectedPhraseKeyState);
-//            playQueue->toggleMuteRolls(rollsKey);
-//        };
+    clearRollsButton.onClick = [this, voiceName]() {
+       playQueue->toggleMuteRolls(voiceName);
+    };
 
     addAndMakeVisible(&clearRollsButton);
-//        clearOrnamentsButton.onClick = [this]() {
-//            string ornamentsKey = generator.ornamentsKey(voiceManager.selectedPhraseKeyState);
-//            playQueue->toggleMuteOrnamentation(ornamentsKey);
-//        };
+    clearOrnamentsButton.onClick = [this, voiceName]() {
+       playQueue->toggleMuteOrnamentation(voiceName);
+    };
     addAndMakeVisible(&clearOrnamentsButton);
     
     addAndMakeVisible(&rollProbability);
@@ -77,18 +78,17 @@ OrnamentationMenuComponent::OrnamentationMenuComponent(VoiceName voiceName,
     ruffButton.setClickingTogglesState(true);
     ruffButton.setToggleState(false, juce::dontSendNotification);
     addAndMakeVisible(&ruffButton);
-    addOrnamentsButton.onClick = [this]() {
+    addOrnamentsButton.onClick = [this, voiceName]() {
         Probability prob = ornamentProbability.getValue();
         double breadth = ornamentBreadth.getValue();
         bool flams = flamButton.getToggleState();
         bool drags = dragButton.getToggleState();
         bool ruffs = ruffButton.getToggleState();
 
-//            generator.ornament(voiceManager.selectedPhraseKeyState, prob, breadth, flams, drags, ruffs);
-//
-//            string id = generator.ornamentsKey(voiceManager.selectedPhraseKeyState);
-//            function<void()> task = [=]() { generator.ornament(voiceManager.selectedPhraseKeyState, prob, breadth, flams, drags, ruffs); };
-//            audioProcessor.loopTasks.queue(id, task, regenerateOrnaments.getToggleState());
+        string id = audioProcessor.generator.ornamentsKey(voiceName);
+        function<void()> task = [=]() { audioProcessor.generator.ornament(voiceName, prob, breadth, flams, drags, ruffs); };
+        task();
+        audioProcessor.loopTasks.queue(id, task, regenerateOrnaments.getToggleState());
     };
     addAndMakeVisible(&addOrnamentsButton);
 
@@ -107,6 +107,26 @@ OrnamentationMenuComponent::OrnamentationMenuComponent(VoiceName voiceName,
     ornamentBreadth.setPopupDisplayEnabled (true, false, this);
     ornamentBreadth.setTextValueSuffix (" ornament breadth");
     ornamentBreadth.setValue(1.0);
+    
+    
+    regenerateRolls.setClickingTogglesState(true);
+    regenerateOrnaments.setClickingTogglesState(true);
+    regenerateRolls.onClick = [this, voiceName]() {
+        const string rollKey = audioProcessor.generator.rollsKey(voiceName);
+        bool improviseRolls = regenerateRolls.getToggleState();
+        improviseRolls
+            ? audioProcessor.loopTasks.activate({rollKey})
+            : audioProcessor.loopTasks.deactivate({rollKey});
+    };
+    regenerateOrnaments.onClick = [this, voiceName]() {
+        const string ornamentKey = audioProcessor.generator.ornamentsKey(voiceName);
+        bool improviseOrnaments = regenerateOrnaments.getToggleState();
+        improviseOrnaments
+            ? audioProcessor.loopTasks.activate({ornamentKey})
+            : audioProcessor.loopTasks.deactivate({ornamentKey});
+    };
+    addAndMakeVisible (&regenerateRolls);
+    addAndMakeVisible (&regenerateOrnaments);
 }
 
 int OrnamentationMenuComponent::placeWorkspace() {
@@ -153,6 +173,10 @@ int OrnamentationMenuComponent::placeWorkspace() {
     clearOrnamentsButton.setBounds (xCursor, yCursor, buttonWidth, ui::getButtonHeight(2, workspaceHeight));
     xCursor += buttonWidth + ui::spaceBetweenControls;
     yCursor = yCursorReset;
+    
+    regenerateRolls.setBounds (xCursor + ui::spaceBetweenControls, yCursor, buttonWidth, buttonHeight);
+    yCursor += buttonHeight + ui::spaceBetweenControls;
+    regenerateOrnaments.setBounds (xCursor + ui::spaceBetweenControls, yCursor, buttonWidth, buttonHeight);
     
     return 2 * margin + workspaceHeight + ui::spaceBetweenControls;
 }

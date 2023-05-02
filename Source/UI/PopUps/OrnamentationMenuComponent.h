@@ -18,17 +18,20 @@ using std::shared_ptr;
 
 class OrnamentationMenuComponent : public VoiceEditor {
     juce::TextButton addRollsButton { "rolls" };
-    juce::TextButton clearRollsButton { "clearRolls" };
+    juce::TextButton clearRollsButton { "clearRolls" }; // TODO: instead of clear, make a mute toggle
     juce::Slider rollProbability;
     juce::Slider rollAssociation;
     juce::Slider rollLength;
     juce::TextButton addOrnamentsButton { "orns" };
-    juce::TextButton clearOrnamentsButton { "clear orns" };
+    juce::TextButton clearOrnamentsButton { "clear orns" };  // TODO: instead of clear, make a mute toggle
     juce::TextButton flamButton { "flam" };
     juce::TextButton dragButton { "drag" };
     juce::TextButton ruffButton { "ruff" };
     juce::Slider ornamentProbability;
     juce::Slider ornamentBreadth;
+    juce::TextButton regenerateRolls { "regen rolls" }; // re-gen rolls on loop
+    juce::TextButton regenerateOrnaments { "regen orns" }; // re-gen ornaments on loop
+    GenerateStuffAudioProcessor &audioProcessor;
 public:
     
     OrnamentationMenuComponent(VoiceName voiceName,
