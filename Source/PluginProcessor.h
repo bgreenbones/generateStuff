@@ -43,6 +43,7 @@ public:
     LoopTasks loopTasks;
     juce::AudioProcessorValueTreeState apvts;
     
+    bool issueNoteOff(juce::MidiBuffer& midiMessages);
     void issueNoteOff(int midiChannel);
     
     //============================================================================
@@ -92,3 +93,6 @@ private:
     bool isPpqTimeInBuffer(juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo, double ppqPosition, float ppqTime);
     void playPhrase(juce::MidiBuffer& midiMessages, juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo, const double ppqPosition, Phrase phrase, int midiChannel);
 };
+
+
+

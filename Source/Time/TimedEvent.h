@@ -27,6 +27,8 @@ public:
 //        startTime(other.startTime),
 //        duration(other.duration),
 //        settings(HostSettings::instance()) { }
+
+    TimedEvent(char mininotation, Position startTime, Duration duration) : TimedEvent(startTime, duration) {}
     TimedEvent& operator=(TimedEvent const& other) {
         startTime = other.startTime;
         duration = other.duration;
@@ -47,6 +49,8 @@ public:
 //        DBG("...should this be pure virtual? but then timed event is an abstract class..which makes some things not work..");
 //        return false;
 //    };//= 0;
+    virtual bool equalsExcludingTime(TimedEvent &other) const { return true; };
+
 };
 
 static const TimedEvent nullTime(0,0);

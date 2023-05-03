@@ -291,16 +291,24 @@ void GenerateStuffAudioProcessor::playPlayables(
 
     const double ppqPosition = (positionInfo->getPpqPosition()).orFallback(0);
     
-    
     if (positionInfo->getIsLooping()) { // if we're looping, do stuff a little different each time around to keep things interesting.
         juce::AudioPlayHead::LoopPoints loop = (positionInfo->getLoopPoints()).orFallback(juce::AudioPlayHead::LoopPoints());
         
         // TODO: not the most robust way of scheduling tasks, but should work for now.
-        if (isPpqTimeInBuffer(positionInfo, ppqPosition, loop.ppqStart) && loopTasks.isScheduled()) {
+        if (isPpqTimeInBuffer(positionInfo, ppqPosition, loop.ppqStart)) {
+           if (loopTasks.isScheduled()) {
             loopTasks.performTasks();
-            loopTasks.complete();
-        } else {
+            loopTasks.complete(); }
+        } else if (!loopTasks.isScheduled()) {
             loopTasks.schedule();
+        }
+        
+        float samplesUntilLoop = bufferTimeFromPpqTime(positionInfo, ppqPosition, loop.ppqStart);
+        if (samplesUntilLoop <= allNotesOff.size()) {
+          noteOffIssued = issueNoteOff(midiMessages);        
+        } else {
+          noteOffIssued = false;
+          currentNoteOff = 0;
         }
     }
 
@@ -328,6 +336,23 @@ void GenerateStuffAudioProcessor::issueNoteOff(int midiChannel) {
         midiMessageQueue.push_back(noteOff);
    }
 }
+   
+bool GenerateStuffAudioProcessor::issueNoteOff(juce::MidiBuffer& midiMessages) {
+    if (currentNoteOff < allNotesOff.size()) {
+        size_t upperBound = std::min(size_t(currentNoteOff + mSamplesPerBlock), allNotesOff.size());
+        for (auto i = currentNoteOff; i < upperBound; i++) {
+            bool success = midiMessages.addEvent(allNotesOff[i], 0);
+            if (!success) {
+//                            throw exception();
+            }
+        }
+        currentNoteOff = upperBound;
+    }
+    if (currentNoteOff >= allNotesOff.size()) {
+        return true;
+    }
+    return false;
+}
 
 void GenerateStuffAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
@@ -348,24 +373,10 @@ void GenerateStuffAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
         updateBpm(positionInfo);
         auto isPlaying = positionInfo->getIsPlaying();
         if (isPlaying) {
-            noteOffIssued = false;
-            currentNoteOff = 0;
             playPlayables(positionInfo, midiMessages);
         } else {
             if (!noteOffIssued) {
-                if (currentNoteOff < allNotesOff.size()) {
-                    size_t upperBound = std::min(size_t(currentNoteOff + mSamplesPerBlock), allNotesOff.size());
-                    for (auto i = currentNoteOff; i < upperBound; i++) {
-                        bool success = midiMessages.addEvent(allNotesOff[i], 0);
-                        if (!success) {
-//                            throw exception();
-                        }
-                    }
-                    currentNoteOff = upperBound;
-                    if (currentNoteOff >= allNotesOff.size()) {
-                        noteOffIssued = true;
-                    }
-                }
+              noteOffIssued = issueNoteOff(midiMessages);
             }
         }
     }

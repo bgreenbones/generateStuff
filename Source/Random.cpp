@@ -104,3 +104,4 @@ template vector<Interval> draw<vector<Interval>>(std::vector<vector<Interval>> h
 template Tonality draw<Tonality>(std::vector<Tonality> hat);
 template ChordScale draw<ChordScale>(std::vector<ChordScale> hat);
 template Direction draw<Direction>(std::vector<Direction> hat);
+template TimedEvent draw<TimedEvent>(std::vector<TimedEvent> hat);

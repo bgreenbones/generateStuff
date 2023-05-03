@@ -57,6 +57,8 @@
         <FILE id="tFOp4W" name="VoiceManager.h" compile="0" resource="0" file="Source/UI/VoiceManager.h"/>
       </GROUP>
       <GROUP id="{E84D5FE5-051D-49D6-86AD-21D645F5CBC0}" name="Sequence">
+        <FILE id="nehxBS" name="Form.cpp" compile="1" resource="0" file="Source/Sequence/Form.cpp"/>
+        <FILE id="g4e2rq" name="Form.h" compile="0" resource="0" file="Source/Sequence/Form.h"/>
         <FILE id="gRlJlo" name="Mininotation.cpp" compile="1" resource="0"
               file="Source/Sequence/Mininotation.cpp"/>
         <FILE id="aCmneZ" name="Mininotation.h" compile="0" resource="0" file="Source/Sequence/Mininotation.h"/>
