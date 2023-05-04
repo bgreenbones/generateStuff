@@ -321,8 +321,8 @@ void GenerateStuffAudioProcessor::playPlayables(
         int midiChannel = voice.midiChannel;
 
         playNoteSequence(midiMessages, positionInfo, ppqPosition, voice.base.notes, midiChannel);
-        if (!voice.muteRolls) {
-          playNoteSequence(midiMessages, positionInfo, ppqPosition, voice.rolls.notes, midiChannel);
+        if (!voice.muteConnecting) {
+          playNoteSequence(midiMessages, positionInfo, ppqPosition, voice.base.connectingNotes, midiChannel);
         }
         if (!voice.muteOrnamentation) {
          playNoteSequence(midiMessages, positionInfo, ppqPosition, voice.base.ornamentationNotes, midiChannel);

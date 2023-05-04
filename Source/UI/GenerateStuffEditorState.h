@@ -29,13 +29,13 @@ class VoiceSettingsEditorState {
 
 class OrnamentationEditorState {
 public:
-    // rolls / runs
-    bool muteRolls = false;
+    // connecting / runs
+    bool muteConnecting = false;
     bool muteOrnaments = false;
-    double rollProbability = 0.5;
-    double rollAssociation = 0.5;
-    double rollLength = 0.5;
-    bool improviseRolls = false;
+    double connectingProbability = 0.5;
+    double connectingAssociation = 0.5;
+    double connectingLength = 0.5;
+    bool improviseConnecting = false;
     bool improviseOrnaments = false;
     
     // ornaments

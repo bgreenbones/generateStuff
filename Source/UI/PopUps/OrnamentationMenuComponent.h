@@ -17,11 +17,11 @@ using std::shared_ptr;
 
 
 class OrnamentationMenuComponent : public VoiceEditor {
-    juce::TextButton addRollsButton { "rolls" };
-    juce::TextButton muteRollsButton { "mute rolls" };
-    juce::Slider rollProbability;
-    juce::Slider rollAssociation;
-    juce::Slider rollLength;
+    juce::TextButton addConnectingButton { "connecting" };
+    juce::TextButton muteConnectingButton { "mute connecting" };
+    juce::Slider connectingProbability;
+    juce::Slider connectingAssociation;
+    juce::Slider connectingLength;
     juce::TextButton addOrnamentsButton { "orns" };
     juce::TextButton muteOrnamentsButton { "mute ornaments" };
     juce::TextButton flamButton { "flam" };
@@ -29,7 +29,7 @@ class OrnamentationMenuComponent : public VoiceEditor {
     juce::TextButton ruffButton { "ruff" };
     juce::Slider ornamentProbability;
     juce::Slider ornamentBreadth;
-    juce::TextButton regenerateRolls { "regen rolls" }; // re-gen rolls on loop
+    juce::TextButton regenerateConnecting { "regen connecting" }; // re-gen connecting on loop
     juce::TextButton regenerateOrnaments { "regen orns" }; // re-gen ornaments on loop
     GenerateStuffAudioProcessor &audioProcessor;
 public:

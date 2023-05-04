@@ -90,20 +90,6 @@ void VoiceManager::updateState() {
     updateUseAsSourceState();
 }
 
-vector<const string> VoiceManager::getRollKeys() {
-    vector<const string> rollKeys;
-    transform (voices.begin(), voices.end(), back_inserter(rollKeys), [&](auto voicePair) {
-        return generator.rollsKey(voicePair.first);
-    });
-    return rollKeys;
-}
-vector<const string> VoiceManager::getOrnamentKeys() {
-    vector<const string> ornamentKeys;
-    transform (voices.begin(), voices.end(), back_inserter(ornamentKeys), [&](auto voicePair) {
-        return generator.ornamentsKey(voicePair.first);
-    });
-    return ornamentKeys;
-}
 
 void VoiceManager::setOnClicks() {
     for (auto voiceIt = voices.begin(); voiceIt != voices.end(); voiceIt++) {

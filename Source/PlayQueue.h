@@ -28,15 +28,11 @@ public:
     bool doesntHavePhrase(VoiceName voiceName, Position startTime, Duration phraseLength);
     void clearVoice(VoiceName voiceName);
     bool toggleMuteVoice(VoiceName voiceName);
-    bool toggleMuteRolls(VoiceName voiceName);
-    bool toggleMuteRolls(VoiceName voiceName, bool muteState);
-    bool toggleMuteOrnamentation(VoiceName voiceName); // TODO: decouple this class from concept of rolls/ornamentation.
-    bool toggleMuteOrnamentation(VoiceName voiceName, bool muteState); // TODO: decouple this class from concept of rolls/ornamentation.
+    bool toggleMuteConnecting(VoiceName voiceName);
+    bool toggleMuteConnecting(VoiceName voiceName, bool muteState);
+    bool toggleMuteOrnamentation(VoiceName voiceName); // TODO: decouple this class from concept of connecting/ornamentation.
+    bool toggleMuteOrnamentation(VoiceName voiceName, bool muteState); // TODO: decouple this class from concept of connecting/ornamentation.
     void queuePhrase(VoiceName voiceName, Phrase phrase);
-    void queueRoll(VoiceName voiceName, Phrase phrase);
-    // void queueOrnamentation(VoiceName voiceName, Phrase phrase);
-    //    string rollsKey(string phraseKey);
-    //    string ornamentsKey(string phraseKey);
     
     void setMidiChannel(VoiceName voiceName, int newMidiChannel);
     int getMidiChannel(VoiceName voiceName);

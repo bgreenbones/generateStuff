@@ -38,17 +38,17 @@ Phrase Generator::flipClave(string phraseKey) {
     return flipped;
 }
 
-void Generator::roll(string phraseKey,
-                     Probability rollProb, // TODO: just get all this stuff from editor state instead of passing it in
+void Generator::connecting(string phraseKey,
+                     Probability connectingProb, // TODO: just get all this stuff from editor state instead of passing it in
                      Probability associationProb,
-                     Probability rollLengthProb) {
+                     Probability connectingLengthProb) {
     Position startTime = editorState->getStartTime();
     Duration phraseLength = editorState->getPhraseLength();
     if (playQueue->doesntHavePhrase(phraseKey, startTime, phraseLength)) return;
     Voice voice = playQueue->getVoice(phraseKey);
     Phrase phrasePhrase = voice.base;
-    Phrase rollPhrase = phrasePhrase.fillWithRolls(rollProb, associationProb, rollLengthProb);
-    playQueue->queueRoll(phraseKey, rollPhrase);
+    Phrase connectingPhrase = phrasePhrase.fillWithRolls(connectingProb, associationProb, connectingLengthProb);
+    playQueue->queuePhrase(phraseKey, connectingPhrase);
 }
 
 vector<OrnamentSimple> getOrnamentVector(bool flams, bool drags, bool ruffs) {
@@ -77,8 +77,8 @@ void Generator::ornament(string phraseKey,
 }
 
 
-string Generator::rollsKey(string phraseKey) {
-    return phraseKey + "Rolls";
+string Generator::connectingKey(string phraseKey) {
+    return phraseKey + "Connecting";
 }
 
 string Generator::ornamentsKey(string phraseKey) {

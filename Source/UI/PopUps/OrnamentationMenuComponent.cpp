@@ -21,27 +21,27 @@ OrnamentationMenuComponent::OrnamentationMenuComponent(VoiceName voiceName,
         editorState->ornamentationStates.emplace(voiceName, OrnamentationEditorState());
     }
                                                                     
-    addRollsButton.onClick = [this, voiceName]() {
-        double rollProb = Probability(rollProbability.getValue());
-        double associationProb = Probability(rollAssociation.getValue());
-        double rollLengthProb = Probability(rollLength.getValue());
+    addConnectingButton.onClick = [this, voiceName]() {
+        double connectingProb = Probability(connectingProbability.getValue());
+        double associationProb = Probability(connectingAssociation.getValue());
+        double connectingLengthProb = Probability(connectingLength.getValue());
 
-        string id = audioProcessor.generator.rollsKey(voiceName);
+        string id = audioProcessor.generator.connectingKey(voiceName);
         function<void()> task = [=]() {
-          audioProcessor.generator.roll(voiceName, rollProb, associationProb, rollLengthProb);
+          audioProcessor.generator.connecting(voiceName, connectingProb, associationProb, connectingLengthProb);
         };
         task();
-        audioProcessor.loopTasks.queue(id, task, regenerateRolls.getToggleState());
+        audioProcessor.loopTasks.queue(id, task, regenerateConnecting.getToggleState());
     };
-    addAndMakeVisible (&addRollsButton);
+    addAndMakeVisible (&addConnectingButton);
     
-    muteRollsButton.setClickingTogglesState(true);
-    muteRollsButton.setToggleState(false, juce::dontSendNotification);
-    muteRollsButton.onClick = [this, voiceName]() {
-       playQueue->toggleMuteRolls(voiceName, muteRollsButton.getToggleState());
+    muteConnectingButton.setClickingTogglesState(true);
+    muteConnectingButton.setToggleState(false, juce::dontSendNotification);
+    muteConnectingButton.onClick = [this, voiceName]() {
+       playQueue->toggleMuteConnecting(voiceName, muteConnectingButton.getToggleState());
     };
 
-    addAndMakeVisible(&muteRollsButton);
+    addAndMakeVisible(&muteConnectingButton);
     muteOrnamentsButton.setClickingTogglesState(true);
     muteOrnamentsButton.setToggleState(false, juce::dontSendNotification);
     muteOrnamentsButton.onClick = [this, voiceName]() {
@@ -49,32 +49,32 @@ OrnamentationMenuComponent::OrnamentationMenuComponent(VoiceName voiceName,
     };
     addAndMakeVisible(&muteOrnamentsButton);
     
-    addAndMakeVisible(&rollProbability);
-    rollProbability.setSliderStyle (juce::Slider::LinearBarVertical);
-    rollProbability.setRange (0.0, 1.0, 0.01);
-    rollProbability.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
-    rollProbability.setPopupDisplayEnabled (true, false, this);
-    rollProbability.setTextValueSuffix (" p(roll)");
-    rollProbability.setValue(1.0);
+    addAndMakeVisible(&connectingProbability);
+    connectingProbability.setSliderStyle (juce::Slider::LinearBarVertical);
+    connectingProbability.setRange (0.0, 1.0, 0.01);
+    connectingProbability.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
+    connectingProbability.setPopupDisplayEnabled (true, false, this);
+    connectingProbability.setTextValueSuffix (" p(connecting)");
+    connectingProbability.setValue(1.0);
 
-    addAndMakeVisible(&rollAssociation);
-    rollAssociation.setSliderStyle (juce::Slider::LinearBarVertical);
-    rollAssociation.setRange (0.0, 1.0, 0.01);
-    rollAssociation.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
-    rollAssociation.setPopupDisplayEnabled (true, false, this);
-    rollAssociation.setTextValueSuffix (" roll association / swing");
-    rollAssociation.setValue(0.5);
+    addAndMakeVisible(&connectingAssociation);
+    connectingAssociation.setSliderStyle (juce::Slider::LinearBarVertical);
+    connectingAssociation.setRange (0.0, 1.0, 0.01);
+    connectingAssociation.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
+    connectingAssociation.setPopupDisplayEnabled (true, false, this);
+    connectingAssociation.setTextValueSuffix (" connecting association / swing");
+    connectingAssociation.setValue(0.5);
 
-    addAndMakeVisible(&rollLength);
-    rollLength.setSliderStyle (juce::Slider::LinearBarVertical);
-    rollLength.setRange (0.0, 1.0, 0.01);
-    rollLength.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
-    rollLength.setPopupDisplayEnabled (true, false, this);
-    rollLength.setTextValueSuffix (" roll length");
-    rollLength.setValue(0.5);
+    addAndMakeVisible(&connectingLength);
+    connectingLength.setSliderStyle (juce::Slider::LinearBarVertical);
+    connectingLength.setRange (0.0, 1.0, 0.01);
+    connectingLength.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
+    connectingLength.setPopupDisplayEnabled (true, false, this);
+    connectingLength.setTextValueSuffix (" connecting length");
+    connectingLength.setValue(0.5);
 
     flamButton.setClickingTogglesState(true);
-    flamButton.setToggleState(false, juce::dontSendNotification);
+    flamButton.setToggleState(true, juce::dontSendNotification);
     addAndMakeVisible(&flamButton);
     dragButton.setClickingTogglesState(true);
     dragButton.setToggleState(false, juce::dontSendNotification);
@@ -113,14 +113,14 @@ OrnamentationMenuComponent::OrnamentationMenuComponent(VoiceName voiceName,
     ornamentBreadth.setValue(1.0);
     
     
-    regenerateRolls.setClickingTogglesState(true);
+    regenerateConnecting.setClickingTogglesState(true);
     regenerateOrnaments.setClickingTogglesState(true);
-    regenerateRolls.onClick = [this, voiceName]() {
-        const string rollKey = audioProcessor.generator.rollsKey(voiceName);
-        bool improviseRolls = regenerateRolls.getToggleState();
-        improviseRolls
-            ? audioProcessor.loopTasks.activate({rollKey})
-            : audioProcessor.loopTasks.deactivate({rollKey});
+    regenerateConnecting.onClick = [this, voiceName]() {
+        const string connectingKey = audioProcessor.generator.connectingKey(voiceName);
+        bool improviseConnecting = regenerateConnecting.getToggleState();
+        improviseConnecting
+            ? audioProcessor.loopTasks.activate({connectingKey})
+            : audioProcessor.loopTasks.deactivate({connectingKey});
     };
     regenerateOrnaments.onClick = [this, voiceName]() {
         const string ornamentKey = audioProcessor.generator.ornamentsKey(voiceName);
@@ -129,7 +129,7 @@ OrnamentationMenuComponent::OrnamentationMenuComponent(VoiceName voiceName,
             ? audioProcessor.loopTasks.activate({ornamentKey})
             : audioProcessor.loopTasks.deactivate({ornamentKey});
     };
-    addAndMakeVisible (&regenerateRolls);
+    addAndMakeVisible (&regenerateConnecting);
     addAndMakeVisible (&regenerateOrnaments);
 }
 
@@ -145,16 +145,16 @@ int OrnamentationMenuComponent::placeWorkspace() {
     int buttonHeight = menuHeight / 6;
     int sliderHeight = workspaceHeight;
     
-    rollProbability.setBounds (xCursor, yCursor, ui::sliderWidth, sliderHeight);
+    connectingProbability.setBounds (xCursor, yCursor, ui::sliderWidth, sliderHeight);
     xCursor += ui::sliderWidth + ui::spaceBetweenControls;
-    rollAssociation.setBounds (xCursor, yCursor, ui::sliderWidth, sliderHeight);
+    connectingAssociation.setBounds (xCursor, yCursor, ui::sliderWidth, sliderHeight);
     xCursor += ui::sliderWidth + ui::spaceBetweenControls;
-    rollLength.setBounds (xCursor, yCursor, ui::sliderWidth, sliderHeight);
+    connectingLength.setBounds (xCursor, yCursor, ui::sliderWidth, sliderHeight);
     xCursor += ui::sliderWidth + ui::spaceBetweenControls;
     
-    addRollsButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
+    addConnectingButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
     yCursor += buttonHeight + ui::spaceBetweenControls;
-    muteRollsButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
+    muteConnectingButton.setBounds (xCursor, yCursor, buttonWidth, buttonHeight);
     xCursor += buttonWidth + ui::spaceBetweenControls;
     yCursor = yCursorReset;
     
@@ -178,7 +178,7 @@ int OrnamentationMenuComponent::placeWorkspace() {
     xCursor += buttonWidth + ui::spaceBetweenControls;
     yCursor = yCursorReset;
     
-    regenerateRolls.setBounds (xCursor + ui::spaceBetweenControls, yCursor, buttonWidth, buttonHeight);
+    regenerateConnecting.setBounds (xCursor + ui::spaceBetweenControls, yCursor, buttonWidth, buttonHeight);
     yCursor += buttonHeight + ui::spaceBetweenControls;
     regenerateOrnaments.setBounds (xCursor + ui::spaceBetweenControls, yCursor, buttonWidth, buttonHeight);
     
@@ -186,12 +186,12 @@ int OrnamentationMenuComponent::placeWorkspace() {
 }
 
 void OrnamentationMenuComponent::updateMenuState() {
-    // rolls / runs
-    editorState->ornamentationStates.at(voiceName).muteRolls = muteRollsButton.getToggleState();
-    editorState->ornamentationStates.at(voiceName).rollProbability = rollProbability.getValue();
-    editorState->ornamentationStates.at(voiceName).rollAssociation = rollAssociation.getValue();
-    editorState->ornamentationStates.at(voiceName).rollLength = rollLength.getValue();
-//    editorState->ornamentationStates.at(voiceName).improviseRolls = regenerateRolls.getToggleState();
+    // connecting / runs
+    editorState->ornamentationStates.at(voiceName).muteConnecting = muteConnectingButton.getToggleState();
+    editorState->ornamentationStates.at(voiceName).connectingProbability = connectingProbability.getValue();
+    editorState->ornamentationStates.at(voiceName).connectingAssociation = connectingAssociation.getValue();
+    editorState->ornamentationStates.at(voiceName).connectingLength = connectingLength.getValue();
+//    editorState->ornamentationStates.at(voiceName).improviseConnecting = regenerateConnecting.getToggleState();
 //    editorState->ornamentationStates.at(voiceName).improviseOrnaments = regenerateOrnaments.getToggleState();
 
     // ornaments

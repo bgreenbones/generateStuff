@@ -57,10 +57,10 @@ public:
         return from(generatePhraseKey, generateFromPhraseKey, voiceFunctions.at(generatePhraseKey).generateFromOther);
     }
 
-    void roll(string phraseKey, Probability rollProb, Probability associationProb, Probability rollLengthProb);
+    void connecting(string phraseKey, Probability connectingProb, Probability associationProb, Probability connectingLengthProb);
     void ornament(string phraseKey, Probability prob, double breadth, bool flams, bool drags, bool ruffs);
     
-    string rollsKey(string phraseKey);
+    string connectingKey(string phraseKey);
     string ornamentsKey(string phraseKey);
 };
 

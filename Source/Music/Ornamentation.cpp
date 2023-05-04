@@ -12,23 +12,6 @@
 #include "Random.h"
 #include "Dynamics.h"
 
-beats flamishLength0 (double tempo, double breadth) {
-    // at like 60-100 bpm, flams are like a 64th note behind the target note?
-    // at higher tempos, they're like a 32nd, down to like a 16th up in the 300bpm range??
-    float highTempo = 300; // bpm
-    float lowTempo = 50;
-    float flamDistanceAtHighTempo = 1.0 / 8.0;
-    float flamDistanceAtLowTempo = 1.0 / 24.0;
-    float slope = (highTempo - lowTempo) / (flamDistanceAtHighTempo - flamDistanceAtLowTempo);
-    float length = ((tempo - lowTempo) / slope) + flamDistanceAtLowTempo;
-    
-//    float notesInOrnament = (float) ornament;
-//    flamDistance = flamDistance / notesInOrnament; // todo: not sold on this math
-    // todo: add randomness
-    // todo: account for multiple stroke flams like ruffs and drags
-    return breadth * length;
-}
-
 beats closestGriddedLength(beats unquantized, int notes) {
     vector<beats> grids = { 1./2., 1./3., 1./4., 1./6., 1./8., 1./12., 1./16., 1./24., 1./32., 1./48., 1./64. };
     
@@ -49,14 +32,12 @@ beats graceNoteLength (double breadth) {
     return Seconds(0.015 * breadth).asBeats(); // TODO: this hardcoded multiplier relates to values put in from the UI so maybe we should systemetize that somehow
 }
 
-//Ornament flamish (OrnamentSimple ornamentSimple, double tempo, double breadth, Griddedness griddedness) {
 Ornament graceNotes (OrnamentSimple ornamentSimple, double breadth, Griddedness griddedness) {
     unsigned short numNotes = (unsigned short) ornamentSimple;
     beats ornamentLength = graceNoteLength (breadth);
     
     if (griddedness == gridded || griddedness == loose) {
         ornamentLength = closestGriddedLength(ornamentLength, 1);
-//        ornamentLength = quantize(ornamentLength, Beats(1./4.), 0.); // TODO: instead of 1/16ths, use closest reference point that 'makes sense'
     }
     
     return Ornament {
@@ -91,16 +72,6 @@ Ornament getOrnament(OrnamentSimple ornamentSimple, double breadth, Griddedness 
     return result;
 }
 
-
-
-//        if (flipCoin()) {
-//            vector<Note> ornamentNotes = placeOrnamentSimple(*note, draw<OrnamentSimple>({ flam, drag, ruff }));
-//            for(auto ornamentNote : ornamentNotes) {
-//                if(!filled.addNote(ornamentNote)) {
-//                    std::cout << "gotta handle notes at the same time in monophonic sequences";
-//                }
-//            }
-//        } else {
 Phrase Phrase::addOrnaments(vector<OrnamentSimple> possibleOrnaments, Probability prob, double breadth, vector<float> probabilities) const{
     Phrase ornamented = (*this);
     ornamented.ornamentationNotes.clear();
@@ -170,7 +141,7 @@ Phrase Phrase::withRoll(Position start, Position target, Association association
         DBG ("input to this guy was made bad.");
     }
     
-    withRoll.notes.insertVector(rollNotes, start, PushBehavior::wrap);
+    withRoll.connectingNotes.insertVector(rollNotes, start, PushBehavior::wrap);
     return withRoll;
 }
 
@@ -178,12 +149,11 @@ Phrase Phrase::fillWithRolls(Probability rollProb,
                              Probability associationProb,
                              Probability rollLengthProb) const {
     Phrase filled(*this);
-    filled.notes.monophonic = false;
-    filled.notes.clear();
+    filled.connectingNotes.clear();
     
     for (auto note = notes.begin(); note < notes.end(); note++) {
         if (!rollProb) {
-            break;
+            continue;
         }
 
         auto nextNote = note + 1;
@@ -195,15 +165,10 @@ Phrase Phrase::fillWithRolls(Probability rollProb,
             targetNoteStartTime = nextNote->startTime;
         }
         
-        //        Association association = associationValue >= 0.5 ? pickup : rebound;
-        //        double syncopationAmount = abs(associationValue - 0.5) * 2;
-        //        Association association = draw<Association>({ pickup, rebound });
-        //        Syncopation sync(association == pickup ? wonk : swing, boundedNormal(0, 1, 0.5)); // going for long rolls, for now.
         Association association = flipWeightedCoin(associationProb) ? pickup : rebound;
         double syncopationAmount = boundedNormal(0, 1, 0.35, rollLengthProb);
         Syncopation sync(association == pickup ? wonk : swing, syncopationAmount);
         Position roughPlace = sync.getPlacement(note->startTime, targetNoteStartTime);
-//            Position roughPlace = boundedNormal(note->startTime, targetNoteStartTime, 0.5);
         Position start = association == pickup ? roughPlace : note->startTime;
         Position end = association == rebound ? roughPlace : targetNoteStartTime;
         filled = filled.withRoll(start, end, association);
