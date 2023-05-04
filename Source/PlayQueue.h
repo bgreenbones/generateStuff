@@ -34,7 +34,7 @@ public:
     bool toggleMuteOrnamentation(VoiceName voiceName, bool muteState); // TODO: decouple this class from concept of rolls/ornamentation.
     void queuePhrase(VoiceName voiceName, Phrase phrase);
     void queueRoll(VoiceName voiceName, Phrase phrase);
-    void queueOrnamentation(VoiceName voiceName, Phrase phrase);
+    // void queueOrnamentation(VoiceName voiceName, Phrase phrase);
     //    string rollsKey(string phraseKey);
     //    string ornamentsKey(string phraseKey);
     

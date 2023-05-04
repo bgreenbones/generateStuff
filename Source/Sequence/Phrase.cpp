@@ -139,9 +139,18 @@ Phrase Phrase::insert(Phrase other, OverwriteBehavior overwriteBehavior) const {
     
     if (overwriteBehavior != OverwriteBehavior::ignore) {
         // TODO: notes and subdivisions and future expressions should be in a vector or map that will allow us to iterate over them.
+        
         phrase.notes.erase(std::remove_if(phrase.notes.begin(), phrase.notes.end(),
                                 [other](TimedEvent t) { return other.containsPartially(t) || t.containsPartially(other); }),
                                 phrase.notes.end());
+                                
+        phrase.connectingNotes.erase(std::remove_if(phrase.connectingNotes.begin(), phrase.connectingNotes.end(),
+                                [other](TimedEvent t) { return other.containsPartially(t) || t.containsPartially(other); }),
+                                phrase.connectingNotes.end());
+                                
+        phrase.ornamentationNotes.erase(std::remove_if(phrase.ornamentationNotes.begin(), phrase.ornamentationNotes.end(),
+                                [other](TimedEvent t) { return other.containsPartially(t) || t.containsPartially(other); }),
+                                phrase.ornamentationNotes.end());
         
         phrase.subdivisions.erase(std::remove_if(phrase.subdivisions.begin(), phrase.subdivisions.end(),
                                 [other](TimedEvent t) { return other.containsPartially(t) || t.containsPartially(other); }),
@@ -155,6 +164,8 @@ Phrase Phrase::insert(Phrase other, OverwriteBehavior overwriteBehavior) const {
 
     
     phrase.notes.insertSequence(other.notes, phrase.startTime, PushBehavior::ignore, overwriteBehavior);
+    phrase.connectingNotes.insertSequence(other.connectingNotes, phrase.startTime, PushBehavior::ignore, overwriteBehavior);
+    phrase.ornamentationNotes.insertSequence(other.ornamentationNotes, phrase.startTime, PushBehavior::ignore, overwriteBehavior);
     phrase.subdivisions.insertSequence(other.subdivisions, phrase.startTime, PushBehavior::ignore, overwriteBehavior);
     phrase.subdivisions.tie(true);
     phrase.chordScales.insertSequence(other.chordScales, phrase.startTime, PushBehavior::ignore, overwriteBehavior);

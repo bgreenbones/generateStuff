@@ -35,18 +35,6 @@ Phrase Generator::flipClave(string phraseKey) {
     auto flipped = rhythm::flip(voice.base); // TODO: segment the phrase by relevant start and duration
     playQueue->queuePhrase(phraseKey, flipped);
     
-    bool hasOrnaments = false; // TODO: make this possible
-    bool hasRolls = false;
-    if (hasOrnaments) {
-        auto ornamentsFlipped = rhythm::flip(voice.ornamentation); // TODO: segment the phrase by relevant start and duration
-        playQueue->queueOrnamentation(phraseKey, ornamentsFlipped);
-    }
-    
-    if (hasRolls) {
-        auto rollsFlipped = rhythm::flip(voice.rolls); // TODO: segment the phrase by relevant start and duration
-        playQueue->queueRoll(phraseKey, rollsFlipped);
-    }
-    
     return flipped;
 }
 
@@ -85,7 +73,7 @@ void Generator::ornament(string phraseKey,
     auto possibleOrnaments = getOrnamentVector(flams, drags, ruffs);
     if (possibleOrnaments.empty()) { return; }
     Phrase ornamentsPhrase = phrasePhrase.addOrnaments(possibleOrnaments, prob, breadth);
-    playQueue->queueOrnamentation(phraseKey, ornamentsPhrase);
+    playQueue->queuePhrase(phraseKey, ornamentsPhrase);
 }
 
 

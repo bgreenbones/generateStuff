@@ -32,7 +32,7 @@ void PlayQueue::clearVoice(VoiceName voiceName)
     if (!hasVoice(voiceName)) { return; }
     queue.at(voiceName).base.clear();
     queue.at(voiceName).rolls.clear();
-    queue.at(voiceName).ornamentation.clear();
+//    queue.at(voiceName).ornamentation.clear();
 }
 
 bool PlayQueue::toggleMuteVoice(VoiceName voiceName)
@@ -84,7 +84,7 @@ void PlayQueue::queuePhrase(VoiceName voiceName, Phrase phrase)
 {
     if (!hasVoice(voiceName)) { return; }
     Voice &voice = queue.at(voiceName);
-    if (phrase.notes.isPolyphonic()) { voice.base = voice.base.toPolyphonic(); } // TODO: more rigorous way of syncing parameters between queued phrase and generated phrase?
+    if (phrase.isPolyphonic()) { voice.base = voice.base.toPolyphonic(); } // TODO: more rigorous way of syncing parameters between queued phrase and generated phrase?
     Phrase baseCopy = voice.base;
     voice.base = voice.base.insert(phrase, OverwriteBehavior::erase); // overwrite if overlap
 //    if (phrase.notes.size() != voice.base.notes.size()) { // FOR BUG DETECTIN
@@ -103,13 +103,13 @@ void PlayQueue::queueRoll(VoiceName voiceName, Phrase phrase)
     voice.initPhraseVector();
 }
 
-void PlayQueue::queueOrnamentation(VoiceName voiceName, Phrase phrase)
-{
-    if (!hasVoice(voiceName)) { return; }
-    Voice &voice = queue.at(voiceName);
-    voice.ornamentation = voice.ornamentation.insert(phrase, OverwriteBehavior::erase); // overwrite if overlap
-    voice.initPhraseVector();
-}
+// void PlayQueue::queueOrnamentation(VoiceName voiceName, Phrase phrase)
+// {
+//     if (!hasVoice(voiceName)) { return; }
+//     Voice &voice = queue.at(voiceName);
+//     voice.ornamentation = voice.ornamentation.insert(phrase, OverwriteBehavior::erase); // overwrite if overlap
+//     voice.initPhraseVector();
+// }
 
 void PlayQueue::setMidiChannel(VoiceName voiceName, int newMidiChannel)
 {

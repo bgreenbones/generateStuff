@@ -36,6 +36,8 @@ public:
     Phrase(Duration subdivision, Position startTime, Duration duration):
         TimedEvent(startTime, duration),
         notes(*this),
+        connectingNotes(*this),
+        ornamentationNotes(*this),
         subdivisions(*this),
         chordScales(*this)
     {
@@ -47,33 +49,47 @@ public:
     Phrase(Phrase const& other):
         TimedEvent(other),
         notes(other.notes, *this),
+        connectingNotes(other.connectingNotes, *this),
+        ornamentationNotes(other.ornamentationNotes, *this),
         subdivisions(other.subdivisions, *this),
         chordScales(other.chordScales, *this) {};
 
     Phrase& operator=(Phrase const& other) {
         TimedEvent::operator=(other);
         notes = Sequence<Note>(other.notes, *this);
+        connectingNotes = Sequence<Note>(other.connectingNotes, *this);
+        ornamentationNotes = Sequence<Note>(other.ornamentationNotes, *this);
         subdivisions = Sequence<Subdivision>(other.subdivisions, *this);
         chordScales = Sequence<ChordScale>(other.chordScales, *this);
         return *this;
     };
     
     Sequence<Note> notes;
+    Sequence<Note> connectingNotes;
+    Sequence<Note> ornamentationNotes;
     Sequence<Subdivision> subdivisions;
     Position nextSubdivisionPosition(Position position);
     Position previousSubdivisionPosition(Position position);
     Sequence<ChordScale> chordScales;
-    
+
+    bool isPolyphonic() {
+        return notes.isPolyphonic();
+    }
+
     Phrase toMonophonic() const {
         if (notes.monophonic) { return *this; }
         Phrase result(*this);
         result.notes = result.notes.toMonophonic();
+        result.connectingNotes = result.connectingNotes.toMonophonic();
+        result.ornamentationNotes = result.ornamentationNotes.toMonophonic();
         return result;
     }
     Phrase toPolyphonic() const {
         if (!(notes.monophonic)) { return *this; }
         Phrase result(*this);
         result.notes = result.notes.toPolyphonic();
+        result.connectingNotes = result.connectingNotes.toPolyphonic();
+        result.ornamentationNotes = result.ornamentationNotes.toPolyphonic();
         return result;
     }
     Subdivision primarySubdivision() const { return subdivisions.primary(); }

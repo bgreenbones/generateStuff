@@ -113,6 +113,8 @@ Phrase rhythm::burst(Phrase fromPhrase, Note note, int minimumRepeats, int maxim
 
 Phrase rhythm::flip(Phrase fromPhrase) {
     fromPhrase.notes.flip();
+    fromPhrase.ornamentationNotes.flip();
+    fromPhrase.connectingNotes.flip();
     fromPhrase.subdivisions.flip();
     return fromPhrase;
 }

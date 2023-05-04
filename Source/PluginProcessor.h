@@ -91,7 +91,7 @@ private:
                                 double ppqPosition, 
                                 float ppqTime);
     bool isPpqTimeInBuffer(juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo, double ppqPosition, float ppqTime);
-    void playPhrase(juce::MidiBuffer& midiMessages, juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo, const double ppqPosition, Phrase phrase, int midiChannel);
+    void playNoteSequence(juce::MidiBuffer& midiMessages, juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo, const double ppqPosition, Sequence<Note> noteSequence, int midiChannel);
 };
 
 

@@ -102,20 +102,15 @@ Ornament getOrnament(OrnamentSimple ornamentSimple, double breadth, Griddedness 
 //            }
 //        } else {
 Phrase Phrase::addOrnaments(vector<OrnamentSimple> possibleOrnaments, Probability prob, double breadth, vector<float> probabilities) const{
-    bool isAlreadyOrnamented = false; // todo: know this somehow
-    if (isAlreadyOrnamented) {
-        throw exception();
-    }
     Phrase ornamented = (*this);
-    ornamented.notes.clear();
+    ornamented.ornamentationNotes.clear();
     for (auto noteIt = notes.begin(); noteIt < notes.end(); noteIt++) {
         if (!noteIt->ornamented || !prob) {
             continue;
         }
         OrnamentSimple ornament = draw<OrnamentSimple>(possibleOrnaments); // todo: use probabilities map
         Sequence<Note> ornamentNotes = noteIt->placeOrnament(ornament, breadth);
-//        Sequence<Note> ornamentNotes = noteIt->placeOrnament(ornament, breadth);
-        for_each(ornamentNotes.begin(), ornamentNotes.end(), [&](Note toAdd) -> void { ornamented.addNote(toAdd); });
+        for_each(ornamentNotes.begin(), ornamentNotes.end(), [&](Note toAdd) -> void { ornamented.ornamentationNotes.add(toAdd); });
     }
     return ornamented;
 }

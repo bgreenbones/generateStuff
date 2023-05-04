@@ -335,7 +335,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "82"
             endingLineNumber = "82"
-            landmarkName = "equalsExcludingTime(other)"
+            landmarkName = "toMonophonic()"
             landmarkType = "7">
             <Locations>
                <Location
@@ -850,7 +850,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "284"
             endingLineNumber = "284"
-            landmarkName = "GenerateStuffAudioProcessor::playPhrase(midiMessages, positionInfo, ppqPosition, phrase, midiChannel)"
+            landmarkName = "GenerateStuffAudioProcessor::playNoteSequence(midiMessages, positionInfo, ppqPosition, noteSequence, midiChannel)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

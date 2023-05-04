@@ -9,11 +9,15 @@
 */
 #pragma once
 
+#include "GenerateStuffEditorState.h"
 #include "Sequence.h"
 #include "TimedEvent.h"
 
+// class Section : public TimedEvent {
+//   GenerateStuffEditorState editorState;
+// };
 
-
-class Form : public TimedEvent {
-  Sequence<TimedEvent> sections;
-};
+// class Form : public TimedEvent {
+//   Sequence<TimedEvent> sections;
+//   Form() : TimedEvent(0, Bars(8)) {}
+// };
