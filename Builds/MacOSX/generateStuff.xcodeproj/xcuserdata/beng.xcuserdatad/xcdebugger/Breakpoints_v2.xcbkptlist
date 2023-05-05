@@ -992,6 +992,38 @@
             endingLineNumber = "148"
             landmarkName = "Note(defaultPitch, defaultVelocity)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D8A4B682-752C-4742-99BC-F6D94E4A9F73 - 14ba064a7b286efe"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Note::Note(Pitch, int, Duration, Duration)"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "150"
+                  endingLineNumber = "150"
+                  offsetFromSymbolStart = "36">
+               </Location>
+               <Location
+                  uuid = "D8A4B682-752C-4742-99BC-F6D94E4A9F73 - 14ba064a7b286efe"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Note::Note(Pitch, int, Duration, Duration)"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "150"
+                  endingLineNumber = "150"
+                  offsetFromSymbolStart = "72">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2737,6 +2769,22 @@
             startingLineNumber = "115"
             endingLineNumber = "115"
             landmarkName = "Phrase::addOrnaments(possibleOrnaments, prob, breadth, probabilities)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BA79101A-C6B0-4F1F-A80B-210C2A4BDE9D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/PluginProcessor.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "256"
+            endingLineNumber = "256"
+            landmarkName = "GenerateStuffAudioProcessor::playNoteSequence(midiMessages, positionInfo, ppqPosition, noteSequence, midiChannel)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

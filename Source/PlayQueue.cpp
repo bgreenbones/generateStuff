@@ -81,19 +81,19 @@ bool PlayQueue::toggleMuteOrnamentation(VoiceName voiceName)
 
 void PlayQueue::queuePhrase(VoiceName voiceName, Phrase phrase)
 {
-    if (!hasVoice(voiceName)) { return; }
-    Voice &voice = queue.at(voiceName);
-    if (phrase.isPolyphonic()) { voice.base = voice.base.toPolyphonic(); } // TODO: more rigorous way of syncing parameters between queued phrase and generated phrase?
-    Phrase baseCopy = voice.base;
-    voice.base = voice.base.insert(phrase, OverwriteBehavior::erase); // overwrite if overlap
+    // if (!hasVoice(voiceName)) { return; }
+    // Voice &voice = queue.at(voiceName);
+    // if (phrase.isPolyphonic()) { voice.base = voice.base.toPolyphonic(); } // TODO: more rigorous way of syncing parameters between queued phrase and generated phrase?
+    // Phrase baseCopy = voice.base;
+    // voice.base = voice.base.insert(phrase, OverwriteBehavior::erase); // overwrite if overlap
     schedule.at(scheduleTimes.back()).clear();
-    schedule.at(scheduleTimes.back()).push_back(voice.base);
+    schedule.at(scheduleTimes.back()).push_back(phrase);
 //    if (phrase.notes.size() != voice.base.notes.size()) { // FOR BUG DETECTIN
 //        bool messedUp = true;
 //        voice.base = baseCopy.insert(phrase, OverwriteBehavior::erase); // overwrite if overlap
 //
 //    }
-    voice.initPhraseVector(); // TODO: lol
+    // voice.initPhraseVector(); // TODO: lol
 }
 
 

@@ -248,15 +248,17 @@ void GenerateStuffAudioProcessor::playNoteSequence(juce::MidiBuffer& midiMessage
     for (auto noteIt = noteSequence.begin(); noteIt != noteSequence.end(); ++noteIt) {
         Note note = *noteIt;
         
-        Bars playPeriod = editorState->stopBar - editorState->startBar;
+        // Bars playPeriod = editorState->stopBar - editorState->startBar;
         double loopStart = editorState->getStartTime();
         double loopEnd = editorState->getStopTime();
-        double noteOnTimeInQuarters = loopStart + ((editorState->getDisplacement() + noteSequence.parent.startTime + note.startTime) % playPeriod);
+        // double noteOnTimeInQuarters = loopStart + ((editorState->getDisplacement() + noteSequence.parent.startTime + note.startTime) % playPeriod);
+        double noteOnTimeInQuarters = loopStart + editorState->getDisplacement() + noteSequence.parent.startTime + note.startTime;
         while (ppqPosition > noteOnTimeInQuarters) { // might as well set it to be in the future
             noteOnTimeInQuarters += noteSequence.parent.duration;
         }
         if (noteOnTimeInQuarters >= loopEnd) { // but don't go too far in the future, we've set an end bar
-            noteOnTimeInQuarters = (Quarters(noteOnTimeInQuarters - loopStart) % playPeriod) + loopStart;
+            noteOnTimeInQuarters = Quarters(noteOnTimeInQuarters - loopStart) + loopStart;
+            // noteOnTimeInQuarters = (Quarters(noteOnTimeInQuarters - loopStart) % playPeriod) + loopStart;
         }
         double noteOffTimeInQuarters = noteOnTimeInQuarters + note.duration;
         
@@ -340,6 +342,9 @@ void GenerateStuffAudioProcessor::playPlayables(
         // if (voice.mute) { continue; }
         // int midiChannel = voice.midiChannel;
         int midiChannel = 1;
+
+        int phraseLoopNumber = Quarters(ppqPosition) / phrase.duration;
+        phrase.startTime += phraseLoopNumber * phrase.duration;
 
         playNoteSequence(midiMessages, positionInfo, ppqPosition, phrase.notes, midiChannel);
 //        if (!voice.muteConnecting) {
