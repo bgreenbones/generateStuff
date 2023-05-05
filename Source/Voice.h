@@ -86,6 +86,8 @@ static const vector<VoiceBindings> voiceBindings = {
     }
 };
 
+
+
 class Voice {
 public:
     VoiceName name;
@@ -95,11 +97,14 @@ public:
     bool muteConnecting;
     Phrase base;
     vector<Phrase> phrases;
+
+    // schedule of phrases to play
+    // that lives in the play queue
+
+
     
     Voice(VoiceName name, int midiChannel, bool mute):
         name(name), midiChannel(midiChannel), mute(mute) {
-            if (true) {
-            }
             initPhraseVector();
         };
     

@@ -34,7 +34,9 @@ public:
         duration = other.duration;
         return *this;
     };
-    bool operator==(TimedEvent const& other) { return startTime == other.startTime && duration == other.duration; };
+    bool operator==(TimedEvent const& other) const { return startTime == other.startTime && duration == other.duration; };
+    bool operator<(TimedEvent const& other) const { return startTime < other.startTime || duration > other.duration; };
+    bool operator>(TimedEvent const& other) const { return startTime > other.startTime || duration > other.duration; };
     
     virtual ~TimedEvent() {};
     
@@ -82,3 +84,6 @@ T longest(std::vector<T> events) {
     }
     return result;
 };
+
+
+

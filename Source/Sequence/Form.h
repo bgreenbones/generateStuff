@@ -13,11 +13,21 @@
 #include "Sequence.h"
 #include "TimedEvent.h"
 
+
+// class ScheduleItem : public TimedEvent {
+//   public:
+//     Phrase phrase;
+// };
+
 // class Section : public TimedEvent {
 //   GenerateStuffEditorState editorState;
 // };
 
-// class Form : public TimedEvent {
-//   Sequence<TimedEvent> sections;
-//   Form() : TimedEvent(0, Bars(8)) {}
-// };
+
+
+class Form : public TimedEvent {
+public:
+  Sequence<TimedEvent> sections;
+  Form() : TimedEvent(0, Bars(8)), sections(*this)
+   {}
+};

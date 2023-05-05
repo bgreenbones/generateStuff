@@ -940,8 +940,8 @@
             filePath = "../../Source/Time/TimedEvent.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
             landmarkName = "TimedEvent"
             landmarkType = "3">
             <Locations>
@@ -990,7 +990,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "148"
             endingLineNumber = "148"
-            landmarkName = "Note(mininotation, startTime, duration)"
+            landmarkName = "Note(defaultPitch, defaultVelocity)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

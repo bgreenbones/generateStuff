@@ -118,6 +118,11 @@ public:
         
         return true;
     }
+    
+    
+// TODO: sparse representation/.
+// then we won't have to iterate to get timed events from their positions
+    // vector<int> sparse;
 };
 
 

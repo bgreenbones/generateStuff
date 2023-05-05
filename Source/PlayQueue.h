@@ -7,20 +7,27 @@
 
   ==============================================================================
 */
-
 #pragma once
 
 
+#include "Form.h"
 #include "Voice.h"
 
+
 class PlayQueue {
+    Form form;
     map<VoiceName, Voice> queue;
 public:
-    PlayQueue() {
+    Sequence<TimedEvent> scheduleTimes;
+    map<TimedEvent, vector<Phrase>> schedule;
+    PlayQueue() : scheduleTimes(form) {
+        scheduleTimes.add(TimedEvent(form.startTime, form.duration));
+        schedule[scheduleTimes.back()] = {};
         for (VoiceBindings vb : voiceBindings) {
             queue.emplace(vb.voiceName, Voice(vb.voiceName, vb.midiChannel, false));
         }
     }
+
     
     bool hasVoice(VoiceName voiceName);
     Voice getVoice(VoiceName voiceName);

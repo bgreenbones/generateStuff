@@ -16,7 +16,7 @@
 
 #include "Note.hpp"
 #include "Subdivision.h"
-#include "Sequence.h"
+// #include "Sequence.h"
 #include "Syncopation.h"
 #include "Random.h"
 #include "Pitch.h"
@@ -24,6 +24,7 @@
 #include "GenerateStuffEditorState.h"
 
 using namespace std;
+
 
 static const Duration defaultSubdivision = Beats(0.25);
 static const Position defaultStartTime = Position(0, true);
@@ -52,8 +53,8 @@ public:
         connectingNotes(other.connectingNotes, *this),
         ornamentationNotes(other.ornamentationNotes, *this),
         subdivisions(other.subdivisions, *this),
-        chordScales(other.chordScales, *this) {};
-
+        chordScales(other.chordScales, *this)
+        {};
     Phrase& operator=(Phrase const& other) {
         TimedEvent::operator=(other);
         notes = Sequence<Note>(other.notes, *this);

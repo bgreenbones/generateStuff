@@ -314,19 +314,41 @@ void GenerateStuffAudioProcessor::playPlayables(
     }
 
 
-    for (auto voiceIt = playQueue->begin(); voiceIt != playQueue->end(); ++voiceIt) {
-        string voiceName = voiceIt->first;
-        Voice voice = voiceIt->second;
-        if (voice.mute) { continue; }
-        int midiChannel = voice.midiChannel;
+    // for (auto voiceIt = playQueue->begin(); voiceIt != playQueue->end(); ++voiceIt) {
+    //     string voiceName = voiceIt->first;
+    //     Voice voice = voiceIt->second;
+    //     if (voice.mute) { continue; }
+    //     int midiChannel = voice.midiChannel;
 
-        playNoteSequence(midiMessages, positionInfo, ppqPosition, voice.base.notes, midiChannel);
-        if (!voice.muteConnecting) {
-          playNoteSequence(midiMessages, positionInfo, ppqPosition, voice.base.connectingNotes, midiChannel);
-        }
-        if (!voice.muteOrnamentation) {
-         playNoteSequence(midiMessages, positionInfo, ppqPosition, voice.base.ornamentationNotes, midiChannel);
-        }
+   //      playNoteSequence(midiMessages, positionInfo, ppqPosition, voice.base.notes, midiChannel);
+    //     if (!voice.muteConnecting) {
+    //       playNoteSequence(midiMessages, positionInfo, ppqPosition, voice.base.connectingNotes, midiChannel);
+    //     }
+    //     if (!voice.muteOrnamentation) {
+    //       playNoteSequence(midiMessages, positionInfo, ppqPosition, voice.base.ornamentationNotes, midiChannel);
+    //     }
+    // }
+    
+    vector<TimedEvent> scheduleTimes = playQueue->scheduleTimes.byPosition(Quarters(ppqPosition));
+    for (auto scheduleTime : scheduleTimes)
+    {
+      vector<Phrase> phrases = playQueue->schedule.at(scheduleTime);
+      for (auto phrase : phrases) 
+      {
+        // string voiceName = voiceIt->first;
+        // Voice voice = voiceIt->second;
+        // if (voice.mute) { continue; }
+        // int midiChannel = voice.midiChannel;
+        int midiChannel = 1;
+
+        playNoteSequence(midiMessages, positionInfo, ppqPosition, phrase.notes, midiChannel);
+//        if (!voice.muteConnecting) {
+          playNoteSequence(midiMessages, positionInfo, ppqPosition, phrase.connectingNotes, midiChannel);
+//        }
+//        if (!voice.muteOrnamentation) {
+          playNoteSequence(midiMessages, positionInfo, ppqPosition, phrase.ornamentationNotes, midiChannel);
+//        }
+      }
     }
 }
 
