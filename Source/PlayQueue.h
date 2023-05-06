@@ -10,25 +10,20 @@
 #pragma once
 
 
-#include "Form.h"
+#include "Schedule.h"
 #include "Voice.h"
 
 
 class PlayQueue {
-    Form form;
     map<VoiceName, Voice> queue;
+    Schedule schedule;
 public:
-    Sequence<TimedEvent> scheduleTimes;
-    map<TimedEvent, vector<Phrase>> schedule;
-    PlayQueue() : scheduleTimes(form) {
-        scheduleTimes.add(TimedEvent(form.startTime, form.duration));
-        schedule[scheduleTimes.back()] = {};
+    PlayQueue() {
         for (VoiceBindings vb : voiceBindings) {
             queue.emplace(vb.voiceName, Voice(vb.voiceName, vb.midiChannel, false));
         }
     }
 
-    
     bool hasVoice(VoiceName voiceName);
     Voice getVoice(VoiceName voiceName);
     bool hasPhrase(VoiceName voiceName, Position startTime, Duration phraseLength);
@@ -39,7 +34,7 @@ public:
     bool toggleMuteConnecting(VoiceName voiceName, bool muteState);
     bool toggleMuteOrnamentation(VoiceName voiceName); // TODO: decouple this class from concept of connecting/ornamentation.
     bool toggleMuteOrnamentation(VoiceName voiceName, bool muteState); // TODO: decouple this class from concept of connecting/ornamentation.
-    void queuePhrase(VoiceName voiceName, Phrase phrase);
+    void queuePhrase(TimedEvent phraseTime, Phrase phrase);
     
     void setMidiChannel(VoiceName voiceName, int newMidiChannel);
     int getMidiChannel(VoiceName voiceName);

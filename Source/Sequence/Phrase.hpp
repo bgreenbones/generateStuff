@@ -64,7 +64,8 @@ public:
         chordScales = Sequence<ChordScale>(other.chordScales, *this);
         return *this;
     };
-    
+
+    VoiceName voice;
     Sequence<Note> notes;
     Sequence<Note> connectingNotes;
     Sequence<Note> ornamentationNotes;

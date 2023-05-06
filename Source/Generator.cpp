@@ -12,6 +12,7 @@ Phrase Generator::fromNothing(string phraseKey, GenerationFunction phraseFunctio
     auto phrase = Phrase(editorState->getSubdivision(),
                          editorState->getStartTime(),
                          editorState->getPhraseLength());
+    phrase.voice = phraseKey;
     phrase = phraseFunction(phrase, *editorState.get(), phraseKey);
     playQueue->queuePhrase(phraseKey, phrase);
     return phrase;
@@ -23,6 +24,7 @@ Phrase Generator::from(string generatePhraseKey, string generateFromPhraseKey, G
     if (playQueue->doesntHavePhrase(generateFromPhraseKey, startTime, phraseLength)) { this->generate(generateFromPhraseKey); }
     Voice voice = playQueue->getVoice(generateFromPhraseKey);
     auto result = phraseFunction(voice.base, *editorState.get(), generatePhraseKey);
+    result.voice = generatePhraseKey;
     playQueue->queuePhrase(generatePhraseKey, result);
     return result;
 }
