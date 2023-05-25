@@ -16,7 +16,7 @@
 #include "Rhythm.h"
 
 namespace melody {
-    const GenerationFunction melodyFromFunction = [](Phrase fromPhrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) {
+    const GenerationFunction melodyFromFunction = [](Phrase fromPhrase, GenerateStuffEditorState const& editorState) {
         Phrase phrase(fromPhrase);
         phrase.notes = fromPhrase.notes.toMonophonic();
         phrase = phrase.chordScales.empty() ? harmony::generateChordScales(phrase, editorState) : phrase;
@@ -61,11 +61,11 @@ namespace melody {
         return phrase;
     };
 
-    const GenerationFunction melodyFunction = [](Phrase fromPhrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) {
-        return melodyFromFunction(harmony::generateChordScales(fromPhrase, editorState), editorState, voiceName);
+    const GenerationFunction melodyFunction = [](Phrase fromPhrase, GenerateStuffEditorState const& editorState) {
+        return melodyFromFunction(harmony::generateChordScales(fromPhrase, editorState), editorState);
     };
 
-    const GenerationFunction bassFromFunction = [](Phrase const& fromPhrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) {
+    const GenerationFunction bassFromFunction = [](Phrase const& fromPhrase, GenerateStuffEditorState const& editorState) {
 //        Parameter(bassBurstLengthMinKey, "min burst length", burstLengthRange, 1, " notes"),
 //        Parameter(bassBurstLengthMaxKey, "max burst length", burstLengthRange, 4, " notes"),
 //        Parameter(bassBurstNoteLengthHalfKey, "burst note length 1/2", false, " subdivisions"),
@@ -114,8 +114,8 @@ namespace melody {
         return phrase;
     };
 
-    const GenerationFunction bassFunction = [](Phrase fromPhrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) {
-        return bassFromFunction(harmony::generateChordScales(fromPhrase, editorState), editorState, voiceName);
+    const GenerationFunction bassFunction = [](Phrase fromPhrase, GenerateStuffEditorState const& editorState) {
+        return bassFromFunction(harmony::generateChordScales(fromPhrase, editorState), editorState);
     };
 
 }

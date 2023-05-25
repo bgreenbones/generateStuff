@@ -16,7 +16,7 @@
 
 class PlayQueue {
     map<VoiceName, Voice> queue;
-    Schedule schedule;
+    // Schedule schedule;
 public:
     PlayQueue() {
         for (VoiceBindings vb : voiceBindings) {
@@ -35,6 +35,7 @@ public:
     bool toggleMuteOrnamentation(VoiceName voiceName); // TODO: decouple this class from concept of connecting/ornamentation.
     bool toggleMuteOrnamentation(VoiceName voiceName, bool muteState); // TODO: decouple this class from concept of connecting/ornamentation.
     void queuePhrase(TimedEvent phraseTime, Phrase phrase);
+    vector<Phrase> at(Quarters ppqPosition);
     
     void setMidiChannel(VoiceName voiceName, int newMidiChannel);
     int getMidiChannel(VoiceName voiceName);

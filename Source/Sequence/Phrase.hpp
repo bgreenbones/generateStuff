@@ -49,6 +49,8 @@ public:
     Phrase(): Phrase(defaultSubdivision, defaultStartTime, defaultDuration) {}
     Phrase(Phrase const& other):
         TimedEvent(other),
+        voice(other.voice),
+        schedule(other.schedule),
         notes(other.notes, *this),
         connectingNotes(other.connectingNotes, *this),
         ornamentationNotes(other.ornamentationNotes, *this),
@@ -62,10 +64,13 @@ public:
         ornamentationNotes = Sequence<Note>(other.ornamentationNotes, *this);
         subdivisions = Sequence<Subdivision>(other.subdivisions, *this);
         chordScales = Sequence<ChordScale>(other.chordScales, *this);
+        voice = other.voice;
+        schedule = other.schedule;
         return *this;
     };
 
-    VoiceName voice;
+    string voice;
+    set<TimedEvent> schedule;
     Sequence<Note> notes;
     Sequence<Note> connectingNotes;
     Sequence<Note> ornamentationNotes;
@@ -111,10 +116,33 @@ public:
     vector<T> concatEvents(vector<T> eventList, vector<T> otherList) const;
     Phrase concat(Phrase other, bool useLastNote = false, bool keepDuration = false) const;
     Phrase insert(Phrase other, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignore) const;
-    
+    Phrase loop(TimedEvent loopTime) const {
+        if (this->duration == loopTime.duration) {
+            return *this;
+        }
+        Phrase result(*this);
+        while (result.duration < loopTime.duration) {
+            result.notes.concat(result.notes);
+            result.connectingNotes.concat(result.connectingNotes);
+            result.ornamentationNotes.concat(result.ornamentationNotes);
+            result.subdivisions.concat(result.subdivisions);
+            result.chordScales.concat(result.chordScales);
+            result.duration = 2*result.duration;
+        }
+        result.duration = loopTime.duration;
+        result.notes.chopAfterDuration(result.duration);
+        result.connectingNotes.chopAfterDuration(result.duration);
+        result.ornamentationNotes.chopAfterDuration(result.duration);
+        result.subdivisions.chopAfterDuration(result.duration);
+        result.chordScales.chopAfterDuration(result.duration);
+        result.startTime = loopTime.startTime;
+        return result;
+    }
     
     //
-    Duration halfLength() const { return duration / 2.; };
+    Duration halfLength() const {
+        return duration / 2.;
+    };
     bool isNoteOnLeft(Note note) const { return note.startTime < halfLength(); };
     bool isNoteOnRight(Note note) const { return !isNoteOnLeft(note); };
 
@@ -169,6 +197,7 @@ Duration timeBetween(T const& first, T const& second, Phrase phrase)
 }
 
 typedef string VoiceName;
-typedef function<Phrase(Phrase, GenerateStuffEditorState const&, VoiceName)> GenerationFunction;
+typedef function<Phrase(Phrase, GenerateStuffEditorState const&)> GenerationFunction;
+// typedef function<Phrase(shared_ptr<PlayQueue>, GenerateStuffEditorState const&)> GenerationFunction;
 
 #endif /* Phrase_hpp */

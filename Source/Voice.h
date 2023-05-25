@@ -7,7 +7,6 @@
 
   ==============================================================================
 */
-
 #pragma once
 
 #include <stdio.h>
@@ -16,6 +15,7 @@
 #include "Harmony.h"
 #include "Melody.h"
 #include "VoiceParameters.h"
+#include "Schedule.h"
 #include <JuceHeader.h>
 
 typedef string VoiceName;
@@ -45,7 +45,7 @@ struct VoiceBindings {
     GenerationFunction generateFromOther;
 };
 
-static const GenerationFunction placeholderGenerationFunction = [](Phrase phrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) { return phrase; };
+static const GenerationFunction placeholderGenerationFunction = [](Phrase phrase, GenerateStuffEditorState const& editorState) { return phrase; };
 
 static const vector<VoiceBindings> voiceBindings = {
     VoiceBindings {
@@ -95,8 +95,9 @@ public:
     bool mute;
     bool muteOrnamentation; // TODO: decouple this class from any idea of ornamentation/connecting. there should just be a base and a collection of related phrases. or just a collection.
     bool muteConnecting;
-    Phrase base;
-    vector<Phrase> phrases;
+    // Phrase base;
+    // vector<Phrase> phrases;
+    VoiceSchedule schedule;
 
     // schedule of phrases to play
     // that lives in the play queue
@@ -105,13 +106,13 @@ public:
     
     Voice(VoiceName name, int midiChannel, bool mute):
         name(name), midiChannel(midiChannel), mute(mute) {
-            initPhraseVector();
+            // initPhraseVector();
         };
     
-    void initPhraseVector() {
-        phrases.clear();
-        phrases.push_back(base);
-    }
+    // void initPhraseVector() {
+    //     phrases.clear();
+    //     phrases.push_back(base);
+    // }
 };
 
 

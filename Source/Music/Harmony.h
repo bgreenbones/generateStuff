@@ -24,7 +24,7 @@ namespace harmony {
         
     ChordScale selectApproachAndGenerate(juce::String approach, Sequence<ChordScale> chordScales, Position startTime, Duration chordLength);
 
-    const GenerationFunction chordsFunction = [](Phrase phrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) {
+    const GenerationFunction chordsFunction = [](Phrase phrase, GenerateStuffEditorState const& editorState) {
         phrase.notes.monophonic = false;
         phrase.chordScales.monophonic = true;
         phrase.notes.clear();
@@ -52,7 +52,7 @@ namespace harmony {
     Phrase generateChordScales(Phrase fromPhrase, GenerateStuffEditorState const& editorState);
 
 
-    const GenerationFunction chordsFromFunction = [](Phrase fromPhrase, GenerateStuffEditorState const& editorState, VoiceName voiceName) {
+    const GenerationFunction chordsFromFunction = [](Phrase fromPhrase, GenerateStuffEditorState const& editorState) {
         Phrase phrase = fromPhrase.toPolyphonic();
         phrase = phrase.chordScales.empty() ? generateChordScales(phrase, editorState) : phrase;
         phrase.notes.clear();

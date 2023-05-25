@@ -11,7 +11,14 @@
 
 #include "PlayQueue.h"
 
-
+vector<Phrase> PlayQueue::at(Quarters ppqPosition) {
+    vector<Phrase> result;
+    for (auto entry : queue) {
+        result.push_back(entry.second.schedule.at(ppqPosition));
+    }
+    // return schedule.at(ppqPosition);
+    return result;
+}
 
 bool PlayQueue::hasVoice(VoiceName voiceName)
 {
@@ -30,8 +37,10 @@ bool PlayQueue::doesntHavePhrase(VoiceName voiceName, Position startTime, Durati
 void PlayQueue::clearVoice(VoiceName voiceName)
 {
     if (!hasVoice(voiceName)) { return; }
-    queue.at(voiceName).base.clear();
-    queue.at(voiceName).initPhraseVector();
+    // queue.at(voiceName).base.clear();
+    // queue.at(voiceName).initPhraseVector();
+    queue.at(voiceName).schedule.clear();
+    
 }
 
 bool PlayQueue::toggleMuteVoice(VoiceName voiceName)
@@ -81,10 +90,11 @@ bool PlayQueue::toggleMuteOrnamentation(VoiceName voiceName)
 
 void PlayQueue::queuePhrase(TimedEvent phraseTime, Phrase phrase)
 {
-  schedule.schedulePhrase(phraseTime, phrase);
-  // VoiceName voiceName = phrase.voice;
-    // if (!hasVoice(voiceName)) { return; }
-    // Voice &voice = queue.at(voiceName);
+    // schedule.schedulePhrase(phraseTime, phrase);
+    VoiceName voiceName = phrase.voice;
+    if (!hasVoice(voiceName)) { return; }
+    Voice &voice = queue.at(voiceName);
+    voice.schedule.schedulePhrase(phraseTime, phrase);
     // if (phrase.isPolyphonic()) { voice.base = voice.base.toPolyphonic(); } // TODO: more rigorous way of syncing parameters between queued phrase and generated phrase?
     // Phrase baseCopy = voice.base;
     // voice.base = voice.base.insert(phrase, OverwriteBehavior::erase); // overwrite if overlap
@@ -92,7 +102,7 @@ void PlayQueue::queuePhrase(TimedEvent phraseTime, Phrase phrase)
 //        bool messedUp = true;
 //        voice.base = baseCopy.insert(phrase, OverwriteBehavior::erase); // overwrite if overlap
 //
-//    }
+   // }
     // voice.initPhraseVector(); // TODO: lol 
 }
 

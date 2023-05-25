@@ -9,7 +9,7 @@
 */
 
 #include "TransformPhraseMenuComponent.h"
-
+#include "FormMusical.h"
 
 
 TransformPhraseMenuComponent::TransformPhraseMenuComponent(VoiceName voiceName,
@@ -21,19 +21,22 @@ TransformPhraseMenuComponent::TransformPhraseMenuComponent(VoiceName voiceName,
     }
 
     flipButton.onClick = [this]() {
-        Phrase flipped = rhythm::flip(playQueue->getVoice(this->voiceName).base);
-        playQueue->queuePhrase(this->voiceName, flipped);
+        Phrase flipped = rhythm::flip(playQueue->getVoice(this->voiceName)
+            .schedule.at(editorState->phraseStartTime));
+        playQueue->queuePhrase(Form(), flipped);
     };
     addAndMakeVisible(&flipButton);
 
     
     stabilizeRhythmButton.onClick = [this]() {
-        Phrase stabilized = rhythm::stabilityFilter(playQueue->getVoice(this->voiceName).base, Direction::up);
-        playQueue->queuePhrase(this->voiceName, stabilized);
+        Phrase stabilized = rhythm::stabilityFilter(playQueue->getVoice(this->voiceName)
+            .schedule.at(editorState->phraseStartTime), Direction::up);
+        playQueue->queuePhrase(Form(), stabilized);
     };
     destabilizeRhythmButton.onClick = [this]() {
-        Phrase destabilized = rhythm::stabilityFilter(playQueue->getVoice(this->voiceName).base, Direction::down);
-        playQueue->queuePhrase(this->voiceName, destabilized);
+        Phrase destabilized = rhythm::stabilityFilter(playQueue->getVoice(this->voiceName)
+            .schedule.at(editorState->phraseStartTime), Direction::down);
+        playQueue->queuePhrase(Form(), destabilized);
     };
     addAndMakeVisible(&stabilizeRhythmButton);
     addAndMakeVisible(&destabilizeRhythmButton);

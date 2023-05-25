@@ -58,7 +58,7 @@ private:
     juce::Label displaceLabel; // displace beats
     juce::TextEditor displace;
     juce::Label startBarLabel; // start bar
-    juce::TextEditor startBar;
+    juce::TextEditor startBar;// todo: these edit form
     juce::Label stopBarLabel; // stop bar / just go forever? / loop going forward in timeline?
     juce::TextEditor stopBar;
     

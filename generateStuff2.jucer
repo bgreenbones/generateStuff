@@ -5,6 +5,7 @@
               pluginCharacteristicsValue="pluginIsMidiEffectPlugin,pluginProducesMidiOut,pluginWantsMidiIn"
               cppLanguageStandard="17">
   <MAINGROUP id="MsxILz" name="generateStuff">
+    <GROUP id="{1F340CA5-7936-CCCD-FAE4-B8BBE23A3A37}" name="New Group"/>
     <GROUP id="{00999AAF-F7D5-2407-527D-4524909F0912}" name="Source">
       <GROUP id="{DCCBD608-3028-B941-FC99-E73F736C2121}" name="Music">
         <FILE id="UryfA1" name="Dynamics.cpp" compile="1" resource="0" file="Source/Music/Dynamics.cpp"/>
@@ -57,10 +58,10 @@
         <FILE id="tFOp4W" name="VoiceManager.h" compile="0" resource="0" file="Source/UI/VoiceManager.h"/>
       </GROUP>
       <GROUP id="{E84D5FE5-051D-49D6-86AD-21D645F5CBC0}" name="Sequence">
+        <FILE id="i8JeLu" name="FormMusical.cpp" compile="1" resource="0" file="Source/Sequence/FormMusical.cpp"/>
+        <FILE id="UtCQs3" name="FormMusical.h" compile="0" resource="0" file="Source/Sequence/FormMusical.h"/>
         <FILE id="LpUeQ1" name="Schedule.cpp" compile="1" resource="0" file="Source/Schedule.cpp"/>
         <FILE id="nzJoP0" name="Schedule.h" compile="0" resource="0" file="Source/Schedule.h"/>
-        <FILE id="nehxBS" name="Form.cpp" compile="1" resource="0" file="Source/Sequence/Form.cpp"/>
-        <FILE id="g4e2rq" name="Form.h" compile="0" resource="0" file="Source/Sequence/Form.h"/>
         <FILE id="gRlJlo" name="Mininotation.cpp" compile="1" resource="0"
               file="Source/Sequence/Mininotation.cpp"/>
         <FILE id="aCmneZ" name="Mininotation.h" compile="0" resource="0" file="Source/Sequence/Mininotation.h"/>

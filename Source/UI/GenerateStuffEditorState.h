@@ -56,6 +56,7 @@ public:
     beats displace = 0.;
     bars startBar = 1.;
     bars stopBar = 3.;
+    Position phraseStartTime = 0;
     
     typedef string VoiceName;
     map<VoiceName, OrnamentationEditorState> ornamentationStates;

@@ -7,14 +7,15 @@
 
 #include "Generator.hpp"
 #include "Pitch.h"
+#include "FormMusical.h"
 
 Phrase Generator::fromNothing(string phraseKey, GenerationFunction phraseFunction) {
     auto phrase = Phrase(editorState->getSubdivision(),
                          editorState->getStartTime(),
                          editorState->getPhraseLength());
+    phrase = phraseFunction(phrase, *editorState.get());
     phrase.voice = phraseKey;
-    phrase = phraseFunction(phrase, *editorState.get(), phraseKey);
-    playQueue->queuePhrase(phraseKey, phrase);
+    playQueue->queuePhrase(Form(), phrase);
     return phrase;
 }
 
@@ -23,9 +24,9 @@ Phrase Generator::from(string generatePhraseKey, string generateFromPhraseKey, G
     Duration phraseLength = editorState->getPhraseLength();
     if (playQueue->doesntHavePhrase(generateFromPhraseKey, startTime, phraseLength)) { this->generate(generateFromPhraseKey); }
     Voice voice = playQueue->getVoice(generateFromPhraseKey);
-    auto result = phraseFunction(voice.base, *editorState.get(), generatePhraseKey);
+    auto result = phraseFunction(voice.schedule.at(editorState->phraseStartTime), *editorState.get());
     result.voice = generatePhraseKey;
-    playQueue->queuePhrase(generatePhraseKey, result);
+    playQueue->queuePhrase(Form(), result);
     return result;
 }
 
@@ -34,8 +35,8 @@ Phrase Generator::flipClave(string phraseKey) {
     Duration phraseLength = editorState->getPhraseLength();
     if (playQueue->doesntHavePhrase(phraseKey, startTime, phraseLength)) { return Phrase(); } // TODO: use std::optional in failure cases.
     Voice voice = playQueue->getVoice(phraseKey );
-    auto flipped = rhythm::flip(voice.base); // TODO: segment the phrase by relevant start and duration
-    playQueue->queuePhrase(phraseKey, flipped);
+    auto flipped = rhythm::flip(voice.schedule.at(editorState->phraseStartTime)); // TODO: segment the phrase by relevant start and duration
+    playQueue->queuePhrase(Form(), flipped);
     
     return flipped;
 }
@@ -48,9 +49,9 @@ void Generator::connecting(string phraseKey,
     Duration phraseLength = editorState->getPhraseLength();
     if (playQueue->doesntHavePhrase(phraseKey, startTime, phraseLength)) return;
     Voice voice = playQueue->getVoice(phraseKey);
-    Phrase phrasePhrase = voice.base;
+    Phrase phrasePhrase = voice.schedule.at(editorState->phraseStartTime);
     Phrase connectingPhrase = phrasePhrase.fillWithRolls(connectingProb, associationProb, connectingLengthProb);
-    playQueue->queuePhrase(phraseKey, connectingPhrase);
+    playQueue->queuePhrase(Form(), connectingPhrase);
 }
 
 vector<OrnamentSimple> getOrnamentVector(bool flams, bool drags, bool ruffs) {
@@ -71,11 +72,11 @@ void Generator::ornament(string phraseKey,
     Duration phraseLength = editorState->getPhraseLength();
     if (playQueue->doesntHavePhrase(phraseKey, startTime, phraseLength)) return;
     Voice voice = playQueue->getVoice(phraseKey);
-    Phrase phrasePhrase = voice.base;
+    Phrase phrasePhrase = voice.schedule.at(editorState->phraseStartTime);
     auto possibleOrnaments = getOrnamentVector(flams, drags, ruffs);
     if (possibleOrnaments.empty()) { return; }
     Phrase ornamentsPhrase = phrasePhrase.addOrnaments(possibleOrnaments, prob, breadth);
-    playQueue->queuePhrase(phraseKey, ornamentsPhrase);
+    playQueue->queuePhrase(Form(), ornamentsPhrase);
 }
 
 

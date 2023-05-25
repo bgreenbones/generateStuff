@@ -243,24 +243,34 @@ bool GenerateStuffAudioProcessor::isPpqTimeInBuffer(juce::Optional<juce::AudioPl
 };
 
 
-void GenerateStuffAudioProcessor::playNoteSequence(juce::MidiBuffer& midiMessages, juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo, const double ppqPosition, Sequence<Note> noteSequence, int midiChannel) {
+void GenerateStuffAudioProcessor::playNoteSequence(juce::MidiBuffer& midiMessages,
+    juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo,
+    const double ppqPosition, 
+    Sequence<Note> noteSequence, 
+    TimedEvent scheduledTime,
+    int midiChannel) {
+
+    int phraseLoopNumber = Quarters(ppqPosition) / noteSequence.parent.duration;
+    Position scheduledStartTime = scheduledTime.startTime + noteSequence.parent.startTime + phraseLoopNumber * noteSequence.parent.duration;
+    Position scheduledEndTime = scheduledTime.endTime();
 
     for (auto noteIt = noteSequence.begin(); noteIt != noteSequence.end(); ++noteIt) {
         Note note = *noteIt;
         
-        // Bars playPeriod = editorState->stopBar - editorState->startBar;
-        double loopStart = editorState->getStartTime();
-        double loopEnd = editorState->getStopTime();
-        // double noteOnTimeInQuarters = loopStart + ((editorState->getDisplacement() + noteSequence.parent.startTime + note.startTime) % playPeriod);
-        double noteOnTimeInQuarters = loopStart + editorState->getDisplacement() + noteSequence.parent.startTime + note.startTime;
-        while (ppqPosition > noteOnTimeInQuarters) { // might as well set it to be in the future
-            noteOnTimeInQuarters += noteSequence.parent.duration;
-        }
-        if (noteOnTimeInQuarters >= loopEnd) { // but don't go too far in the future, we've set an end bar
-            noteOnTimeInQuarters = Quarters(noteOnTimeInQuarters - loopStart) + loopStart;
-            // noteOnTimeInQuarters = (Quarters(noteOnTimeInQuarters - loopStart) % playPeriod) + loopStart;
-        }
+        double noteOnTimeInQuarters = editorState->getDisplacement() + scheduledStartTime + note.startTime;
         double noteOffTimeInQuarters = noteOnTimeInQuarters + note.duration;
+
+        if (!isPpqTimeInBuffer(positionInfo, ppqPosition, noteOnTimeInQuarters) &&
+            !isPpqTimeInBuffer(positionInfo, ppqPosition, noteOffTimeInQuarters)) {
+            while (ppqPosition > noteOffTimeInQuarters) { // might as well set it to be in the future
+                if (noteOnTimeInQuarters + noteSequence.parent.duration < scheduledEndTime) {
+                    noteOnTimeInQuarters += noteSequence.parent.duration;
+                    noteOffTimeInQuarters = noteOnTimeInQuarters + note.duration;
+                } else {
+                    break;
+                }
+            }
+        }
         
         if (isPpqTimeInBuffer(positionInfo, ppqPosition, noteOnTimeInQuarters)) {
             auto noteOn = juce::MidiMessage::noteOn (midiChannel,
@@ -278,7 +288,8 @@ void GenerateStuffAudioProcessor::playNoteSequence(juce::MidiBuffer& midiMessage
             auto noteOff = juce::MidiMessage::noteOff (midiChannel,
                                                         note.pitch,
                                                         (juce::uint8) note.velocity);
-            double offTime = bufferTimeFromPpqTime(positionInfo, ppqPosition, noteOffTimeInQuarters) - 2; // maybe prevent some notes from missing their note off by ending them earlier
+            // double offTime = bufferTimeFromPpqTime(positionInfo, ppqPosition, noteOffTimeInQuarters) - 2; // maybe prevent some notes from missing their note off by ending them earlier
+            double offTime = bufferTimeFromPpqTime(positionInfo, ppqPosition, noteOffTimeInQuarters);
             bool success = midiMessages.addEvent (noteOff, offTime);
             if (!success) {
                 cout << "failed to add note off\n";
@@ -286,6 +297,7 @@ void GenerateStuffAudioProcessor::playNoteSequence(juce::MidiBuffer& midiMessage
         }
     }
 }
+
 
 void GenerateStuffAudioProcessor::playPlayables(
         juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo,
@@ -315,45 +327,23 @@ void GenerateStuffAudioProcessor::playPlayables(
         }
     }
 
-
-    // for (auto voiceIt = playQueue->begin(); voiceIt != playQueue->end(); ++voiceIt) {
-    //     string voiceName = voiceIt->first;
-    //     Voice voice = voiceIt->second;
-    //     if (voice.mute) { continue; }
-    //     int midiChannel = voice.midiChannel;
-
-   //      playNoteSequence(midiMessages, positionInfo, ppqPosition, voice.base.notes, midiChannel);
-    //     if (!voice.muteConnecting) {
-    //       playNoteSequence(midiMessages, positionInfo, ppqPosition, voice.base.connectingNotes, midiChannel);
-    //     }
-    //     if (!voice.muteOrnamentation) {
-    //       playNoteSequence(midiMessages, positionInfo, ppqPosition, voice.base.ornamentationNotes, midiChannel);
-    //     }
-    // }
-    
-    vector<TimedEvent> scheduleTimes = playQueue->scheduleTimes.byPosition(Quarters(ppqPosition));
-    for (auto scheduleTime : scheduleTimes)
+    vector<Phrase> phrases = playQueue->at(ppqPosition);
+    for (auto phrase : phrases) 
     {
-      vector<Phrase> phrases = playQueue->schedule.at(scheduleTime);
-      for (auto phrase : phrases) 
-      {
-        // string voiceName = voiceIt->first;
-        // Voice voice = voiceIt->second;
-        // if (voice.mute) { continue; }
-        // int midiChannel = voice.midiChannel;
-        int midiChannel = 1;
+        string voiceName = phrase.voice;
+        Voice voice = playQueue->getVoice(voiceName);
+        if (voice.mute) { continue; }
+        int midiChannel = voice.midiChannel;
 
-        int phraseLoopNumber = Quarters(ppqPosition) / phrase.duration;
-        phrase.startTime += phraseLoopNumber * phrase.duration;
-
-        playNoteSequence(midiMessages, positionInfo, ppqPosition, phrase.notes, midiChannel);
-//        if (!voice.muteConnecting) {
-          playNoteSequence(midiMessages, positionInfo, ppqPosition, phrase.connectingNotes, midiChannel);
-//        }
-//        if (!voice.muteOrnamentation) {
-          playNoteSequence(midiMessages, positionInfo, ppqPosition, phrase.ornamentationNotes, midiChannel);
-//        }
-      }
+        for (TimedEvent scheduledTime : phrase.schedule) {
+            playNoteSequence(midiMessages, positionInfo, ppqPosition, phrase.notes, scheduledTime, midiChannel);
+            if (!voice.muteConnecting) {
+                playNoteSequence(midiMessages, positionInfo, ppqPosition, phrase.connectingNotes, scheduledTime, midiChannel);
+            }
+            if (!voice.muteOrnamentation) {
+                playNoteSequence(midiMessages, positionInfo, ppqPosition, phrase.ornamentationNotes, scheduledTime, midiChannel);
+            }
+        }
     }
 }
 
