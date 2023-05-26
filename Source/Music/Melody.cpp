@@ -14,7 +14,7 @@
 
 
 
-Phrase melody::bassFromFunction(Phrase fromPhrase, shared_ptr<PlayQueue> playQueue, GenerateStuffEditorState const& editorState) {
+Phrase melody::bassFromFunction(Phrase fromPhrase, PlayQueue& playQueue, GenerateStuffEditorState const& editorState) {
 //        Parameter(bassBurstLengthMinKey, "min burst length", burstLengthRange, 1, " notes"),
 //        Parameter(bassBurstLengthMaxKey, "max burst length", burstLengthRange, 4, " notes"),
 //        Parameter(bassBurstNoteLengthHalfKey, "burst note length 1/2", false, " subdivisions"),
@@ -45,7 +45,7 @@ Phrase melody::bassFromFunction(Phrase fromPhrase, shared_ptr<PlayQueue> playQue
   
   auto notes = fromPhrase.toMonophonic();
   auto accents = notes.accents();
-  Phrase clave = playQueue->at(0, claveKey);
+  Phrase clave = playQueue.at(0, claveKey);
   clave = clave.loop(phraseLength);
   
   // for (Note note : notes.notes) { keyPoints.emplace(note.startTime); }

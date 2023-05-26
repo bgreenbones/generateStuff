@@ -744,7 +744,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "739B45F7-1DEC-4FB6-A7AB-51027BDA8156"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/Sequence/Sequence.cpp"
@@ -752,15 +752,15 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "354"
             endingLineNumber = "354"
-            landmarkName = "drawByPosition(position)"
+            landmarkName = "refsBySpan(span)"
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "739B45F7-1DEC-4FB6-A7AB-51027BDA8156 - 261e227de1c58918"
+                  uuid = "739B45F7-1DEC-4FB6-A7AB-51027BDA8156 - 29b6e6d35a356339"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Sequence&lt;Note&gt;::drawByPosition(Duration) const"
+                  symbolName = "Sequence&lt;Note&gt;::refsBySpan(TimedEvent)"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
@@ -768,14 +768,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "354"
                   endingLineNumber = "354"
-                  offsetFromSymbolStart = "160">
+                  offsetFromSymbolStart = "264">
                </Location>
                <Location
-                  uuid = "739B45F7-1DEC-4FB6-A7AB-51027BDA8156 - 5d41ce268b9a7e18"
+                  uuid = "739B45F7-1DEC-4FB6-A7AB-51027BDA8156 - 6eaed4d07eb313b9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Sequence&lt;Subdivision&gt;::drawByPosition(Duration) const"
+                  symbolName = "Sequence&lt;Subdivision&gt;::refsBySpan(TimedEvent)"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
@@ -783,14 +783,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "354"
                   endingLineNumber = "354"
-                  offsetFromSymbolStart = "156">
+                  offsetFromSymbolStart = "264">
                </Location>
                <Location
-                  uuid = "739B45F7-1DEC-4FB6-A7AB-51027BDA8156 - 5688ace875f20650"
+                  uuid = "739B45F7-1DEC-4FB6-A7AB-51027BDA8156 - 65e04d2207ebc3f1"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Sequence&lt;ChordScale&gt;::drawByPosition(Duration) const"
+                  symbolName = "Sequence&lt;ChordScale&gt;::refsBySpan(TimedEvent)"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
@@ -798,14 +798,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "354"
                   endingLineNumber = "354"
-                  offsetFromSymbolStart = "156">
+                  offsetFromSymbolStart = "264">
                </Location>
                <Location
-                  uuid = "739B45F7-1DEC-4FB6-A7AB-51027BDA8156 - 4e24e2f0f3621373"
+                  uuid = "739B45F7-1DEC-4FB6-A7AB-51027BDA8156 - 40eb41a1a546f414"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Sequence&lt;TimedEvent&gt;::drawByPosition(Duration) const"
+                  symbolName = "Sequence&lt;TimedEvent&gt;::refsBySpan(TimedEvent)"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
@@ -813,7 +813,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "354"
                   endingLineNumber = "354"
-                  offsetFromSymbolStart = "156">
+                  offsetFromSymbolStart = "264">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -990,8 +990,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "148"
             endingLineNumber = "148"
-            landmarkName = "Note(defaultPitch, defaultVelocity)"
-            landmarkType = "7">
+            landmarkName = "Note"
+            landmarkType = "3">
             <Locations>
                <Location
                   uuid = "D8A4B682-752C-4742-99BC-F6D94E4A9F73 - 14ba064a7b286efe"
@@ -1133,7 +1133,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "91"
-            endingLineNumber = "91">
+            endingLineNumber = "91"
+            landmarkName = "unknown"
+            landmarkType = "0">
             <Locations>
                <Location
                   uuid = "80C7073F-318C-485D-92DA-615533CBDBAA - 97c12620e4badd1c"
@@ -1302,7 +1304,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "96"
-            endingLineNumber = "96">
+            endingLineNumber = "96"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1489,7 +1493,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "2416">
+                  offsetFromSymbolStart = "1684">
                </Location>
                <Location
                   uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
@@ -1504,7 +1508,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "2416">
+                  offsetFromSymbolStart = "1684">
                </Location>
                <Location
                   uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
@@ -1519,7 +1523,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "2416">
+                  offsetFromSymbolStart = "1684">
                </Location>
                <Location
                   uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
@@ -1534,7 +1538,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "2416">
+                  offsetFromSymbolStart = "1684">
                </Location>
                <Location
                   uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
@@ -1549,7 +1553,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "2416">
+                  offsetFromSymbolStart = "1684">
                </Location>
                <Location
                   uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
@@ -1564,7 +1568,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "2416">
+                  offsetFromSymbolStart = "1684">
                </Location>
                <Location
                   uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
@@ -1579,7 +1583,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "2416">
+                  offsetFromSymbolStart = "1684">
                </Location>
                <Location
                   uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
@@ -1594,7 +1598,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "2416">
+                  offsetFromSymbolStart = "1684">
                </Location>
                <Location
                   uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
@@ -1609,7 +1613,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "2416">
+                  offsetFromSymbolStart = "1684">
                </Location>
                <Location
                   uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
@@ -1624,7 +1628,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "2416">
+                  offsetFromSymbolStart = "1684">
                </Location>
                <Location
                   uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
@@ -1639,7 +1643,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "2416">
+                  offsetFromSymbolStart = "1684">
                </Location>
                <Location
                   uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
@@ -1654,7 +1658,37 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "2416">
+                  offsetFromSymbolStart = "1684">
+               </Location>
+               <Location
+                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "61"
+                  endingLineNumber = "61"
+                  offsetFromSymbolStart = "1684">
+               </Location>
+               <Location
+                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "61"
+                  endingLineNumber = "61"
+                  offsetFromSymbolStart = "1684">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1765,7 +1799,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "2232">
+                  offsetFromSymbolStart = "1536">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
@@ -1780,7 +1814,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "2244">
+                  offsetFromSymbolStart = "1536">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
@@ -1795,7 +1829,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "2232">
+                  offsetFromSymbolStart = "1536">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
@@ -1810,7 +1844,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "2244">
+                  offsetFromSymbolStart = "1536">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
@@ -1825,7 +1859,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "2232">
+                  offsetFromSymbolStart = "1536">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
@@ -1840,7 +1874,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "2244">
+                  offsetFromSymbolStart = "1536">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
@@ -1855,7 +1889,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "2232">
+                  offsetFromSymbolStart = "1536">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
@@ -1870,7 +1904,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "2244">
+                  offsetFromSymbolStart = "1536">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
@@ -1885,7 +1919,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "2232">
+                  offsetFromSymbolStart = "1536">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
@@ -1900,7 +1934,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "2244">
+                  offsetFromSymbolStart = "1536">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
@@ -1915,7 +1949,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "2232">
+                  offsetFromSymbolStart = "1536">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
@@ -1930,7 +1964,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "2244">
+                  offsetFromSymbolStart = "1536">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
@@ -1945,7 +1979,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "2232">
+                  offsetFromSymbolStart = "1536">
                </Location>
                <Location
                   uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
@@ -1960,157 +1994,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "2244">
-               </Location>
-               <Location
-                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
-                  moduleName = "generateStuff2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "56"
-                  endingLineNumber = "56"
-                  offsetFromSymbolStart = "2232">
-               </Location>
-               <Location
-                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
-                  moduleName = "generateStuff2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "56"
-                  endingLineNumber = "56"
-                  offsetFromSymbolStart = "2244">
-               </Location>
-               <Location
-                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
-                  moduleName = "generateStuff2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "56"
-                  endingLineNumber = "56"
-                  offsetFromSymbolStart = "2232">
-               </Location>
-               <Location
-                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
-                  moduleName = "generateStuff2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "56"
-                  endingLineNumber = "56"
-                  offsetFromSymbolStart = "2244">
-               </Location>
-               <Location
-                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
-                  moduleName = "generateStuff2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "56"
-                  endingLineNumber = "56"
-                  offsetFromSymbolStart = "2232">
-               </Location>
-               <Location
-                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
-                  moduleName = "generateStuff2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "56"
-                  endingLineNumber = "56"
-                  offsetFromSymbolStart = "2244">
-               </Location>
-               <Location
-                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
-                  moduleName = "generateStuff2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "56"
-                  endingLineNumber = "56"
-                  offsetFromSymbolStart = "2232">
-               </Location>
-               <Location
-                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
-                  moduleName = "generateStuff2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "56"
-                  endingLineNumber = "56"
-                  offsetFromSymbolStart = "2244">
-               </Location>
-               <Location
-                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
-                  moduleName = "generateStuff2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "56"
-                  endingLineNumber = "56"
-                  offsetFromSymbolStart = "2232">
-               </Location>
-               <Location
-                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
-                  moduleName = "generateStuff2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "56"
-                  endingLineNumber = "56"
-                  offsetFromSymbolStart = "2244">
+                  offsetFromSymbolStart = "1536">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -2208,6 +2092,36 @@
             landmarkName = "unknown"
             landmarkType = "0">
             <Locations>
+               <Location
+                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 68a8de9a340fef51"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "30"
+                  endingLineNumber = "30"
+                  offsetFromSymbolStart = "564">
+               </Location>
+               <Location
+                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 68a8de9a340fef51"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "30"
+                  endingLineNumber = "30"
+                  offsetFromSymbolStart = "564">
+               </Location>
                <Location
                   uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 68a8de9a340fef51"
                   shouldBeEnabled = "Yes"
@@ -2651,15 +2565,15 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "393"
             endingLineNumber = "393"
-            landmarkName = "pulseAndDisplace(pulse, displacement, pDisplace, pDouble, length)"
+            landmarkName = "getStartTimesString()"
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "52049F85-4C35-4EC0-B14B-21BDDC6CA849 - 8bf455507b9f1598"
+                  uuid = "52049F85-4C35-4EC0-B14B-21BDDC6CA849 - d7be9a786d5bbcba"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Sequence&lt;Note&gt;::pulseAndDisplace(Duration, Duration, Probability, Probability, Duration) const"
+                  symbolName = "Sequence&lt;Note&gt;::getStartTimesString()"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
@@ -2667,14 +2581,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "393"
                   endingLineNumber = "393"
-                  offsetFromSymbolStart = "88">
+                  offsetFromSymbolStart = "204">
                </Location>
                <Location
-                  uuid = "52049F85-4C35-4EC0-B14B-21BDDC6CA849 - 28c018bdbb8f9e3e"
+                  uuid = "52049F85-4C35-4EC0-B14B-21BDDC6CA849 - 75fb9e90760cca7a"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Sequence&lt;Subdivision&gt;::pulseAndDisplace(Duration, Duration, Probability, Probability, Duration) const"
+                  symbolName = "Sequence&lt;Subdivision&gt;::getStartTimesString()"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
@@ -2682,14 +2596,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "393"
                   endingLineNumber = "393"
-                  offsetFromSymbolStart = "88">
+                  offsetFromSymbolStart = "204">
                </Location>
                <Location
-                  uuid = "52049F85-4C35-4EC0-B14B-21BDDC6CA849 - 2179491abbd478a8"
+                  uuid = "52049F85-4C35-4EC0-B14B-21BDDC6CA849 - 91b8318f259180c2"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Sequence&lt;ChordScale&gt;::pulseAndDisplace(Duration, Duration, Probability, Probability, Duration) const"
+                  symbolName = "Sequence&lt;ChordScale&gt;::getStartTimesString()"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
@@ -2697,14 +2611,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "393"
                   endingLineNumber = "393"
-                  offsetFromSymbolStart = "88">
+                  offsetFromSymbolStart = "204">
                </Location>
                <Location
-                  uuid = "52049F85-4C35-4EC0-B14B-21BDDC6CA849 - 1ad01f907491dd95"
+                  uuid = "52049F85-4C35-4EC0-B14B-21BDDC6CA849 - cb4f58236e15b0df"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Sequence&lt;TimedEvent&gt;::pulseAndDisplace(Duration, Duration, Probability, Probability, Duration) const"
+                  symbolName = "Sequence&lt;TimedEvent&gt;::getStartTimesString()"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Sequence/Sequence.cpp"
@@ -2712,7 +2626,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "393"
                   endingLineNumber = "393"
-                  offsetFromSymbolStart = "88">
+                  offsetFromSymbolStart = "204">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -2729,7 +2643,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "75"
             endingLineNumber = "75"
-            landmarkName = "PlayQueue::toggleMuteOrnamentation(voiceName)"
+            landmarkName = "PlayQueue::toggleMuteConnecting(voiceName, newMuteState)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3022,7 +2936,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "D8F6EF69-E4D1-44F8-810B-7242B23861DB"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/PluginProcessor.cpp"
@@ -3054,7 +2968,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "1B060075-5AF0-45ED-A6F2-490BC11ACC07"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/PluginProcessor.cpp"
@@ -3512,6 +3426,36 @@
                   endingLineNumber = "28"
                   offsetFromSymbolStart = "36">
                </Location>
+               <Location
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 343435238437b6b1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "28"
+                  endingLineNumber = "28"
+                  offsetFromSymbolStart = "36">
+               </Location>
+               <Location
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 343435238437b6b1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "28"
+                  endingLineNumber = "28"
+                  offsetFromSymbolStart = "36">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -3531,7 +3475,7 @@
             landmarkType = "0">
             <Locations>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 884c2c9527f3e083"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 884c2c9527f3e0e4"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -3541,12 +3485,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
-                  offsetFromSymbolStart = "192">
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 884c2c9527f3e083"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 884c2c9527f3e0e4"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -3556,12 +3500,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
-                  offsetFromSymbolStart = "192">
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "216">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b798"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b7ff"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -3571,12 +3515,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
-                  offsetFromSymbolStart = "192">
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b798"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b7ff"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -3586,12 +3530,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
-                  offsetFromSymbolStart = "192">
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "216">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b798"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b7ff"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -3601,12 +3545,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
-                  offsetFromSymbolStart = "192">
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "216">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b798"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b7ff"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -3616,12 +3560,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
-                  offsetFromSymbolStart = "192">
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "216">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b798"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b7ff"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -3631,12 +3575,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
-                  offsetFromSymbolStart = "192">
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "216">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b798"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b7ff"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -3646,12 +3590,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
-                  offsetFromSymbolStart = "192">
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "216">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b798"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b7ff"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -3661,12 +3605,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
-                  offsetFromSymbolStart = "192">
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "216">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b798"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b7ff"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -3676,12 +3620,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
-                  offsetFromSymbolStart = "192">
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "216">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b798"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b7ff"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -3691,12 +3635,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
-                  offsetFromSymbolStart = "192">
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "216">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b798"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b7ff"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -3706,12 +3650,12 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
-                  offsetFromSymbolStart = "192">
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "216">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b798"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b7ff"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -3721,9 +3665,39 @@
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
-                  offsetFromSymbolStart = "192">
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "216">
+               </Location>
+               <Location
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b7ff"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "216">
+               </Location>
+               <Location
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b7ff"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "216">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -3771,7 +3745,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "220">
+                  offsetFromSymbolStart = "216">
                </Location>
                <Location
                   uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 343435238437b7ff"
@@ -3801,7 +3775,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "220">
+                  offsetFromSymbolStart = "216">
                </Location>
                <Location
                   uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 343435238437b7ff"
@@ -3816,7 +3790,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "220">
+                  offsetFromSymbolStart = "216">
                </Location>
                <Location
                   uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 343435238437b7ff"
@@ -3831,7 +3805,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "220">
+                  offsetFromSymbolStart = "216">
                </Location>
                <Location
                   uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 343435238437b7ff"
@@ -3846,7 +3820,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "220">
+                  offsetFromSymbolStart = "216">
                </Location>
                <Location
                   uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 343435238437b7ff"
@@ -3861,7 +3835,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "220">
+                  offsetFromSymbolStart = "216">
                </Location>
                <Location
                   uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 343435238437b7ff"
@@ -3876,7 +3850,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "220">
+                  offsetFromSymbolStart = "216">
                </Location>
                <Location
                   uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 343435238437b7ff"
@@ -3891,7 +3865,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "220">
+                  offsetFromSymbolStart = "216">
                </Location>
                <Location
                   uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 343435238437b7ff"
@@ -3906,7 +3880,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "220">
+                  offsetFromSymbolStart = "216">
                </Location>
                <Location
                   uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 343435238437b7ff"
@@ -3921,7 +3895,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "220">
+                  offsetFromSymbolStart = "216">
                </Location>
                <Location
                   uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 343435238437b7ff"
@@ -3936,7 +3910,37 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "220">
+                  offsetFromSymbolStart = "216">
+               </Location>
+               <Location
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 343435238437b7ff"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "216">
+               </Location>
+               <Location
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 343435238437b7ff"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "216">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -3969,7 +3973,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1128">
+                  offsetFromSymbolStart = "1276">
                </Location>
                <Location
                   uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 884c2c9527f3ee1e"
@@ -3984,7 +3988,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1128">
+                  offsetFromSymbolStart = "1276">
                </Location>
                <Location
                   uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 343435238437b905"
@@ -3999,7 +4003,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1128">
+                  offsetFromSymbolStart = "1276">
                </Location>
                <Location
                   uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 343435238437b905"
@@ -4014,7 +4018,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1128">
+                  offsetFromSymbolStart = "1276">
                </Location>
                <Location
                   uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 343435238437b905"
@@ -4029,7 +4033,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1128">
+                  offsetFromSymbolStart = "1276">
                </Location>
                <Location
                   uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 343435238437b905"
@@ -4044,7 +4048,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1128">
+                  offsetFromSymbolStart = "1276">
                </Location>
                <Location
                   uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 343435238437b905"
@@ -4059,7 +4063,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1128">
+                  offsetFromSymbolStart = "1276">
                </Location>
                <Location
                   uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 343435238437b905"
@@ -4074,7 +4078,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1128">
+                  offsetFromSymbolStart = "1276">
                </Location>
                <Location
                   uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 343435238437b905"
@@ -4089,7 +4093,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1128">
+                  offsetFromSymbolStart = "1276">
                </Location>
                <Location
                   uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 343435238437b905"
@@ -4104,7 +4108,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1128">
+                  offsetFromSymbolStart = "1276">
                </Location>
                <Location
                   uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 343435238437b905"
@@ -4119,7 +4123,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1128">
+                  offsetFromSymbolStart = "1276">
                </Location>
                <Location
                   uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 343435238437b905"
@@ -4134,7 +4138,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1128">
+                  offsetFromSymbolStart = "1276">
                </Location>
                <Location
                   uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 343435238437b905"
@@ -4149,9 +4153,119 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1128">
+                  offsetFromSymbolStart = "1276">
+               </Location>
+               <Location
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 343435238437b905"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "48"
+                  endingLineNumber = "48"
+                  offsetFromSymbolStart = "1276">
+               </Location>
+               <Location
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 343435238437b905"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "48"
+                  endingLineNumber = "48"
+                  offsetFromSymbolStart = "1276">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7362BAFC-6F91-41AF-A82A-BD7095FC9706"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Voice.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "15"
+            endingLineNumber = "15"
+            landmarkName = "Voice::variation()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FBAE62C3-CEA5-47EC-BD5E-FC477DAD1EA8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Schedule.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
+            landmarkName = "schedulePhrase(time, phrase)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "69741BD0-0575-430D-B22C-226C265C610D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Music/Rhythm.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
+            landmarkName = "rhythm::rhythmicVariation(voice)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7826B84B-8CEB-44B3-A746-A94437EAF63A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/PluginProcessor.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "339"
+            endingLineNumber = "339"
+            landmarkName = "GenerateStuffAudioProcessor::playPlayables(positionInfo, midiMessages)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7353430F-A15A-4605-B503-2015885AC51D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/UI/VoiceManager.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "106"
+            endingLineNumber = "106"
+            landmarkName = "VoiceManager::setOnClicks()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

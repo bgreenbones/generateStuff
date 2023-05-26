@@ -323,6 +323,16 @@ vector<T> Sequence<T>::byPosition(Position position) const {
     }
     return result;
 };
+// template<class T>
+// vector<T&> Sequence<T>::refsByPosition(Position position) const {
+//     vector<T&> result;
+//     for (auto it = this->begin(); it < this->end(); it++) {
+//         if (it->contains(position)) {
+//             result.push_back(*it);
+//         }
+//     }
+//     return result;
+// };
 
 template<class T>
 vector<T> Sequence<T>::bySpan(TimedEvent span) const {
@@ -330,6 +340,16 @@ vector<T> Sequence<T>::bySpan(TimedEvent span) const {
     for (auto it = this->begin(); it < this->end(); it++) {
         if (span.contains(it->startTime)) {
             result.push_back(*it);
+        }
+    }
+    return result;
+}
+template<class T>
+vector<reference_wrapper<T>> Sequence<T>::refsBySpan(TimedEvent span) {
+    vector<reference_wrapper<T>> result;
+    for (auto it = this->begin(); it < this->end(); it++) {
+        if (span.contains(it->startTime)) {
+            result.push_back(reference_wrapper<T>(*it));
         }
     }
     return result;

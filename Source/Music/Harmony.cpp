@@ -63,7 +63,7 @@ ChordScale harmony::subtleModulations(ChordScale previousChordScale, Position st
     return newChordSameScale(newChordScale, startTime, duration);
 }
 
-Phrase harmony::generateChordScales(Phrase fromPhrase, shared_ptr<PlayQueue> playQueue, GenerateStuffEditorState const& editorState) {
+Phrase harmony::generateChordScales(Phrase fromPhrase, PlayQueue& playQueue, GenerateStuffEditorState const& editorState) {
     fromPhrase.chordScales.clear();
 
     Duration phraseLength = editorState.getPhraseLength();

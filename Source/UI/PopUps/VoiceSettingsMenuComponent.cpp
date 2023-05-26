@@ -15,8 +15,8 @@ VoiceSettingsMenuComponent::VoiceSettingsMenuComponent(VoiceName voiceName, Gene
                                                             VoiceEditor(voiceName, processor),
                                                             processor(processor)
 {
-    if (editorState->voiceSettingsStates.find(voiceName) == editorState->voiceSettingsStates.end()) {
-        editorState->voiceSettingsStates.emplace(voiceName, VoiceSettingsEditorState());
+    if (editorState.voiceSettingsStates.find(voiceName) == editorState.voiceSettingsStates.end()) {
+        editorState.voiceSettingsStates.emplace(voiceName, VoiceSettingsEditorState());
     }
 }
 

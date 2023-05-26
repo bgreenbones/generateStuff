@@ -33,7 +33,7 @@ VoiceManager::~VoiceManager()
 
 void VoiceManager::midiChannelChanged(string voiceName) {
     int midiChannel = voices.at(voiceName).midiChannel.getSelectedId();
-    playQueue->setMidiChannel(voiceName, midiChannel);
+    playQueue.setMidiChannel(voiceName, midiChannel);
 }
 
 
@@ -94,23 +94,24 @@ void VoiceManager::updateState() {
 void VoiceManager::setOnClicks() {
     for (auto voiceIt = voices.begin(); voiceIt != voices.end(); voiceIt++) {
         VoiceControls &voice = voiceIt->second;
-        string voiceName = voice.voiceName;
+        VoiceName voiceName = voice.voiceName;
         voice.midiChannel.onChange = [this, voiceName]() { midiChannelChanged(voiceName); };
         voice.generateButton.onClick = [this, voiceName]() {
-            processor.issueNoteOff(playQueue->getMidiChannel(voiceName));
+            processor.issueNoteOff(playQueue.getMidiChannel(voiceName));
             generator.generate(voiceName);
             VoiceControls &voice = voices.at(voiceName);
             voice.improviseFunction = [&]() { generator.generate(voiceName); };
         };
         voice.generateFromButton.onClick = [this, voiceName]() {
-            processor.issueNoteOff(playQueue->getMidiChannel(voiceName));
-            generator.generateFrom(voiceName, useAsSourcePhraseKeyState);
-            VoiceControls &voice = voices.at(voiceName);
-            voice.improviseFunction = [&]() { generator.generateFrom(voiceName, useAsSourcePhraseKeyState); };
+            processor.issueNoteOff(playQueue.getMidiChannel(voiceName));
+            playQueue.getVoice(voiceName).variation();
+            // generator.gen∫erateFrom(voiceName, useAsSourcePhraseKeyState);
+            // VoiceControls &voice = voices.at(voiceName);
+            // voice.improviseFunction = [&]() { generator.generateFrom(voiceName, useAsSourcePhraseKeyState); };
         };
         voice.muteButton.onClick = [this, voiceName]() {
-            processor.issueNoteOff(playQueue->getMidiChannel(voiceName));
-            bool muted = playQueue->toggleMuteVoice(voiceName);
+            processor.issueNoteOff(playQueue.getMidiChannel(voiceName));
+            bool muted = playQueue.toggleMuteVoice(voiceName);
             voices.at(voiceName).muteButton.setToggleState(muted, juce::dontSendNotification);
         };
         voice.useAsSourceButton.onClick = [this]() { updateUseAsSourceState(); };

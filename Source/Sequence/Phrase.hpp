@@ -210,6 +210,8 @@ typedef string VoiceName;
 // typedef function<Phrase(PlayQueue const&, GenerateStuffEditorState const&)> GenerationFunction;
 
 class PlayQueue;
-typedef function<Phrase(Phrase, shared_ptr<PlayQueue>, GenerateStuffEditorState const&)> GenerationFunction;
+class Voice;
+typedef function<Phrase(Phrase, PlayQueue&, GenerateStuffEditorState const&)> GenerationFunction;
+typedef function<Phrase(Voice const&)> GenerationFunction2;
 
 #endif /* Phrase_hpp */

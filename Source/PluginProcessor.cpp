@@ -49,13 +49,16 @@ GenerateStuffAudioProcessor::GenerateStuffAudioProcessor()
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
                        ),
-        playQueue(make_shared<PlayQueue>(PlayQueue())),
-        editorState(make_shared<GenerateStuffEditorState>(GenerateStuffEditorState(apvts))),
+        editorState(GenerateStuffEditorState(apvts)),
+        playQueue(PlayQueue(editorState)),
+        // playQueue(make_shared<PlayQueue>(PlayQueue(*editorState.get()))),
         generator(Generator(playQueue, editorState)),
         noteOffIssued(true),
         apvts(*this, nullptr, "parameters", getParameterLayout())
 #endif
 {
+    playQueue.initQueue();
+    // playQueue.initQueue(playQueue);
     for (int pitch = 0; pitch <= 127; pitch ++) { // yikes. for now this is the only thing that turns off note on messages when we stop playing
         for (int midiChannel = 1; midiChannel <= 16; midiChannel++) {
             auto noteOff = juce::MidiMessage::noteOff (midiChannel, pitch, (juce::uint8) 0);
@@ -257,7 +260,7 @@ void GenerateStuffAudioProcessor::playNoteSequence(juce::MidiBuffer& midiMessage
     for (auto noteIt = noteSequence.begin(); noteIt != noteSequence.end(); ++noteIt) {
         Note note = *noteIt;
         
-        double noteOnTimeInQuarters = editorState->getDisplacement() + scheduledStartTime + note.startTime;
+        double noteOnTimeInQuarters = editorState.getDisplacement() + scheduledStartTime + note.startTime;
         double noteOffTimeInQuarters = noteOnTimeInQuarters + note.duration;
 
         if (!isPpqTimeInBuffer(positionInfo, ppqPosition, noteOnTimeInQuarters) &&
@@ -327,11 +330,11 @@ void GenerateStuffAudioProcessor::playPlayables(
         }
     }
 
-    vector<Phrase> phrases = playQueue->at(ppqPosition);
+    vector<Phrase> phrases = playQueue.at(ppqPosition);
     for (auto phrase : phrases) 
     {
         string voiceName = phrase.voice;
-        Voice voice = playQueue->getVoice(voiceName);
+        Voice voice = playQueue.getVoice(voiceName);
         if (voice.mute) { continue; }
         int midiChannel = voice.midiChannel;
 

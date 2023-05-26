@@ -48,8 +48,8 @@ private:
 class VoiceEditor : public PopUpComponent {
 public:
     VoiceName voiceName;
-    shared_ptr<GenerateStuffEditorState> editorState;
-    shared_ptr<PlayQueue> playQueue;
+    GenerateStuffEditorState& editorState;
+    PlayQueue& playQueue;
     VoiceEditor(VoiceName voiceName,
                 GenerateStuffAudioProcessor &processor): voiceName(voiceName), editorState(processor.editorState), playQueue(processor.playQueue) {
         

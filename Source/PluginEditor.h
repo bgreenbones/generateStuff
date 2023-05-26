@@ -32,8 +32,8 @@ private:
     // access the processor object that created it.
     GenerateStuffAudioProcessor& audioProcessor;
     Generator& generator;
-    shared_ptr<PlayQueue> playQueue;
-    shared_ptr<GenerateStuffEditorState> editorState;
+    PlayQueue& playQueue;
+    GenerateStuffEditorState& editorState;
     VoiceManager voiceManager;
     
 //    juce::Slider probabilityOfDouble;

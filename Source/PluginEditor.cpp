@@ -20,6 +20,7 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     : AudioProcessorEditor (&p),
     audioProcessor (p),
     generator(p.generator),
+    playQueue (p.playQueue),
     editorState(p.editorState),
     voiceManager(p)
 {
@@ -36,9 +37,9 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
         subdivisionButton->setClickingTogglesState(true);
         addAndMakeVisible(subdivisionButton);
         subdivisionButton->setToggleState(false, juce::dontSendNotification);
-        subdivisionButton->onClick = [=] { editorState->subdivision = 1. / subdivisionDenominator; };
+        subdivisionButton->onClick = [=] { editorState.subdivision = 1. / subdivisionDenominator; };
     }
-    int defaultSubdivisionIndex = (int) (1.0 / editorState->subdivision) - 1; // todo: set this
+    int defaultSubdivisionIndex = (int) (1.0 / editorState.subdivision) - 1; // todo: set this
     subdivisionButtons[defaultSubdivisionIndex]->setToggleState(true, juce::dontSendNotification);
     
     phraseLengthBarsLabel.setText("bars", juce::dontSendNotification);
@@ -53,16 +54,16 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     addAndMakeVisible (&phraseLengthBeats);
     phraseLengthBars.onTextChange = [this] { updateEditorState(); };
     phraseLengthBeats.onTextChange = [this] { updateEditorState(); };
-    juce::String barsString = juce::String::formatted("%.2f", editorState->phraseLengthBars);
-    juce::String beatsString = juce::String::formatted("%.2f", editorState->phraseLengthBeats);
+    juce::String barsString = juce::String::formatted("%.2f", editorState.phraseLengthBars);
+    juce::String beatsString = juce::String::formatted("%.2f", editorState.phraseLengthBeats);
     phraseLengthBars.setText(barsString);
     phraseLengthBeats.setText(beatsString);
     phraseLengthBars.onFocusLost = [this] {
-        juce::String phraseLengthString = juce::String::formatted("%.2f", editorState->phraseLengthBars);
+        juce::String phraseLengthString = juce::String::formatted("%.2f", editorState.phraseLengthBars);
         phraseLengthBars.setText(phraseLengthString);
     };
     phraseLengthBeats.onFocusLost = [this] {
-        juce::String phraseLengthString = juce::String::formatted("%.2f", editorState->phraseLengthBeats);
+        juce::String phraseLengthString = juce::String::formatted("%.2f", editorState.phraseLengthBeats);
         phraseLengthBeats.setText(phraseLengthString);
     };
     
@@ -83,24 +84,24 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     startBar.onTextChange = [this] { updateEditorState(); };
     stopBar.onTextChange = [this] { updateEditorState(); };
     displace.onFocusLost = [this] {
-        juce::String displaceString = juce::String::formatted("%.2f", editorState->displace);
+        juce::String displaceString = juce::String::formatted("%.2f", editorState.displace);
         displace.setText(displaceString); // TODO: do this kind of stuff after every call to updateEditorState instead of on focus lost?
     };
     startBar.onFocusLost = [this] {
-        juce::String startBarString = juce::String::formatted("%.2f", editorState->startBar);
+        juce::String startBarString = juce::String::formatted("%.2f", editorState.startBar);
         startBar.setText(startBarString);
     };
     stopBar.onFocusLost = [this] {
-        juce::String stopBarString = juce::String::formatted("%.2f", editorState->stopBar);
+        juce::String stopBarString = juce::String::formatted("%.2f", editorState.stopBar);
         stopBar.setText(stopBarString);
     };
     
     addAndMakeVisible (&displace);
     addAndMakeVisible (&startBar);
     addAndMakeVisible (&stopBar);
-    juce::String displaceString = juce::String::formatted("%.2f", editorState->displace);
-    juce::String startBarString = juce::String::formatted("%.2f", editorState->startBar);
-    juce::String stopBarString = juce::String::formatted("%.2f", editorState->stopBar);
+    juce::String displaceString = juce::String::formatted("%.2f", editorState.displace);
+    juce::String startBarString = juce::String::formatted("%.2f", editorState.startBar);
+    juce::String stopBarString = juce::String::formatted("%.2f", editorState.stopBar);
     displace.setText(displaceString);
     startBar.setText(startBarString);
     stopBar.setText(stopBarString);
@@ -231,12 +232,12 @@ void GenerateStuffAudioProcessorEditor::updateEditorState() {
     
     
     // general
-    editorState->subdivision = subDiv;
-    editorState->phraseLengthBars = bars;
-    editorState->phraseLengthBeats = beats;
-    editorState->displace = dis;
-    editorState->startBar = start;
-    editorState->stopBar = stop;
+    editorState.subdivision = subDiv;
+    editorState.phraseLengthBars = bars;
+    editorState.phraseLengthBeats = beats;
+    editorState.displace = dis;
+    editorState.startBar = start;
+    editorState.stopBar = stop;
 //        double probabilityOfDouble; // not yet using for 'cascara' abstraction
 }
 

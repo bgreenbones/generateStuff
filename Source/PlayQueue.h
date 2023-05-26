@@ -18,10 +18,19 @@ class PlayQueue {
     map<VoiceName, Voice> queue;
     // Schedule schedule;
 public:
-    PlayQueue() {
-        for (VoiceBindings vb : voiceBindings) {
-            queue.emplace(vb.voiceName, Voice(vb.voiceName, vb.midiChannel, false));
-        }
+    GenerateStuffEditorState& editorState;
+    // shared_ptr<PlayQueue> qp;
+    PlayQueue(GenerateStuffEditorState& editorState): editorState(editorState) {
+    }
+
+    // void initQueue(shared_ptr<PlayQueue> pq) {
+    void initQueue() {
+      // qp = pq;
+      for (VoiceBindings vb : voiceBindings) {
+          queue.emplace(vb.voiceName, Voice(*this, vb));
+          // queue.emplace(vb.voiceName, Voice(pq, vb));
+          // queue.emplace(vb.voiceName, Voice(vb.voiceName, vb.midiChannel, false));
+      }
     }
 
     bool hasVoice(VoiceName voiceName);

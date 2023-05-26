@@ -22,8 +22,7 @@ vector<Phrase> PlayQueue::at(Quarters ppqPosition) {
 
 Phrase PlayQueue::at(Quarters ppqPosition, VoiceName voiceName) {
     if (!hasVoice(voiceName)) { return Phrase(); } // TODO: use optional?
-    Voice voice = queue.at(voiceName);
-    return voice.schedule.at(ppqPosition);
+    return queue.at(voiceName).schedule.at(ppqPosition);
 }
 
 bool PlayQueue::hasVoice(VoiceName voiceName)
@@ -33,7 +32,8 @@ bool PlayQueue::hasVoice(VoiceName voiceName)
 
 Voice PlayQueue::getVoice(VoiceName voiceName)
 {
-    if (!hasVoice(voiceName)) { return Voice("voice not found", -1, true); } // TODO: use optional?
+//   if (!hasVoice(voiceName)) { return Voice("voice not found", -1, true, qp); } // TODO: use optional?
+    if (!hasVoice(voiceName)) { return Voice("voice not found", -1, true, *this); } // TODO: use optional?
     return queue.at(voiceName);
 }
 
@@ -52,20 +52,20 @@ void PlayQueue::clearVoice(VoiceName voiceName)
 bool PlayQueue::toggleMuteVoice(VoiceName voiceName)
 {
     if (!hasVoice(voiceName)) { return true; };
-    Voice voice = queue.at(voiceName);
+    Voice &voice = queue.at(voiceName);
     bool newMuteState = !(voice.mute);
-    queue.at(voiceName).mute = newMuteState;
-    queue.at(voiceName).muteOrnamentation = newMuteState;
-    queue.at(voiceName).muteConnecting = newMuteState;
+    voice.mute = newMuteState;
+    voice.muteOrnamentation = newMuteState;
+    voice.muteConnecting = newMuteState;
     return newMuteState;
 }
 
 bool PlayQueue::toggleMuteConnecting(VoiceName voiceName)
 {
     if (!hasVoice(voiceName)) { return true; };
-    Voice voice = queue.at(voiceName);
+    Voice &voice = queue.at(voiceName);
     bool newMuteState = !(voice.muteConnecting);
-    queue.at(voiceName).muteConnecting = newMuteState;
+    voice.muteConnecting = newMuteState;
     return newMuteState;
 }
 

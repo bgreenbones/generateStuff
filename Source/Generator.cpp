@@ -10,36 +10,36 @@
 #include "FormMusical.h"
 
 Phrase Generator::fromNothing(string phraseKey, GenerationFunction phraseFunction) {
-    auto phrase = Phrase(editorState->getSubdivision(),
-                         editorState->getStartTime(),
-                         editorState->getPhraseLength());
-    // phrase = phraseFunction(phrase, *editorState.get());
-    phrase = phraseFunction(phrase, playQueue, *editorState.get());
+    auto phrase = Phrase(editorState.getSubdivision(),
+                         editorState.getStartTime(),
+                         editorState.getPhraseLength());
+    // phrase = phraseFunction(phrase, editorState);
+    phrase = phraseFunction(phrase, playQueue, editorState);
     dynamics::randomFlux(phrase.notes); // why the heck not give everything a little life.
     phrase.voice = phraseKey;
-    playQueue->queuePhrase(Form(), phrase);
+    playQueue.queuePhrase(Form(), phrase);
     return phrase;
 }
 
 Phrase Generator::from(string generatePhraseKey, string generateFromPhraseKey, GenerationFunction phraseFunction) {
-    Position startTime = editorState->getStartTime();
-    Duration phraseLength = editorState->getPhraseLength();
-    if (playQueue->doesntHavePhrase(generateFromPhraseKey, startTime, phraseLength)) { this->generate(generateFromPhraseKey); }
-    Voice voice = playQueue->getVoice(generateFromPhraseKey);
-    auto result = phraseFunction(voice.schedule.at(editorState->phraseStartTime), playQueue, *editorState.get());
+    Position startTime = editorState.getStartTime();
+    Duration phraseLength = editorState.getPhraseLength();
+    if (playQueue.doesntHavePhrase(generateFromPhraseKey, startTime, phraseLength)) { this->generate(generateFromPhraseKey); }
+    Voice voice = playQueue.getVoice(generateFromPhraseKey);
+    auto result = phraseFunction(voice.schedule.at(editorState.phraseStartTime), playQueue, editorState);
     dynamics::randomFlux(result.notes); // why the heck not give everything a little life.
     result.voice = generatePhraseKey;
-    playQueue->queuePhrase(Form(), result);
+    playQueue.queuePhrase(Form(), result);
     return result;
 }
 
 Phrase Generator::flipClave(string phraseKey) {
-    Position startTime = editorState->getStartTime();
-    Duration phraseLength = editorState->getPhraseLength();
-    if (playQueue->doesntHavePhrase(phraseKey, startTime, phraseLength)) { return Phrase(); } // TODO: use std::optional in failure cases.
-    Voice voice = playQueue->getVoice(phraseKey );
-    auto flipped = rhythm::flip(voice.schedule.at(editorState->phraseStartTime)); // TODO: segment the phrase by relevant start and duration
-    playQueue->queuePhrase(Form(), flipped);
+    Position startTime = editorState.getStartTime();
+    Duration phraseLength = editorState.getPhraseLength();
+    if (playQueue.doesntHavePhrase(phraseKey, startTime, phraseLength)) { return Phrase(); } // TODO: use std::optional in failure cases.
+    Voice voice = playQueue.getVoice(phraseKey );
+    auto flipped = rhythm::flip(voice.schedule.at(editorState.phraseStartTime)); // TODO: segment the phrase by relevant start and duration
+    playQueue.queuePhrase(Form(), flipped);
     
     return flipped;
 }
@@ -48,13 +48,13 @@ void Generator::connecting(string phraseKey,
                      Probability connectingProb, // TODO: just get all this stuff from editor state instead of passing it in
                      Probability associationProb,
                      Probability connectingLengthProb) {
-    Position startTime = editorState->getStartTime();
-    Duration phraseLength = editorState->getPhraseLength();
-    if (playQueue->doesntHavePhrase(phraseKey, startTime, phraseLength)) return;
-    Voice voice = playQueue->getVoice(phraseKey);
-    Phrase phrasePhrase = voice.schedule.at(editorState->phraseStartTime);
+    Position startTime = editorState.getStartTime();
+    Duration phraseLength = editorState.getPhraseLength();
+    if (playQueue.doesntHavePhrase(phraseKey, startTime, phraseLength)) return;
+    Voice voice = playQueue.getVoice(phraseKey);
+    Phrase phrasePhrase = voice.schedule.at(editorState.phraseStartTime);
     Phrase connectingPhrase = phrasePhrase.fillWithRolls(connectingProb, associationProb, connectingLengthProb);
-    playQueue->queuePhrase(Form(), connectingPhrase);
+    playQueue.queuePhrase(Form(), connectingPhrase);
 }
 
 vector<OrnamentSimple> getOrnamentVector(bool flams, bool drags, bool ruffs) {
@@ -71,15 +71,15 @@ void Generator::ornament(string phraseKey,
                              bool flams,
                              bool drags,
                              bool ruffs) {
-    Position startTime = editorState->getStartTime();
-    Duration phraseLength = editorState->getPhraseLength();
-    if (playQueue->doesntHavePhrase(phraseKey, startTime, phraseLength)) return;
-    Voice voice = playQueue->getVoice(phraseKey);
-    Phrase phrasePhrase = voice.schedule.at(editorState->phraseStartTime);
+    Position startTime = editorState.getStartTime();
+    Duration phraseLength = editorState.getPhraseLength();
+    if (playQueue.doesntHavePhrase(phraseKey, startTime, phraseLength)) return;
+    Voice voice = playQueue.getVoice(phraseKey);
+    Phrase phrasePhrase = voice.schedule.at(editorState.phraseStartTime);
     auto possibleOrnaments = getOrnamentVector(flams, drags, ruffs);
     if (possibleOrnaments.empty()) { return; }
     Phrase ornamentsPhrase = phrasePhrase.addOrnaments(possibleOrnaments, prob, breadth);
-    playQueue->queuePhrase(Form(), ornamentsPhrase);
+    playQueue.queuePhrase(Form(), ornamentsPhrase);
 }
 
 

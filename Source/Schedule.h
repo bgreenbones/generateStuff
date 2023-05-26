@@ -78,8 +78,8 @@
 
 
 class VoiceSchedule {
-    Form form;
 public:
+    Form form;
     Sequence<TimedEvent> scheduleTimes;
     map<TimedEvent, Phrase> schedule;
     VoiceSchedule() : scheduleTimes(form) {
@@ -91,7 +91,7 @@ public:
       scheduleTimes.clear();
     }
 
-    Phrase at(Quarters ppqPosition) {
+    Phrase at(Quarters ppqPosition) const {
       if (scheduleTimes.byPosition(ppqPosition).empty()) {
         return Phrase(); // todo: i don't know but this works for now
       }
@@ -104,10 +104,13 @@ public:
       if (schedule.find(time) == schedule.end()) {
         if (!scheduleTimes.add(time)) {
           return false;
+        } else {
+            phrase.schedule.emplace(time);
+            schedule[time] = phrase;
+            return true;
         }
       }
-      phrase.schedule.emplace(time);
-      schedule[time] = phrase;
+      schedule.at(time) = phrase;
       return true;
     }
     

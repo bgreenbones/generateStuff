@@ -46,6 +46,8 @@ public:
     double ornamentBreadth = 0.5;
 };
 
+// static const Position defaultPhraseStartTime = Bars(0);
+
 class GenerateStuffEditorState {
 public:
     GenerateStuffEditorState(juce::AudioProcessorValueTreeState const& apvts): apvts(apvts) {}
@@ -56,7 +58,7 @@ public:
     beats displace = 0.;
     bars startBar = 1.;
     bars stopBar = 3.;
-    Position phraseStartTime = 0;
+    bars phraseStartTime = 0;
     
     typedef string VoiceName;
     map<VoiceName, OrnamentationEditorState> ornamentationStates;

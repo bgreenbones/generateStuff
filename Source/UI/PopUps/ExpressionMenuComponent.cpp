@@ -16,8 +16,8 @@ ExpressionMenuComponent::ExpressionMenuComponent(VoiceName voiceName,
                                                  GenerateStuffAudioProcessor &processor):
                                                             VoiceEditor(voiceName, processor)
 {
-    if (editorState->expressionStates.find(voiceName) == editorState->expressionStates.end()) {
-        editorState->expressionStates.emplace(voiceName, ExpressionEditorState());
+    if (editorState.expressionStates.find(voiceName) == editorState.expressionStates.end()) {
+        editorState.expressionStates.emplace(voiceName, ExpressionEditorState());
     }
 }
 

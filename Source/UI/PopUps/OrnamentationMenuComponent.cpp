@@ -17,8 +17,8 @@ OrnamentationMenuComponent::OrnamentationMenuComponent(VoiceName voiceName,
                                                                 VoiceEditor(voiceName, processor),
                                                                 audioProcessor(processor)
 {
-    if (editorState->ornamentationStates.find(voiceName) == editorState->ornamentationStates.end()) {
-        editorState->ornamentationStates.emplace(voiceName, OrnamentationEditorState());
+    if (editorState.ornamentationStates.find(voiceName) == editorState.ornamentationStates.end()) {
+        editorState.ornamentationStates.emplace(voiceName, OrnamentationEditorState());
     }
                                                                     
     addConnectingButton.onClick = [this, voiceName]() {
@@ -38,14 +38,14 @@ OrnamentationMenuComponent::OrnamentationMenuComponent(VoiceName voiceName,
     muteConnectingButton.setClickingTogglesState(true);
     muteConnectingButton.setToggleState(false, juce::dontSendNotification);
     muteConnectingButton.onClick = [this, voiceName]() {
-       playQueue->toggleMuteConnecting(voiceName, muteConnectingButton.getToggleState());
+       playQueue.toggleMuteConnecting(voiceName, muteConnectingButton.getToggleState());
     };
 
     addAndMakeVisible(&muteConnectingButton);
     muteOrnamentsButton.setClickingTogglesState(true);
     muteOrnamentsButton.setToggleState(false, juce::dontSendNotification);
     muteOrnamentsButton.onClick = [this, voiceName]() {
-       playQueue->toggleMuteOrnamentation(voiceName, muteOrnamentsButton.getToggleState());
+       playQueue.toggleMuteOrnamentation(voiceName, muteOrnamentsButton.getToggleState());
     };
     addAndMakeVisible(&muteOrnamentsButton);
     
@@ -187,18 +187,18 @@ int OrnamentationMenuComponent::placeWorkspace() {
 
 void OrnamentationMenuComponent::updateMenuState() {
     // connecting / runs
-    editorState->ornamentationStates.at(voiceName).muteConnecting = muteConnectingButton.getToggleState();
-    editorState->ornamentationStates.at(voiceName).connectingProbability = connectingProbability.getValue();
-    editorState->ornamentationStates.at(voiceName).connectingAssociation = connectingAssociation.getValue();
-    editorState->ornamentationStates.at(voiceName).connectingLength = connectingLength.getValue();
-//    editorState->ornamentationStates.at(voiceName).improviseConnecting = regenerateConnecting.getToggleState();
-//    editorState->ornamentationStates.at(voiceName).improviseOrnaments = regenerateOrnaments.getToggleState();
+    editorState.ornamentationStates.at(voiceName).muteConnecting = muteConnectingButton.getToggleState();
+    editorState.ornamentationStates.at(voiceName).connectingProbability = connectingProbability.getValue();
+    editorState.ornamentationStates.at(voiceName).connectingAssociation = connectingAssociation.getValue();
+    editorState.ornamentationStates.at(voiceName).connectingLength = connectingLength.getValue();
+//    editorState.ornamentationStates.at(voiceName).improviseConnecting = regenerateConnecting.getToggleState();
+//    editorState.ornamentationStates.at(voiceName).improviseOrnaments = regenerateOrnaments.getToggleState();
 
     // ornaments
-    editorState->ornamentationStates.at(voiceName).muteOrnaments = muteOrnamentsButton.getToggleState();
-    editorState->ornamentationStates.at(voiceName).allowflams = flamButton.getToggleState();
-    editorState->ornamentationStates.at(voiceName).allowDrags = dragButton.getToggleState();
-    editorState->ornamentationStates.at(voiceName).allowRuffs = ruffButton.getToggleState();
-    editorState->ornamentationStates.at(voiceName).ornamentProbability = ornamentProbability.getValue();
-    editorState->ornamentationStates.at(voiceName).ornamentBreadth = ornamentBreadth.getValue();
+    editorState.ornamentationStates.at(voiceName).muteOrnaments = muteOrnamentsButton.getToggleState();
+    editorState.ornamentationStates.at(voiceName).allowflams = flamButton.getToggleState();
+    editorState.ornamentationStates.at(voiceName).allowDrags = dragButton.getToggleState();
+    editorState.ornamentationStates.at(voiceName).allowRuffs = ruffButton.getToggleState();
+    editorState.ornamentationStates.at(voiceName).ornamentProbability = ornamentProbability.getValue();
+    editorState.ornamentationStates.at(voiceName).ornamentBreadth = ornamentBreadth.getValue();
 }

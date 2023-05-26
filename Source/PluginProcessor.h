@@ -33,8 +33,9 @@ public:
     int mSamplesPerBlock;
     double samplesPerBeat;
     double samplesPerMinute;
-    shared_ptr<PlayQueue> playQueue;
-    shared_ptr<GenerateStuffEditorState> editorState;
+    GenerateStuffEditorState editorState;
+    PlayQueue playQueue;
+    // shared_ptr<PlayQueue> playQueue;
     Generator generator; // TODO: make shared ptr?
     vector<juce::MidiMessage> allNotesOff;
     vector<juce::MidiMessage> midiMessageQueue;

@@ -16,7 +16,7 @@
 #include "Rhythm.h"
 
 namespace melody {
-    const GenerationFunction melodyFromFunction = [](Phrase fromPhrase, shared_ptr<PlayQueue> playQueue, GenerateStuffEditorState const& editorState) {
+    const GenerationFunction melodyFromFunction = [](Phrase fromPhrase, PlayQueue& playQueue, GenerateStuffEditorState const& editorState) {
         Phrase phrase(fromPhrase);
         phrase.notes = fromPhrase.notes.toMonophonic();
         phrase = phrase.chordScales.empty() ? harmony::generateChordScales(phrase, playQueue, editorState) : phrase;
@@ -32,7 +32,7 @@ namespace melody {
             }
             
             ChordScale chordScale = chordScales.at(0);
-            Tonality tonality = chordScale.scale;
+            // Tonality tonality = chordScale.scale;
             
             vector<Subdivision> subdivs = phrase.subdivisions.byPosition(cursor);
             Duration subdiv = subdivs.empty() ? sixteenths : subdivs.at(0);
@@ -49,29 +49,33 @@ namespace melody {
                 }
                 
                 if (flipCoin()) {
+                    // lengthen note by 2, erase next overlap
                     note.duration = 2 * note.duration;
                     if (noteIter + 1 == burstOfNotes.end()) { continue; }
                     else if ((noteIter + 1)->startTime < note.endTime()) {
                         burstOfNotes.erase(noteIter + 1);
                     }
                 } else {
+                    // double stroke
                     note.duration = 0.5 * note.duration;
                     Note doubleNote(note);
                     doubleNote.startTime = note.endTime();
-                    burstOfNotes.insert(noteIter + 1, doubleNote);
+                    noteIter = burstOfNotes.insert(noteIter + 1, doubleNote);
                 }
             }
 
+            // stepwise motion
             for (Note &note : burstOfNotes) {
                 Direction direction = rollDie(2) == 2 ? Direction::down : Direction::up;
-                note.pitch = phrase.chordScales.drawByPosition(note.startTime).scale
+                note.pitch = phrase.chordScales.drawByPosition(cursor + note.startTime).scale
                     .step(lastPitch, direction);
                 lastPitch = note.pitch;
             }
             
             phrase.notes.insertVector(burstOfNotes, cursor, PushBehavior::truncate);
             
-            cursor += (7 + rollDie(4)) * subdiv;
+            cursor = (phrase.notes.end() - 1)->startTime + rollDie(4) * subdiv;
+            // cursor += (7 + rollDie(4)) * subdiv;
         }
         
         // This was a check for monophonicity... don't think we need it.
@@ -83,18 +87,18 @@ namespace melody {
         //     startTimes.push_back(note.startTime);
         // }
 
-        dynamics::randomAccents(phrase.notes, mp, ff);
+        dynamics::randomAccents(phrase.notes, mf, ff);
 
         return phrase;
     };
 
-    const GenerationFunction melodyFunction = [](Phrase fromPhrase, shared_ptr<PlayQueue> playQueue, GenerateStuffEditorState const& editorState) {
+    const GenerationFunction melodyFunction = [](Phrase fromPhrase, PlayQueue& playQueue, GenerateStuffEditorState const& editorState) {
         return melodyFromFunction(harmony::generateChordScales(fromPhrase, playQueue, editorState), playQueue, editorState);
     };
 
-    // const GenerationFunction bassFromFunction = [](Phrase const& fromPhrase, shared_ptr<PlayQueue> playQueue, GenerateStuffEditorState const& editorState) {
-    Phrase bassFromFunction(Phrase fromPhrase, shared_ptr<PlayQueue> playQueue, GenerateStuffEditorState const& editorState);
-    const GenerationFunction bassFunction = [](Phrase fromPhrase, shared_ptr<PlayQueue> playQueue, GenerateStuffEditorState const& editorState) {
+    // const GenerationFunction bassFromFunction = [](Phrase const& fromPhrase, PlayQueue& playQueue, GenerateStuffEditorState const& editorState) {
+    Phrase bassFromFunction(Phrase fromPhrase, PlayQueue& playQueue, GenerateStuffEditorState const& editorState);
+    const GenerationFunction bassFunction = [](Phrase fromPhrase, PlayQueue& playQueue, GenerateStuffEditorState const& editorState) {
         return bassFromFunction(harmony::generateChordScales(fromPhrase, playQueue, editorState), playQueue, editorState);
     };
 

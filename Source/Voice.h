@@ -18,6 +18,7 @@
 #include "Schedule.h"
 #include <JuceHeader.h>
 
+//class PlayQueue;
 typedef string VoiceName;
 using std::vector, std::unique_ptr;
 
@@ -43,9 +44,15 @@ struct VoiceBindings {
     int midiChannel;
     GenerationFunction generate;
     GenerationFunction generateFromOther;
+    GenerationFunction2 variation;
 };
 
-static const GenerationFunction placeholderGenerationFunction = [](Phrase phrase, shared_ptr<PlayQueue> playQueue, GenerateStuffEditorState const& editorState) { return phrase; };
+static const GenerationFunction placeholderGenerationFunction = [](Phrase phrase, PlayQueue& playQueue, GenerateStuffEditorState const& editorState) {
+  return phrase;
+};
+static const GenerationFunction2 placeholderGenerationFunction2 = [](Voice const& v) {
+  return Phrase();
+};
 
 static const vector<VoiceBindings> voiceBindings = {
     VoiceBindings {
@@ -53,36 +60,42 @@ static const vector<VoiceBindings> voiceBindings = {
         .midiChannel = claveChannel,
         .generate = rhythm::claveFunction,
         .generateFromOther = rhythm::claveFromFunction,
+        .variation = rhythm::rhythmicVariation,
     },
     VoiceBindings {
         .voiceName = cascaraKey,
         .midiChannel = cascaraChannel,
         .generate = rhythm::cascaraFunction,
         .generateFromOther = rhythm::cascaraFromFunction,
+        .variation = placeholderGenerationFunction2,
     },
     VoiceBindings {
         .voiceName = subdivisionsKey,
         .midiChannel = subdivisionsChannel,
         .generate = rhythm::fillSubdivisionsFunction,
         .generateFromOther = rhythm::fillSubdivisionsFunction,
+        .variation = placeholderGenerationFunction2,
     },
     VoiceBindings {
         .voiceName = harmonyKey,
         .midiChannel = harmonyChannel,
         .generate = harmony::chordsFunction,
         .generateFromOther = harmony::chordsFromFunction,
+        .variation = placeholderGenerationFunction2,
     },
     VoiceBindings {
         .voiceName = bassKey,
         .midiChannel = bassChannel,
         .generate = melody::bassFunction,
         .generateFromOther = melody::bassFromFunction,
+        .variation = placeholderGenerationFunction2,
     },
     VoiceBindings {
         .voiceName = melodyKey,
         .midiChannel = melodyChannel,
         .generate = melody::melodyFunction,
         .generateFromOther = melody::melodyFromFunction,
+        .variation = placeholderGenerationFunction2,
     }
 };
 
@@ -90,6 +103,7 @@ static const vector<VoiceBindings> voiceBindings = {
 
 class Voice {
 public:
+    PlayQueue& playQueue;
     VoiceName name;
     int midiChannel;
     bool mute;
@@ -98,16 +112,24 @@ public:
     // Phrase base;
     // vector<Phrase> phrases;
     VoiceSchedule schedule;
+    
+    GenerationFunction2 variationFunction;
+
+    void variation();
 
     // schedule of phrases to play
     // that lives in the play queue
 
 
     
-    Voice(VoiceName name, int midiChannel, bool mute):
-        name(name), midiChannel(midiChannel), mute(mute) {
+    Voice(VoiceName name, int midiChannel, bool mute, PlayQueue& playQueue):
+    // Voice(VoiceName name, int midiChannel, bool mute, shared_ptr<PlayQueue> playQueue):
+        playQueue(playQueue), name(name), midiChannel(midiChannel), mute(mute) {
             // initPhraseVector();
         };
+
+    Voice(PlayQueue& playQueue, VoiceBindings vb) : playQueue(playQueue), name(vb.voiceName), midiChannel(vb.midiChannel), mute(false), variationFunction(vb.variation) {};
+    // Voice(shared_ptr<PlayQueue> playQueue, VoiceBindings vb) : playQueue(playQueue), name(vb.voiceName), midiChannel(vb.midiChannel), mute(false), variationFunction(vb.variation) {};
     
     // void initPhraseVector() {
     //     phrases.clear();

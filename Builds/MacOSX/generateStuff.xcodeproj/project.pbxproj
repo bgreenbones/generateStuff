@@ -36,6 +36,7 @@
 		1AB58C6E1AF7631E61C85D15 /* RecentFilesMenuTemplate.nib */ = {isa = PBXBuildFile; fileRef = 73CBE30BBF4F9D2C5E0B73C6; };
 		1D375AC75E46F14784ACCFD0 /* VoiceSettingsMenuComponent.cpp */ = {isa = PBXBuildFile; fileRef = 36A43410F60DBDC15B37BF8F; };
 		1F7AE1A6D0E71F431C4DB18A /* include_juce_events.mm */ = {isa = PBXBuildFile; fileRef = 9629B94820097F61F11E39D0; };
+		25BDFFFF99C9F7901D914F25 /* Voice.cpp */ = {isa = PBXBuildFile; fileRef = 37FFF5770871AA8A5A02F23D; };
 		27A63CBDAA77F58BF846F292 /* Random.cpp */ = {isa = PBXBuildFile; fileRef = A977D577608473EF75CBBF19; };
 		2C1A9DD4C46A55A356F27E77 /* Timing.cpp */ = {isa = PBXBuildFile; fileRef = F1E68E9065FE496F6C19FF0B; };
 		2F4DB1090B1A708AE384F056 /* PlayQueue.cpp */ = {isa = PBXBuildFile; fileRef = 4EB2E8DEAF1A776C65B21E11; };
@@ -123,6 +124,7 @@
 		33CA4745E0A9BC572F37BF3A /* include_juce_core.mm */ /* include_juce_core.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_core.mm; path = ../../JuceLibraryCode/include_juce_core.mm; sourceTree = SOURCE_ROOT; };
 		33E49B39F808067392A20494 /* juce_audio_utils */ /* juce_audio_utils */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_audio_utils; path = /Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_utils; sourceTree = "<absolute>"; };
 		36A43410F60DBDC15B37BF8F /* VoiceSettingsMenuComponent.cpp */ /* VoiceSettingsMenuComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = VoiceSettingsMenuComponent.cpp; path = ../../Source/UI/PopUps/VoiceSettingsMenuComponent.cpp; sourceTree = SOURCE_ROOT; };
+		37FFF5770871AA8A5A02F23D /* Voice.cpp */ /* Voice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Voice.cpp; path = ../../Source/Voice.cpp; sourceTree = SOURCE_ROOT; };
 		3A307C3533085A0C4CC18699 /* include_juce_audio_processors_lv2_libs.cpp */ /* include_juce_audio_processors_lv2_libs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = include_juce_audio_processors_lv2_libs.cpp; path = ../../JuceLibraryCode/include_juce_audio_processors_lv2_libs.cpp; sourceTree = SOURCE_ROOT; };
 		3A643EBC0251D50F8A46A29D /* Pitch.cpp */ /* Pitch.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Pitch.cpp; path = ../../Source/Tonality/Pitch.cpp; sourceTree = SOURCE_ROOT; };
 		3C1885CD85269DCF1155AD4E /* juce_data_structures */ /* juce_data_structures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_data_structures; path = /Users/beng/experiments/musicDevelopment/JUCE/modules/juce_data_structures; sourceTree = "<absolute>"; };
@@ -333,6 +335,7 @@
 				A977D577608473EF75CBBF19,
 				C867EB20474B73CBED1C845A,
 				FE829477346349B51CCD6BD7,
+				37FFF5770871AA8A5A02F23D,
 				F484CBAE7CBE1E23E2E3C548,
 				60F92EC3B8098DA46BF3A3BD,
 				613088A89AC26D5884746A9E,
@@ -854,6 +857,7 @@
 				7A9D797AC1A9B290A9C0DD12,
 				5945E876AAB1C5CA1258759F,
 				27A63CBDAA77F58BF846F292,
+				25BDFFFF99C9F7901D914F25,
 				4EA968EE412AF2FD280A5BE9,
 				F95F55E906CB108564C68E3A,
 				1193648309AD73277235B11F,

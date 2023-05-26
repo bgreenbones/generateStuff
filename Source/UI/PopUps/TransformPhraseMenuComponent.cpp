@@ -16,27 +16,27 @@ TransformPhraseMenuComponent::TransformPhraseMenuComponent(VoiceName voiceName,
                                                            GenerateStuffAudioProcessor &processor):
                                                                 VoiceEditor(voiceName, processor)
 {
-    if (editorState->transformStates.find(voiceName) == editorState->transformStates.end()) {
-        editorState->transformStates.emplace(voiceName, TransformEditorState());
+    if (editorState.transformStates.find(voiceName) == editorState.transformStates.end()) {
+        editorState.transformStates.emplace(voiceName, TransformEditorState());
     }
 
     flipButton.onClick = [this]() {
-        Phrase flipped = rhythm::flip(playQueue->getVoice(this->voiceName)
-            .schedule.at(editorState->phraseStartTime));
-        playQueue->queuePhrase(Form(), flipped);
+        Phrase flipped = rhythm::flip(playQueue.getVoice(this->voiceName)
+            .schedule.at(editorState.phraseStartTime));
+        playQueue.queuePhrase(Form(), flipped);
     };
     addAndMakeVisible(&flipButton);
 
     
     stabilizeRhythmButton.onClick = [this]() {
-        Phrase stabilized = rhythm::stabilityFilter(playQueue->getVoice(this->voiceName)
-            .schedule.at(editorState->phraseStartTime), Direction::up);
-        playQueue->queuePhrase(Form(), stabilized);
+        Phrase stabilized = rhythm::stabilityFilter(playQueue.getVoice(this->voiceName)
+            .schedule.at(editorState.phraseStartTime), Direction::up);
+        playQueue.queuePhrase(Form(), stabilized);
     };
     destabilizeRhythmButton.onClick = [this]() {
-        Phrase destabilized = rhythm::stabilityFilter(playQueue->getVoice(this->voiceName)
-            .schedule.at(editorState->phraseStartTime), Direction::down);
-        playQueue->queuePhrase(Form(), destabilized);
+        Phrase destabilized = rhythm::stabilityFilter(playQueue.getVoice(this->voiceName)
+            .schedule.at(editorState.phraseStartTime), Direction::down);
+        playQueue.queuePhrase(Form(), destabilized);
     };
     addAndMakeVisible(&stabilizeRhythmButton);
     addAndMakeVisible(&destabilizeRhythmButton);

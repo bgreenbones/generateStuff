@@ -9,7 +9,44 @@
 */
 
 #include "Rhythm.h"
+#include "Voice.h"
+#include "PlayQueue.h"
+#include "Schedule.h"
 
+Phrase rhythm::rhythmicVariation(Voice const& voice) {
+    Position phraseStartTime = voice.playQueue.editorState.phraseStartTime;
+    Duration phraseLength = voice.playQueue.editorState.getPhraseLength();
+
+    Phrase source = voice.schedule.at(phraseStartTime);
+
+    for (Note& note : source.notes) {
+
+        if (flipWeightedCoin(0.2)) {
+            Subdivision subDiv = source.subdivisions.drawByPosition(note.startTime);
+            Position newStartTime = note.startTime - note.duration;
+            if (flipCoin()) {        
+                // Subdivision subDiv = draw<Subdivision>(source.subdivisions.bySpan(TimedEvent(newStartTime, 2 * note.duration)));
+                newStartTime = note.startTime - subDiv;
+                note.startTime = newStartTime;
+                vector<reference_wrapper<Note>> overlappingNotes = source.notes.refsBySpan(note);
+                for (Note & overlapping : overlappingNotes) {
+                    overlapping.duration = newStartTime - overlapping.startTime;
+                }
+            } else {
+                newStartTime = note.startTime + subDiv;
+                note.startTime = newStartTime;
+                vector<reference_wrapper<Note>> overlappingNotes = source.notes.refsBySpan(note);
+                for (Note & overlapping : overlappingNotes) {
+                    overlapping.duration = overlapping.endTime() - note.startTime;
+                    overlapping.startTime = note.endTime();
+                }
+            }
+        }
+
+        
+    }
+    return source;
+}
 
 double rhythm::beatWiseStability(Position position) {
     Beats startingPoint = floor(position.asBeats());

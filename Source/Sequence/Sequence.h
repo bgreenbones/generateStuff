@@ -61,8 +61,10 @@ public:
 
     T primary() const { return longest<T>(*this); }
     vector<T> byPosition(Position position) const;
+    // vector<T&> refsByPosition(Position position) const;
     vector<T> byStartPosition(Position position) const;
     vector<T> bySpan(TimedEvent span) const;
+    vector<reference_wrapper<T>> refsBySpan(TimedEvent span);
     T drawByPosition(Position position) const;
     Position nextStartTime(Position previousStartTime) const;
         

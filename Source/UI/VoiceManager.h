@@ -26,7 +26,7 @@ private:
 public:
     GenerateStuffAudioProcessor& processor;    
     Generator& generator;
-    shared_ptr<PlayQueue> playQueue;
+    PlayQueue& playQueue;
     Component* mainEditor;
     
     string useAsSourcePhraseKeyState;

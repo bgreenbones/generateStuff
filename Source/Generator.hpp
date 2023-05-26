@@ -25,16 +25,16 @@
 
 using std::shared_ptr, std::map, std::string;
 
-// TODO: someday we want generator to be a place for all your phrase types which might not even exist at compile time
-// TODO: actually - maybe we have another layer called "Voice" which manages a bunch of phrases intended for one instrument or sound.
-// then generator becomes a sort of "Choir" or conductor which will keep manage each voice and relate them with each other.
+
+
+// Todo: destroys this class and just do all of this in the voice class
 class Generator
 {
 private:
     unordered_map<VoiceName, VoiceBindings> voiceFunctions;
 public:
-    Generator(shared_ptr<PlayQueue> playQueue,
-              shared_ptr<GenerateStuffEditorState> editorState):
+    Generator(PlayQueue& playQueue,
+              GenerateStuffEditorState& editorState):
                 settings(HostSettings::instance()),
                 playQueue(playQueue),
                 editorState(editorState)
@@ -43,8 +43,8 @@ public:
     }
 
     HostSettings &settings;
-    shared_ptr<PlayQueue> playQueue;
-    shared_ptr<GenerateStuffEditorState> editorState;
+    PlayQueue& playQueue;
+    GenerateStuffEditorState& editorState;
     
     Phrase fromNothing(string phraseKey, GenerationFunction phraseFunction);
     Phrase from(string generatePhraseKey, string generateFromPhraseKey, GenerationFunction phraseFunction);
