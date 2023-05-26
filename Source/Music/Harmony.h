@@ -24,19 +24,23 @@ namespace harmony {
         
     ChordScale selectApproachAndGenerate(juce::String approach, Sequence<ChordScale> chordScales, Position startTime, Duration chordLength);
 
-    const GenerationFunction chordsFunction = [](Phrase phrase, GenerateStuffEditorState const& editorState) {
+    const GenerationFunction chordsFunction = [](Phrase phrase, shared_ptr<PlayQueue> playQueue, GenerateStuffEditorState const& editorState) {
         phrase.notes.monophonic = false;
         phrase.chordScales.monophonic = true;
         phrase.notes.clear();
         phrase.chordScales.clear();
+
+        Duration phraseLength = editorState.getPhraseLength();
+        phrase = phrase.loop(phraseLength);
         
         juce::String harmonyApproach = editorState.getChoiceValue(harmonyApproachKey);
         
-        int numberOfChords = phrase.duration.asBars();
-        bars startTimeInBars = 0;
+        int numberOfChords = phrase.getDuration().asBars();
+        bars startTimeInBars = phrase.getStartTime().asBars();
         while(numberOfChords-- > 0) {
             Bars startTime(startTimeInBars++);
-            Bars chordLength(min(numberOfChords, 1));
+            int barsUntilEndOfPhrase = (int) (phrase.getEndTime() - startTime);
+            Bars chordLength(min(barsUntilEndOfPhrase, 1));
             ChordScale chordScale = selectApproachAndGenerate(harmonyApproach, phrase.chordScales, startTime, chordLength);
             phrase.chordScales.add(chordScale);
             for (Pitch pitchToAdd : chordScale.harmony.randomVoicing()) {
@@ -49,13 +53,16 @@ namespace harmony {
     };
 
 
-    Phrase generateChordScales(Phrase fromPhrase, GenerateStuffEditorState const& editorState);
+    Phrase generateChordScales(Phrase fromPhrase, shared_ptr<PlayQueue> playQueue, GenerateStuffEditorState const& editorState);
 
 
-    const GenerationFunction chordsFromFunction = [](Phrase fromPhrase, GenerateStuffEditorState const& editorState) {
+    const GenerationFunction chordsFromFunction = [](Phrase fromPhrase, shared_ptr<PlayQueue> playQueue, GenerateStuffEditorState const& editorState) {
         Phrase phrase = fromPhrase.toPolyphonic();
-        phrase = phrase.chordScales.empty() ? generateChordScales(phrase, editorState) : phrase;
+        Duration phraseLength = editorState.getPhraseLength();
+        phrase = phrase.loop(phraseLength);
+        phrase = phrase.chordScales.empty() ? generateChordScales(phrase, playQueue, editorState) : phrase;
         phrase.notes.clear();
+
         
         for (ChordScale chordScale : phrase.chordScales) {
             for (Pitch pitchToAdd : chordScale.harmony.randomVoicing()) {

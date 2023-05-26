@@ -63,8 +63,11 @@ ChordScale harmony::subtleModulations(ChordScale previousChordScale, Position st
     return newChordSameScale(newChordScale, startTime, duration);
 }
 
-Phrase harmony::generateChordScales(Phrase fromPhrase, GenerateStuffEditorState const& editorState) {
+Phrase harmony::generateChordScales(Phrase fromPhrase, shared_ptr<PlayQueue> playQueue, GenerateStuffEditorState const& editorState) {
     fromPhrase.chordScales.clear();
+
+    Duration phraseLength = editorState.getPhraseLength();
+    fromPhrase = fromPhrase.loop(phraseLength);
 
     Sequence<Note> notes(fromPhrase.notes.toMonophonic());
     Sequence<Note> accents(notes);
@@ -76,11 +79,12 @@ Phrase harmony::generateChordScales(Phrase fromPhrase, GenerateStuffEditorState 
     double harmonicDensity = editorState.getKnobValue(harmonyDensityKey);
 
     if (accents.empty()) {
-        int numberOfChords = fromPhrase.duration.asBars();
-        bars startTimeInBars = 0;
+        int numberOfChords = fromPhrase.getDuration().asBars();
+        bars startTimeInBars = fromPhrase.getStartTime().asBars();
         while(numberOfChords-- > 0) {
             Bars startTime(startTimeInBars++);
-            Bars chordLength(min(numberOfChords--, 1));
+            int barsUntilEndOfPhrase = (int) (fromPhrase.getEndTime() - startTime);
+            Bars chordLength(min(barsUntilEndOfPhrase, 1));
             ChordScale chordScale = selectApproachAndGenerate(harmonyApproach, fromPhrase.chordScales, startTime, chordLength);
             fromPhrase.chordScales.add(chordScale);
         }

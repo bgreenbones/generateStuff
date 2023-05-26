@@ -67,19 +67,19 @@ public:
 
     double probabilityOfDouble; // not yet using for 'cascara' abstraction
     
-    Bars getStartTime() { return Bars(startBar - 1., true); }
-    Bars getStopTime() { return Bars(startBar - 1., true); }
+    Bars getStartTime() const { return Bars(startBar - 1., true); }
+    Bars getStopTime() const { return Bars(startBar - 1., true); }
     
-    Duration getPhraseLength() {
+    Duration getPhraseLength() const {
         Duration result = Bars(phraseLengthBars, true) + Beats(phraseLengthBeats, true);
         return result;
     }
     
-    Subdivision getSubdivision() {
+    Subdivision getSubdivision() const {
         return Subdivision(Beats(subdivision), getStartTime(), getPhraseLength());
     }
     
-    Beats getDisplacement() { return Beats(displace, true); }
+    Beats getDisplacement() const { return Beats(displace, true); }
     
     
     float getKnobValue(string parameterId) const {

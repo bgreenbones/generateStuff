@@ -36,6 +36,7 @@ public:
     bool toggleMuteOrnamentation(VoiceName voiceName, bool muteState); // TODO: decouple this class from concept of connecting/ornamentation.
     void queuePhrase(TimedEvent phraseTime, Phrase phrase);
     vector<Phrase> at(Quarters ppqPosition);
+    Phrase at(Quarters ppqPosition, VoiceName voiceName);
     
     void setMidiChannel(VoiceName voiceName, int newMidiChannel);
     int getMidiChannel(VoiceName voiceName);

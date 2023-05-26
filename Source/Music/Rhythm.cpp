@@ -32,8 +32,8 @@ double rhythm::beatWiseStability(Position position) {
 Phrase rhythm::stabilityBased(Phrase fromPhrase, Probability filter)
 {
     fromPhrase.notes.clear();
-    Position cursor = fromPhrase.startTime;
-    while (cursor < fromPhrase.endTime()) {
+    Position cursor = fromPhrase.getStartTime();
+    while (cursor < fromPhrase.getEndTime()) {
         Subdivision subdiv = fromPhrase.subdivisions.drawByPosition(cursor);
         
         if(Probability(rhythm::beatWiseStability(cursor)) && filter) {
@@ -125,7 +125,7 @@ Phrase rhythm::pulseAndDisplace(Phrase fromPhrase,
                                 Probability pDisplace,
                                 Probability pDouble)
 {
-    fromPhrase.notes = fromPhrase.notes.pulseAndDisplace(pulse, displacement, pDisplace, pDouble, fromPhrase.duration);
+    fromPhrase.notes = fromPhrase.notes.pulseAndDisplace(pulse, displacement, pDisplace, pDouble, fromPhrase.getDuration());
     return fromPhrase;
 }
 
@@ -187,8 +187,8 @@ int rhythm::getPotentialClaveNoteCount(Phrase fromPhrase, Duration minNoteLength
     //   1. groupings of 2, 3, and 4
     //   2. 2-sided - 2-3 and 3-2 - even 2-1 and 1-2 -  maybe 3-4 and 4-3 - maybe 2-4 and 4-2?
     //      a. the longer they are, the more can fit in?
-    int maxNumNotes = floor(clave.duration / minNoteLength) - 1;
-    int minNumNotes = ceil(clave.duration / maxNoteLength) + 1;
+    int maxNumNotes = floor(clave.getDuration() / minNoteLength) - 1;
+    int minNumNotes = ceil(clave.getDuration() / maxNoteLength) + 1;
     auto numNotesRange = maxNumNotes - minNumNotes;
     if (numNotesRange < 0) { throw exception(); }
     auto numNotes = uniformInt(minNumNotes, maxNumNotes); // todo: parameterize, but keep random option
@@ -240,13 +240,13 @@ Phrase rhythm::fillClave(Phrase fromPhrase,
             Note currentNote = *noteIt;
             while (timeBetweenNotes > maxNoteLength && (notesNeededOnLeft > 0 || notesNeededOnRight > 0))
             {
-                Duration wrapAround = (nextNote->startTime < currentNote.startTime) ? clave.duration : Duration(0.);
+                Duration wrapAround = (nextNote->startTime < currentNote.startTime) ? clave.getDuration() : Duration(0.);
                 Position earliestNoteTime = currentNote.startTime + minNoteLength; // need to wrap around phrase bounds
                 Position latestNoteTime = nextNote->startTime + wrapAround - minNoteLength;
                 // TODO: some validation on possible note times?g
                 int numberOfPossibleNoteTimes = ((latestNoteTime - earliestNoteTime).asQuarters() / subdivision.asQuarters()) + 1;
                 Position chosenNoteTime = earliestNoteTime + (rollDie(numberOfPossibleNoteTimes) - 1) * subdivision;
-                chosenNoteTime = (chosenNoteTime > clave.duration) ? chosenNoteTime - clave.duration : chosenNoteTime;
+                chosenNoteTime = (chosenNoteTime > clave.getDuration()) ? chosenNoteTime - clave.getDuration() : chosenNoteTime;
                 Note newNote = claveNote(chosenNoteTime, nextNote->startTime - chosenNoteTime);
                 
                 bool newNoteIsOnLeft = clave.isNoteOnLeft(newNote);
@@ -400,7 +400,7 @@ Phrase rhythm::randomClave(Phrase fromPhrase, int minNoteLengthInSubdivisions, i
     //   1. groupings of 2, 3, and 4
     //   2. 2-sided - 2-3 and 3-2 - even 2-1 and 1-2 -  maybe 3-4 and 4-3 - maybe 2-4 and 4-2?
     //      a. the longer they are, the more can fit in?
-    clave.duration = Bars(1);
+    clave.setDuration(Bars(1));
     int numNotes = getPotentialClaveNoteCount(clave, minNoteLength, maxNoteLength);
     // const int maxClaveNotes = 10; // a regular clave rhythm should really not have too many notes.
     // while (numNotes > maxClaveNotes) {
@@ -424,13 +424,13 @@ Phrase rhythm::randomClave(Phrase fromPhrase, int minNoteLengthInSubdivisions, i
             Note note = claveNote(notePosition);
             // note doesn't fall within its side, scrap it and try again
             if ((noteInd < notesOnLeft && clave.isNoteOnRight(note)) ||
-                (noteInd >= notesOnLeft && (clave.isNoteOnLeft(note) || note.startTime >= clave.duration))) {
+                (noteInd >= notesOnLeft && (clave.isNoteOnLeft(note) || note.startTime >= clave.getDuration()))) {
                 constraintsBroken = true;
                 break;
             }
             
             if (noteInd == numNotes - 1) { // last note
-                note.duration = (clave.duration - note.startTime) + clave.notes.front().startTime;
+                note.duration = (clave.getDuration() - note.startTime) + clave.notes.front().startTime;
                 if (note.duration < (double) minNoteLength || // last note is bad length
                     note.duration > (double) maxNoteLength) {
                     constraintsBroken = true;

@@ -45,7 +45,7 @@ struct VoiceBindings {
     GenerationFunction generateFromOther;
 };
 
-static const GenerationFunction placeholderGenerationFunction = [](Phrase phrase, GenerateStuffEditorState const& editorState) { return phrase; };
+static const GenerationFunction placeholderGenerationFunction = [](Phrase phrase, shared_ptr<PlayQueue> playQueue, GenerateStuffEditorState const& editorState) { return phrase; };
 
 static const vector<VoiceBindings> voiceBindings = {
     VoiceBindings {

@@ -20,6 +20,12 @@ vector<Phrase> PlayQueue::at(Quarters ppqPosition) {
     return result;
 }
 
+Phrase PlayQueue::at(Quarters ppqPosition, VoiceName voiceName) {
+    if (!hasVoice(voiceName)) { return Phrase(); } // TODO: use optional?
+    Voice voice = queue.at(voiceName);
+    return voice.schedule.at(ppqPosition);
+}
+
 bool PlayQueue::hasVoice(VoiceName voiceName)
 {
     return queue.find(voiceName) != queue.end();

@@ -20,8 +20,8 @@
 #include "GenerateStuffEditorState.h"
 #include "PlayQueue.h"
 
-#include "Harmony.h"
-#include "Rhythm.h"
+// #include "Harmony.h"
+// #include "Rhythm.h"
 
 using std::shared_ptr, std::map, std::string;
 

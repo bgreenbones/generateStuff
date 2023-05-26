@@ -30,9 +30,23 @@ static const Duration defaultSubdivision = Beats(0.25);
 static const Position defaultStartTime = Position(0, true);
 static const Duration defaultDuration = Bars(2, true);
 
-class Phrase: public TimedEvent
+class Phrase: private TimedEvent
 {
 public:
+    Position getStartTime() { return startTime; }
+    Position getEndTime() { return endTime(); }
+    void setStartTime(Position newStartTime) { startTime = newStartTime; }
+    Duration getDuration() { return duration; }
+    void setDuration(Duration newDuration) {
+        if (newDuration < duration) {      
+            notes.chopAfterDuration(newDuration);
+            connectingNotes.chopAfterDuration(newDuration);
+            ornamentationNotes.chopAfterDuration(newDuration);
+            subdivisions.chopAfterDuration(newDuration);
+            chordScales.chopAfterDuration(newDuration);
+        }
+        duration = newDuration;
+    }
     
     Phrase(Duration subdivision, Position startTime, Duration duration):
         TimedEvent(startTime, duration),
@@ -116,26 +130,20 @@ public:
     vector<T> concatEvents(vector<T> eventList, vector<T> otherList) const;
     Phrase concat(Phrase other, bool useLastNote = false, bool keepDuration = false) const;
     Phrase insert(Phrase other, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignore) const;
-    Phrase loop(TimedEvent loopTime) const {
-        if (this->duration == loopTime.duration) {
+    Phrase loop(Duration loopDuration) const {
+        if (this->duration == loopDuration) {
             return *this;
         }
         Phrase result(*this);
-        while (result.duration < loopTime.duration) {
+        while (result.duration < loopDuration) {
             result.notes.concat(result.notes);
             result.connectingNotes.concat(result.connectingNotes);
             result.ornamentationNotes.concat(result.ornamentationNotes);
             result.subdivisions.concat(result.subdivisions);
             result.chordScales.concat(result.chordScales);
-            result.duration = 2*result.duration;
+            result.setDuration(2*result.duration);
         }
-        result.duration = loopTime.duration;
-        result.notes.chopAfterDuration(result.duration);
-        result.connectingNotes.chopAfterDuration(result.duration);
-        result.ornamentationNotes.chopAfterDuration(result.duration);
-        result.subdivisions.chopAfterDuration(result.duration);
-        result.chordScales.chopAfterDuration(result.duration);
-        result.startTime = loopTime.startTime;
+        result.setDuration(loopDuration);
         return result;
     }
     
@@ -193,11 +201,15 @@ Duration timeBetween(T const& first, T const& second, Phrase phrase)
 {
     return first.startTime < second.startTime
         ? second.startTime - first.startTime
-        : second.startTime + phrase.duration - first.startTime;
+        : second.startTime + phrase.getDuration() - first.startTime;
 }
 
 typedef string VoiceName;
-typedef function<Phrase(Phrase, GenerateStuffEditorState const&)> GenerationFunction;
-// typedef function<Phrase(shared_ptr<PlayQueue>, GenerateStuffEditorState const&)> GenerationFunction;
+// typedef function<Phrase(Phrase, GenerateStuffEditorState const&)> GenerationFunction;
+// typedef function<Phrase(Phrase, shared_ptr<PlayQueue>, GenerateStuffEditorState const&)> GenerationFunction;
+// typedef function<Phrase(PlayQueue const&, GenerateStuffEditorState const&)> GenerationFunction;
+
+class PlayQueue;
+typedef function<Phrase(Phrase, shared_ptr<PlayQueue>, GenerateStuffEditorState const&)> GenerationFunction;
 
 #endif /* Phrase_hpp */

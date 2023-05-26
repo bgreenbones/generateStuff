@@ -13,7 +13,9 @@ Phrase Generator::fromNothing(string phraseKey, GenerationFunction phraseFunctio
     auto phrase = Phrase(editorState->getSubdivision(),
                          editorState->getStartTime(),
                          editorState->getPhraseLength());
-    phrase = phraseFunction(phrase, *editorState.get());
+    // phrase = phraseFunction(phrase, *editorState.get());
+    phrase = phraseFunction(phrase, playQueue, *editorState.get());
+    dynamics::randomFlux(phrase.notes); // why the heck not give everything a little life.
     phrase.voice = phraseKey;
     playQueue->queuePhrase(Form(), phrase);
     return phrase;
@@ -24,7 +26,8 @@ Phrase Generator::from(string generatePhraseKey, string generateFromPhraseKey, G
     Duration phraseLength = editorState->getPhraseLength();
     if (playQueue->doesntHavePhrase(generateFromPhraseKey, startTime, phraseLength)) { this->generate(generateFromPhraseKey); }
     Voice voice = playQueue->getVoice(generateFromPhraseKey);
-    auto result = phraseFunction(voice.schedule.at(editorState->phraseStartTime), *editorState.get());
+    auto result = phraseFunction(voice.schedule.at(editorState->phraseStartTime), playQueue, *editorState.get());
+    dynamics::randomFlux(result.notes); // why the heck not give everything a little life.
     result.voice = generatePhraseKey;
     playQueue->queuePhrase(Form(), result);
     return result;

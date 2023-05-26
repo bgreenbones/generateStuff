@@ -10,9 +10,11 @@
 
 #pragma once
 
+#include "Duration.h"
 #include <vector>
 using namespace std;
 class Note; // just a forward declaration
+
 
 typedef enum DynamicShape {
     cresc, steady, decresc
@@ -48,12 +50,14 @@ typedef struct Dynamics {
 
 
 namespace dynamics {
-    // shaping - want to be generic over pitch, velocity, pressure, generic CC, uhhhh note length, uh,, other stuff, idk
+    // todo: want to be generic over pitch, velocity, pressure, generic CC, uhhhh note length, uh,, other stuff, idk
     vector<Note>& shape(vector<Note>& source, int originVelocity, int targetVelocity);
     vector<Note>& shape(vector<Note>& source, Dynamics dynamics);
     vector<Note>& stretch(vector<Note> &source, DynamicRange targetRange);
     vector<Note>& stretch(vector<Note> &source, DynamicLevel targetMinimum, DynamicLevel targetMaximum);
     vector<Note>& randomFlux(vector<Note> &source, double minScale = 0.7, double maxScale = 1.3);
+    vector<Note>& randomAccents(vector<Note> &source, DynamicLevel low, DynamicLevel high);
+    vector<Note>& followAccents(vector<Note> &source, vector<Position> accents, DynamicLevel low, DynamicLevel high);
 }
 
 

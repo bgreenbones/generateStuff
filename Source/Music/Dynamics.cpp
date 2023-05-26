@@ -10,6 +10,7 @@
 
 #include "Dynamics.h"
 #include "Note.hpp"
+#include "Utility.h"
 
 //int velocityFromDynamicLevel(DynamicLevel level) {
 //    double minVelocity = 1;
@@ -110,5 +111,19 @@ vector<Note>& dynamics::stretch(vector<Note>& source, DynamicLevel targetMinimum
 
 vector<Note>& dynamics::randomFlux(vector<Note>& source, double minScale, double maxScale) {
     for (Note &note : source) { note.velocity *= uniformDouble(minScale, maxScale); }
+    return source;
+}
+
+vector<Note>& dynamics::randomAccents(vector<Note> &source, DynamicLevel low, DynamicLevel high) {
+    for (Note &note : source) { note.velocity = flipWeightedCoin(0.4) ? high : low; }
+    return source;
+}
+
+vector<Note>& dynamics::followAccents(vector<Note> &source, vector<Position> accents, DynamicLevel low, DynamicLevel high) {
+    for (Note &note : source) { note.velocity = 
+        (contains<Position>(accents, note.startTime) && flipWeightedCoin(0.9))
+            || flipWeightedCoin(0.2) ? high
+            : low;
+    }
     return source;
 }

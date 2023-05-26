@@ -21,3 +21,18 @@ vector<T> filter(vector<T> toFilter, function<bool(T)> condition) {
     return result;
 };
 
+template <typename T, typename U>
+vector<U> mapp(vector<T> toMap, function<U(T)> transformation) {
+    vector<U> result;
+    transform(toMap.begin(),
+              toMap.end(),
+              back_inserter(result),
+              transformation);
+    return result;
+};
+
+
+template <typename T>
+bool contains(vector<T> v, T e) {
+  return std::find(v.begin(), v.end(), e) != v.end();
+}
