@@ -12,7 +12,7 @@
 #include "PopUpComponent.h"
 #include "Probability.h"
 #include "GenerateStuffEditorState.h"
-#include "PlayQueue.h"
+#include "Ensemble.h"
 #include "Rhythm.h"
 #include "PluginProcessor.h"
 

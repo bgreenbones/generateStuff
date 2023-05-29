@@ -10,14 +10,10 @@
 
 #include "Rhythm.h"
 #include "Voice.h"
-#include "PlayQueue.h"
+#include "Ensemble.h"
 #include "Schedule.h"
 
-Phrase rhythm::rhythmicVariation(Voice const& voice) {
-    Position phraseStartTime = voice.playQueue.editorState.phraseStartTime;
-    Duration phraseLength = voice.playQueue.editorState.getPhraseLength();
-
-    Phrase source = voice.schedule.at(phraseStartTime);
+Phrase rhythm::rhythmicVariation(Phrase source) {
 
     for (Note& note : source.notes) {
 

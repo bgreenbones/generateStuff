@@ -61,6 +61,7 @@ public:
     bars phraseStartTime = 0;
     
     typedef string VoiceName;
+    VoiceName useAsSourcePhraseKey = "";
     map<VoiceName, OrnamentationEditorState> ornamentationStates;
     map<VoiceName, TransformEditorState> transformStates;
     map<VoiceName, ExpressionEditorState> expressionStates;

@@ -18,7 +18,7 @@
 #include "Syncopation.h"
 #include "HostSettings.h"
 #include "GenerateStuffEditorState.h"
-#include "PlayQueue.h"
+#include "Ensemble.h"
 
 // #include "Harmony.h"
 // #include "Rhythm.h"
@@ -33,22 +33,21 @@ class Generator
 private:
     unordered_map<VoiceName, VoiceBindings> voiceFunctions;
 public:
-    Generator(PlayQueue& playQueue,
+    Generator(Ensemble& ensemble,
               GenerateStuffEditorState& editorState):
                 settings(HostSettings::instance()),
-                playQueue(playQueue),
+                ensemble(ensemble),
                 editorState(editorState)
     {
         for (VoiceBindings vb : voiceBindings) { voiceFunctions.emplace(vb.voiceName, vb); }
     }
 
     HostSettings &settings;
-    PlayQueue& playQueue;
+    Ensemble& ensemble;
     GenerateStuffEditorState& editorState;
     
     Phrase fromNothing(string phraseKey, GenerationFunction phraseFunction);
     Phrase from(string generatePhraseKey, string generateFromPhraseKey, GenerationFunction phraseFunction);
-    Phrase flipClave(string phraseKey);
 
     Phrase generate(string phraseKey) { // TODO: get selected phrase key from editor state instead of passing it in?
         return fromNothing(phraseKey, voiceFunctions.at(phraseKey).generate);

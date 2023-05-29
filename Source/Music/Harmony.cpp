@@ -63,20 +63,12 @@ ChordScale harmony::subtleModulations(ChordScale previousChordScale, Position st
     return newChordSameScale(newChordScale, startTime, duration);
 }
 
-Phrase harmony::generateChordScales(Phrase fromPhrase, PlayQueue& playQueue, GenerateStuffEditorState const& editorState) {
-    fromPhrase.chordScales.clear();
-
-    Duration phraseLength = editorState.getPhraseLength();
-    fromPhrase = fromPhrase.loop(phraseLength);
-
+Phrase harmony::generateChordScales(Phrase fromPhrase, string harmonyApproach, Probability chordProbabilityPerAccent, double harmonicDensity) {
     Sequence<Note> notes(fromPhrase.notes.toMonophonic());
     Sequence<Note> accents(notes);
     accents.assignEvents(filter<Note>(notes, [](Note note) { return note.accented; }));
     accents.legato();
     
-    juce::String harmonyApproach = editorState.getChoiceValue(harmonyApproachKey);
-    Probability chordProbabilityPerAccent =editorState.getKnobValue(harmonyProbabilityKey);
-    double harmonicDensity = editorState.getKnobValue(harmonyDensityKey);
 
     if (accents.empty()) {
         int numberOfChords = fromPhrase.getDuration().asBars();

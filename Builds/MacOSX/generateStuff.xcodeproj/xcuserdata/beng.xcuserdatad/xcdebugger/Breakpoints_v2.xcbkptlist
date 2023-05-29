@@ -350,8 +350,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "82"
             endingLineNumber = "82"
-            landmarkName = "operator=(other)"
-            landmarkType = "7">
+            landmarkName = "Phrase"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1118,7 +1118,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "67"
             endingLineNumber = "67"
-            landmarkName = "harmony::generateChordScales(fromPhrase, playQueue, editorState)"
+            landmarkName = "harmony::generateChordScales(fromPhrase, ensemble, editorState)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1133,9 +1133,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "91"
-            endingLineNumber = "91"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            endingLineNumber = "91">
             <Locations>
                <Location
                   uuid = "80C7073F-318C-485D-92DA-615533CBDBAA - 97c12620e4badd1c"
@@ -1304,87 +1302,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "96"
-            endingLineNumber = "96"
-            landmarkName = "unknown"
-            landmarkType = "0">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "8024167F-9DB6-4411-B1B0-EAAA82E23FEA"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../Source/Music/Melody.h"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "23"
-            endingLineNumber = "23"
-            landmarkName = "unknown"
-            landmarkType = "0">
-            <Locations>
-               <Location
-                  uuid = "8024167F-9DB6-4411-B1B0-EAAA82E23FEA - 57c2edeba8fd7a82"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase) const"
-                  moduleName = "generateStuff2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "23"
-                  endingLineNumber = "23"
-                  offsetFromSymbolStart = "296">
-               </Location>
-               <Location
-                  uuid = "8024167F-9DB6-4411-B1B0-EAAA82E23FEA - 57c2edeba8fd7a82"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase) const"
-                  moduleName = "generateStuff2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "23"
-                  endingLineNumber = "23"
-                  offsetFromSymbolStart = "296">
-               </Location>
-               <Location
-                  uuid = "8024167F-9DB6-4411-B1B0-EAAA82E23FEA - 57c2edeba8fd7a82"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase) const"
-                  moduleName = "generateStuff2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "23"
-                  endingLineNumber = "23"
-                  offsetFromSymbolStart = "296">
-               </Location>
-               <Location
-                  uuid = "8024167F-9DB6-4411-B1B0-EAAA82E23FEA - 57c2edeba8fd7a82"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase) const"
-                  moduleName = "generateStuff2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "23"
-                  endingLineNumber = "23"
-                  offsetFromSymbolStart = "296">
-               </Location>
-            </Locations>
+            endingLineNumber = "96">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1398,9 +1316,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "50"
-            endingLineNumber = "50"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            endingLineNumber = "50">
             <Locations>
                <Location
                   uuid = "2185BE99-8B46-4B43-9625-E93F26A1155D - 57c2edeba8fd7d18"
@@ -1476,16 +1392,14 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "61"
-            endingLineNumber = "61"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            endingLineNumber = "61">
             <Locations>
                <Location
-                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
+                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 25848c1f48a5cda9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1493,14 +1407,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "1684">
+                  offsetFromSymbolStart = "1584">
                </Location>
                <Location
-                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
+                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 25848c1f48a5cda9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1508,14 +1422,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "1684">
+                  offsetFromSymbolStart = "1584">
                </Location>
                <Location
-                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
+                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 25848c1f48a5cda9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1523,14 +1437,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "1684">
+                  offsetFromSymbolStart = "1584">
                </Location>
                <Location
-                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
+                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 25848c1f48a5cda9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1538,14 +1452,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "1684">
+                  offsetFromSymbolStart = "1584">
                </Location>
                <Location
-                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
+                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 25848c1f48a5cda9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1553,14 +1467,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "1684">
+                  offsetFromSymbolStart = "1584">
                </Location>
                <Location
-                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
+                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 25848c1f48a5cda9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1568,14 +1482,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "1684">
+                  offsetFromSymbolStart = "1584">
                </Location>
                <Location
-                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
+                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 25848c1f48a5cda9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1583,14 +1497,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "1684">
+                  offsetFromSymbolStart = "1584">
                </Location>
                <Location
-                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
+                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 25848c1f48a5cda9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1598,14 +1512,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "1684">
+                  offsetFromSymbolStart = "1584">
                </Location>
                <Location
-                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
+                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 25848c1f48a5cda9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1613,14 +1527,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "1684">
+                  offsetFromSymbolStart = "1584">
                </Location>
                <Location
-                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
+                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 25848c1f48a5cda9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1628,14 +1542,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "1684">
+                  offsetFromSymbolStart = "1584">
                </Location>
                <Location
-                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
+                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 25848c1f48a5cda9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1643,14 +1557,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "1684">
+                  offsetFromSymbolStart = "1584">
                </Location>
                <Location
-                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
+                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 25848c1f48a5cda9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1658,14 +1572,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "1684">
+                  offsetFromSymbolStart = "1584">
                </Location>
                <Location
-                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
+                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 25848c1f48a5cda9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1673,14 +1587,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "1684">
+                  offsetFromSymbolStart = "1584">
                </Location>
                <Location
-                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 68a8de9a340feb50"
+                  uuid = "2BAB85F8-274F-40DD-BB60-4092889400FE - 25848c1f48a5cda9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1688,7 +1602,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "1684">
+                  offsetFromSymbolStart = "1584">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1704,9 +1618,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "45"
-            endingLineNumber = "45"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            endingLineNumber = "45">
             <Locations>
                <Location
                   uuid = "9D36F889-C67B-459E-8617-8B940139AA1F - 57c2edeba8fd7e47"
@@ -1782,16 +1694,14 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "56"
-            endingLineNumber = "56"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            endingLineNumber = "56">
             <Locations>
                <Location
-                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
+                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 25848c1f48a5cece"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1799,14 +1709,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "1536">
+                  offsetFromSymbolStart = "1436">
                </Location>
                <Location
-                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
+                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 25848c1f48a5cece"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1814,14 +1724,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "1536">
+                  offsetFromSymbolStart = "1436">
                </Location>
                <Location
-                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
+                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 25848c1f48a5cece"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1829,14 +1739,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "1536">
+                  offsetFromSymbolStart = "1436">
                </Location>
                <Location
-                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
+                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 25848c1f48a5cece"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1844,14 +1754,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "1536">
+                  offsetFromSymbolStart = "1436">
                </Location>
                <Location
-                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
+                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 25848c1f48a5cece"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1859,14 +1769,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "1536">
+                  offsetFromSymbolStart = "1436">
                </Location>
                <Location
-                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
+                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 25848c1f48a5cece"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1874,14 +1784,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "1536">
+                  offsetFromSymbolStart = "1436">
                </Location>
                <Location
-                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
+                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 25848c1f48a5cece"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1889,14 +1799,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "1536">
+                  offsetFromSymbolStart = "1436">
                </Location>
                <Location
-                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
+                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 25848c1f48a5cece"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1904,14 +1814,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "1536">
+                  offsetFromSymbolStart = "1436">
                </Location>
                <Location
-                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
+                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 25848c1f48a5cece"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1919,14 +1829,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "1536">
+                  offsetFromSymbolStart = "1436">
                </Location>
                <Location
-                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
+                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 25848c1f48a5cece"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1934,14 +1844,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "1536">
+                  offsetFromSymbolStart = "1436">
                </Location>
                <Location
-                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
+                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 25848c1f48a5cece"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1949,14 +1859,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "1536">
+                  offsetFromSymbolStart = "1436">
                </Location>
                <Location
-                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
+                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 25848c1f48a5cece"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1964,14 +1874,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "1536">
+                  offsetFromSymbolStart = "1436">
                </Location>
                <Location
-                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
+                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 25848c1f48a5cece"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1979,14 +1889,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "1536">
+                  offsetFromSymbolStart = "1436">
                </Location>
                <Location
-                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 68a8de9a340fe837"
+                  uuid = "04B02E2A-533D-40C3-8594-C076EB188957 - 25848c1f48a5cece"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -1994,7 +1904,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "56"
                   endingLineNumber = "56"
-                  offsetFromSymbolStart = "1536">
+                  offsetFromSymbolStart = "1436">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -2010,9 +1920,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "48"
-            endingLineNumber = "48"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            endingLineNumber = "48">
             <Locations>
                <Location
                   uuid = "8527CE01-012E-4906-9B8D-93A5CAD0DB8F - 57c2edeba8fd7857"
@@ -2088,16 +1996,14 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "30"
-            endingLineNumber = "30"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            endingLineNumber = "30">
             <Locations>
                <Location
-                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 68a8de9a340fef51"
+                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 25848c1f48a5c9a8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -2105,14 +2011,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "30"
                   endingLineNumber = "30"
-                  offsetFromSymbolStart = "564">
+                  offsetFromSymbolStart = "488">
                </Location>
                <Location
-                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 68a8de9a340fef51"
+                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 25848c1f48a5c9a8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -2120,14 +2026,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "30"
                   endingLineNumber = "30"
-                  offsetFromSymbolStart = "564">
+                  offsetFromSymbolStart = "488">
                </Location>
                <Location
-                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 68a8de9a340fef51"
+                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 25848c1f48a5c9a8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -2135,14 +2041,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "30"
                   endingLineNumber = "30"
-                  offsetFromSymbolStart = "564">
+                  offsetFromSymbolStart = "488">
                </Location>
                <Location
-                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 68a8de9a340fef51"
+                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 25848c1f48a5c9a8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -2150,14 +2056,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "30"
                   endingLineNumber = "30"
-                  offsetFromSymbolStart = "564">
+                  offsetFromSymbolStart = "488">
                </Location>
                <Location
-                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 68a8de9a340fef51"
+                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 25848c1f48a5c9a8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -2165,14 +2071,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "30"
                   endingLineNumber = "30"
-                  offsetFromSymbolStart = "564">
+                  offsetFromSymbolStart = "488">
                </Location>
                <Location
-                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 68a8de9a340fef51"
+                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 25848c1f48a5c9a8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -2180,14 +2086,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "30"
                   endingLineNumber = "30"
-                  offsetFromSymbolStart = "564">
+                  offsetFromSymbolStart = "488">
                </Location>
                <Location
-                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 68a8de9a340fef51"
+                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 25848c1f48a5c9a8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -2195,14 +2101,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "30"
                   endingLineNumber = "30"
-                  offsetFromSymbolStart = "564">
+                  offsetFromSymbolStart = "488">
                </Location>
                <Location
-                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 68a8de9a340fef51"
+                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 25848c1f48a5c9a8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -2210,14 +2116,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "30"
                   endingLineNumber = "30"
-                  offsetFromSymbolStart = "564">
+                  offsetFromSymbolStart = "488">
                </Location>
                <Location
-                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 68a8de9a340fef51"
+                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 25848c1f48a5c9a8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -2225,14 +2131,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "30"
                   endingLineNumber = "30"
-                  offsetFromSymbolStart = "564">
+                  offsetFromSymbolStart = "488">
                </Location>
                <Location
-                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 68a8de9a340fef51"
+                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 25848c1f48a5c9a8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -2240,14 +2146,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "30"
                   endingLineNumber = "30"
-                  offsetFromSymbolStart = "564">
+                  offsetFromSymbolStart = "488">
                </Location>
                <Location
-                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 68a8de9a340fef51"
+                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 25848c1f48a5c9a8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -2255,14 +2161,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "30"
                   endingLineNumber = "30"
-                  offsetFromSymbolStart = "564">
+                  offsetFromSymbolStart = "488">
                </Location>
                <Location
-                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 68a8de9a340fef51"
+                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 25848c1f48a5c9a8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -2270,14 +2176,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "30"
                   endingLineNumber = "30"
-                  offsetFromSymbolStart = "564">
+                  offsetFromSymbolStart = "488">
                </Location>
                <Location
-                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 68a8de9a340fef51"
+                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 25848c1f48a5c9a8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -2285,14 +2191,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "30"
                   endingLineNumber = "30"
-                  offsetFromSymbolStart = "564">
+                  offsetFromSymbolStart = "488">
                </Location>
                <Location
-                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 68a8de9a340fef51"
+                  uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 25848c1f48a5c9a8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "melody::$_7::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "melody::$_5::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Melody.h"
@@ -2300,7 +2206,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "30"
                   endingLineNumber = "30"
-                  offsetFromSymbolStart = "564">
+                  offsetFromSymbolStart = "488">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -2722,7 +2628,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "90"
             endingLineNumber = "90"
-            landmarkName = "harmony::generateChordScales(fromPhrase, playQueue, editorState)"
+            landmarkName = "harmony::generateChordScales(fromPhrase, ensemble, editorState)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2834,8 +2740,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "133"
             endingLineNumber = "133"
-            landmarkName = "loop(loopDuration)"
-            landmarkType = "7">
+            landmarkName = "Phrase"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2992,7 +2898,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "63"
             endingLineNumber = "63"
-            landmarkName = "melody::bassFromFunction(fromPhrase, playQueue, editorState)"
+            landmarkName = "melody::bassFromFunction(fromPhrase, ensemble, editorState)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3008,7 +2914,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "62"
             endingLineNumber = "62"
-            landmarkName = "melody::bassFromFunction(fromPhrase, playQueue, editorState)"
+            landmarkName = "melody::bassFromFunction(fromPhrase, ensemble, editorState)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3212,7 +3118,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "69"
             endingLineNumber = "69"
-            landmarkName = "harmony::generateChordScales(fromPhrase, playQueue, editorState)"
+            landmarkName = "harmony::generateChordScales(fromPhrase, ensemble, editorState)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3232,11 +3138,11 @@
             landmarkType = "0">
             <Locations>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 884c2c9527f3e1aa"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 1b9e54f9f65d7596"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_0::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3244,14 +3150,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "28"
                   endingLineNumber = "28"
-                  offsetFromSymbolStart = "36">
+                  offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 884c2c9527f3e1aa"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - ba8dcb1c96f74795"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_0::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3259,14 +3165,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "28"
                   endingLineNumber = "28"
-                  offsetFromSymbolStart = "36">
+                  offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 343435238437b6b1"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - ba8dcb1c96f74795"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3274,14 +3180,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "28"
                   endingLineNumber = "28"
-                  offsetFromSymbolStart = "36">
+                  offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 343435238437b6b1"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 1b9e54f9f65d7596"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3289,14 +3195,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "28"
                   endingLineNumber = "28"
-                  offsetFromSymbolStart = "36">
+                  offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 343435238437b6b1"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 1b9e54f9f65d7596"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3304,14 +3210,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "28"
                   endingLineNumber = "28"
-                  offsetFromSymbolStart = "36">
+                  offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 343435238437b6b1"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 1b9e54f9f65d7596"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3319,14 +3225,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "28"
                   endingLineNumber = "28"
-                  offsetFromSymbolStart = "36">
+                  offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 343435238437b6b1"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 1b9e54f9f65d7596"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3334,14 +3240,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "28"
                   endingLineNumber = "28"
-                  offsetFromSymbolStart = "36">
+                  offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 343435238437b6b1"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 1b9e54f9f65d7596"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3349,14 +3255,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "28"
                   endingLineNumber = "28"
-                  offsetFromSymbolStart = "36">
+                  offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 343435238437b6b1"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 1b9e54f9f65d7596"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3364,14 +3270,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "28"
                   endingLineNumber = "28"
-                  offsetFromSymbolStart = "36">
+                  offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 343435238437b6b1"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 1b9e54f9f65d7596"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3379,14 +3285,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "28"
                   endingLineNumber = "28"
-                  offsetFromSymbolStart = "36">
+                  offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 343435238437b6b1"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 1b9e54f9f65d7596"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3394,14 +3300,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "28"
                   endingLineNumber = "28"
-                  offsetFromSymbolStart = "36">
+                  offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 343435238437b6b1"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 1b9e54f9f65d7596"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3409,14 +3315,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "28"
                   endingLineNumber = "28"
-                  offsetFromSymbolStart = "36">
+                  offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 343435238437b6b1"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 1b9e54f9f65d7596"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3424,14 +3330,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "28"
                   endingLineNumber = "28"
-                  offsetFromSymbolStart = "36">
+                  offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 343435238437b6b1"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 1b9e54f9f65d7596"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3439,14 +3345,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "28"
                   endingLineNumber = "28"
-                  offsetFromSymbolStart = "36">
+                  offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 343435238437b6b1"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 1b9e54f9f65d7596"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3454,7 +3360,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "28"
                   endingLineNumber = "28"
-                  offsetFromSymbolStart = "36">
+                  offsetFromSymbolStart = "40">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -3475,11 +3381,11 @@
             landmarkType = "0">
             <Locations>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 884c2c9527f3e0e4"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 1b9e54f9f65d74d8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_0::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3490,11 +3396,11 @@
                   offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 884c2c9527f3e0e4"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_0::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3502,14 +3408,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "224">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b7ff"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3520,11 +3426,11 @@
                   offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b7ff"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 1b9e54f9f65d74d8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3532,14 +3438,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "224">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b7ff"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 1b9e54f9f65d74d8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3547,14 +3453,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b7ff"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 1b9e54f9f65d74d8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3562,14 +3468,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b7ff"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 1b9e54f9f65d74d8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3577,14 +3483,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b7ff"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 1b9e54f9f65d74d8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3592,14 +3498,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b7ff"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 1b9e54f9f65d74d8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3607,14 +3513,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b7ff"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 1b9e54f9f65d74d8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3622,14 +3528,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b7ff"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 1b9e54f9f65d74d8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3637,14 +3543,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b7ff"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 1b9e54f9f65d74d8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3652,14 +3558,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b7ff"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 1b9e54f9f65d74d8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3667,14 +3573,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b7ff"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 1b9e54f9f65d74d8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3682,14 +3588,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 343435238437b7ff"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 1b9e54f9f65d74d8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3697,7 +3603,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "220">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -3718,11 +3624,11 @@
             landmarkType = "0">
             <Locations>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 884c2c9527f3e0e4"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 1b9e54f9f65d74d8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_0::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3733,11 +3639,11 @@
                   offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 884c2c9527f3e0e4"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_0::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3745,14 +3651,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "224">
                </Location>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 343435238437b7ff"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3763,11 +3669,11 @@
                   offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 343435238437b7ff"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 1b9e54f9f65d74d8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3775,14 +3681,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "224">
                </Location>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 343435238437b7ff"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 1b9e54f9f65d74d8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3790,14 +3696,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 343435238437b7ff"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 1b9e54f9f65d74d8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3805,14 +3711,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 343435238437b7ff"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 1b9e54f9f65d74d8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3820,14 +3726,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 343435238437b7ff"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 1b9e54f9f65d74d8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3835,14 +3741,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 343435238437b7ff"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 1b9e54f9f65d74d8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3850,14 +3756,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 343435238437b7ff"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 1b9e54f9f65d74d8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3865,14 +3771,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 343435238437b7ff"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 1b9e54f9f65d74d8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3880,14 +3786,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 343435238437b7ff"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 1b9e54f9f65d74d8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3895,14 +3801,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 343435238437b7ff"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 1b9e54f9f65d74d8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3910,14 +3816,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 343435238437b7ff"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 1b9e54f9f65d74d8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3925,14 +3831,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 343435238437b7ff"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 1b9e54f9f65d74d8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3940,7 +3846,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "220">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -3961,11 +3867,11 @@
             landmarkType = "0">
             <Locations>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 884c2c9527f3ee1e"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 1b9e54f9f65d7a22"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_0::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3973,14 +3879,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1276">
+                  offsetFromSymbolStart = "1280">
                </Location>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 884c2c9527f3ee1e"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - ba8dcb1c96f74821"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_0::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3988,14 +3894,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1276">
+                  offsetFromSymbolStart = "1280">
                </Location>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 343435238437b905"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - ba8dcb1c96f74821"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -4003,14 +3909,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1276">
+                  offsetFromSymbolStart = "1280">
                </Location>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 343435238437b905"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 1b9e54f9f65d7a22"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -4018,14 +3924,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1276">
+                  offsetFromSymbolStart = "1280">
                </Location>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 343435238437b905"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 1b9e54f9f65d7a22"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -4033,14 +3939,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1276">
+                  offsetFromSymbolStart = "1280">
                </Location>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 343435238437b905"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 1b9e54f9f65d7a22"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -4048,14 +3954,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1276">
+                  offsetFromSymbolStart = "1280">
                </Location>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 343435238437b905"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 1b9e54f9f65d7a22"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -4063,14 +3969,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1276">
+                  offsetFromSymbolStart = "1280">
                </Location>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 343435238437b905"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 1b9e54f9f65d7a22"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -4078,14 +3984,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1276">
+                  offsetFromSymbolStart = "1280">
                </Location>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 343435238437b905"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 1b9e54f9f65d7a22"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -4093,14 +3999,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1276">
+                  offsetFromSymbolStart = "1280">
                </Location>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 343435238437b905"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 1b9e54f9f65d7a22"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -4108,14 +4014,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1276">
+                  offsetFromSymbolStart = "1280">
                </Location>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 343435238437b905"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 1b9e54f9f65d7a22"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -4123,14 +4029,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1276">
+                  offsetFromSymbolStart = "1280">
                </Location>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 343435238437b905"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 1b9e54f9f65d7a22"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -4138,14 +4044,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1276">
+                  offsetFromSymbolStart = "1280">
                </Location>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 343435238437b905"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 1b9e54f9f65d7a22"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -4153,14 +4059,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1276">
+                  offsetFromSymbolStart = "1280">
                </Location>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 343435238437b905"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 1b9e54f9f65d7a22"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -4168,14 +4074,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1276">
+                  offsetFromSymbolStart = "1280">
                </Location>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 343435238437b905"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 1b9e54f9f65d7a22"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_5::operator()(Phrase, std::__1::shared_ptr&lt;PlayQueue&gt;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -4183,7 +4089,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
                   endingLineNumber = "48"
-                  offsetFromSymbolStart = "1276">
+                  offsetFromSymbolStart = "1280">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -4232,7 +4138,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "25"
             endingLineNumber = "25"
-            landmarkName = "rhythm::rhythmicVariation(voice)"
+            landmarkName = "rhythm::rhythmicVariation(source)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4266,6 +4172,36 @@
             endingLineNumber = "106"
             landmarkName = "VoiceManager::setOnClicks()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0B5E9AC7-E0E7-4493-998A-5C0C0DE90485"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Voice.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "141"
+            endingLineNumber = "141">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "097F602C-2AED-450E-85D3-7F71DFAA0F53"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Voice.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

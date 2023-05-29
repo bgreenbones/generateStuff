@@ -9,50 +9,28 @@
 */
 
 #include "Melody.h"
-#include "PlayQueue.h"
+#include "Ensemble.h"
 #include "Utility.h"
 
 
 
-Phrase melody::bassFromFunction(Phrase fromPhrase, PlayQueue& playQueue, GenerateStuffEditorState const& editorState) {
-//        Parameter(bassBurstLengthMinKey, "min burst length", burstLengthRange, 1, " notes"),
-//        Parameter(bassBurstLengthMaxKey, "max burst length", burstLengthRange, 4, " notes"),
-//        Parameter(bassBurstNoteLengthHalfKey, "burst note length 1/2", false, " subdivisions"),
-//        Parameter(bassBurstNoteLengthOneKey, "burst note length 1", true, " subdivisions"),
-//        Parameter(bassBurstNoteLengthTwoKey, "burst note length 2", false, " subdivisions"),
-//        Parameter(bassBurstNoteLengthThreeKey, "burst note length 3", false, " subdivisions")
-  
-  int burstLengthMin = editorState.getKnobValue(bassBurstLengthMinKey);
-  int burstLengthMax = editorState.getKnobValue(bassBurstLengthMaxKey);
-
-  Duration phraseLength = editorState.getPhraseLength();
-  fromPhrase = fromPhrase.loop(phraseLength);
-  
-  vector<float> burstNoteLengthChoices;
-  if (editorState.getButtonValue(bassBurstNoteLengthHalfKey)) { burstNoteLengthChoices.push_back(0.5); };
-  if (editorState.getButtonValue(bassBurstNoteLengthOneKey)) { burstNoteLengthChoices.push_back(1); };
-  if (editorState.getButtonValue(bassBurstNoteLengthTwoKey)) { burstNoteLengthChoices.push_back(2); };
-  if (editorState.getButtonValue(bassBurstNoteLengthThreeKey)) { burstNoteLengthChoices.push_back(3); };
-  
-  Phrase phrase(fromPhrase);
-  phrase.notes = fromPhrase.notes.toMonophonic();
-  phrase = phrase.chordScales.empty() ? harmony::generateChordScales(phrase, playQueue, editorState) : phrase;
+Phrase melody::bass(Phrase harmony, Phrase rhythm, int burstLengthMin, int burstLengthMax, vector<float> burstNoteLengthChoices) {
+  Phrase phrase(harmony);
+  phrase.notes = harmony.notes.toMonophonic();
   phrase.notes.clear();
   
   // set<Position> keyPoints { phrase.startTime };
   set<TimedEvent> harmonicKeyPoints;
   set<TimedEvent> rhythmicKeyPoints;
   
-  auto notes = fromPhrase.toMonophonic();
+  auto notes = harmony.toMonophonic();
   auto accents = notes.accents();
-  Phrase clave = playQueue.at(0, claveKey);
-  clave = clave.loop(phraseLength);
   
   // for (Note note : notes.notes) { keyPoints.emplace(note.startTime); }
-  // for (Note note : clave.notes) { keyPoints.emplace(note.startTime); }
+  // for (Note note : rhythm.notes) { keyPoints.emplace(note.startTime); }
   // for (ChordScale tonality : phrase.chordScales) { keyPoints.emplace(tonality.startTime); }
   // for (Note note : notes.notes) { keyPoints.emplace(note); }
-  for (Note note : clave.notes) { rhythmicKeyPoints.emplace(note); }
+  for (Note note : rhythm.notes) { rhythmicKeyPoints.emplace(note); }
   for (ChordScale tonality : phrase.chordScales) { harmonicKeyPoints.emplace(tonality); }
   
 
@@ -87,8 +65,82 @@ Phrase melody::bassFromFunction(Phrase fromPhrase, PlayQueue& playQueue, Generat
     phrase = rhythm::burst(phrase, noteToAdd, burstLengthMin, burstLengthMax, burstNoteLengthInSubdivisions);
   }
 
-
   dynamics::followAccents(phrase.notes, rhythmicPositions, mf, ff);
 
   return phrase;
+};
+
+
+Phrase melody::melody(Phrase harmony) {
+    Phrase phrase(harmony);
+    phrase.notes = harmony.notes.toMonophonic();
+    phrase.notes.clear();
+    
+    Position cursor = 0;
+    Pitch lastPitch(uniformInt(55, 75));
+    while (cursor < phrase.getDuration()) {
+        vector<ChordScale> chordScales = phrase.chordScales.byPosition(cursor);
+        if (chordScales.empty()) {
+            cursor += 1;
+            continue;
+        }
+        
+        ChordScale chordScale = chordScales.at(0);
+        // Tonality tonality = chordScale.scale;
+        
+        vector<Subdivision> subdivs = phrase.subdivisions.byPosition(cursor);
+        Duration subdiv = subdivs.empty() ? sixteenths : subdivs.at(0);
+        
+        // vector<Note> burstOfNotes = Sequence<Note>::burst(subdiv, min(1 + rollDie(4), (int) ((chordScale.endTime() - cursor) / subdiv)));
+        vector<Note> burstOfNotes = Sequence<Note>::burst(subdiv, 1 + rollDie(flipCoin() ? 3 : 7));
+
+        // fun with durations
+        for (auto noteIter = burstOfNotes.begin(); noteIter < burstOfNotes.end(); noteIter++) {
+            Note& note = *noteIter;
+            
+            if (flipWeightedCoin(0.75)) {
+                continue;
+            }
+            
+            if (flipCoin()) {
+                // lengthen note by 2, erase next overlap
+                note.duration = 2 * note.duration;
+                if (noteIter + 1 == burstOfNotes.end()) { continue; }
+                else if ((noteIter + 1)->startTime < note.endTime()) {
+                    burstOfNotes.erase(noteIter + 1);
+                }
+            } else {
+                // double stroke
+                note.duration = 0.5 * note.duration;
+                Note doubleNote(note);
+                doubleNote.startTime = note.endTime();
+                noteIter = burstOfNotes.insert(noteIter + 1, doubleNote);
+            }
+        }
+
+        // stepwise motion
+        for (Note &note : burstOfNotes) {
+            Direction direction = rollDie(2) == 2 ? Direction::down : Direction::up;
+            note.pitch = phrase.chordScales.drawByPosition(cursor + note.startTime).scale
+                .step(lastPitch, direction);
+            lastPitch = note.pitch;
+        }
+        
+        phrase.notes.insertVector(burstOfNotes, cursor, PushBehavior::truncate);
+        
+        cursor = (phrase.notes.end() - 1)->startTime + rollDie(4) * subdiv;
+        // cursor += (7 + rollDie(4)) * subdiv;
+    }
+    
+    // This was a check for monophonicity... don't think we need it.
+    // vector<Position> startTimes;
+    // for (Note note : phrase.notes) {
+    //     if (find(startTimes.begin(), startTimes.end(), note.startTime) != startTimes.end()) {
+    //         DBG("bad");
+    //     }
+    //     startTimes.push_back(note.startTime);
+    // }
+
+
+    return phrase;
 };

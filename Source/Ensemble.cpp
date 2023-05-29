@@ -1,7 +1,19 @@
 /*
   ==============================================================================
 
-    PlayQueue.cpp
+    Ensemble.cpp
+    Created: 27 May 2023 3:20:25pm
+    Author:  Benjamin Greenwood
+
+  ==============================================================================
+*/
+
+#include "Ensemble.h"
+
+/*
+  ==============================================================================
+
+    Ensemble.cpp
     Created: 15 Feb 2023 12:28:03pm
     Author:  Benjamin Greenwood
 
@@ -9,9 +21,9 @@
 */
 
 
-#include "PlayQueue.h"
+#include "Ensemble.h"
 
-vector<Phrase> PlayQueue::at(Quarters ppqPosition) {
+vector<Phrase> Ensemble::at(Quarters ppqPosition) {
     vector<Phrase> result;
     for (auto entry : queue) {
         result.push_back(entry.second.schedule.at(ppqPosition));
@@ -20,27 +32,27 @@ vector<Phrase> PlayQueue::at(Quarters ppqPosition) {
     return result;
 }
 
-Phrase PlayQueue::at(Quarters ppqPosition, VoiceName voiceName) {
+Phrase Ensemble::at(Quarters ppqPosition, VoiceName voiceName) {
     if (!hasVoice(voiceName)) { return Phrase(); } // TODO: use optional?
     return queue.at(voiceName).schedule.at(ppqPosition);
 }
 
-bool PlayQueue::hasVoice(VoiceName voiceName)
+bool Ensemble::hasVoice(VoiceName voiceName)
 {
     return queue.find(voiceName) != queue.end();
 }
 
-Voice PlayQueue::getVoice(VoiceName voiceName)
+Voice& Ensemble::getVoice(VoiceName voiceName)
 {
 //   if (!hasVoice(voiceName)) { return Voice("voice not found", -1, true, qp); } // TODO: use optional?
-    if (!hasVoice(voiceName)) { return Voice("voice not found", -1, true, *this); } // TODO: use optional?
+    // if (!hasVoice(voiceName)) { return Voice("voice not found", -1, true, *this); } // TODO: use optional?
     return queue.at(voiceName);
 }
 
-bool PlayQueue::hasPhrase(VoiceName voiceName, Position startTime, Duration phraseLength) { return true; }
-bool PlayQueue::doesntHavePhrase(VoiceName voiceName, Position startTime, Duration phraseLength) { return !hasPhrase(voiceName, startTime, phraseLength); }
+bool Ensemble::hasPhrase(VoiceName voiceName, Position startTime, Duration phraseLength) { return true; }
+bool Ensemble::doesntHavePhrase(VoiceName voiceName, Position startTime, Duration phraseLength) { return !hasPhrase(voiceName, startTime, phraseLength); }
 
-void PlayQueue::clearVoice(VoiceName voiceName)
+void Ensemble::clearVoice(VoiceName voiceName)
 {
     if (!hasVoice(voiceName)) { return; }
     // queue.at(voiceName).base.clear();
@@ -49,7 +61,7 @@ void PlayQueue::clearVoice(VoiceName voiceName)
     
 }
 
-bool PlayQueue::toggleMuteVoice(VoiceName voiceName)
+bool Ensemble::toggleMuteVoice(VoiceName voiceName)
 {
     if (!hasVoice(voiceName)) { return true; };
     Voice &voice = queue.at(voiceName);
@@ -60,7 +72,7 @@ bool PlayQueue::toggleMuteVoice(VoiceName voiceName)
     return newMuteState;
 }
 
-bool PlayQueue::toggleMuteConnecting(VoiceName voiceName)
+bool Ensemble::toggleMuteConnecting(VoiceName voiceName)
 {
     if (!hasVoice(voiceName)) { return true; };
     Voice &voice = queue.at(voiceName);
@@ -69,32 +81,30 @@ bool PlayQueue::toggleMuteConnecting(VoiceName voiceName)
     return newMuteState;
 }
 
-bool PlayQueue::toggleMuteConnecting(VoiceName voiceName, bool newMuteState)
+bool Ensemble::toggleMuteConnecting(VoiceName voiceName, bool newMuteState)
 {
     if (!hasVoice(voiceName)) { return true; };
-    Voice voice = queue.at(voiceName);
     queue.at(voiceName).muteConnecting = newMuteState;
     return newMuteState;
 }
 
-bool PlayQueue::toggleMuteOrnamentation(VoiceName voiceName, bool newMuteState)
+bool Ensemble::toggleMuteOrnamentation(VoiceName voiceName, bool newMuteState)
 {
     if (!hasVoice(voiceName)) { return true; };
-    Voice voice = queue.at(voiceName);
     queue.at(voiceName).muteOrnamentation = newMuteState;
     return newMuteState;
 }
 
-bool PlayQueue::toggleMuteOrnamentation(VoiceName voiceName)
+bool Ensemble::toggleMuteOrnamentation(VoiceName voiceName)
 {
     if (!hasVoice(voiceName)) { return true; };
-    Voice voice = queue.at(voiceName);
+    Voice& voice = queue.at(voiceName);
     bool newMuteState = !(voice.muteOrnamentation);
     queue.at(voiceName).muteOrnamentation = newMuteState;
     return newMuteState;
 }
 
-void PlayQueue::queuePhrase(TimedEvent phraseTime, Phrase phrase)
+void Ensemble::queuePhrase(TimedEvent phraseTime, Phrase phrase)
 {
     // schedule.schedulePhrase(phraseTime, phrase);
     VoiceName voiceName = phrase.voice;
@@ -113,13 +123,13 @@ void PlayQueue::queuePhrase(TimedEvent phraseTime, Phrase phrase)
 }
 
 
-void PlayQueue::setMidiChannel(VoiceName voiceName, int newMidiChannel)
+void Ensemble::setMidiChannel(VoiceName voiceName, int newMidiChannel)
 {
     if (!hasVoice(voiceName)) { return; }
     queue.at(voiceName).midiChannel = newMidiChannel;
 }
 
-int PlayQueue::getMidiChannel(VoiceName voiceName)
+int Ensemble::getMidiChannel(VoiceName voiceName)
 {
     if (!hasVoice(voiceName)) { return -1; }
     return queue.at(voiceName).midiChannel;

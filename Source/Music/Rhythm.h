@@ -17,7 +17,7 @@
 typedef string VoiceName;
 
 namespace rhythm {
-    Phrase rhythmicVariation(Voice const& voice);
+    Phrase rhythmicVariation(Phrase source);
 
     // TODO: IDEAS:
     Phrase additive(Duration subdivision, vector<int> groupings);
@@ -69,32 +69,7 @@ namespace rhythm {
                      int minNoteLengthInSubdivisions = 2,
                      int maxNoteLengthInSubdivisions = 4);
 
-    const GenerationFunction fillSubdivisionsFunction = [](Phrase phrase, PlayQueue& playQueue, GenerateStuffEditorState const& editorState) {
-        Phrase newPhrase(phrase);
-        newPhrase.notes.clear();
-        newPhrase = newPhrase.randomGhostSubdivision(0.9,1.);
-        dynamics::randomFlux(newPhrase.notes);
-        return newPhrase;
-    };
 
-    const GenerationFunction cascaraFunction = [](Phrase phrase, PlayQueue& playQueue, GenerateStuffEditorState const& editorState) {
-        float pDisplace = editorState.getKnobValue(cascaraDisplaceProbabilityKey);
-        float pDouble = editorState.getKnobValue(cascaraDoubleProbabilityKey);
-        return randomCascara(phrase, pDisplace, pDouble);
-    };
-    const GenerationFunction claveFunction = [](Phrase phrase, PlayQueue& playQueue, GenerateStuffEditorState const& editorState) {
-        int minNoteLengthInSubdivisions = editorState.getKnobValue(claveMinNoteLengthKey);
-        int maxNoteLengthInSubdivisions = editorState.getKnobValue(claveMaxNoteLengthKey);
-        return randomClave(phrase, minNoteLengthInSubdivisions, maxNoteLengthInSubdivisions);
-    };
-    const GenerationFunction cascaraFromFunction = [](Phrase phrase, PlayQueue& playQueue, GenerateStuffEditorState const& editorState) {
-        return cascaraFrom(phrase);
-    };
-    const GenerationFunction claveFromFunction = [](Phrase phrase, PlayQueue& playQueue, GenerateStuffEditorState const& editorState) {
-        int minNoteLengthInSubdivisions = editorState.getKnobValue(claveMinNoteLengthKey);
-        int maxNoteLengthInSubdivisions = editorState.getKnobValue(claveMaxNoteLengthKey);
-        return claveFrom(phrase, minNoteLengthInSubdivisions, maxNoteLengthInSubdivisions);
-    };
 }
 
 

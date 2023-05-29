@@ -8,6 +8,20 @@
     <GROUP id="{1F340CA5-7936-CCCD-FAE4-B8BBE23A3A37}" name="New Group"/>
     <GROUP id="{00999AAF-F7D5-2407-527D-4524909F0912}" name="Source">
       <GROUP id="{DCCBD608-3028-B941-FC99-E73F736C2121}" name="Music">
+        <GROUP id="{AE91EE52-6503-4747-D707-8BCF1DF385A4}" name="Voices">
+          <FILE id="c1BT3c" name="Bass.cpp" compile="1" resource="0" file="Source/Music/Voices/Bass.cpp"/>
+          <FILE id="mqHmuz" name="Bass.h" compile="0" resource="0" file="Source/Music/Voices/Bass.h"/>
+          <FILE id="C69XfY" name="Cascara.cpp" compile="1" resource="0" file="Source/Music/Voices/Cascara.cpp"/>
+          <FILE id="bNVAED" name="Cascara.h" compile="0" resource="0" file="Source/Music/Voices/Cascara.h"/>
+          <FILE id="Yzn46d" name="Chords.cpp" compile="1" resource="0" file="Source/Music/Voices/Chords.cpp"/>
+          <FILE id="EQufSb" name="Chords.h" compile="0" resource="0" file="Source/Music/Voices/Chords.h"/>
+          <FILE id="mF9p5U" name="Clave.cpp" compile="1" resource="0" file="Source/Music/Voices/Clave.cpp"/>
+          <FILE id="PuQK8T" name="Clave.h" compile="0" resource="0" file="Source/Music/Voices/Clave.h"/>
+          <FILE id="HoG13w" name="Lead.cpp" compile="1" resource="0" file="Source/Music/Voices/Lead.cpp"/>
+          <FILE id="Xe4No0" name="Lead.h" compile="0" resource="0" file="Source/Music/Voices/Lead.h"/>
+          <FILE id="XXjARS" name="Shaker.cpp" compile="1" resource="0" file="Source/Music/Voices/Shaker.cpp"/>
+          <FILE id="Q6yFGe" name="Shaker.h" compile="0" resource="0" file="Source/Music/Voices/Shaker.h"/>
+        </GROUP>
         <FILE id="UryfA1" name="Dynamics.cpp" compile="1" resource="0" file="Source/Music/Dynamics.cpp"/>
         <FILE id="wWFaXB" name="Dynamics.h" compile="0" resource="0" file="Source/Music/Dynamics.h"/>
         <FILE id="geLhjK" name="Harmony.cpp" compile="1" resource="0" file="Source/Music/Harmony.cpp"/>
@@ -92,12 +106,12 @@
         <FILE id="xipFlx" name="Tonality.cpp" compile="1" resource="0" file="Source/Tonality/Tonality.cpp"/>
         <FILE id="ZlWV6J" name="Tonality.h" compile="0" resource="0" file="Source/Tonality/Tonality.h"/>
       </GROUP>
-      <FILE id="kFP0O5" name="Constraint.cpp" compile="1" resource="0" file="Source/Constraint.cpp"/>
-      <FILE id="YPjCl5" name="Constraint.hpp" compile="0" resource="0" file="Source/Constraint.hpp"/>
+      <FILE id="MGPw6n" name="Ensemble.h" compile="0" resource="0" file="Source/Ensemble.h"/>
+      <FILE id="oLgBLH" name="Ensemble.cpp" compile="1" resource="0" file="Source/Ensemble.cpp"/>
+      <FILE id="TcRHTY" name="Voice.h" compile="0" resource="0" file="Source/Voice.h"/>
+      <FILE id="wqOJ2D" name="Voice.cpp" compile="1" resource="0" file="Source/Voice.cpp"/>
       <FILE id="q9sIZD" name="Generator.cpp" compile="1" resource="0" file="Source/Generator.cpp"/>
       <FILE id="po8Vvx" name="Generator.hpp" compile="0" resource="0" file="Source/Generator.hpp"/>
-      <FILE id="IqXoVd" name="Heuristic.cpp" compile="1" resource="0" file="Source/Heuristic.cpp"/>
-      <FILE id="dIkQax" name="Heuristic.hpp" compile="0" resource="0" file="Source/Heuristic.hpp"/>
       <FILE id="NdGeUC" name="HostSettings.cpp" compile="1" resource="0"
             file="Source/HostSettings.cpp"/>
       <FILE id="kzYUPH" name="HostSettings.h" compile="0" resource="0" file="Source/HostSettings.h"/>
@@ -107,8 +121,6 @@
       <FILE id="cVh7ht" name="Misc.h" compile="0" resource="0" file="Source/Misc.h"/>
       <FILE id="uF8Cts" name="Note.hpp" compile="0" resource="0" file="Source/Note.hpp"/>
       <FILE id="cI7sZr" name="Note.cpp" compile="1" resource="0" file="Source/Note.cpp"/>
-      <FILE id="xgyoQu" name="PlayQueue.h" compile="0" resource="0" file="Source/PlayQueue.h"/>
-      <FILE id="L6n0cP" name="PlayQueue.cpp" compile="1" resource="0" file="Source/PlayQueue.cpp"/>
       <FILE id="cf7fQF" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="Xm7vUK" name="PluginProcessor.h" compile="0" resource="0"
@@ -117,8 +129,6 @@
       <FILE id="ve3L5v" name="Probability.h" compile="0" resource="0" file="Source/Probability.h"/>
       <FILE id="HoSZga" name="Random.cpp" compile="1" resource="0" file="Source/Random.cpp"/>
       <FILE id="TmiPLp" name="Random.h" compile="0" resource="0" file="Source/Random.h"/>
-      <FILE id="TcRHTY" name="Voice.h" compile="0" resource="0" file="Source/Voice.h"/>
-      <FILE id="wqOJ2D" name="Voice.cpp" compile="1" resource="0" file="Source/Voice.cpp"/>
       <FILE id="sQSYQ8" name="VoiceParameters.h" compile="0" resource="0"
             file="Source/VoiceParameters.h"/>
       <FILE id="ZCKUEe" name="Utility.h" compile="0" resource="0" file="Source/Utility.h"/>

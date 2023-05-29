@@ -50,15 +50,12 @@ GenerateStuffAudioProcessor::GenerateStuffAudioProcessor()
                      #endif
                        ),
         editorState(GenerateStuffEditorState(apvts)),
-        playQueue(PlayQueue(editorState)),
-        // playQueue(make_shared<PlayQueue>(PlayQueue(*editorState.get()))),
-        generator(Generator(playQueue, editorState)),
+        ensemble(Ensemble(editorState)),
+        generator(Generator(ensemble, editorState)),
         noteOffIssued(true),
         apvts(*this, nullptr, "parameters", getParameterLayout())
 #endif
 {
-    playQueue.initQueue();
-    // playQueue.initQueue(playQueue);
     for (int pitch = 0; pitch <= 127; pitch ++) { // yikes. for now this is the only thing that turns off note on messages when we stop playing
         for (int midiChannel = 1; midiChannel <= 16; midiChannel++) {
             auto noteOff = juce::MidiMessage::noteOff (midiChannel, pitch, (juce::uint8) 0);
@@ -330,11 +327,11 @@ void GenerateStuffAudioProcessor::playPlayables(
         }
     }
 
-    vector<Phrase> phrases = playQueue.at(ppqPosition);
+    vector<Phrase> phrases = ensemble.at(ppqPosition);
     for (auto phrase : phrases) 
     {
         string voiceName = phrase.voice;
-        Voice voice = playQueue.getVoice(voiceName);
+        Voice &voice = ensemble.getVoice(voiceName);
         if (voice.mute) { continue; }
         int midiChannel = voice.midiChannel;
 

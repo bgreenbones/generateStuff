@@ -26,10 +26,10 @@ private:
 public:
     GenerateStuffAudioProcessor& processor;    
     Generator& generator;
-    PlayQueue& playQueue;
+    Ensemble& ensemble;
     Component* mainEditor;
     
-    string useAsSourcePhraseKeyState;
+    // string useAsSourcePhraseKeyState;
     
     VoiceManager(GenerateStuffAudioProcessor& processor);
     ~VoiceManager();

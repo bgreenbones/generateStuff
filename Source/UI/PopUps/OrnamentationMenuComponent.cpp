@@ -38,14 +38,14 @@ OrnamentationMenuComponent::OrnamentationMenuComponent(VoiceName voiceName,
     muteConnectingButton.setClickingTogglesState(true);
     muteConnectingButton.setToggleState(false, juce::dontSendNotification);
     muteConnectingButton.onClick = [this, voiceName]() {
-       playQueue.toggleMuteConnecting(voiceName, muteConnectingButton.getToggleState());
+       ensemble.toggleMuteConnecting(voiceName, muteConnectingButton.getToggleState());
     };
 
     addAndMakeVisible(&muteConnectingButton);
     muteOrnamentsButton.setClickingTogglesState(true);
     muteOrnamentsButton.setToggleState(false, juce::dontSendNotification);
     muteOrnamentsButton.onClick = [this, voiceName]() {
-       playQueue.toggleMuteOrnamentation(voiceName, muteOrnamentsButton.getToggleState());
+       ensemble.toggleMuteOrnamentation(voiceName, muteOrnamentsButton.getToggleState());
     };
     addAndMakeVisible(&muteOrnamentsButton);
     

@@ -12,7 +12,7 @@
 #include "Generator.hpp"
 #include "Duration.h"
 #include "LoopTasks.h"
-#include "PlayQueue.h"
+#include "Ensemble.h"
 
 
 //==============================================================================
@@ -34,8 +34,7 @@ public:
     double samplesPerBeat;
     double samplesPerMinute;
     GenerateStuffEditorState editorState;
-    PlayQueue playQueue;
-    // shared_ptr<PlayQueue> playQueue;
+    Ensemble ensemble;
     Generator generator; // TODO: make shared ptr?
     vector<juce::MidiMessage> allNotesOff;
     vector<juce::MidiMessage> midiMessageQueue;

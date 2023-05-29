@@ -20,7 +20,7 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     : AudioProcessorEditor (&p),
     audioProcessor (p),
     generator(p.generator),
-    playQueue (p.playQueue),
+        ensemble (p.ensemble),
     editorState(p.editorState),
     voiceManager(p)
 {

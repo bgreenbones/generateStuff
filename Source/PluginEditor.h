@@ -32,7 +32,7 @@ private:
     // access the processor object that created it.
     GenerateStuffAudioProcessor& audioProcessor;
     Generator& generator;
-    PlayQueue& playQueue;
+    Ensemble& ensemble;
     GenerateStuffEditorState& editorState;
     VoiceManager voiceManager;
     

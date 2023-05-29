@@ -16,7 +16,6 @@
 
 #include "Note.hpp"
 #include "Subdivision.h"
-// #include "Sequence.h"
 #include "Syncopation.h"
 #include "Random.h"
 #include "Pitch.h"
@@ -39,9 +38,9 @@ public:
     Duration getDuration() { return duration; }
     void setDuration(Duration newDuration) {
         if (newDuration < duration) {      
-            notes.chopAfterDuration(newDuration);
-            connectingNotes.chopAfterDuration(newDuration);
-            ornamentationNotes.chopAfterDuration(newDuration);
+            for (auto sequence : noteSequences) {
+                sequence->chopAfterDuration(newDuration);
+            }
             subdivisions.chopAfterDuration(newDuration);
             chordScales.chopAfterDuration(newDuration);
         }
@@ -88,10 +87,14 @@ public:
     Sequence<Note> notes;
     Sequence<Note> connectingNotes;
     Sequence<Note> ornamentationNotes;
+    vector<Sequence<Note>*> noteSequences = {
+        &notes, &connectingNotes, &ornamentationNotes
+    };
     Sequence<Subdivision> subdivisions;
+    Sequence<ChordScale> chordScales;
+
     Position nextSubdivisionPosition(Position position);
     Position previousSubdivisionPosition(Position position);
-    Sequence<ChordScale> chordScales;
 
     bool isPolyphonic() {
         return notes.isPolyphonic();
@@ -206,12 +209,12 @@ Duration timeBetween(T const& first, T const& second, Phrase phrase)
 
 typedef string VoiceName;
 // typedef function<Phrase(Phrase, GenerateStuffEditorState const&)> GenerationFunction;
-// typedef function<Phrase(Phrase, shared_ptr<PlayQueue>, GenerateStuffEditorState const&)> GenerationFunction;
-// typedef function<Phrase(PlayQueue const&, GenerateStuffEditorState const&)> GenerationFunction;
+// typedef function<Phrase(Phrase, shared_ptr<Ensemble>, GenerateStuffEditorState const&)> GenerationFunction;
+// typedef function<Phrase(Ensemble const&, GenerateStuffEditorState const&)> GenerationFunction;
 
-class PlayQueue;
+class Ensemble;
 class Voice;
-typedef function<Phrase(Phrase, PlayQueue&, GenerateStuffEditorState const&)> GenerationFunction;
+typedef function<Phrase(Phrase, Ensemble&, GenerateStuffEditorState const&)> GenerationFunction;
 typedef function<Phrase(Voice const&)> GenerationFunction2;
 
 #endif /* Phrase_hpp */

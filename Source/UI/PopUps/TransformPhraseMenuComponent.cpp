@@ -21,22 +21,22 @@ TransformPhraseMenuComponent::TransformPhraseMenuComponent(VoiceName voiceName,
     }
 
     flipButton.onClick = [this]() {
-        Phrase flipped = rhythm::flip(playQueue.getVoice(this->voiceName)
+        Phrase flipped = rhythm::flip(ensemble.getVoice(this->voiceName)
             .schedule.at(editorState.phraseStartTime));
-        playQueue.queuePhrase(Form(), flipped);
+        ensemble.queuePhrase(Form(), flipped);
     };
     addAndMakeVisible(&flipButton);
 
     
     stabilizeRhythmButton.onClick = [this]() {
-        Phrase stabilized = rhythm::stabilityFilter(playQueue.getVoice(this->voiceName)
+        Phrase stabilized = rhythm::stabilityFilter(ensemble.getVoice(this->voiceName)
             .schedule.at(editorState.phraseStartTime), Direction::up);
-        playQueue.queuePhrase(Form(), stabilized);
+        ensemble.queuePhrase(Form(), stabilized);
     };
     destabilizeRhythmButton.onClick = [this]() {
-        Phrase destabilized = rhythm::stabilityFilter(playQueue.getVoice(this->voiceName)
+        Phrase destabilized = rhythm::stabilityFilter(ensemble.getVoice(this->voiceName)
             .schedule.at(editorState.phraseStartTime), Direction::down);
-        playQueue.queuePhrase(Form(), destabilized);
+        ensemble.queuePhrase(Form(), destabilized);
     };
     addAndMakeVisible(&stabilizeRhythmButton);
     addAndMakeVisible(&destabilizeRhythmButton);

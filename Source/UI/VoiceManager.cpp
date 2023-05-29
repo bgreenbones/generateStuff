@@ -18,7 +18,7 @@
 VoiceManager::VoiceManager(GenerateStuffAudioProcessor& processor):
     processor(processor),
     generator(processor.generator),
-    playQueue(processor.playQueue)
+    ensemble(processor.ensemble)
 {
     for (VoiceBindings vb : voiceBindings) {
         voices.emplace(vb.voiceName, VoiceControls(vb));
@@ -33,7 +33,7 @@ VoiceManager::~VoiceManager()
 
 void VoiceManager::midiChannelChanged(string voiceName) {
     int midiChannel = voices.at(voiceName).midiChannel.getSelectedId();
-    playQueue.setMidiChannel(voiceName, midiChannel);
+    ensemble.setMidiChannel(voiceName, midiChannel);
 }
 
 
@@ -80,7 +80,8 @@ void VoiceManager::updateUseAsSourceState() {
     for (auto voiceIt = voices.begin(); voiceIt != voices.end(); voiceIt++) {
         bool voiceSelected = voiceIt->second.useAsSourceButton.getToggleState();
         if (voiceSelected) {
-            this->useAsSourcePhraseKeyState = voiceIt->second.voiceName;
+            // this->useAsSourcePhraseKeyState = voiceIt->second.voiceName;
+            processor.editorState.useAsSourcePhraseKey = voiceIt->second.voiceName;
             break;
         }
     }
@@ -93,29 +94,35 @@ void VoiceManager::updateState() {
 
 void VoiceManager::setOnClicks() {
     for (auto voiceIt = voices.begin(); voiceIt != voices.end(); voiceIt++) {
-        VoiceControls &voice = voiceIt->second;
-        VoiceName voiceName = voice.voiceName;
-        voice.midiChannel.onChange = [this, voiceName]() { midiChannelChanged(voiceName); };
-        voice.generateButton.onClick = [this, voiceName]() {
-            processor.issueNoteOff(playQueue.getMidiChannel(voiceName));
-            generator.generate(voiceName);
-            VoiceControls &voice = voices.at(voiceName);
-            voice.improviseFunction = [&]() { generator.generate(voiceName); };
+        VoiceControls &voiceControls = voiceIt->second;
+        VoiceName voiceName = voiceControls.voiceName;
+        voiceControls.midiChannel.onChange = [this, voiceName]() { midiChannelChanged(voiceName); };
+        voiceControls.generateButton.onClick = [this, voiceName]() {
+            processor.issueNoteOff(ensemble.getMidiChannel(voiceName));
+            // generator.generate(voiceName);
+            Voice& voice = ensemble.getVoice(voiceName);
+            Phrase phrase = voice.newPhrase();
+            voice.schedule.schedulePhrase(Form(), phrase);
+            // VoiceControls &voice = voices.at(voiceName);
+            // voice.improviseFunction = [&]() { generator.generate(voiceName); };
         };
-        voice.generateFromButton.onClick = [this, voiceName]() {
-            processor.issueNoteOff(playQueue.getMidiChannel(voiceName));
-            playQueue.getVoice(voiceName).variation();
+        voiceControls.generateFromButton.onClick = [this, voiceName]() {
+            processor.issueNoteOff(ensemble.getMidiChannel(voiceName));
+            Voice& voice = ensemble.getVoice(voiceName);
+            Phrase phrase = voice.phraseFrom();
+            voice.schedule.schedulePhrase(Form(), phrase);
+            // ensemble.getVoice(voiceName).variation();
             // generator.gen∫erateFrom(voiceName, useAsSourcePhraseKeyState);
             // VoiceControls &voice = voices.at(voiceName);
             // voice.improviseFunction = [&]() { generator.generateFrom(voiceName, useAsSourcePhraseKeyState); };
         };
-        voice.muteButton.onClick = [this, voiceName]() {
-            processor.issueNoteOff(playQueue.getMidiChannel(voiceName));
-            bool muted = playQueue.toggleMuteVoice(voiceName);
+        voiceControls.muteButton.onClick = [this, voiceName]() {
+            processor.issueNoteOff(ensemble.getMidiChannel(voiceName));
+            bool muted = ensemble.toggleMuteVoice(voiceName);
             voices.at(voiceName).muteButton.setToggleState(muted, juce::dontSendNotification);
         };
-        voice.useAsSourceButton.onClick = [this]() { updateUseAsSourceState(); };
-        voice.improviseButton.onClick = [this, voiceName]() {
+        voiceControls.useAsSourceButton.onClick = [this]() { updateUseAsSourceState(); };
+        voiceControls.improviseButton.onClick = [this, voiceName]() {
             VoiceControls &voice = voices.at(voiceName);
             bool improvise = !(voice.improviseButton.getToggleState());
             if (improvise) {
@@ -126,26 +133,26 @@ void VoiceManager::setOnClicks() {
             voice.improviseButton.setToggleState(improvise, juce::dontSendNotification);
         };
         
-        voice.settingsButton.onClick = [voice, this]() {
-            VoiceSettingsMenuComponent *voiceSettings = new VoiceSettingsMenuComponent(voice.voiceName, processor);
+        voiceControls.settingsButton.onClick = [voiceControls, this]() {
+            VoiceSettingsMenuComponent *voiceSettings = new VoiceSettingsMenuComponent(voiceControls.voiceName, processor);
             this->mainEditor->addAndMakeVisible(voiceSettings);
             voiceSettings->resized(); // TODO: super gross that i am needing to manually call resized() to get the actual subclass's implementation...
         };
         
-        voice.transformButton.onClick = [voice, this]() {
-            TransformPhraseMenuComponent *transformMenu = new TransformPhraseMenuComponent(voice.voiceName, processor);
+        voiceControls.transformButton.onClick = [voiceControls, this]() {
+            TransformPhraseMenuComponent *transformMenu = new TransformPhraseMenuComponent(voiceControls.voiceName, processor);
             this->mainEditor->addAndMakeVisible(transformMenu);
             transformMenu->resized();
         };
         
-        voice.ornamentButton.onClick = [voice, this]() {
-            OrnamentationMenuComponent *ornamentationMenu = new OrnamentationMenuComponent(voice.voiceName, processor);
+        voiceControls.ornamentButton.onClick = [voiceControls, this]() {
+            OrnamentationMenuComponent *ornamentationMenu = new OrnamentationMenuComponent(voiceControls.voiceName, processor);
             this->mainEditor->addAndMakeVisible(ornamentationMenu);
             ornamentationMenu->resized();
         };
         
-        voice.expressionButton.onClick = [voice, this]() {
-            ExpressionMenuComponent *expressionMenu = new ExpressionMenuComponent(voice.voiceName, processor);
+        voiceControls.expressionButton.onClick = [voiceControls, this]() {
+            ExpressionMenuComponent *expressionMenu = new ExpressionMenuComponent(voiceControls.voiceName, processor);
             this->mainEditor->addAndMakeVisible(expressionMenu);
             expressionMenu->resized();
         };

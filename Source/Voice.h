@@ -18,9 +18,8 @@
 #include "Schedule.h"
 #include <JuceHeader.h>
 
-//class PlayQueue;
 typedef string VoiceName;
-using std::vector, std::unique_ptr;
+using std::vector;
 
 // TODO: change the key and the channel data into some other enum or struct type or something
 static const VoiceName claveKey = "clave";
@@ -47,7 +46,7 @@ struct VoiceBindings {
     GenerationFunction2 variation;
 };
 
-static const GenerationFunction placeholderGenerationFunction = [](Phrase phrase, PlayQueue& playQueue, GenerateStuffEditorState const& editorState) {
+static const GenerationFunction placeholderGenerationFunction = [](Phrase phrase, Ensemble& ensemble, GenerateStuffEditorState const& editorState) {
   return phrase;
 };
 static const GenerationFunction2 placeholderGenerationFunction2 = [](Voice const& v) {
@@ -58,9 +57,9 @@ static const vector<VoiceBindings> voiceBindings = {
     VoiceBindings {
         .voiceName = claveKey,
         .midiChannel = claveChannel,
-        .generate = rhythm::claveFunction,
-        .generateFromOther = rhythm::claveFromFunction,
-        .variation = rhythm::rhythmicVariation,
+        .generate = placeholderGenerationFunction,
+        .generateFromOther = placeholderGenerationFunction,
+        .variation = placeholderGenerationFunction2,
     },
     VoiceBindings {
         .voiceName = cascaraKey,
@@ -103,38 +102,27 @@ static const vector<VoiceBindings> voiceBindings = {
 
 class Voice {
 public:
-    PlayQueue& playQueue;
-    VoiceName name;
+    Ensemble& ensemble;
+    const VoiceName name;
     int midiChannel;
     bool mute;
     bool muteOrnamentation; // TODO: decouple this class from any idea of ornamentation/connecting. there should just be a base and a collection of related phrases. or just a collection.
     bool muteConnecting;
-    // Phrase base;
-    // vector<Phrase> phrases;
     VoiceSchedule schedule;
     
     GenerationFunction2 variationFunction;
+    GenerationFunction2 newPhraseFunction;
 
-    void variation();
-
-    // schedule of phrases to play
-    // that lives in the play queue
-
+    virtual Phrase newPhrase() = 0;
+    virtual Phrase phraseFrom() = 0;
+    virtual Phrase variation() = 0;
 
     
-    Voice(VoiceName name, int midiChannel, bool mute, PlayQueue& playQueue):
-    // Voice(VoiceName name, int midiChannel, bool mute, shared_ptr<PlayQueue> playQueue):
-        playQueue(playQueue), name(name), midiChannel(midiChannel), mute(mute) {
-            // initPhraseVector();
+    Voice(VoiceName name, int midiChannel, bool mute, Ensemble& ensemble):
+        ensemble(ensemble), name(name), midiChannel(midiChannel), mute(mute) {
         };
 
-    Voice(PlayQueue& playQueue, VoiceBindings vb) : playQueue(playQueue), name(vb.voiceName), midiChannel(vb.midiChannel), mute(false), variationFunction(vb.variation) {};
-    // Voice(shared_ptr<PlayQueue> playQueue, VoiceBindings vb) : playQueue(playQueue), name(vb.voiceName), midiChannel(vb.midiChannel), mute(false), variationFunction(vb.variation) {};
-    
-    // void initPhraseVector() {
-    //     phrases.clear();
-    //     phrases.push_back(base);
-    // }
+    Voice(Ensemble& ensemble, VoiceBindings vb) : ensemble(ensemble), name(vb.voiceName), midiChannel(vb.midiChannel), mute(false), variationFunction(vb.variation) {};
+    virtual ~Voice() {}
 };
-
 

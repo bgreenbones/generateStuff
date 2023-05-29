@@ -24,7 +24,7 @@ namespace harmony {
         
     ChordScale selectApproachAndGenerate(juce::String approach, Sequence<ChordScale> chordScales, Position startTime, Duration chordLength);
 
-    const GenerationFunction chordsFunction = [](Phrase phrase, PlayQueue& playQueue, GenerateStuffEditorState const& editorState) {
+    const GenerationFunction chordsFunction = [](Phrase phrase, Ensemble& ensemble, GenerateStuffEditorState const& editorState) {
         phrase.notes.monophonic = false;
         phrase.chordScales.monophonic = true;
         phrase.notes.clear();
@@ -53,16 +53,15 @@ namespace harmony {
     };
 
 
-    Phrase generateChordScales(Phrase fromPhrase, PlayQueue& playQueue, GenerateStuffEditorState const& editorState);
+    Phrase generateChordScales(Phrase fromPhrase,
+                            string harmonyApproach,
+                            Probability chordProbabilityPerAccent,
+                            double harmonicDensity);
 
 
-    const GenerationFunction chordsFromFunction = [](Phrase fromPhrase, PlayQueue& playQueue, GenerateStuffEditorState const& editorState) {
-        Phrase phrase = fromPhrase.toPolyphonic();
-        Duration phraseLength = editorState.getPhraseLength();
-        phrase = phrase.loop(phraseLength);
-        phrase = phrase.chordScales.empty() ? generateChordScales(phrase, playQueue, editorState) : phrase;
+    Phrase randomVoicings(Phrase phrase) {
+        phrase = phrase.toPolyphonic();
         phrase.notes.clear();
-
         
         for (ChordScale chordScale : phrase.chordScales) {
             for (Pitch pitchToAdd : chordScale.harmony.randomVoicing()) {
