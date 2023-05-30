@@ -1,14 +1,3 @@
-/*
-  ==============================================================================
-
-    Ensemble.cpp
-    Created: 27 May 2023 3:20:25pm
-    Author:  Benjamin Greenwood
-
-  ==============================================================================
-*/
-
-#include "Ensemble.h"
 
 /*
   ==============================================================================
@@ -26,15 +15,17 @@
 vector<Phrase> Ensemble::at(Quarters ppqPosition) {
     vector<Phrase> result;
     for (auto entry : queue) {
-        result.push_back(entry.second.schedule.at(ppqPosition));
+        Phrase const *phrase = entry.second.schedule.at(ppqPosition);
+        if (phrase != NULL && phrase != nullptr) {
+            result.push_back(*phrase);
+        }
     }
-    // return schedule.at(ppqPosition);
     return result;
 }
 
 Phrase Ensemble::at(Quarters ppqPosition, VoiceName voiceName) {
     if (!hasVoice(voiceName)) { return Phrase(); } // TODO: use optional?
-    return queue.at(voiceName).schedule.at(ppqPosition);
+    return queue.at(voiceName).atOrEmpty(ppqPosition);
 }
 
 bool Ensemble::hasVoice(VoiceName voiceName)

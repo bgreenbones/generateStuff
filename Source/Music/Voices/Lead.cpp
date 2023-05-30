@@ -12,27 +12,37 @@
 #include "Ensemble.h"
 
 
-Phrase Lead::newPhrase() {
+Phrase Lead::newPhrase() const {
   Position startTime = ensemble.editorState.getStartTime();
   Duration phraseLength = ensemble.editorState.getPhraseLength();
   
-  if (ensemble.doesntHavePhrase(harmonyKey, startTime, phraseLength)) { 
-    return newPhrase();      
-  }
+  // if (ensemble.doesntHavePhrase(harmonyKey, startTime, phraseLength)) { 
+  //   return newPhrase();      
+  // }
   Voice &generateFromVoice = ensemble.getVoice(harmonyKey);
-  auto generateFromPhrase = generateFromVoice.schedule.at(startTime);
+  auto generateFromPhrase = generateFromVoice.atOrEmpty(startTime);
 
-  Phrase harmony = generateFromPhrase.chordScales.empty() ? harmony::generateChordScales(generateFromPhrase, ensemble, ensemble.editorState) : generateFromPhrase;
+  juce::String harmonyApproach = ensemble.editorState.getChoiceValue(harmonyApproachKey);
+  Probability chordProbabilityPerAccent = ensemble.editorState.getKnobValue(harmonyProbabilityKey);
+  double harmonicDensity = ensemble.editorState.getKnobValue(harmonyDensityKey);
+  
+  Phrase harmony = generateFromPhrase.chordScales.empty() 
+    ? harmony::generateChordScales(generateFromPhrase,
+        harmonyApproach.toStdString(),
+        chordProbabilityPerAccent, 
+        harmonicDensity) 
+    : generateFromPhrase;
 
   Phrase phrase = melody::melody(harmony);
   
   
   dynamics::randomAccents(phrase.notes, mf, ff);
   dynamics::randomFlux(phrase.notes); // why the heck not give everything a little life.
+  phrase.voice = name;
   return phrase;
 }
 
-Phrase Lead::phraseFrom() {
+Phrase Lead::phraseFrom() const {
     Position startTime = ensemble.editorState.getStartTime();
     Duration phraseLength = ensemble.editorState.getPhraseLength();
     VoiceName generateFromPhraseKey = ensemble.editorState.useAsSourcePhraseKey;
@@ -41,26 +51,33 @@ Phrase Lead::phraseFrom() {
       return newPhrase();      
     }
     Voice &generateFromVoice = ensemble.getVoice(generateFromPhraseKey);
-    auto generateFromPhrase = generateFromVoice.schedule.at(startTime);
+    auto generateFromPhrase = generateFromVoice.atOrEmpty(startTime);
 
-    int minNoteLengthInSubdivisions = ensemble.editorState.getKnobValue(claveMinNoteLengthKey);
-    int maxNoteLengthInSubdivisions = ensemble.editorState.getKnobValue(claveMaxNoteLengthKey);
 
-    Phrase phrase = rhythm::claveFrom(
-        generateFromPhrase, 
-        minNoteLengthInSubdivisions, 
-        maxNoteLengthInSubdivisions);
+    juce::String harmonyApproach = ensemble.editorState.getChoiceValue(harmonyApproachKey);
+    Probability chordProbabilityPerAccent = ensemble.editorState.getKnobValue(harmonyProbabilityKey);
+    double harmonicDensity = ensemble.editorState.getKnobValue(harmonyDensityKey);
+    
+    Phrase harmony = generateFromPhrase.chordScales.empty() 
+      ? harmony::generateChordScales(generateFromPhrase,
+          harmonyApproach.toStdString(),
+          chordProbabilityPerAccent, 
+          harmonicDensity) 
+      : generateFromPhrase;
+
+    Phrase phrase = melody::melody(harmony);
 
     dynamics::randomFlux(phrase.notes); // why the heck not give everything a little life.
+    phrase.voice = name;
     return phrase;
 }
 
-Phrase Lead::variation() {
+Phrase Lead::variation() const {
   
     Position phraseStartTime = ensemble.editorState.phraseStartTime;
     Duration phraseLength = ensemble.editorState.getPhraseLength();
 
-    Phrase source = schedule.at(phraseStartTime);
+    Phrase source = atOrEmpty(phraseStartTime);
 
     return rhythm::rhythmicVariation(source);
 }

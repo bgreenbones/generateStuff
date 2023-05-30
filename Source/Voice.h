@@ -38,65 +38,6 @@ static int bassChannel = 5;
 static int melodyChannel = 6;
 //static int pulseAndDisplaceChannel = 4;
 
-struct VoiceBindings {
-    VoiceName voiceName;
-    int midiChannel;
-    GenerationFunction generate;
-    GenerationFunction generateFromOther;
-    GenerationFunction2 variation;
-};
-
-static const GenerationFunction placeholderGenerationFunction = [](Phrase phrase, Ensemble& ensemble, GenerateStuffEditorState const& editorState) {
-  return phrase;
-};
-static const GenerationFunction2 placeholderGenerationFunction2 = [](Voice const& v) {
-  return Phrase();
-};
-
-static const vector<VoiceBindings> voiceBindings = {
-    VoiceBindings {
-        .voiceName = claveKey,
-        .midiChannel = claveChannel,
-        .generate = placeholderGenerationFunction,
-        .generateFromOther = placeholderGenerationFunction,
-        .variation = placeholderGenerationFunction2,
-    },
-    VoiceBindings {
-        .voiceName = cascaraKey,
-        .midiChannel = cascaraChannel,
-        .generate = rhythm::cascaraFunction,
-        .generateFromOther = rhythm::cascaraFromFunction,
-        .variation = placeholderGenerationFunction2,
-    },
-    VoiceBindings {
-        .voiceName = subdivisionsKey,
-        .midiChannel = subdivisionsChannel,
-        .generate = rhythm::fillSubdivisionsFunction,
-        .generateFromOther = rhythm::fillSubdivisionsFunction,
-        .variation = placeholderGenerationFunction2,
-    },
-    VoiceBindings {
-        .voiceName = harmonyKey,
-        .midiChannel = harmonyChannel,
-        .generate = harmony::chordsFunction,
-        .generateFromOther = harmony::chordsFromFunction,
-        .variation = placeholderGenerationFunction2,
-    },
-    VoiceBindings {
-        .voiceName = bassKey,
-        .midiChannel = bassChannel,
-        .generate = melody::bassFunction,
-        .generateFromOther = melody::bassFromFunction,
-        .variation = placeholderGenerationFunction2,
-    },
-    VoiceBindings {
-        .voiceName = melodyKey,
-        .midiChannel = melodyChannel,
-        .generate = melody::melodyFunction,
-        .generateFromOther = melody::melodyFromFunction,
-        .variation = placeholderGenerationFunction2,
-    }
-};
 
 
 
@@ -110,19 +51,26 @@ public:
     bool muteConnecting;
     VoiceSchedule schedule;
     
-    GenerationFunction2 variationFunction;
-    GenerationFunction2 newPhraseFunction;
+    virtual Phrase newPhrase() const = 0;
+    virtual Phrase phraseFrom() const = 0;
+    virtual Phrase variation() const = 0;
 
-    virtual Phrase newPhrase() = 0;
-    virtual Phrase phraseFrom() = 0;
-    virtual Phrase variation() = 0;
-
+    virtual Phrase connecting(Probability connectingProb, // TODO: just get all this stuff from editor state instead of passing it in
+                        Probability associationProb,
+                        Probability connectingLengthProb) const;
+    virtual Phrase ornament(Probability prob,
+                             double breadth,
+                             bool flams,
+                             bool drags,
+                             bool ruffs) const;
+                             
+    Phrase atOrEmpty(Position startTime) const;    
+    string connectingKey() const { return name + "Connecting"; }
+    string ornamentsKey() const { return name + "Ornaments"; }
     
     Voice(VoiceName name, int midiChannel, bool mute, Ensemble& ensemble):
-        ensemble(ensemble), name(name), midiChannel(midiChannel), mute(mute) {
-        };
+        ensemble(ensemble), name(name), midiChannel(midiChannel), mute(mute) {};
 
-    Voice(Ensemble& ensemble, VoiceBindings vb) : ensemble(ensemble), name(vb.voiceName), midiChannel(vb.midiChannel), mute(false), variationFunction(vb.variation) {};
     virtual ~Voice() {}
 };
 

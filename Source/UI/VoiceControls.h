@@ -74,7 +74,7 @@ public:
     static const int midiChannelLowerBound = 1; // TODO: find a place for these?
     static const int midiChannelUpperBound = 15;
     
-    VoiceControls(VoiceBindings vb): VoiceControls(vb.voiceName, vb.midiChannel) {}
+    VoiceControls(Voice const& voice): VoiceControls(voice.name, voice.midiChannel) {}
     VoiceControls(string name, int defaultMidiChannel):
         voiceName(name),
         generateButton(juce::TextButton(name)),

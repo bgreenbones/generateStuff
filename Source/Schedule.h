@@ -91,26 +91,31 @@ public:
       scheduleTimes.clear();
     }
 
-    Phrase at(Quarters ppqPosition) const {
-      if (scheduleTimes.byPosition(ppqPosition).empty()) {
-        return Phrase(); // todo: i don't know but this works for now
+    bool isScheduledAt(Quarters ppqPosition) const {
+      return !scheduleTimes.byPosition(ppqPosition).empty();
+    }
+    Phrase const* at(Quarters ppqPosition) const {
+      if (!isScheduledAt(ppqPosition)) {
+        return nullptr;
       }
       TimedEvent time = scheduleTimes.drawByPosition(ppqPosition);
-      Phrase result = schedule.at(time);
-      return result;
+      Phrase const& result = schedule.at(time);
+      return &result;
     }
 
     bool schedulePhrase(TimedEvent time, Phrase phrase) {
-      if (schedule.find(time) == schedule.end()) {
+      phrase.schedule.emplace(time);
+      if (find(scheduleTimes.begin(), scheduleTimes.end(), time) == scheduleTimes.end()) {
         if (!scheduleTimes.add(time)) {
           return false;
-        } else {
-            phrase.schedule.emplace(time);
-            schedule[time] = phrase;
-            return true;
         }
+        //  else {
+        //     schedule[time] = phrase;
+        //     return true;
+        // }
       }
-      schedule.at(time) = phrase;
+      schedule[time] = phrase;
+//      schedule.at(time) = phrase;
       return true;
     }
     

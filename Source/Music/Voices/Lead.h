@@ -16,7 +16,7 @@ class Lead : public Voice {
 public:
     Lead(Ensemble& ensemble): Voice(melodyKey,  melodyChannel,  false, ensemble) {}
 
-    Phrase newPhrase() override;
-    Phrase phraseFrom() override;
-    Phrase variation() override;
+    Phrase newPhrase() const override;
+    Phrase phraseFrom() const override;
+    Phrase variation() const override;
 };

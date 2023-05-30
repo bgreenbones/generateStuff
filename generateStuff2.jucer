@@ -110,8 +110,6 @@
       <FILE id="oLgBLH" name="Ensemble.cpp" compile="1" resource="0" file="Source/Ensemble.cpp"/>
       <FILE id="TcRHTY" name="Voice.h" compile="0" resource="0" file="Source/Voice.h"/>
       <FILE id="wqOJ2D" name="Voice.cpp" compile="1" resource="0" file="Source/Voice.cpp"/>
-      <FILE id="q9sIZD" name="Generator.cpp" compile="1" resource="0" file="Source/Generator.cpp"/>
-      <FILE id="po8Vvx" name="Generator.hpp" compile="0" resource="0" file="Source/Generator.hpp"/>
       <FILE id="NdGeUC" name="HostSettings.cpp" compile="1" resource="0"
             file="Source/HostSettings.cpp"/>
       <FILE id="kzYUPH" name="HostSettings.h" compile="0" resource="0" file="Source/HostSettings.h"/>

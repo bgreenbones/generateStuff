@@ -16,7 +16,7 @@ class Cascara : public Voice {
 public:
     Cascara(Ensemble& ensemble): Voice(cascaraKey,  cascaraChannel,  false, ensemble) {}
 
-    Phrase newPhrase() override;
-    Phrase phraseFrom() override;
-    Phrase variation() override;
+    Phrase newPhrase() const override;
+    Phrase phraseFrom() const override;
+    Phrase variation() const override;
 };

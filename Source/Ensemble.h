@@ -9,27 +9,42 @@
 */
 #pragma once
 
-
 #include "Schedule.h"
 #include "Voice.h"
 #include "Clave.h"
+#include "Cascara.h"
+#include "Shaker.h"
+#include "Chords.h"
+#include "Bass.h"
+#include "Lead.h"
 
 class Ensemble {
-    map<VoiceName, Voice&> queue;
     // Schedule schedule;
 public:
-    GenerateStuffEditorState& editorState;
+    map<VoiceName, Voice&> queue;
+    GenerateStuffEditorState const& editorState;
+
     Clave clave;
+    Cascara cascara;
+    Shaker shaker;
+    Chords chords;
+    Bass bass;
+    Lead lead;
+
     Ensemble(GenerateStuffEditorState& editorState): editorState(editorState),
-      clave(Clave(*this))
+      clave(Clave(*this)),
+      cascara(Cascara(*this)),
+      shaker(Shaker(*this)),
+      chords (Chords(*this)),
+      bass (Bass(*this)),
+      lead (Lead(*this))
     {
       queue.emplace(clave.name, clave);
-      // for (VoiceBindings vb : voiceBindings) {
-      //     queue.emplace(vb.voiceName, clave);
-          // queue.emplace(vb.voiceName, Voice(*this, vb));
-          // queue.emplace(vb.voiceName, Voice(pq, vb));
-          // queue.emplace(vb.voiceName, Voice(vb.voiceName, vb.midiChannel, false));
-      // }
+      queue.emplace(cascara.name, cascara);
+      queue.emplace(shaker.name, shaker);
+      queue.emplace(chords.name, chords);
+      queue.emplace(bass.name, bass);
+      queue.emplace(lead.name, lead);
     }
 
     Phrase emptyPhrase(VoiceName name) {

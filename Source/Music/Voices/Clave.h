@@ -14,7 +14,7 @@ class Clave : public Voice {
 public:
     Clave(Ensemble& ensemble): Voice(claveKey,  claveChannel,  false, ensemble) {}
 
-    Phrase newPhrase() override;
-    Phrase phraseFrom() override;
-    Phrase variation() override;
+    Phrase newPhrase() const override;
+    Phrase phraseFrom() const override;
+    Phrase variation() const override;
 };

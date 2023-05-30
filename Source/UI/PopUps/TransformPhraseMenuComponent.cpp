@@ -21,21 +21,33 @@ TransformPhraseMenuComponent::TransformPhraseMenuComponent(VoiceName voiceName,
     }
 
     flipButton.onClick = [this]() {
-        Phrase flipped = rhythm::flip(ensemble.getVoice(this->voiceName)
-            .schedule.at(editorState.phraseStartTime));
+        Phrase const* phrase = ensemble.getVoice(this->voiceName)
+            .schedule.at(editorState.phraseStartTime);
+        if (phrase == nullptr) {
+            return;
+        }
+        Phrase flipped = rhythm::flip(*phrase);
         ensemble.queuePhrase(Form(), flipped);
     };
     addAndMakeVisible(&flipButton);
 
     
     stabilizeRhythmButton.onClick = [this]() {
-        Phrase stabilized = rhythm::stabilityFilter(ensemble.getVoice(this->voiceName)
-            .schedule.at(editorState.phraseStartTime), Direction::up);
+        Phrase const* phrase = ensemble.getVoice(this->voiceName)
+            .schedule.at(editorState.phraseStartTime);
+        if (phrase == nullptr) {
+            return;
+        }
+        Phrase stabilized = rhythm::stabilityFilter(*phrase, Direction::up);
         ensemble.queuePhrase(Form(), stabilized);
     };
     destabilizeRhythmButton.onClick = [this]() {
-        Phrase destabilized = rhythm::stabilityFilter(ensemble.getVoice(this->voiceName)
-            .schedule.at(editorState.phraseStartTime), Direction::down);
+        Phrase const* phrase = ensemble.getVoice(this->voiceName)
+            .schedule.at(editorState.phraseStartTime);
+        if (phrase == nullptr) {
+            return;
+        }
+        Phrase destabilized = rhythm::stabilityFilter(*phrase, Direction::down);
         ensemble.queuePhrase(Form(), destabilized);
     };
     addAndMakeVisible(&stabilizeRhythmButton);

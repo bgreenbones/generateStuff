@@ -17,11 +17,10 @@
 
 VoiceManager::VoiceManager(GenerateStuffAudioProcessor& processor):
     processor(processor),
-    generator(processor.generator),
     ensemble(processor.ensemble)
 {
-    for (VoiceBindings vb : voiceBindings) {
-        voices.emplace(vb.voiceName, VoiceControls(vb));
+    for (auto voiceEntry : ensemble.queue) {
+        voices.emplace(voiceEntry.second.name, VoiceControls(voiceEntry.second));
     }
 }
 
@@ -58,8 +57,8 @@ void VoiceManager::configure(Component *editor) {
 
 void VoiceManager::setBounds(int xCursor, int yCursor, int buttonWidth, int buttonHeight, int spaceBetweenControls) {
     auto incrementCursor = [&]() { yCursor += buttonHeight + spaceBetweenControls; };
-    for (auto voiceIt = voiceBindings.begin(); voiceIt != voiceBindings.end(); voiceIt++) {
-        voices.at(voiceIt->voiceName).setBounds (xCursor, yCursor, buttonWidth, buttonHeight, spaceBetweenControls);
+    for (auto voiceIt = ensemble.queue.begin(); voiceIt != ensemble.queue.end(); voiceIt++) {
+        voices.at(voiceIt->second.name).setBounds (xCursor, yCursor, buttonWidth, buttonHeight, spaceBetweenControls);
         incrementCursor();
     }
 }
@@ -99,21 +98,18 @@ void VoiceManager::setOnClicks() {
         voiceControls.midiChannel.onChange = [this, voiceName]() { midiChannelChanged(voiceName); };
         voiceControls.generateButton.onClick = [this, voiceName]() {
             processor.issueNoteOff(ensemble.getMidiChannel(voiceName));
-            // generator.generate(voiceName);
             Voice& voice = ensemble.getVoice(voiceName);
             Phrase phrase = voice.newPhrase();
+            phrase.voice = voiceName;
             voice.schedule.schedulePhrase(Form(), phrase);
-            // VoiceControls &voice = voices.at(voiceName);
             // voice.improviseFunction = [&]() { generator.generate(voiceName); };
         };
         voiceControls.generateFromButton.onClick = [this, voiceName]() {
             processor.issueNoteOff(ensemble.getMidiChannel(voiceName));
             Voice& voice = ensemble.getVoice(voiceName);
             Phrase phrase = voice.phraseFrom();
+            phrase.voice = voiceName;
             voice.schedule.schedulePhrase(Form(), phrase);
-            // ensemble.getVoice(voiceName).variation();
-            // generator.gen∫erateFrom(voiceName, useAsSourcePhraseKeyState);
-            // VoiceControls &voice = voices.at(voiceName);
             // voice.improviseFunction = [&]() { generator.generateFrom(voiceName, useAsSourcePhraseKeyState); };
         };
         voiceControls.muteButton.onClick = [this, voiceName]() {

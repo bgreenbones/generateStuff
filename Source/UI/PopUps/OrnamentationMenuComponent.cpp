@@ -26,9 +26,10 @@ OrnamentationMenuComponent::OrnamentationMenuComponent(VoiceName voiceName,
         double associationProb = Probability(connectingAssociation.getValue());
         double connectingLengthProb = Probability(connectingLength.getValue());
 
-        string id = audioProcessor.generator.connectingKey(voiceName);
-        function<void()> task = [=]() {
-          audioProcessor.generator.connecting(voiceName, connectingProb, associationProb, connectingLengthProb);
+        Voice const& voice = audioProcessor.ensemble.getVoice(voiceName);
+        string id = voice.connectingKey();
+        function<void()> task = [=, &voice]() {
+          voice.connecting(connectingProb, associationProb, connectingLengthProb);
         };
         task();
         audioProcessor.loopTasks.queue(id, task, regenerateConnecting.getToggleState());
@@ -89,8 +90,9 @@ OrnamentationMenuComponent::OrnamentationMenuComponent(VoiceName voiceName,
         bool drags = dragButton.getToggleState();
         bool ruffs = ruffButton.getToggleState();
 
-        string id = audioProcessor.generator.ornamentsKey(voiceName);
-        function<void()> task = [=]() { audioProcessor.generator.ornament(voiceName, prob, breadth, flams, drags, ruffs); };
+        Voice const& voice = audioProcessor.ensemble.getVoice(voiceName);
+        string id = voice.ornamentsKey();
+        function<void()> task = [=, &voice]() { voice.ornament(prob, breadth, flams, drags, ruffs); };
         task();
         audioProcessor.loopTasks.queue(id, task, regenerateOrnaments.getToggleState());
     };
@@ -116,14 +118,16 @@ OrnamentationMenuComponent::OrnamentationMenuComponent(VoiceName voiceName,
     regenerateConnecting.setClickingTogglesState(true);
     regenerateOrnaments.setClickingTogglesState(true);
     regenerateConnecting.onClick = [this, voiceName]() {
-        const string connectingKey = audioProcessor.generator.connectingKey(voiceName);
+        Voice const& voice = audioProcessor.ensemble.getVoice(voiceName);
+        const string connectingKey = voice.connectingKey();
         bool improviseConnecting = regenerateConnecting.getToggleState();
         improviseConnecting
             ? audioProcessor.loopTasks.activate({connectingKey})
             : audioProcessor.loopTasks.deactivate({connectingKey});
     };
     regenerateOrnaments.onClick = [this, voiceName]() {
-        const string ornamentKey = audioProcessor.generator.ornamentsKey(voiceName);
+        Voice const& voice = audioProcessor.ensemble.getVoice(voiceName);
+        const string ornamentKey = voice.ornamentsKey();
         bool improviseOrnaments = regenerateOrnaments.getToggleState();
         improviseOrnaments
             ? audioProcessor.loopTasks.activate({ornamentKey})

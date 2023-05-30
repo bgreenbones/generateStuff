@@ -59,18 +59,6 @@ namespace harmony {
                             double harmonicDensity);
 
 
-    Phrase randomVoicings(Phrase phrase) {
-        phrase = phrase.toPolyphonic();
-        phrase.notes.clear();
-        
-        for (ChordScale chordScale : phrase.chordScales) {
-            for (Pitch pitchToAdd : chordScale.harmony.randomVoicing()) {
-                Note noteToAdd(pitchToAdd.pitchValue, 70, chordScale.startTime, chordScale.duration);
-                phrase.addNote(noteToAdd);
-            }
-        }
-        
-        return phrase;
-    };
+    Phrase randomVoicings(Phrase phrase);
 }
 

@@ -9,7 +9,6 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "Generator.hpp"
 #include "Duration.h"
 #include "LoopTasks.h"
 #include "Ensemble.h"
@@ -35,7 +34,6 @@ public:
     double samplesPerMinute;
     GenerateStuffEditorState editorState;
     Ensemble ensemble;
-    Generator generator; // TODO: make shared ptr?
     vector<juce::MidiMessage> allNotesOff;
     vector<juce::MidiMessage> midiMessageQueue;
     unsigned long currentNoteOff;

@@ -11,46 +11,57 @@
 #include "Voice.h"
 #include "Ensemble.h"
 
-//void Voice::variation() {
-//    Position startTime = ensemble.editorState.getStartTime();
-//    Duration phraseLength = ensemble.editorState.getPhraseLength();
-//    
-//    
-//    
-//    // if (ensemble.doesntHavePhrase(generateFromPhraseKey, startTime, phraseLength)) { this->generate(generateFromPhraseKey); }
-//    // Voice voice = ensemble.getVoice(generateFromPhraseKey);
-//    
-//    
-//    // auto result = variationFunction(schedule.at(ensemble.editorState.phraseStartTime), ensemble, ensemble.editorState);
-//    auto result = variationFunction(*this);
-//    // dynamics::randomFlux(result.notes); // why the heck not give everything a little life.
-//    result.voice = name;
-//    ensemble.queuePhrase(Form(), result);
-//    // schedule.schedulePhrase(Form(), result);
-//
-//}
 
+Phrase Voice::atOrEmpty(Position startTime) const {
+  Phrase const *phrase = schedule.at(startTime);
+  if (phrase == nullptr) {
+    Phrase result = ensemble.emptyPhrase(name);
+    result.setStartTime(startTime);
+    return result;
+  }
+  return *phrase;
+}    
 
-// Phrase Voice::newPhrase() {
-//     // auto phrase = Phrase(editorState.getSubdivision(),
-//     //                      editorState.getStartTime(),
-//     //                      editorState.getPhraseLength());
-//     Phrase phrase = newPhraseFunction(*this);
-//     dynamics::randomFlux(phrase.notes); // why the heck not give everything a little life.
-//     phrase.voice = name;
-//     // ensemble.queuePhrase(Form(), phrase);
-//     schedule.schedulePhrase(Form(), phrase);
-//     return phrase;
-// }
+Phrase Voice::connecting(Probability connectingProb, // TODO: just get all this stuff from editor state instead of passing it in
+                    Probability associationProb,
+                    Probability connectingLengthProb) const {
+    Position startTime = ensemble.editorState.getStartTime();
+    Duration phraseLength = ensemble.editorState.getPhraseLength();
+    if (!schedule.isScheduledAt(startTime)) return ensemble.emptyPhrase(name);
+    Phrase const* phrase = schedule.at(startTime);
+    if (phrase == nullptr) {
+        return ensemble.emptyPhrase(name);
+    }
+    Phrase phrasePhrase = (*phrase).loop(phraseLength);
+    Phrase connectingPhrase = phrasePhrase.fillWithRolls(connectingProb, associationProb, connectingLengthProb);
+// Todo: we actually just have to add notes to the phrase 
+// reference we don't have to make a whole new phrase and schedule it
+    return connectingPhrase;
 
-// Phrase Voice::from(string generatePhraseKey, string generateFromPhraseKey, GenerationFunction phraseFunction) {
-//     Position startTime = editorState.getStartTime();
-//     Duration phraseLength = editorState.getPhraseLength();
-//     if (ensemble.doesntHavePhrase(generateFromPhraseKey, startTime, phraseLength)) { this->generate(generateFromPhraseKey); }
-//     Voice voice = ensemble.getVoice(generateFromPhraseKey);
-//     auto result = phraseFunction(voice.schedule.at(editorState.phraseStartTime), ensemble, editorState);
-//     dynamics::randomFlux(result.notes); // why the heck not give everything a little life.
-//     result.voice = generatePhraseKey;
-//     ensemble.queuePhrase(Form(), result);
-//     return result;
-// }
+}
+
+vector<OrnamentSimple> getOrnamentVector(bool flams, bool drags, bool ruffs) {
+    vector<OrnamentSimple> result;
+    if (flams) { result.push_back(flam); }
+    if (drags) { result.push_back(drag); }
+    if (ruffs) { result.push_back(ruff); }
+    return result;
+}
+
+Phrase Voice::ornament(Probability prob,
+                             double breadth,
+                             bool flams,
+                             bool drags,
+                             bool ruffs) const {
+    Position startTime = ensemble.editorState.getStartTime();
+    Duration phraseLength = ensemble.editorState.getPhraseLength();
+    if (!schedule.isScheduledAt(startTime)) return ensemble.emptyPhrase(name);
+    Voice &voice = ensemble.getVoice(name);
+    Phrase const* phrase = voice.schedule.at(ensemble.editorState.phraseStartTime);
+    if (phrase == nullptr) { return ensemble.emptyPhrase(name); }
+    Phrase phrasePhrase = *phrase;
+    auto possibleOrnaments = getOrnamentVector(flams, drags, ruffs);
+    if (possibleOrnaments.empty()) { return phrasePhrase; }
+    Phrase ornamentsPhrase = phrasePhrase.addOrnaments(possibleOrnaments, prob, breadth);
+    return ornamentsPhrase;
+}

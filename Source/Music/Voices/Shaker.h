@@ -16,7 +16,7 @@ class Shaker : public Voice {
 public:
     Shaker(Ensemble& ensemble): Voice(subdivisionsKey,  subdivisionsChannel,  false, ensemble) {}
 
-    Phrase newPhrase() override;
-    Phrase phraseFrom() override;
-    Phrase variation() override;
+    Phrase newPhrase() const override;
+    Phrase phraseFrom() const override;
+    Phrase variation() const override;
 };

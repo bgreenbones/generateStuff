@@ -1209,9 +1209,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "69"
-            endingLineNumber = "69"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            endingLineNumber = "69">
             <Locations>
                <Location
                   uuid = "D36D99FF-F90A-4992-81D6-EE200DB90CF7 - 3ddf7539634fa183"
@@ -2858,7 +2856,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "4704F477-4166-4AD3-AF41-38680A6D6B15"
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/Schedule.h"
@@ -2880,8 +2878,8 @@
             filePath = "../../Source/PluginProcessor.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "333"
-            endingLineNumber = "333"
+            startingLineNumber = "335"
+            endingLineNumber = "335"
             landmarkName = "GenerateStuffAudioProcessor::playPlayables(positionInfo, midiMessages)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3138,11 +3136,26 @@
             landmarkType = "0">
             <Locations>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 1b9e54f9f65d7596"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - ba8dcb1c96f74795"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "28"
+                  endingLineNumber = "28"
+                  offsetFromSymbolStart = "40">
+               </Location>
+               <Location
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - ba8dcb1c96f74795"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3183,11 +3196,11 @@
                   offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 1b9e54f9f65d7596"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - ba8dcb1c96f74795"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3198,11 +3211,11 @@
                   offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 1b9e54f9f65d7596"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - ba8dcb1c96f74795"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3213,11 +3226,11 @@
                   offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 1b9e54f9f65d7596"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - ba8dcb1c96f74795"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3228,11 +3241,11 @@
                   offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 1b9e54f9f65d7596"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - ba8dcb1c96f74795"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3243,11 +3256,11 @@
                   offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 1b9e54f9f65d7596"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - ba8dcb1c96f74795"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3258,11 +3271,11 @@
                   offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 1b9e54f9f65d7596"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - ba8dcb1c96f74795"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3273,11 +3286,11 @@
                   offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 1b9e54f9f65d7596"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - ba8dcb1c96f74795"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3288,11 +3301,11 @@
                   offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 1b9e54f9f65d7596"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - ba8dcb1c96f74795"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3303,11 +3316,11 @@
                   offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 1b9e54f9f65d7596"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - ba8dcb1c96f74795"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3318,11 +3331,11 @@
                   offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 1b9e54f9f65d7596"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - ba8dcb1c96f74795"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3333,11 +3346,11 @@
                   offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 1b9e54f9f65d7596"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - ba8dcb1c96f74795"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3348,11 +3361,86 @@
                   offsetFromSymbolStart = "40">
                </Location>
                <Location
-                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - 1b9e54f9f65d7596"
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - ba8dcb1c96f74795"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "28"
+                  endingLineNumber = "28"
+                  offsetFromSymbolStart = "40">
+               </Location>
+               <Location
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - ba8dcb1c96f74795"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "28"
+                  endingLineNumber = "28"
+                  offsetFromSymbolStart = "40">
+               </Location>
+               <Location
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - ba8dcb1c96f74795"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "28"
+                  endingLineNumber = "28"
+                  offsetFromSymbolStart = "40">
+               </Location>
+               <Location
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - ba8dcb1c96f74795"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "28"
+                  endingLineNumber = "28"
+                  offsetFromSymbolStart = "40">
+               </Location>
+               <Location
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - ba8dcb1c96f74795"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "28"
+                  endingLineNumber = "28"
+                  offsetFromSymbolStart = "40">
+               </Location>
+               <Location
+                  uuid = "D0E9AA90-8C61-4D1B-AB7E-3DB4D44C69D3 - ba8dcb1c96f74795"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3381,11 +3469,86 @@
             landmarkType = "0">
             <Locations>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 1b9e54f9f65d74d8"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "220">
+               </Location>
+               <Location
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - ba8dcb1c96f746db"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "220">
+               </Location>
+               <Location
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - ba8dcb1c96f746db"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "220">
+               </Location>
+               <Location
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - ba8dcb1c96f746db"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "220">
+               </Location>
+               <Location
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - ba8dcb1c96f746db"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "220">
+               </Location>
+               <Location
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - ba8dcb1c96f746db"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3423,14 +3586,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "220">
+                  offsetFromSymbolStart = "224">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 1b9e54f9f65d74d8"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3441,11 +3604,11 @@
                   offsetFromSymbolStart = "224">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 1b9e54f9f65d74d8"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3456,11 +3619,11 @@
                   offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 1b9e54f9f65d74d8"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3471,11 +3634,11 @@
                   offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 1b9e54f9f65d74d8"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3486,11 +3649,11 @@
                   offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 1b9e54f9f65d74d8"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3501,11 +3664,11 @@
                   offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 1b9e54f9f65d74d8"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3516,11 +3679,11 @@
                   offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 1b9e54f9f65d74d8"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3531,11 +3694,11 @@
                   offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 1b9e54f9f65d74d8"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3546,11 +3709,11 @@
                   offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 1b9e54f9f65d74d8"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3561,11 +3724,11 @@
                   offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 1b9e54f9f65d74d8"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3576,11 +3739,11 @@
                   offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 1b9e54f9f65d74d8"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3591,11 +3754,26 @@
                   offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - 1b9e54f9f65d74d8"
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "220">
+               </Location>
+               <Location
+                  uuid = "CC0903F6-B062-479B-B59F-135871126A2D - ba8dcb1c96f746db"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3624,11 +3802,86 @@
             landmarkType = "0">
             <Locations>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 1b9e54f9f65d74d8"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "220">
+               </Location>
+               <Location
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - ba8dcb1c96f746db"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "220">
+               </Location>
+               <Location
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - ba8dcb1c96f746db"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "220">
+               </Location>
+               <Location
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - ba8dcb1c96f746db"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "220">
+               </Location>
+               <Location
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - ba8dcb1c96f746db"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "220">
+               </Location>
+               <Location
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - ba8dcb1c96f746db"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3666,14 +3919,14 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "38"
                   endingLineNumber = "38"
-                  offsetFromSymbolStart = "220">
+                  offsetFromSymbolStart = "224">
                </Location>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 1b9e54f9f65d74d8"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3684,11 +3937,11 @@
                   offsetFromSymbolStart = "224">
                </Location>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 1b9e54f9f65d74d8"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3699,11 +3952,11 @@
                   offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 1b9e54f9f65d74d8"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3714,11 +3967,11 @@
                   offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 1b9e54f9f65d74d8"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3729,11 +3982,11 @@
                   offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 1b9e54f9f65d74d8"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3744,11 +3997,11 @@
                   offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 1b9e54f9f65d74d8"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3759,11 +4012,11 @@
                   offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 1b9e54f9f65d74d8"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3774,11 +4027,11 @@
                   offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 1b9e54f9f65d74d8"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3789,11 +4042,11 @@
                   offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 1b9e54f9f65d74d8"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3804,11 +4057,11 @@
                   offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 1b9e54f9f65d74d8"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3819,11 +4072,11 @@
                   offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 1b9e54f9f65d74d8"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3834,11 +4087,26 @@
                   offsetFromSymbolStart = "220">
                </Location>
                <Location
-                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - 1b9e54f9f65d74d8"
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - ba8dcb1c96f746db"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "220">
+               </Location>
+               <Location
+                  uuid = "ABB9596D-05C4-4DED-9818-0E4ADA3EB758 - ba8dcb1c96f746db"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3867,11 +4135,26 @@
             landmarkType = "0">
             <Locations>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 1b9e54f9f65d7a22"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - ba8dcb1c96f74821"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "48"
+                  endingLineNumber = "48"
+                  offsetFromSymbolStart = "1280">
+               </Location>
+               <Location
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - ba8dcb1c96f74821"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3912,11 +4195,11 @@
                   offsetFromSymbolStart = "1280">
                </Location>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 1b9e54f9f65d7a22"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - ba8dcb1c96f74821"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3927,11 +4210,11 @@
                   offsetFromSymbolStart = "1280">
                </Location>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 1b9e54f9f65d7a22"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - ba8dcb1c96f74821"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3942,11 +4225,11 @@
                   offsetFromSymbolStart = "1280">
                </Location>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 1b9e54f9f65d7a22"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - ba8dcb1c96f74821"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3957,11 +4240,11 @@
                   offsetFromSymbolStart = "1280">
                </Location>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 1b9e54f9f65d7a22"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - ba8dcb1c96f74821"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3972,11 +4255,11 @@
                   offsetFromSymbolStart = "1280">
                </Location>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 1b9e54f9f65d7a22"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - ba8dcb1c96f74821"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -3987,11 +4270,11 @@
                   offsetFromSymbolStart = "1280">
                </Location>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 1b9e54f9f65d7a22"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - ba8dcb1c96f74821"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -4002,11 +4285,11 @@
                   offsetFromSymbolStart = "1280">
                </Location>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 1b9e54f9f65d7a22"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - ba8dcb1c96f74821"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -4017,11 +4300,11 @@
                   offsetFromSymbolStart = "1280">
                </Location>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 1b9e54f9f65d7a22"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - ba8dcb1c96f74821"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -4032,11 +4315,11 @@
                   offsetFromSymbolStart = "1280">
                </Location>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 1b9e54f9f65d7a22"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - ba8dcb1c96f74821"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -4047,11 +4330,11 @@
                   offsetFromSymbolStart = "1280">
                </Location>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 1b9e54f9f65d7a22"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - ba8dcb1c96f74821"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -4062,11 +4345,11 @@
                   offsetFromSymbolStart = "1280">
                </Location>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 1b9e54f9f65d7a22"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - ba8dcb1c96f74821"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -4077,11 +4360,86 @@
                   offsetFromSymbolStart = "1280">
                </Location>
                <Location
-                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - 1b9e54f9f65d7a22"
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - ba8dcb1c96f74821"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "harmony::$_3::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "48"
+                  endingLineNumber = "48"
+                  offsetFromSymbolStart = "1280">
+               </Location>
+               <Location
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - ba8dcb1c96f74821"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "48"
+                  endingLineNumber = "48"
+                  offsetFromSymbolStart = "1280">
+               </Location>
+               <Location
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - ba8dcb1c96f74821"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "48"
+                  endingLineNumber = "48"
+                  offsetFromSymbolStart = "1280">
+               </Location>
+               <Location
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - ba8dcb1c96f74821"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "48"
+                  endingLineNumber = "48"
+                  offsetFromSymbolStart = "1280">
+               </Location>
+               <Location
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - ba8dcb1c96f74821"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "48"
+                  endingLineNumber = "48"
+                  offsetFromSymbolStart = "1280">
+               </Location>
+               <Location
+                  uuid = "F19999BC-8579-4598-B535-22F22F4DC948 - ba8dcb1c96f74821"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::$_0::operator()(Phrase, Ensemble&amp;, GenerateStuffEditorState const&amp;) const"
                   moduleName = "generateStuff2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.h"
@@ -4106,8 +4464,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "15"
             endingLineNumber = "15"
-            landmarkName = "Voice::variation()"
-            landmarkType = "7">
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -4152,8 +4510,8 @@
             filePath = "../../Source/PluginProcessor.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "339"
-            endingLineNumber = "339"
+            startingLineNumber = "340"
+            endingLineNumber = "340"
             landmarkName = "GenerateStuffAudioProcessor::playPlayables(positionInfo, midiMessages)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4202,6 +4560,54 @@
             endingLineNumber = "38"
             landmarkName = "unknown"
             landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7D59289C-D144-40B1-91D8-092EC1C6EE08"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/PluginProcessor.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "330"
+            endingLineNumber = "330"
+            landmarkName = "GenerateStuffAudioProcessor::playPlayables(positionInfo, midiMessages)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FAFBCAB0-0225-4C7B-8710-C7C9D3DD0BD0"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Ensemble.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "16"
+            endingLineNumber = "16"
+            landmarkName = "Ensemble::at(ppqPosition)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CB9509FA-C6DA-4AA3-9CD2-1200E622F457"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Schedule.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
+            landmarkName = "at(ppqPosition)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

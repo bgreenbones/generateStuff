@@ -16,7 +16,6 @@
 #include <vector>
 #include "VoiceControls.h"
 #include "PluginProcessor.h"
-#include "Generator.hpp"
 
 using std::string, std::vector, std::map;
 
@@ -25,7 +24,6 @@ private:
     map<string, VoiceControls> voices;
 public:
     GenerateStuffAudioProcessor& processor;    
-    Generator& generator;
     Ensemble& ensemble;
     Component* mainEditor;
     

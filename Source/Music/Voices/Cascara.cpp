@@ -12,9 +12,9 @@
 #include "Ensemble.h"
 
 
-Phrase Cascara::newPhrase() {
-    float pDisplace = editorState.getKnobValue(cascaraDisplaceProbabilityKey);
-    float pDouble = editorState.getKnobValue(cascaraDoubleProbabilityKey);
+Phrase Cascara::newPhrase() const {
+    float pDisplace = ensemble.editorState.getKnobValue(cascaraDisplaceProbabilityKey);
+    float pDouble = ensemble.editorState.getKnobValue(cascaraDoubleProbabilityKey);
 
     Phrase phrase = rhythm::randomCascara(
         ensemble.emptyPhrase(name), 
@@ -22,10 +22,11 @@ Phrase Cascara::newPhrase() {
         pDouble);
 
     dynamics::randomFlux(phrase.notes); // why the heck not give everything a little life.
+    phrase.voice = name;
     return phrase;
 }
 
-Phrase Cascara::phraseFrom() {
+Phrase Cascara::phraseFrom() const {
     Position startTime = ensemble.editorState.getStartTime();
     Duration phraseLength = ensemble.editorState.getPhraseLength();
     VoiceName generateFromPhraseKey = ensemble.editorState.useAsSourcePhraseKey;
@@ -34,20 +35,21 @@ Phrase Cascara::phraseFrom() {
       return newPhrase();      
     }
     Voice &generateFromVoice = ensemble.getVoice(generateFromPhraseKey);
-    auto generateFromPhrase = generateFromVoice.schedule.at(startTime);
+    auto generateFromPhrase = generateFromVoice.atOrEmpty(startTime);
 
     Phrase phrase = rhythm::cascaraFrom(generateFromPhrase);
 
     dynamics::randomFlux(phrase.notes); // why the heck not give everything a little life.
+    phrase.voice = name;
     return phrase;
 }
 
-Phrase Cascara::variation() {
+Phrase Cascara::variation() const {
   
     Position phraseStartTime = ensemble.editorState.phraseStartTime;
     Duration phraseLength = ensemble.editorState.getPhraseLength();
 
-    Phrase source = schedule.at(phraseStartTime);
+    Phrase source = atOrEmpty(phraseStartTime);
 
     return rhythm::rhythmicVariation(source);
 }

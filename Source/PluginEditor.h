@@ -31,7 +31,6 @@ private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     GenerateStuffAudioProcessor& audioProcessor;
-    Generator& generator;
     Ensemble& ensemble;
     GenerateStuffEditorState& editorState;
     VoiceManager voiceManager;

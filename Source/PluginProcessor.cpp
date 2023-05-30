@@ -51,7 +51,6 @@ GenerateStuffAudioProcessor::GenerateStuffAudioProcessor()
                        ),
         editorState(GenerateStuffEditorState(apvts)),
         ensemble(Ensemble(editorState)),
-        generator(Generator(ensemble, editorState)),
         noteOffIssued(true),
         apvts(*this, nullptr, "parameters", getParameterLayout())
 #endif
@@ -327,7 +326,8 @@ void GenerateStuffAudioProcessor::playPlayables(
         }
     }
 
-    vector<Phrase> phrases = ensemble.at(ppqPosition);
+    vector<
+    Phrase> phrases = ensemble.at(ppqPosition);
     for (auto phrase : phrases) 
     {
         string voiceName = phrase.voice;

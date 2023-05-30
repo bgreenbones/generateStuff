@@ -12,7 +12,7 @@
 #include "Ensemble.h"
 
 
-Phrase Clave::newPhrase() {
+Phrase Clave::newPhrase() const {
     int minNoteLengthInSubdivisions = ensemble.editorState.getKnobValue(claveMinNoteLengthKey);
     int maxNoteLengthInSubdivisions = ensemble.editorState.getKnobValue(claveMaxNoteLengthKey);
 
@@ -22,10 +22,11 @@ Phrase Clave::newPhrase() {
         maxNoteLengthInSubdivisions);
 
     dynamics::randomFlux(phrase.notes); // why the heck not give everything a little life.
+    phrase.voice = name;
     return phrase;
 }
 
-Phrase Clave::phraseFrom() {
+Phrase Clave::phraseFrom() const {
     Position startTime = ensemble.editorState.getStartTime();
     Duration phraseLength = ensemble.editorState.getPhraseLength();
     VoiceName generateFromPhraseKey = ensemble.editorState.useAsSourcePhraseKey;
@@ -34,7 +35,7 @@ Phrase Clave::phraseFrom() {
       return newPhrase();      
     }
     Voice &generateFromVoice = ensemble.getVoice(generateFromPhraseKey);
-    auto generateFromPhrase = generateFromVoice.schedule.at(startTime);
+    auto generateFromPhrase = generateFromVoice.atOrEmpty(startTime);
 
     int minNoteLengthInSubdivisions = ensemble.editorState.getKnobValue(claveMinNoteLengthKey);
     int maxNoteLengthInSubdivisions = ensemble.editorState.getKnobValue(claveMaxNoteLengthKey);
@@ -45,15 +46,16 @@ Phrase Clave::phraseFrom() {
         maxNoteLengthInSubdivisions);
 
     dynamics::randomFlux(phrase.notes); // why the heck not give everything a little life.
+    phrase.voice = name;
     return phrase;
 }
 
-Phrase Clave::variation() {
+Phrase Clave::variation() const {
   
     Position phraseStartTime = ensemble.editorState.phraseStartTime;
     Duration phraseLength = ensemble.editorState.getPhraseLength();
 
-    Phrase source = schedule.at(phraseStartTime);
+    Phrase source = atOrEmpty(phraseStartTime);
 
     return rhythm::rhythmicVariation(source);
 }

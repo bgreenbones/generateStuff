@@ -16,7 +16,7 @@ class Chords : public Voice {
 public:
     Chords(Ensemble& ensemble): Voice(harmonyKey,  harmonyChannel,  false, ensemble) {}
 
-    Phrase newPhrase() override;
-    Phrase phraseFrom() override;
-    Phrase variation() override;
+    Phrase newPhrase() const override;
+    Phrase phraseFrom() const override;
+    Phrase variation() const override;
 };

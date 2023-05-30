@@ -19,8 +19,7 @@ using namespace std;
 GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateStuffAudioProcessor& p)
     : AudioProcessorEditor (&p),
     audioProcessor (p),
-    generator(p.generator),
-        ensemble (p.ensemble),
+    ensemble (p.ensemble),
     editorState(p.editorState),
     voiceManager(p)
 {

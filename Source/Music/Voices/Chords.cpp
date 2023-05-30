@@ -12,24 +12,23 @@
 #include "Ensemble.h"
 
 
-Phrase Chords::newPhrase() {
-  juce::String harmonyApproach = editorState.getChoiceValue(harmonyApproachKey);
-  Probability chordProbabilityPerAccent =editorState.getKnobValue(harmonyProbabilityKey);
-  double harmonicDensity = editorState.getKnobValue(harmonyDensityKey);
+Phrase Chords::newPhrase() const {
+  juce::String harmonyApproach = ensemble.editorState.getChoiceValue(harmonyApproachKey);
+  Probability chordProbabilityPerAccent = ensemble.editorState.getKnobValue(harmonyProbabilityKey);
+  double harmonicDensity = ensemble.editorState.getKnobValue(harmonyDensityKey);
   
-  Phrase harmony = harmony::generateChordScales(ensemble.emptyPhrase(),
-    harmonyApproach,
+  Phrase harmony = harmony::generateChordScales(ensemble.emptyPhrase(harmonyKey),
+    harmonyApproach.toStdString(),
     chordProbabilityPerAccent,
     harmonicDensity);
 
   Phrase phrase = harmony::randomVoicings(harmony);
   dynamics::randomFlux(phrase.notes); // why the heck not give everything a little life.
+  phrase.voice = name;
   return phrase;
 }
 
-
-
-Phrase Chords::phraseFrom() {
+Phrase Chords::phraseFrom() const {
   Position startTime = ensemble.editorState.getStartTime();
   Duration phraseLength = ensemble.editorState.getPhraseLength();
   VoiceName generateFromPhraseKey = ensemble.editorState.useAsSourcePhraseKey;
@@ -38,33 +37,34 @@ Phrase Chords::phraseFrom() {
     return newPhrase();      
   }
   Voice &generateFromVoice = ensemble.getVoice(generateFromPhraseKey);
-  auto generateFromPhrase = generateFromVoice.schedule.at(startTime);
+  auto generateFromPhrase = generateFromVoice.atOrEmpty(startTime);
 
   generateFromPhrase = generateFromPhrase.loop(phraseLength);
   
-  juce::String harmonyApproach = editorState.getChoiceValue(harmonyApproachKey);
-  Probability chordProbabilityPerAccent =editorState.getKnobValue(harmonyProbabilityKey);
-  double harmonicDensity = editorState.getKnobValue(harmonyDensityKey);
+  juce::String harmonyApproach = ensemble.editorState.getChoiceValue(harmonyApproachKey);
+  Probability chordProbabilityPerAccent = ensemble.editorState.getKnobValue(harmonyProbabilityKey);
+  double harmonicDensity = ensemble.editorState.getKnobValue(harmonyDensityKey);
 
   Phrase harmony = generateFromPhrase.chordScales.empty() 
-    ? generateChordScales(generateFromPhrase, 
-      harmonyApproach, 
-      chordProbabilityPerAccent, 
-      harmonicDensity) 
+    ? harmony::generateChordScales(generateFromPhrase, 
+        harmonyApproach.toStdString(), 
+        chordProbabilityPerAccent, 
+        harmonicDensity) 
     : generateFromPhrase;
-  harmony.chordScales.clear();
+  // harmony.chordScales.clear();
 
   Phrase phrase = harmony::randomVoicings(harmony);
   dynamics::randomFlux(phrase.notes); // why the heck not give everything a little life.
+  phrase.voice = name;
   return phrase;
 }
 
-Phrase Chords::variation() {
+Phrase Chords::variation() const {
   
     Position phraseStartTime = ensemble.editorState.phraseStartTime;
     Duration phraseLength = ensemble.editorState.getPhraseLength();
 
-    Phrase source = schedule.at(phraseStartTime);
+    Phrase source = atOrEmpty(phraseStartTime);
 
     return rhythm::rhythmicVariation(source);
 }
