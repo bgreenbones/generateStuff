@@ -50,7 +50,12 @@ public:
     bool muteOrnamentation; // TODO: decouple this class from any idea of ornamentation/connecting. there should just be a base and a collection of related phrases. or just a collection.
     bool muteConnecting;
     VoiceSchedule schedule;
-    
+
+    void schedulePhrase(TimedEvent time, Phrase phrase) {
+      phrase.voice = name;
+      schedule.schedulePhrase(time, phrase);
+    }
+
     virtual Phrase newPhrase() const = 0;
     virtual Phrase phraseFrom() const = 0;
     virtual Phrase variation() const = 0;

@@ -63,6 +63,7 @@ GenerateStuffAudioProcessor::GenerateStuffAudioProcessor()
     }
     
     srand((int) time(0)); // init random number generator stuff
+
 }
 
 GenerateStuffAudioProcessor::~GenerateStuffAudioProcessor()
@@ -389,6 +390,10 @@ void GenerateStuffAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
         auto positionInfo = playhead->getPosition();
         updateTimeSignature(positionInfo);
         updateBpm(positionInfo);
+        if (!songIsWritten) {
+            ensemble.writeSong();
+            songIsWritten = true;
+        }
         auto isPlaying = positionInfo->getIsPlaying();
         if (isPlaying) {
             playPlayables(positionInfo, midiMessages);

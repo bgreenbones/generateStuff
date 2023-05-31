@@ -38,6 +38,7 @@ public:
     vector<juce::MidiMessage> midiMessageQueue;
     unsigned long currentNoteOff;
     bool noteOffIssued;
+    bool songIsWritten = false;
     LoopTasks loopTasks;
     juce::AudioProcessorValueTreeState apvts;
     

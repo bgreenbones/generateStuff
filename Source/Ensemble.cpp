@@ -12,6 +12,31 @@
 
 #include "Ensemble.h"
 
+void Ensemble::writeSong() {
+    TimedEvent form = TimedEvent(0, Bars(8));
+    
+    Phrase clavePhrase = rhythm::randomClave(emptyPhrase(claveKey), 2, 4); // min and max note length
+    Phrase cascaraPhrase = rhythm::cascaraFrom(clavePhrase);
+    Phrase harmony = harmony::generateChordScales(clavePhrase.loop(Bars(2)),
+        smoothishModulationsHarmonyApprachKey.toStdString(), 0.6, 0.7); // harmonic density and probability per accent
+    Phrase chordsPhrase = harmony::randomVoicings(harmony);
+    Phrase bassPhrase = melody::bass(harmony, clavePhrase, 1, 4, { 1 }); // burst length min, max, and note length choices
+    Phrase leadPhrase = melody::melody(harmony);
+    
+    dynamics::randomFlux(clavePhrase.notes);
+    dynamics::randomFlux(cascaraPhrase.notes);
+    dynamics::randomFlux(chordsPhrase.notes);
+    dynamics::randomFlux(bassPhrase.notes);
+    dynamics::randomFlux(leadPhrase.notes);
+
+    clave.schedulePhrase(form, clavePhrase);
+    cascara.schedulePhrase(form, cascaraPhrase);
+    chords.schedulePhrase(form, chordsPhrase);
+    bass.schedulePhrase(form, bassPhrase);
+    lead.schedulePhrase(form, leadPhrase);
+}
+
+
 vector<Phrase> Ensemble::at(Quarters ppqPosition) {
     vector<Phrase> result;
     for (auto entry : queue) {

@@ -22,7 +22,7 @@ class Ensemble {
     // Schedule schedule;
 public:
     map<VoiceName, Voice&> queue;
-    GenerateStuffEditorState const& editorState;
+    GenerateStuffEditorState& editorState;
 
     Clave clave;
     Cascara cascara;
@@ -47,6 +47,7 @@ public:
       queue.emplace(lead.name, lead);
     }
 
+    void writeSong();
     Phrase emptyPhrase(VoiceName name) {
       Phrase phrase = Phrase(editorState.getSubdivision(),
                               editorState.getStartTime(),
