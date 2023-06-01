@@ -30,21 +30,13 @@ template <typename T> // T as to be TimedEvent subclass
 class Sequence: public vector<T>
 {
 public:
-    static vector<T> burst(Duration eventLength, int numberOfEvents) {
-        vector<T> result;
-        
-        for (double i = 0; i < numberOfEvents; i++) {
-            result.push_back(T(i * eventLength, eventLength));
-        }
-        
-        return result;
-    }
+    static vector<T> fromTimed(vector<Timed> const& timed);
+    static vector<T> burst(Duration eventLength, int numberOfEvents);
     
-    
-    Sequence(vector<T> events, bool monophonic, TimedEvent& parent): vector<T>(events), monophonic(monophonic), parent(parent) {}
-    Sequence(vector<T> events, TimedEvent& parent): Sequence(events, true, parent) {}
-    Sequence(TimedEvent &parent): Sequence({}, parent) {}
-    Sequence(Sequence other, TimedEvent& newParent): Sequence(other, other.monophonic, newParent) {}
+    Sequence(vector<T> events, bool monophonic, Timed& parent): vector<T>(events), monophonic(monophonic), parent(parent) {}
+    Sequence(vector<T> events, Timed& parent): Sequence(events, true, parent) {}
+    Sequence(Timed &parent): Sequence({}, parent) {}
+    Sequence(Sequence other, Timed& newParent): Sequence(other, other.monophonic, newParent) {}
     Sequence& operator=(Sequence const& other) {
         this->assignEvents(other);
         this->parent = other.parent;
@@ -54,7 +46,7 @@ public:
     
     bool monophonic = true;
     bool isPolyphonic() { return !monophonic; }
-    TimedEvent &parent;
+    Timed &parent;
 
     Sequence<T> toMonophonic() const;
     Sequence<T> toPolyphonic() const;
@@ -63,8 +55,8 @@ public:
     vector<T> byPosition(Position position) const;
     // vector<T&> refsByPosition(Position position) const;
     vector<T> byStartPosition(Position position) const;
-    vector<T> bySpan(TimedEvent span) const;
-    vector<reference_wrapper<T>> refsBySpan(TimedEvent span);
+    vector<T> bySpan(Timed span) const;
+    vector<reference_wrapper<T>> refsBySpan(Timed span);
     T drawByPosition(Position position) const;
     Position nextStartTime(Position previousStartTime) const;
         
@@ -143,13 +135,13 @@ static const DynamicLevel defaultVelocity = DynamicLevel::mf;
 
 static const Pitch defaultPitch(C, 5);
 
-class Note: public TimedEvent
+class Note: public Timed
 {
 public:
     Note(Pitch pitch = defaultPitch,
          int velocity = defaultVelocity,
          Position startTime = 0,
-         Duration duration = 1): TimedEvent(startTime, duration), pitch(pitch), velocity(velocity), accented(false), ornamented(false), isOrnament(false) { }
+         Duration duration = 1): Timed(startTime, duration), pitch(pitch), velocity(velocity), accented(false), ornamented(false), isOrnament(false) { }
     Note(Position startTime, Duration duration): Note(defaultPitch, defaultVelocity, startTime, duration) { }
     Note(char mininotation, Position startTime, Duration duration): Note(defaultPitch, defaultVelocity, startTime, duration) {
         if (Mininotation::isValue(mininotation)) {

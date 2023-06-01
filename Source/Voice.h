@@ -51,7 +51,7 @@ public:
     bool muteConnecting;
     VoiceSchedule schedule;
 
-    void schedulePhrase(TimedEvent time, Phrase phrase) {
+    void schedulePhrase(Timed time, Phrase phrase) {
       phrase.voice = name;
       schedule.schedulePhrase(time, phrase);
     }

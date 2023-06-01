@@ -13,16 +13,16 @@
 //#include "Note.hpp"
 #include "Mininotation.h"
 
-class Subdivision: public Duration, public TimedEvent {
+class Subdivision: public Duration, public Timed {
 private:
 
 public:
     Subdivision(Duration divisionLength, Position startTime, Duration span):
-        Duration(divisionLength), TimedEvent(startTime, span) { };
+        Duration(divisionLength), Timed(startTime, span) { };
     Subdivision(Duration divisionLength):
-        Duration(divisionLength), TimedEvent(0, Bars(1)) { };
+        Duration(divisionLength), Timed(0, Bars(1)) { };
     Subdivision(Position startTime, Duration span): Subdivision(Beats(1), startTime, span) { };
-    Subdivision(): Duration(), TimedEvent() {};
+    Subdivision(): Duration(), Timed() {};
     Subdivision(char mininotation, Position startTime, Duration span): Subdivision(startTime, span) {
         if (Mininotation::isValue(mininotation)) {
             DBG ("ok, good");

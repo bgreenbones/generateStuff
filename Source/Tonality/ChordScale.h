@@ -13,7 +13,7 @@
 #include "Tonality.h"
 #include "TimedEvent.h"
 
-class ChordScale: public TimedEvent {
+class ChordScale: public Timed {
 public:
     Tonality scale;
     Tonality harmony;

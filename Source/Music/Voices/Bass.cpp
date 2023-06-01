@@ -22,7 +22,7 @@ Phrase Bass::newPhrase() const {
   Phrase harmony = ensemble.at(startTime, harmonyKey);
   harmony = harmony.chordScales.empty() 
     ? harmony::generateChordScales(harmony, 
-        harmonyApproach.toStdString(), 
+        getHarmonyApproach(harmonyApproach), 
         chordProbabilityPerAccent, 
         harmonicDensity) 
     : harmony;

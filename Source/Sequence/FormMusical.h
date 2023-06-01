@@ -26,9 +26,9 @@
 
 
 
-class Form : public TimedEvent {
+class Form : public Timed {
 public:
-  Sequence<TimedEvent> sections;
-  Form() : TimedEvent(0, Bars(8, true)), sections(*this)
+  Sequence<Timed> sections;
+  Form() : Timed(0, Bars(8, true)), sections(*this)
    {}
 };

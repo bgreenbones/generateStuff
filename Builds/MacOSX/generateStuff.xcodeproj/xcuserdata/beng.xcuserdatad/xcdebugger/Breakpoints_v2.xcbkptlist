@@ -270,9 +270,9 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "135"
-            endingLineNumber = "135"
-            landmarkName = "concat(other, useLast, pushBehavior)"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
+            landmarkName = "add(toAdd, pushBehavior, overwriteBehavior)"
             landmarkType = "9">
             <Locations>
                <Location
@@ -350,8 +350,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "82"
             endingLineNumber = "82"
-            landmarkName = "Phrase"
-            landmarkType = "3">
+            landmarkName = "operator=(other)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -380,9 +380,9 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "147"
-            endingLineNumber = "147"
-            landmarkName = "insertVector(other, startTime, pushBehavior, overwriteBehavior)"
+            startingLineNumber = "149"
+            endingLineNumber = "149"
+            landmarkName = "concat(other, useLast, pushBehavior)"
             landmarkType = "9">
             <Locations>
                <Location
@@ -750,10 +750,10 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "354"
-            endingLineNumber = "354"
-            landmarkName = "refsBySpan(span)"
-            landmarkType = "9">
+            startingLineNumber = "356"
+            endingLineNumber = "356"
+            landmarkName = "unknown"
+            landmarkType = "0">
             <Locations>
                <Location
                   uuid = "739B45F7-1DEC-4FB6-A7AB-51027BDA8156 - 29b6e6d35a356339"
@@ -990,8 +990,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "148"
             endingLineNumber = "148"
-            landmarkName = "Note"
-            landmarkType = "3">
+            landmarkName = "unknown"
+            landmarkType = "0">
             <Locations>
                <Location
                   uuid = "D8A4B682-752C-4742-99BC-F6D94E4A9F73 - 14ba064a7b286efe"
@@ -1118,8 +1118,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "67"
             endingLineNumber = "67"
-            landmarkName = "harmony::generateChordScales(fromPhrase, ensemble, editorState)"
-            landmarkType = "7">
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2235,9 +2235,9 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "175"
-            endingLineNumber = "175"
-            landmarkName = "tie(fillBeginning)"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
+            landmarkName = "insertSequence(other, startTime, pushBehavior, overwriteBehavior)"
             landmarkType = "9">
             <Locations>
                <Location
@@ -2373,9 +2373,9 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "169"
-            endingLineNumber = "169"
-            landmarkName = "tie(fillBeginning)"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
+            landmarkName = "insertVector(other, startTime, pushBehavior, overwriteBehavior)"
             landmarkType = "9">
             <Locations>
                <Location
@@ -2467,9 +2467,9 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "393"
-            endingLineNumber = "393"
-            landmarkName = "getStartTimesString()"
+            startingLineNumber = "395"
+            endingLineNumber = "395"
+            landmarkName = "drawByPosition(position)"
             landmarkType = "9">
             <Locations>
                <Location
@@ -2561,8 +2561,8 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
             landmarkName = "add(toAdd, pushBehavior, overwriteBehavior)"
             landmarkType = "9">
             <Locations>
@@ -2626,7 +2626,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "90"
             endingLineNumber = "90"
-            landmarkName = "harmony::generateChordScales(fromPhrase, ensemble, editorState)"
+            landmarkName = "harmony::generateChordScales(fromPhrase, approach, chordProbabilityPerAccent, harmonicDensity)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2752,9 +2752,9 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "concat(other, useLast, pushBehavior)"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
+            landmarkName = "add(toAdd, pushBehavior, overwriteBehavior)"
             landmarkType = "9">
             <Locations>
                <Location
@@ -2896,7 +2896,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "63"
             endingLineNumber = "63"
-            landmarkName = "melody::bassFromFunction(fromPhrase, ensemble, editorState)"
+            landmarkName = "melody::bass(harmony, rhythm, burstLengthMin, burstLengthMax, burstNoteLengthChoices)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2912,7 +2912,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "62"
             endingLineNumber = "62"
-            landmarkName = "melody::bassFromFunction(fromPhrase, ensemble, editorState)"
+            landmarkName = "melody::bass(harmony, rhythm, burstLengthMin, burstLengthMax, burstNoteLengthChoices)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2926,8 +2926,8 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
             landmarkName = "add(toAdd, pushBehavior, overwriteBehavior)"
             landmarkType = "9">
             <Locations>
@@ -3036,9 +3036,9 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "132"
-            endingLineNumber = "132"
-            landmarkName = "concat(other, useLast, pushBehavior)"
+            startingLineNumber = "134"
+            endingLineNumber = "134"
+            landmarkName = "add(toAdd, pushBehavior, overwriteBehavior)"
             landmarkType = "9">
             <Locations>
                <Location
@@ -3116,7 +3116,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "69"
             endingLineNumber = "69"
-            landmarkName = "harmony::generateChordScales(fromPhrase, ensemble, editorState)"
+            landmarkName = "harmony::timedChordScales(times, approach)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4494,9 +4494,9 @@
             filePath = "../../Source/Music/Rhythm.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
-            landmarkName = "rhythm::rhythmicVariation(source)"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
+            landmarkName = "rhythm::multiplyTimeLength(timed, toMultiply, multiplyBy)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

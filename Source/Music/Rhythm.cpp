@@ -12,6 +12,69 @@
 #include "Voice.h"
 #include "Ensemble.h"
 #include "Schedule.h"
+#include "Utility.h"
+
+
+
+void rhythm::multiplyTimeLength(vector<Timed>& timed, vector<Timed*> toMultiply, double multiplyBy) {
+    for (auto timeIter = timed.begin(); timeIter < timed.end(); timeIter++) {
+        Timed* time = &(*timeIter);
+        if (!contains<Timed*>(toMultiply, time)) {
+          continue;
+        }
+        
+        if (flipCoin()) {
+            // lengthen time by 2, erase next overlap
+            time->duration = 2 * time->duration;
+            if (timeIter + 1 == timed.end()) { continue; }
+            else if ((timeIter + 1)->startTime < time->endTime()) {
+                timed.erase(timeIter + 1);
+            }
+        } else {
+            // double stroke
+            time->duration = 0.5 * time->duration;
+            Timed doubleTime(*time);
+            doubleTime.startTime = time->endTime();
+            timeIter = timed.insert(timeIter + 1, doubleTime);
+        }
+    }
+}
+
+vector<Timed*> rhythm::selectAtRandom(vector<Timed>& timed, Probability prob) {
+    vector<Timed*> result;
+    for (auto it = timed.begin(); it < timed.end(); it++) {
+      if (prob) {
+        result.push_back(&(*it));
+      }
+    }
+    return result;
+}
+
+vector<Timed> rhythm::onePerShortForLong(Duration longDuration, Duration shortDuration) {
+    vector<Timed> timeds;
+    int numberOfTimeds = longDuration / shortDuration;
+    int timedNumber = 0;
+    while(numberOfTimeds-- > 0) {
+        Duration startTime = (timedNumber++) * shortDuration;
+        Duration untilEnd = longDuration - startTime;
+        Duration timedLength(untilEnd < shortDuration ? untilEnd : shortDuration);
+        Timed timed(startTime, timedLength);
+        timeds.push_back(timed);
+    }
+    return timeds;
+}
+
+vector<Timed> rhythm::nOfLengthM(int n, Duration m) {
+    vector<Timed> timeds;
+    if (n < 1) {
+        return timeds;
+    }
+    for (int i = 0; i < n; i++) {
+        Position startTime = i * m;
+        timeds.push_back(Timed(startTime, m));
+    }
+    return timeds;
+}
 
 Phrase rhythm::rhythmicVariation(Phrase source) {
 
@@ -132,14 +195,19 @@ Phrase rhythm::burst(Phrase fromPhrase, Note note, int minimumRepeats, int maxim
     Duration noteLength = noteLengthInSubdivisions * subdiv;
     int numberOfPossibleBurstLengths = maximumRepeats - minimumRepeats;
     int numberOfNotes = rollDie(numberOfPossibleBurstLengths);
-    
-    for (double repeat = 0; repeat < numberOfNotes; repeat++) {
-        Position position = note.startTime + repeat * noteLength;
-        if (fromPhrase.notes.byStartPosition(position).empty()) {
-            Note repeatNote(note.pitch, note.velocity, position, noteLength);
-            fromPhrase.notes.add(repeatNote, PushBehavior::ignore, OverwriteBehavior::cutoff);
-        }
+
+    vector<Timed> times = nOfLengthM(numberOfNotes, noteLength);
+    for (Timed time : times) {
+        Note repeatNote(note.pitch, note.velocity, note.startTime + time.startTime, noteLength);
+        fromPhrase.notes.add(repeatNote, PushBehavior::ignore, OverwriteBehavior::cutoff);
     }
+    // for (double repeat = 0; repeat < numberOfNotes; repeat++) {
+    //     Position position = note.startTime + repeat * noteLength;
+    //     if (fromPhrase.notes.byStartPosition(position).empty()) {
+    //         Note repeatNote(note.pitch, note.velocity, position, noteLength);
+    //         fromPhrase.notes.add(repeatNote, PushBehavior::ignore, OverwriteBehavior::cutoff);
+    //     }
+    // }
     
     return fromPhrase;
 }

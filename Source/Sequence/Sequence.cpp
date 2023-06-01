@@ -15,6 +15,26 @@
 #include "Note.hpp"
 #include "Random.h"
 #include "ChordScale.h"
+#include "Rhythm.h"
+#include "Utility.h"
+
+
+template <class T>
+vector<T> Sequence<T>::fromTimed(vector<Timed> const& timed) {
+    return mapp<Timed, T>(timed, [](Timed const& time) {return T(time.startTime, time.duration); });
+}
+
+template <class T>
+vector<T> Sequence<T>::burst(Duration eventLength, int numberOfEvents) {
+    return fromTimed(rhythm::nOfLengthM(numberOfEvents, eventLength));
+    // vector<T> result;
+    
+    // for (double i = 0; i < numberOfEvents; i++) {
+    //     result.push_back(T(i * eventLength, eventLength));
+    // }
+    
+    // return result;
+}
 
 template <class T>
 Position Sequence<T>::nextStartTime(Position previousStartTime) const {
@@ -335,7 +355,7 @@ vector<T> Sequence<T>::byPosition(Position position) const {
 // };
 
 template<class T>
-vector<T> Sequence<T>::bySpan(TimedEvent span) const {
+vector<T> Sequence<T>::bySpan(Timed span) const {
     vector<T> result;
     for (auto it = this->begin(); it < this->end(); it++) {
         if (span.contains(it->startTime)) {
@@ -345,7 +365,7 @@ vector<T> Sequence<T>::bySpan(TimedEvent span) const {
     return result;
 }
 template<class T>
-vector<reference_wrapper<T>> Sequence<T>::refsBySpan(TimedEvent span) {
+vector<reference_wrapper<T>> Sequence<T>::refsBySpan(Timed span) {
     vector<reference_wrapper<T>> result;
     for (auto it = this->begin(); it < this->end(); it++) {
         if (span.contains(it->startTime)) {
@@ -439,4 +459,4 @@ Sequence<T> Sequence<T>::pulseAndDisplace(Duration pulse,
 template class Sequence<Note>;
 template class Sequence<Subdivision>;
 template class Sequence<ChordScale>;
-template class Sequence<TimedEvent>;
+template class Sequence<Timed>;

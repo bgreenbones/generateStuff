@@ -28,7 +28,7 @@ Phrase Lead::newPhrase() const {
   
   Phrase harmony = generateFromPhrase.chordScales.empty() 
     ? harmony::generateChordScales(generateFromPhrase,
-        harmonyApproach.toStdString(),
+        getHarmonyApproach(harmonyApproach),
         chordProbabilityPerAccent, 
         harmonicDensity) 
     : generateFromPhrase;
@@ -60,7 +60,7 @@ Phrase Lead::phraseFrom() const {
     
     Phrase harmony = generateFromPhrase.chordScales.empty() 
       ? harmony::generateChordScales(generateFromPhrase,
-          harmonyApproach.toStdString(),
+          getHarmonyApproach(harmonyApproach),
           chordProbabilityPerAccent, 
           harmonicDensity) 
       : generateFromPhrase;

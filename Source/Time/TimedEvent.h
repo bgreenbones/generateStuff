@@ -12,38 +12,38 @@
 
 #include "Duration.h"
 
-class TimedEvent {
+class Timed {
 public:
     Position startTime;
     Duration duration;
     HostSettings &settings;
     
-    TimedEvent(Position startTime, Duration duration):
+    Timed(Position startTime, Duration duration):
         startTime(startTime),
         duration(duration),
         settings(HostSettings::instance()) { }
-    TimedEvent(): TimedEvent(0, 1) { }
-    TimedEvent(TimedEvent const& other): TimedEvent(other.startTime, other.duration) {}
+    Timed(): Timed(0, 1) { }
+    Timed(Timed const& other): Timed(other.startTime, other.duration) {}
 //        startTime(other.startTime),
 //        duration(other.duration),
 //        settings(HostSettings::instance()) { }
 
-    TimedEvent(char mininotation, Position startTime, Duration duration) : TimedEvent(startTime, duration) {}
-    TimedEvent& operator=(TimedEvent const& other) {
+    Timed(char mininotation, Position startTime, Duration duration) : Timed(startTime, duration) {}
+    Timed& operator=(Timed const& other) {
         startTime = other.startTime;
         duration = other.duration;
         return *this;
     };
-    bool operator==(TimedEvent const& other) const { return startTime == other.startTime && duration == other.duration; };
-    bool operator<(TimedEvent const& other) const { return startTime < other.startTime || duration > other.duration; };
-    bool operator>(TimedEvent const& other) const { return startTime > other.startTime || duration > other.duration; };
+    bool operator==(Timed const& other) const { return startTime == other.startTime && duration == other.duration; };
+    bool operator<(Timed const& other) const { return startTime < other.startTime || duration > other.duration; };
+    bool operator>(Timed const& other) const { return startTime > other.startTime || duration > other.duration; };
     
-    virtual ~TimedEvent() {};
+    virtual ~Timed() {};
     
     Position endTime() const { return this->startTime + this->duration; }
     bool contains(const Position position) const { return this->startTime <= position && this->endTime() > position; }
-    bool containsPartially(const TimedEvent &other) const { return this->startTime <= other.startTime && this->endTime() > other.startTime; }
-    bool containsCompletely(const TimedEvent &other) const { return this->startTime <= other.startTime && this->endTime() >= other.endTime(); }
+    bool containsPartially(const Timed &other) const { return this->startTime <= other.startTime && this->endTime() > other.startTime; }
+    bool containsCompletely(const Timed &other) const { return this->startTime <= other.startTime && this->endTime() >= other.endTime(); }
     
     // TODO: siighhh ideally this is like, pure virtual, but then inheriting classes implementing it actually take their SPECIFIC class as argument, not a TimedEvent
     // also we need instances of TimedEvent so it doesn't really work as purevirtual
@@ -51,17 +51,17 @@ public:
 //        DBG("...should this be pure virtual? but then timed event is an abstract class..which makes some things not work..");
 //        return false;
 //    };//= 0;
-    virtual bool equalsExcludingTime(TimedEvent &other) const { return true; };
+    virtual bool equalsExcludingTime(Timed &other) const { return true; };
 
 };
 
-static const TimedEvent nullTime(0,0);
+static const Timed nullTime(0,0);
 
 
 
 template<class T> // must be TimedEvent
 std::vector<T> byPosition(std::vector<T> events, Position position) { // todo: remove this in favor of Sequence implementation.
-    static_assert(std::is_base_of<TimedEvent, T>::value, "T not derived from TimedEvent");
+    static_assert(std::is_base_of<Timed, T>::value, "T not derived from TimedEvent");
     std::vector<T> result;
     for (auto it = events.begin(); it < events.end(); it++) {
         if (it->contains(position)) {
@@ -73,7 +73,7 @@ std::vector<T> byPosition(std::vector<T> events, Position position) { // todo: r
 
 template<class T> // must be TimedEvent
 T longest(std::vector<T> events) {
-    static_assert(std::is_base_of<TimedEvent, T>::value, "T not derived from TimedEvent");
+    static_assert(std::is_base_of<Timed, T>::value, "T not derived from TimedEvent");
     T result;
     Duration maximumDuration = 0;
     for (auto it = events.begin(); it < events.end(); it++) {

@@ -13,12 +13,12 @@
 #include "Ensemble.h"
 
 void Ensemble::writeSong() {
-    TimedEvent form = TimedEvent(0, Bars(8));
+    Timed form = Timed(0, Bars(8));
     
     Phrase clavePhrase = rhythm::randomClave(emptyPhrase(claveKey), 2, 4); // min and max note length
     Phrase cascaraPhrase = rhythm::cascaraFrom(clavePhrase);
     Phrase harmony = harmony::generateChordScales(clavePhrase.loop(Bars(2)),
-        smoothishModulationsHarmonyApprachKey.toStdString(), 0.6, 0.7); // harmonic density and probability per accent
+        HarmonyApproach::smoothishModulations, 0.6, 0.7); // harmonic density and probability per accent
     Phrase chordsPhrase = harmony::randomVoicings(harmony);
     Phrase bassPhrase = melody::bass(harmony, clavePhrase, 1, 4, { 1 }); // burst length min, max, and note length choices
     Phrase leadPhrase = melody::melody(harmony);
@@ -120,7 +120,7 @@ bool Ensemble::toggleMuteOrnamentation(VoiceName voiceName)
     return newMuteState;
 }
 
-void Ensemble::queuePhrase(TimedEvent phraseTime, Phrase phrase)
+void Ensemble::queuePhrase(Timed phraseTime, Phrase phrase)
 {
     // schedule.schedulePhrase(phraseTime, phrase);
     VoiceName voiceName = phrase.voice;

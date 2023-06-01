@@ -141,23 +141,23 @@ Phrase Phrase::insert(Phrase other, OverwriteBehavior overwriteBehavior) const {
         // TODO: notes and subdivisions and future expressions should be in a vector or map that will allow us to iterate over them.
         
         phrase.notes.erase(std::remove_if(phrase.notes.begin(), phrase.notes.end(),
-                                [other](TimedEvent t) { return other.containsPartially(t) || t.containsPartially(other); }),
+                                [other](Timed t) { return other.containsPartially(t) || t.containsPartially(other); }),
                                 phrase.notes.end());
                                 
         phrase.connectingNotes.erase(std::remove_if(phrase.connectingNotes.begin(), phrase.connectingNotes.end(),
-                                [other](TimedEvent t) { return other.containsPartially(t) || t.containsPartially(other); }),
+                                [other](Timed t) { return other.containsPartially(t) || t.containsPartially(other); }),
                                 phrase.connectingNotes.end());
                                 
         phrase.ornamentationNotes.erase(std::remove_if(phrase.ornamentationNotes.begin(), phrase.ornamentationNotes.end(),
-                                [other](TimedEvent t) { return other.containsPartially(t) || t.containsPartially(other); }),
+                                [other](Timed t) { return other.containsPartially(t) || t.containsPartially(other); }),
                                 phrase.ornamentationNotes.end());
         
         phrase.subdivisions.erase(std::remove_if(phrase.subdivisions.begin(), phrase.subdivisions.end(),
-                                [other](TimedEvent t) { return other.containsPartially(t) || t.containsPartially(other); }),
+                                [other](Timed t) { return other.containsPartially(t) || t.containsPartially(other); }),
                                 phrase.subdivisions.end());
         
         phrase.chordScales.erase(std::remove_if(phrase.chordScales.begin(), phrase.chordScales.end(),
-                                [other](TimedEvent t) { return other.containsPartially(t) || t.containsPartially(other); }),
+                                [other](Timed t) { return other.containsPartially(t) || t.containsPartially(other); }),
                                 phrase.chordScales.end());
         
     }
@@ -213,7 +213,7 @@ Phrase Phrase::randomSubdivisions(vector<Duration> availableSubdivisions, vector
 }
 
 
-Phrase Phrase::randomGhostSubdivision(Probability ghostProbability, Probability subdivisionProbability, Pitch pitch, TimedEvent span) const {
+Phrase Phrase::randomGhostSubdivision(Probability ghostProbability, Probability subdivisionProbability, Pitch pitch, Timed span) const {
     Phrase result(*this);
     bool fillWholePhrase = span == nullTime;
     
@@ -247,7 +247,7 @@ Phrase Phrase::randomGhostBursts(Duration minimumBurstLength, Duration maximumBu
     
     while (cursor < result.duration) {
         Duration burstLength = minimumBurstLength + (rollDie(numberOfPossibleBurstLengths) * sixteenths);
-        TimedEvent span(cursor, burstLength);
+        Timed span(cursor, burstLength);
         result = burstProbability ? result.randomGhostSubdivision(ghostProbabilityWithinBurst, 1, pitch, span) : result;
         cursor += burstLength;
     }

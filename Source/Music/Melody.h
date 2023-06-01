@@ -16,6 +16,10 @@
 #include "Rhythm.h"
 
 namespace melody {
+    Pitch stepwiseMotion(vector<Note>& notes,
+                        Sequence<ChordScale>& harmonies,
+                        Pitch lastPitch,
+                        Position cursor);
     Phrase bass(Phrase harmony, Phrase rhythm, int burstLengthMin, int burstLengthMax, vector<float> burstNoteLengthChoices = {});
     Phrase melody(Phrase harmony);
 }

@@ -29,7 +29,7 @@ static const Duration defaultSubdivision = Beats(0.25);
 static const Position defaultStartTime = Position(0, true);
 static const Duration defaultDuration = Bars(2, true);
 
-class Phrase: private TimedEvent
+class Phrase: private Timed
 {
 public:
     Position getStartTime() { return startTime; }
@@ -48,7 +48,7 @@ public:
     }
     
     Phrase(Duration subdivision, Position startTime, Duration duration):
-        TimedEvent(startTime, duration),
+        Timed(startTime, duration),
         notes(*this),
         connectingNotes(*this),
         ornamentationNotes(*this),
@@ -61,7 +61,7 @@ public:
     Phrase(Duration duration): Phrase(defaultSubdivision, defaultStartTime, duration) {}
     Phrase(): Phrase(defaultSubdivision, defaultStartTime, defaultDuration) {}
     Phrase(Phrase const& other):
-        TimedEvent(other),
+        Timed(other),
         voice(other.voice),
         schedule(other.schedule),
         notes(other.notes, *this),
@@ -71,7 +71,7 @@ public:
         chordScales(other.chordScales, *this)
         {};
     Phrase& operator=(Phrase const& other) {
-        TimedEvent::operator=(other);
+        Timed::operator=(other);
         notes = Sequence<Note>(other.notes, *this);
         connectingNotes = Sequence<Note>(other.connectingNotes, *this);
         ornamentationNotes = Sequence<Note>(other.ornamentationNotes, *this);
@@ -83,7 +83,7 @@ public:
     };
 
     string voice;
-    set<TimedEvent> schedule;
+    set<Timed> schedule;
     Sequence<Note> notes;
     Sequence<Note> connectingNotes;
     Sequence<Note> ornamentationNotes;
@@ -118,7 +118,7 @@ public:
     }
     Subdivision primarySubdivision() const { return subdivisions.primary(); }
     
-    bool equalsExcludingTime(TimedEvent &other) {
+    bool equalsExcludingTime(Timed &other) {
         DBG("Not implemented yet");
         return false;
     }
@@ -167,7 +167,7 @@ public:
     Phrase randomGhostSubdivision(Probability ghostProbability = 0.6,
                                   Probability subdivisionProbability = 1.,
                                   Pitch pitch = defaultPitch,
-                                  TimedEvent span = nullTime) const;
+                                  Timed span = nullTime) const;
     Phrase ghostSubdivision(Pitch pitch = defaultPitch) const;
     Phrase randomGhostBursts(Duration minimumBurstLength = Beats(1./2.),
                              Duration maximumBurstLength = Beats(2),

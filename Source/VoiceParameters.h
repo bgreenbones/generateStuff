@@ -69,14 +69,25 @@ static const juce::NormalisableRange<float> densityRange(0.01f, 1.f, 0.01);
 static const string harmonyApproachKey = "harmonyApproach";
 static const string harmonyDensityKey = "harmonyDensity";
 static const string harmonyProbabilityKey = "harmonyProbability";
+
+enum class HarmonyApproach {// TODO: can we make switches actually switch between enums are not strings
+    random, diatonic, smoothishModulations, harmonyApproachCount
+};
+
 static const juce::String randomHarmonyApproachKey = "random";
 static const juce::String diatonicHarmonyApproachKey = "diatonic";
 static const juce::String smoothishModulationsHarmonyApprachKey = "smoothish modulations";
+static const juce::StringArray harmonyApproaches = { randomHarmonyApproachKey, diatonicHarmonyApproachKey, smoothishModulationsHarmonyApprachKey };
+static HarmonyApproach getHarmonyApproach(juce::String approach) {
+    return (HarmonyApproach) harmonyApproaches.indexOf(approach);
+}
+
 static const vector<Parameter> harmonyParameters {
-    Parameter(harmonyApproachKey, "approach", { randomHarmonyApproachKey, diatonicHarmonyApproachKey, smoothishModulationsHarmonyApprachKey }, 1),
+    Parameter(harmonyApproachKey, "approach", harmonyApproaches, 1),
     Parameter(harmonyDensityKey, "harmony density", densityRange, 0.7, ""),
     Parameter(harmonyProbabilityKey, "harmony probability", probabilityRange, 0.6, " probability"),
 };
+
 
 static const string bassBurstLengthMinKey = "bassBurstLengthMin";
 static const string bassBurstLengthMaxKey = "bassBurstLengthMax";

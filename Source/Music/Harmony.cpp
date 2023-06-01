@@ -9,11 +9,12 @@
 */
 
 #include "Harmony.h"
+#include "Rhythm.h"
 #include "Utility.h"
 
 
 
-ChordScale harmony::selectApproachAndGenerate(juce::String approach, Sequence<ChordScale> chordScales, Position startTime, Duration chordLength) {
+ChordScale harmony::selectApproachAndGenerate(juce::String approach, vector<ChordScale> chordScales, Position startTime, Duration chordLength) {
     if (approach == randomHarmonyApproachKey || chordScales.empty()) {
         return randomChordScale(startTime, chordLength);
     }
@@ -63,7 +64,21 @@ ChordScale harmony::subtleModulations(ChordScale previousChordScale, Position st
     return newChordSameScale(newChordScale, startTime, duration);
 }
 
-Phrase harmony::generateChordScales(Phrase fromPhrase, string harmonyApproach, Probability chordProbabilityPerAccent, double harmonicDensity) {
+
+vector<ChordScale> harmony::timedChordScales(vector<Timed> times, HarmonyApproach approach) {
+    vector<ChordScale> chords;
+    for(Timed time : times) {
+        ChordScale chordScale = selectApproachAndGenerate(harmonyApproaches[(int)approach].toStdString(),
+            chords,
+            time.startTime,
+            time.duration);
+        chords.push_back(chordScale);
+    }
+    return chords;
+}
+
+Phrase harmony::generateChordScales(Phrase fromPhrase, HarmonyApproach approach, Probability chordProbabilityPerAccent, double harmonicDensity) {
+// Phrase harmony::generateChordScales(Phrase fromPhrase, string harmonyApproach, Probability chordProbabilityPerAccent, double harmonicDensity) {
     Sequence<Note> notes(fromPhrase.notes.toMonophonic());
     Sequence<Note> accents(notes);
     accents.assignEvents(filter<Note>(notes, [](Note note) { return note.accented; }));
@@ -71,22 +86,16 @@ Phrase harmony::generateChordScales(Phrase fromPhrase, string harmonyApproach, P
     
 
     if (accents.empty()) {
-        int numberOfChords = fromPhrase.getDuration().asBars();
-        bars startTimeInBars = fromPhrase.getStartTime().asBars();
-        while(numberOfChords-- > 0) {
-            Bars startTime(startTimeInBars++);
-            int barsUntilEndOfPhrase = (int) (fromPhrase.getEndTime() - startTime);
-            Bars chordLength(min(barsUntilEndOfPhrase, 1));
-            ChordScale chordScale = selectApproachAndGenerate(harmonyApproach, fromPhrase.chordScales, startTime, chordLength);
-            fromPhrase.chordScales.add(chordScale);
-        }
+        vector<Timed> times = rhythm::onePerShortForLong(Bars(1), fromPhrase.getDuration());
+        vector<ChordScale> harmonies = harmony::timedChordScales(times, approach);
+        fromPhrase.chordScales.assignEvents(harmonies);
     } else {
         for (Note accent : accents) {
             if (chordProbabilityPerAccent) {
                 bool firstChord = fromPhrase.chordScales.empty();
                 double previousChordLength = firstChord ? 1. / harmonicDensity : (accent.startTime - fromPhrase.chordScales.back().startTime).asSeconds();
                 if (Probability(harmonicDensity * previousChordLength)) {
-                  ChordScale chordScale = selectApproachAndGenerate(harmonyApproach, fromPhrase.chordScales, accent.startTime, accent.duration);
+                  ChordScale chordScale = selectApproachAndGenerate(harmonyApproaches[(int)approach].toStdString(), fromPhrase.chordScales, accent.startTime, accent.duration);
                   fromPhrase.chordScales.add(chordScale);
                 }
             }
@@ -109,6 +118,22 @@ Phrase harmony::randomVoicings(Phrase phrase) {
     }
     
     return phrase;
+};
+
+Phrase harmony::smoothVoicings(Phrase harmony, Phrase rhythm) {
+    harmony = harmony.toPolyphonic();
+    harmony.notes.clear();
+    rhythm = rhythm.toMonophonic();
+    
+    for (Note note : rhythm.notes) {
+        ChordScale chordScale = harmony.chordScales.drawByPosition(note.startTime);
+        for (Pitch pitchToAdd : chordScale.harmony.randomVoicing()) {// TODO: actually make a smooth voicing algorithm
+            Note noteToAdd(pitchToAdd.pitchValue, 70, chordScale.startTime, chordScale.duration);
+            harmony.addNote(noteToAdd);
+        }
+    }
+    
+    return harmony;
 };
 
 

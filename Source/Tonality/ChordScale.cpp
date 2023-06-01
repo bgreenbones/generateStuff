@@ -11,7 +11,7 @@
 #include "ChordScale.h"
 
 
-ChordScale::ChordScale(Tonality scale, Position startTime, Duration duration): TimedEvent(startTime, duration), scale(scale) {
+ChordScale::ChordScale(Tonality scale, Position startTime, Duration duration): Timed(startTime, duration), scale(scale) {
     harmony = scale.scaleToHarmony();
     // TODO: functions for seeing if scale tones are chord tones or not...
 }

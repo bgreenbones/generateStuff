@@ -19,7 +19,7 @@ Sequence<Note> Note::placeOrnament(OrnamentSimple ornamentSimple, double breadth
     auto noteLength = (ornament.length / (float) ornament.numNotes);
     
 //    vector<Note> ornamentNotes = {};
-    TimedEvent* parent = (TimedEvent*)this;
+    Timed* parent = (Timed*)this;
     Sequence<Note> ornamentNotes(*parent);
     
     for (unsigned short notesLeft = ornament.numNotes; notesLeft > 0; notesLeft--) {

@@ -247,7 +247,7 @@ void GenerateStuffAudioProcessor::playNoteSequence(juce::MidiBuffer& midiMessage
     juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo,
     const double ppqPosition, 
     Sequence<Note> noteSequence, 
-    TimedEvent scheduledTime,
+    Timed scheduledTime,
     int midiChannel) {
 
     int phraseLoopNumber = Quarters(ppqPosition) / noteSequence.parent.duration;
@@ -336,7 +336,7 @@ void GenerateStuffAudioProcessor::playPlayables(
         if (voice.mute) { continue; }
         int midiChannel = voice.midiChannel;
 
-        for (TimedEvent scheduledTime : phrase.schedule) {
+        for (Timed scheduledTime : phrase.schedule) {
             playNoteSequence(midiMessages, positionInfo, ppqPosition, phrase.notes, scheduledTime, midiChannel);
             if (!voice.muteConnecting) {
                 playNoteSequence(midiMessages, positionInfo, ppqPosition, phrase.connectingNotes, scheduledTime, midiChannel);

@@ -12,7 +12,7 @@
 
 #include <vector>
 
-using std::vector, std::function;
+using std::vector, std::function, std::reference_wrapper;
 
 template <typename T>
 vector<T> filter(vector<T> toFilter, function<bool(T)> condition) {
@@ -32,7 +32,17 @@ vector<U> mapp(vector<T> toMap, function<U(T)> transformation) {
 };
 
 
+//template <typename T>
+//bool contains(vector<T> const& v, T e) {
+//  return std::find(v.begin(), v.end(), e) != v.end();
+//}
+
 template <typename T>
-bool contains(vector<T> v, T e) {
+bool contains(vector<T> const& v, T const& e) {
+  return std::find(v.begin(), v.end(), e) != v.end();
+}
+
+template <typename T>
+bool contains(vector<reference_wrapper<T>> const& v, T const& e) {
   return std::find(v.begin(), v.end(), e) != v.end();
 }

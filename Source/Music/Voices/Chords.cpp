@@ -18,7 +18,7 @@ Phrase Chords::newPhrase() const {
   double harmonicDensity = ensemble.editorState.getKnobValue(harmonyDensityKey);
   
   Phrase harmony = harmony::generateChordScales(ensemble.emptyPhrase(harmonyKey),
-    harmonyApproach.toStdString(),
+    getHarmonyApproach(harmonyApproach), 
     chordProbabilityPerAccent,
     harmonicDensity);
 
@@ -47,7 +47,7 @@ Phrase Chords::phraseFrom() const {
 
   Phrase harmony = generateFromPhrase.chordScales.empty() 
     ? harmony::generateChordScales(generateFromPhrase, 
-        harmonyApproach.toStdString(), 
+        getHarmonyApproach(harmonyApproach), 
         chordProbabilityPerAccent, 
         harmonicDensity) 
     : generateFromPhrase;
