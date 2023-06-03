@@ -44,27 +44,54 @@ void rhythm::repeat(vector<Timed>& timed, vector<Timed*> toMultiply, double mult
     }
 }
 
-vector<Timed*> rhythm::selectAtRandom(vector<Timed>& timed, Probability prob) {
-    vector<Timed*> result;
-    for (Timed & time : timed) {
+
+template <typename T>
+vector<T*> rhythm::selectAtRandom(vector<T>& t, Probability prob) {
+    vector<T*> result;
+    for (T & time : t) {
       if (prob) {
         result.push_back(&time);
       }
     }
     return result;
 }
+template vector<Timed*> rhythm::selectAtRandom(vector<Timed>& t, Probability prob);
+template vector<Note*> rhythm::selectAtRandom(vector<Note>& t, Probability prob);
 
-vector<vector<Timed*>> rhythm::distinctSubsets(vector<Timed>& timed, int n, Probability prob) {
-    vector<Timed*> candidates = selectAtRandom(timed, prob);
-    vector<vector<Timed*>> result;
+template <typename T>
+vector<vector<T*>> rhythm::distinctSubsets(vector<T>& t, int n, Probability prob) {
+    vector<T*> candidates = selectAtRandom<T>(t, prob);
+    vector<vector<T*>> result;
     for (int i = 0; i < n; i++) {
-        result.push_back(vector<Timed*>());
+        result.push_back(vector<T*>());
     }
-    for (Timed* time : candidates) {
+    for (T* time : candidates) {
         result[rollDie(n - 1)].push_back(time);        
     }
     return result;    
 }
+template vector<vector<Timed*>> rhythm::distinctSubsets(vector<Timed>& t, int n, Probability prob);
+template vector<vector<Note*>> rhythm::distinctSubsets(vector<Note>& t, int n, Probability prob);
+
+template <typename T>
+vector<vector<T*>> rhythm::distinctSubsets(vector<T>& t, Probability prob, vector<double> distribution) {
+    vector<vector<T*>> result;
+    int n = distribution.size();
+    if (n <= 1) { return {selectAtRandom<T>(t, prob)}; }
+    std::discrete_distribution<int> selectSubset (distribution.begin(), distribution.end());
+    vector<T*> candidates = selectAtRandom<T>(t, prob);
+    for (int i = 0; i < n; i++) {
+        result.push_back(vector<T*>());
+    }
+    for (T* time : candidates) {
+        // result[rollDie(n - 1)].push_back(time);        
+        result[selectSubset(getGen())].push_back(time);
+    }
+    return result;    
+}
+template vector<vector<Timed*>> rhythm::distinctSubsets(vector<Timed>& t, Probability prob, vector<double> distribution);
+template vector<vector<Note*>> rhythm::distinctSubsets(vector<Note>& t, Probability prob, vector<double> distribution);
+
 vector<Timed> rhythm::onePerShortForLong(Duration longDuration, Duration shortDuration) {
     vector<Timed> timeds;
     int numberOfTimeds = longDuration / shortDuration;

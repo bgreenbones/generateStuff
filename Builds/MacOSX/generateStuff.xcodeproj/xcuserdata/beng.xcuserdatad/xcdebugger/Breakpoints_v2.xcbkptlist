@@ -1994,7 +1994,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "30"
-            endingLineNumber = "30">
+            endingLineNumber = "30"
+            landmarkName = "arpeggiator(notes, harmonies)"
+            landmarkType = "8">
             <Locations>
                <Location
                   uuid = "23A4252E-4741-4976-A14B-8F47033C5EA2 - 25848c1f48a5c9a8"
@@ -2680,7 +2682,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "63"
             endingLineNumber = "63"
-            landmarkName = "melody::bass(harmony, rhythm, minimumRepeats, maximumRepeats, burstNoteLengthChoices)"
+            landmarkName = "melody::applyPitchSelector(notes, harmonies, cursor, pitchClassSelector, octaveSelector)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2696,7 +2698,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "62"
             endingLineNumber = "62"
-            landmarkName = "melody::bass(harmony, rhythm, minimumRepeats, maximumRepeats, burstNoteLengthChoices)"
+            landmarkName = "melody::applyPitchSelector(notes, harmonies, cursor, pitchClassSelector, octaveSelector)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
