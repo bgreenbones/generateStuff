@@ -57,6 +57,7 @@ namespace dynamics {
     vector<Note>& stretch(vector<Note> &source, DynamicLevel targetMinimum, DynamicLevel targetMaximum);
     vector<Note>& randomFlux(vector<Note> &source, double minScale = 0.7, double maxScale = 1.3);
     vector<Note>& randomAccents(vector<Note> &source, DynamicLevel low, DynamicLevel high);
+    vector<Note>& randomAccents(vector<Note> &source, DynamicLevel high);
     vector<Note>& followAccents(vector<Note> &source, vector<Position> accents, DynamicLevel low, DynamicLevel high);
 }
 

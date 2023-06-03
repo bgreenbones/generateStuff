@@ -18,41 +18,15 @@
 namespace harmony {
     vector<ChordScale> timedChordScales(vector<Timed> times, HarmonyApproach approach);
     ChordScale randomChordScale(Position startTime = 0, Duration duration = Bars(1));
-    ChordScale newChordSameScale(ChordScale previousChordScale, Position startTime, Duration duration);
+    ChordScale newChordSameScale(ChordScale previousChordScale, 
+                                  Position startTime, 
+                                  Duration duration,
+                                  vector<vector<Interval>> limitChordQualities = {});
     ChordScale subtleModulations(ChordScale previousChordScale, Position startTime, Duration duration);
     
     vector<Pitch> randomChord();
         
     ChordScale selectApproachAndGenerate(juce::String approach, vector<ChordScale> chordScales, Position startTime, Duration chordLength);
-
-    // const GenerationFunction chordsFunction = [](Phrase phrase, Ensemble& ensemble, GenerateStuffEditorState const& editorState) {
-    //     phrase.notes.monophonic = false;
-    //     phrase.chordScales.monophonic = true;
-    //     phrase.notes.clear();
-    //     phrase.chordScales.clear();
-
-   //      Duration phraseLength = editorState.getPhraseLength();
-    //     phrase = phrase.loop(phraseLength);
-    //     
-    //     juce::String harmonyApproach = editorState.getChoiceValue(harmonyApproachKey);
-    //     
-    //     int numberOfChords = phrase.getDuration().asBars();
-    //     bars startTimeInBars = phrase.getStartTime().asBars();
-    //     while(numberOfChords-- > 0) {
-    //         Bars startTime(startTimeInBars++);
-    //         int barsUntilEndOfPhrase = (int) (phrase.getEndTime() - startTime);
-    //         Bars chordLength(min(barsUntilEndOfPhrase, 1));
-    //         ChordScale chordScale = selectApproachAndGenerate(harmonyApproach, phrase.chordScales, startTime, chordLength);
-    //         phrase.chordScales.add(chordScale);
-    //         for (Pitch pitchToAdd : chordScale.harmony.randomVoicing()) {
-    //             Note noteToAdd(pitchToAdd.pitchValue, 70, startTime, chordLength);
-    //             phrase.addNote(noteToAdd);
-    //         }
-    //     }
-    //     // phrase.chordScales.tie();
-    //     return phrase;
-    // };
-
 
     Phrase generateChordScales(Phrase fromPhrase,
                             HarmonyApproach approach,

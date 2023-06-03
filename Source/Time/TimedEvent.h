@@ -17,6 +17,17 @@ public:
     Position startTime;
     Duration duration;
     HostSettings &settings;
+
+    void setStartTime(Position newStartTime) {
+        duration = (newStartTime < endTime()) ? endTime() - newStartTime : Duration(0);
+        startTime = newStartTime;
+    }
+    void setEndTime(Position newEndTime) {
+        duration = newEndTime > startTime ? newEndTime - startTime : Duration(0);
+    }
+    void shiftByDuration(Duration toShiftBy) {
+        startTime += toShiftBy;        
+    }
     
     Timed(Position startTime, Duration duration):
         startTime(startTime),

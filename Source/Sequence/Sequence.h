@@ -30,6 +30,7 @@ template <typename T> // T as to be TimedEvent subclass
 class Sequence: public vector<T>
 {
 public:
+    static vector<T> fromTimed(vector<Timed> const& timed, T const& t);
     static vector<T> fromTimed(vector<Timed> const& timed);
     static vector<T> burst(Duration eventLength, int numberOfEvents);
     

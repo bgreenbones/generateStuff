@@ -28,6 +28,10 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
     setSize (ui::editorWidth, ui::editorHeight);
     voiceManager.configure(this);
 
+    addAndMakeVisible(generateButton);
+    generateButton.onClick = [&] { ensemble.writeSong(); };
+
+
     int subdivisionGroupId = 1832; // just some number
     for (float subdivisionDenominator = 1; subdivisionDenominator <= 9; subdivisionDenominator++) {
         int subdivisionIndex = subdivisionDenominator - 1;
@@ -36,7 +40,7 @@ GenerateStuffAudioProcessorEditor::GenerateStuffAudioProcessorEditor (GenerateSt
         subdivisionButton->setClickingTogglesState(true);
         addAndMakeVisible(subdivisionButton);
         subdivisionButton->setToggleState(false, juce::dontSendNotification);
-        subdivisionButton->onClick = [=] { editorState.subdivision = 1. / subdivisionDenominator; };
+        subdivisionButton->onClick = [&] { editorState.subdivision = 1. / subdivisionDenominator; };
     }
     int defaultSubdivisionIndex = (int) (1.0 / editorState.subdivision) - 1; // todo: set this
     subdivisionButtons[defaultSubdivisionIndex]->setToggleState(true, juce::dontSendNotification);
@@ -167,6 +171,9 @@ void GenerateStuffAudioProcessorEditor::resized()
     startBarLabel.setBounds (xCursor - numberInputWidth, yCursor, numberInputWidth, firstColumnElementHeight);
     yCursor += firstColumnElementHeight + spaceBetween1stRowElements;
     stopBarLabel.setBounds (xCursor - numberInputWidth, yCursor, numberInputWidth, firstColumnElementHeight);
+    
+    yCursor += firstColumnElementHeight + spaceBetween1stRowElements;
+    generateButton.setBounds(xCursor, yCursor, numberInputWidth * 2, firstColumnElementHeight);
     xCursor += numberInputWidth + ui::spaceBetweenControls;
     yCursor = yPadding;
     

@@ -35,14 +35,24 @@ ChordScale harmony::randomChordScale(Position startTime, Duration duration) {
     return harm;
 }
 
-ChordScale harmony::newChordSameScale(ChordScale previousChordScale, Position startTime, Duration duration) {
+ChordScale harmony::newChordSameScale(ChordScale previousChordScale, 
+                                        Position startTime, 
+                                        Duration duration, 
+                                        vector<vector<Interval>> limitChordQualities) {
     Tonality scale = previousChordScale.scale;
     ChordScale nextChordScale(scale, startTime, duration);
     
     if (scale.intervalsUpFromRoot.size() > 1) {
-        PitchClass newChordRoot = pitchClassIncrement(scale.root, draw<Interval>(scale.intervalsUpFromRoot));
-        while (newChordRoot == scale.root) {
-            newChordRoot = pitchClassIncrement(scale.root, draw<Interval>(scale.intervalsUpFromRoot));
+      vector<Tonality> limitingCandidates;
+      vector<Tonality> nonlimitingCandidates;
+      vector<PitchClass> candidateRoots = scale.getPitchClasses();
+
+      for (PitchClass newChordRoot : candidateRoots) {
+        for (vector<Interval> quality : limitChordQualities) {
+            Tonality newChord = Tonality(newChordRoot, quality);
+            if (scale.includes(newChord)) {
+              limitingCandidates.push_back(newChord);
+            }
         }
         
         Pitch rootPitch = Pitch(newChordRoot, 0);
@@ -51,17 +61,29 @@ ChordScale harmony::newChordSameScale(ChordScale previousChordScale, Position st
         
         Interval thirdInterval = thirdish - rootPitch;
         Interval fifthInterval = fifthish - rootPitch;
-        
-        nextChordScale.harmony = Tonality(newChordRoot, { unison, thirdInterval, fifthInterval });
+
+        vector<Interval> triad = { unison, thirdInterval, fifthInterval };
+        nonlimitingCandidates.push_back(Tonality(newChordRoot, triad));
+      }
+
+      if (limitingCandidates.empty()) {
+        nextChordScale.harmony = draw<Tonality>(nonlimitingCandidates);
+      } else {
+        nextChordScale.harmony = draw<Tonality>(limitingCandidates);
+      }
+
+      
     }
 
     return nextChordScale;
 }
 
 ChordScale harmony::subtleModulations(ChordScale previousChordScale, Position startTime, Duration duration) {
-    ChordScale newChordScale(previousChordScale.scale.smoothModulation(1, draw<Direction>({ up, down })), startTime, duration);
-    newChordScale.harmony = previousChordScale.harmony;
-    return newChordSameScale(newChordScale, startTime, duration);
+    ChordScale newChordScale(previousChordScale.scale.smoothModulation(1, draw<Direction>({ up, down })), 
+        previousChordScale.harmony, 
+        startTime, 
+        duration);
+    return newChordSameScale(newChordScale, startTime, duration, { major9chord, minor9chord });
 }
 
 
@@ -125,12 +147,30 @@ Phrase harmony::smoothVoicings(Phrase harmony, Phrase rhythm) {
     harmony.notes.clear();
     rhythm = rhythm.toMonophonic();
     
+    if (harmony.chordScales.empty()) {
+      return harmony;
+    }
+    vector<Pitch> lastVoicing = harmony.chordScales[0].harmony.randomVoicing();
+    vector<ChordScale> voiced;
     for (Note note : rhythm.notes) {
         ChordScale chordScale = harmony.chordScales.drawByPosition(note.startTime);
-        for (Pitch pitchToAdd : chordScale.harmony.randomVoicing()) {// TODO: actually make a smooth voicing algorithm
-            Note noteToAdd(pitchToAdd.pitchValue, 70, chordScale.startTime, chordScale.duration);
+        if (contains(voiced, chordScale)) {
+          continue;
+        }
+        voiced.push_back(chordScale);
+        vector<Pitch> voicing = flipWeightedCoin(0.9) // can't be too smooth!
+            ? chordScale.harmony.smoothVoicing(lastVoicing)
+            : chordScale.harmony.randomVoicing();
+        while (voicing::crunch(voicing) >= 4) { // control clusters
+            voicing::decreaseCrunch(voicing);
+        }
+        voicing::decreaseSpread(voicing);
+        voicing::preventRumble(voicing);
+        for (Pitch pitchToAdd : voicing) {
+            Note noteToAdd(pitchToAdd.pitchValue, 70, note.startTime, chordScale.endTime() - note.startTime);
             harmony.addNote(noteToAdd);
         }
+        lastVoicing = voicing;
     }
     
     return harmony;

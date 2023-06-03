@@ -36,6 +36,7 @@ private:
     VoiceManager voiceManager;
     
 //    juce::Slider probabilityOfDouble;
+    juce::TextButton generateButton { "generate" };
     juce::TextButton subDivButton1 { "1/1" };
     juce::TextButton subDivButton2 { "1/2" };
     juce::TextButton subDivButton3 { "1/3" };

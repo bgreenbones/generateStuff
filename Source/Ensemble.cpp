@@ -15,13 +15,17 @@
 void Ensemble::writeSong() {
     Timed form = Timed(0, Bars(8));
     
+    Duration harmonyPhraseLength = Bars(2);
+    Duration chordsPhraseLength = Bars(4);
+    Duration leadPhraseLength = Bars(8);
+
     Phrase clavePhrase = rhythm::randomClave(emptyPhrase(claveKey), 2, 4); // min and max note length
     Phrase cascaraPhrase = rhythm::cascaraFrom(clavePhrase);
-    Phrase harmony = harmony::generateChordScales(clavePhrase.loop(Bars(2)),
+    Phrase harmony = harmony::generateChordScales(clavePhrase.loop(harmonyPhraseLength),
         HarmonyApproach::smoothishModulations, 0.6, 0.7); // harmonic density and probability per accent
-    Phrase chordsPhrase = harmony::randomVoicings(harmony);
-    Phrase bassPhrase = melody::bass(harmony, clavePhrase, 1, 4, { 1 }); // burst length min, max, and note length choices
-    Phrase leadPhrase = melody::melody(harmony);
+    Phrase chordsPhrase = harmony::smoothVoicings(harmony.loop(chordsPhraseLength), clavePhrase.loop(chordsPhraseLength));
+    Phrase bassPhrase = melody::bass(harmony.loop(chordsPhraseLength), clavePhrase.loop(chordsPhraseLength), 1, 4, { 1 }); // burst length min, max, and note length choices
+    Phrase leadPhrase = melody::melody(harmony.loop(leadPhraseLength));
     
     dynamics::randomFlux(clavePhrase.notes);
     dynamics::randomFlux(cascaraPhrase.notes);

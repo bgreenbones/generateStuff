@@ -20,20 +20,22 @@
 
 
 template <class T>
+vector<T> Sequence<T>::fromTimed(vector<Timed> const& timed, T const& t) {
+    return mapp<Timed, T>(timed, [&](Timed time) {
+        T newT = T(t);
+        newT.startTime = time.startTime;
+        newT.duration = time.duration;
+        return newT;
+    });
+}
+template <class T>
 vector<T> Sequence<T>::fromTimed(vector<Timed> const& timed) {
-    return mapp<Timed, T>(timed, [](Timed const& time) {return T(time.startTime, time.duration); });
+    return Sequence<T>::fromTimed(timed, T());
 }
 
 template <class T>
 vector<T> Sequence<T>::burst(Duration eventLength, int numberOfEvents) {
     return fromTimed(rhythm::nOfLengthM(numberOfEvents, eventLength));
-    // vector<T> result;
-    
-    // for (double i = 0; i < numberOfEvents; i++) {
-    //     result.push_back(T(i * eventLength, eventLength));
-    // }
-    
-    // return result;
 }
 
 template <class T>

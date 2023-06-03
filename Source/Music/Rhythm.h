@@ -21,7 +21,9 @@ namespace rhythm {
     vector<Timed> onePerShortForLong(Duration longDuration, Duration shortDuration);
     vector<Timed> nOfLengthM(int n, Duration m);
     vector<Timed*> selectAtRandom(vector<Timed>& timed, Probability prob);
+    vector<vector<Timed*>> distinctSubsets(vector<Timed>& timed, int n, Probability prob);
     void multiplyTimeLength(vector<Timed>& timed, vector<Timed*> toMultiply, double multiplyBy);
+    void repeat(vector<Timed>& timed, vector<Timed*> toMultiply, double multiplyBy);
 
     Phrase rhythmicVariation(Phrase source);
 

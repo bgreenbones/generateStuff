@@ -119,6 +119,12 @@ vector<Note>& dynamics::randomAccents(vector<Note> &source, DynamicLevel low, Dy
     return source;
 }
 
+vector<Note>& dynamics::randomAccents(vector<Note> &source, DynamicLevel high) {
+    for (Note &note : source) { note.velocity = flipWeightedCoin(0.4) ? high : note.velocity; }
+    return source;
+}
+
+
 vector<Note>& dynamics::followAccents(vector<Note> &source, vector<Position> accents, DynamicLevel low, DynamicLevel high) {
     for (Note &note : source) { note.velocity = 
         (contains<Position>(accents, note.startTime) && flipWeightedCoin(0.9))

@@ -12,6 +12,125 @@
 #include "Utility.h"
 
 
+double voicing::crunch(vector<Pitch> const& voicing) {
+  if (voicing.size() < 2) {
+    return 0;
+  }
+  double totalCrunch = 0;
+  for (int i = 0; i < voicing.size() - 1; i++) {
+    for (int j = i + 1 ; j < voicing.size(); j++) {
+      Pitch pitch_i = voicing[i];
+      Pitch pitch_j = voicing[j];
+      Interval interval = pitch_i - pitch_j;
+      totalCrunch += interval == m2 ? 2 : 0;
+      totalCrunch += interval == M2 ? 1 : 0;
+    }
+  }
+  return totalCrunch;
+}
+void voicing::decreaseCrunch(vector<Pitch> & voicing) {
+  if (voicing.size() < 2) {
+    return;
+  }
+  double totalCrunch = crunch(voicing);
+  shuffle(voicing.begin(), voicing.end(), getGen());
+  for (int i = 0; i < voicing.size() - 1; i++) {
+    for (int j = i + 1 ; j < voicing.size(); j++) {
+      Pitch &pitch_i = voicing[i];
+      Pitch &pitch_j = voicing[j];
+      Interval interval = pitch_i - pitch_j;
+      if(interval == M2) {
+        Pitch & pitchToMove = flipCoin() ? pitch_i : pitch_j;
+        if (pitchToMove.getOctave() <= 3) {
+            pitchToMove += octave;
+        } else if (pitchToMove.getOctave() >= 5) {
+            pitchToMove -= octave;
+        } else {
+          if (flipCoin()) {
+            pitchToMove += octave;
+          } else {
+            pitchToMove -= octave;
+          }
+        }
+        break;
+      }
+      if(interval == m2) {
+        Pitch &highPitch = pitch_i > pitch_j ? pitch_i : pitch_j;
+        Pitch &lowPitch = pitch_i > pitch_j ? pitch_j : pitch_i;
+
+        if (lowPitch.getOctave() <= 3) {
+            lowPitch += octave;
+        } else if (highPitch.getOctave() >= 5) {
+            highPitch -= octave;
+        } else {
+          if (flipCoin()) {
+            lowPitch += octave;
+          } else {
+            highPitch -= octave;
+          }
+        }
+        break;
+      }
+    }
+    if (crunch(voicing) < totalCrunch) {
+      break;
+    }
+  }
+}
+
+void voicing::decreaseSpread(vector<Pitch> & voicing) {
+  if (voicing.size() < 2) {
+    return;
+  }
+  for (Pitch & pitch_i : voicing) {
+    bool allGreaterThanOctave = true;
+    int downs = 0;
+    int ups = 0;
+    for (Pitch & pitch_j : voicing) {
+      if (pitch_i == pitch_j) {
+        continue;
+      }
+      Interval interval = pitch_i - pitch_j;
+      if (interval > octave) {
+        ups += pitch_i > pitch_j ? 1 : 0;
+        downs += pitch_i > pitch_j ? 0 : 1;
+      }  else {
+        allGreaterThanOctave = false;
+      }
+    }
+    if (allGreaterThanOctave) {
+      if (ups > downs) {
+        pitch_i -= octave;
+      } else {
+        pitch_i += octave;
+      }
+    }
+  }
+}
+
+void voicing::preventRumble(vector<Pitch> & voicing) {
+  if (voicing.size() < 2) {
+    return;
+  }
+  for (Pitch & pitch_i : voicing) {
+    if (pitch_i.getOctave() > 3) {
+      continue;
+    }
+    for (Pitch & pitch_j : voicing) {
+      if (pitch_i == pitch_j || pitch_j.getOctave() > 3) {
+        continue;
+      }
+      Interval interval = pitch_i - pitch_j;
+      if (interval < P5) {
+        if (pitch_i > pitch_j || flipWeightedCoin(0.8)) {
+            pitch_j += octave;
+        } else {
+            pitch_i += octave;
+        }
+      }
+    }
+  }
+}
 
 Tonality::Tonality(PitchClass root, vector<Interval> intervals): root(root), intervalsUpFromRoot(intervals) {
         std::sort(intervalsUpFromRoot.begin(), intervalsUpFromRoot.end());
@@ -70,8 +189,29 @@ vector<Pitch> Tonality::randomVoicing() const {
     vector<Pitch> pitches = getPitches();
     vector<Pitch> voicing;
     transform(pitches.begin(), pitches.end(), back_inserter(voicing), [](Pitch pitch) {
-        int octave = uniformInt(4, 6);
+        int octave = uniformInt(3, 6);
         return Pitch(pitch.getPitchClass(), octave);
+    });
+    return voicing;
+}
+
+vector<Pitch> Tonality::smoothVoicing(vector<Pitch> previousVoicing) const {
+    vector<int> octaves = {3,4,5,6};
+    vector<Pitch> voicing = mapp<Pitch>(getPitches(), [&](Pitch pitch) {
+        vector<Pitch> options = mapp<int, Pitch>(octaves, [&](int octave) {
+            return Pitch(pitch.getPitchClass(), octave);
+        });
+        Pitch closest;
+        Interval closestDistance = IntervalCount;
+        for (Pitch precedingPitch : previousVoicing) {
+            for (Pitch option : options) {
+                if (option - precedingPitch < closestDistance) {
+                    closest = option;
+                    closestDistance = option - precedingPitch;
+                }
+            }
+        }
+        return closest;
     });
     return voicing;
 }
@@ -162,6 +302,15 @@ double Tonality::similarity(Tonality other) const {
     containedInThis /= other.getPitchClasses().size();
 
     return (containedInThis + containedInOther) / 2.; // return average of two contain measures. 
+}
+
+bool Tonality::includes(Tonality other) const {
+    bool isInThis = true;
+    vector<PitchClass> pitchClasses = this->getPitchClasses();
+    for(PitchClass inOther : other.getPitchClasses()) {
+        isInThis = isInThis && contains<PitchClass>(pitchClasses, inOther);
+    }
+    return isInThis;
 }
 
 Tonality Tonality::smoothModulation(int n, Direction direction) const {

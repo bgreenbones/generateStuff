@@ -91,6 +91,7 @@ T draw(std::vector<T> hat) {
 }
 
 template float draw<float>(std::vector<float> hat);
+template int draw<int>(std::vector<int> hat);
 template OrnamentSimple draw<OrnamentSimple>(std::vector<OrnamentSimple> hat);
 template Subdivision draw<Subdivision>(std::vector<Subdivision> hat);
 template SyncopationType draw<SyncopationType>(std::vector<SyncopationType> hat);
@@ -105,3 +106,5 @@ template Tonality draw<Tonality>(std::vector<Tonality> hat);
 template ChordScale draw<ChordScale>(std::vector<ChordScale> hat);
 template Direction draw<Direction>(std::vector<Direction> hat);
 template Timed draw<Timed>(std::vector<Timed> hat);
+template DynamicShape draw<DynamicShape>(std::vector<DynamicShape> hat);
+template DynamicLevel draw<DynamicLevel>(std::vector<DynamicLevel> hat);

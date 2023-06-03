@@ -49,8 +49,20 @@ static const vector<vector<Interval>> diatonicModes = {
   ionian, dorian, phrygian, lydian, mixolydian, aolean, lochrian
 };
 
+static const vector<Interval> majorTriad = { unison, M3, P5 };
+static const vector<Interval> minorTriad = { unison, m3, P5 };
+static const vector<Interval> diminishedTriad = { unison, m3, b5 };
+static const vector<Interval> augmentedTriad = { unison, M3, s5 };
 
+static const vector<Interval> major9chord = { unison, M3, P5, M7, M9 };
+static const vector<Interval> minor9chord = { unison, m3, P5, m7, M9 };
 
+namespace voicing {
+  double crunch(vector<Pitch> const& voicing);
+  void decreaseCrunch(vector<Pitch> & voicing);
+  void decreaseSpread(vector<Pitch> & voicing);
+  void preventRumble(vector<Pitch> & voicing);
+}
 
 class Tonality {
 public:
@@ -68,10 +80,12 @@ public:
     vector<Pitch> getPitches(int octave = 3) const;
     vector<PitchClass> getPitchClasses() const;
     vector<Pitch> randomVoicing() const;
+    vector<Pitch> smoothVoicing(vector<Pitch> lastVoicing) const;
     Tonality getMode(int n) const;
     Tonality harmonyToScale() const;
     Tonality scaleToHarmony() const;
     double similarity(Tonality other) const;
+    bool includes(Tonality other) const;
     Tonality smoothModulation(int n, Direction direction) const;
     Tonality raise(int n) const;
     Tonality lower(int n) const;

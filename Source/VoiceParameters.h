@@ -10,13 +10,16 @@
 
 #pragma once
 
+#ifndef VOICEPARAMETERS_H
+
 #include <vector>
+#include <string>
 #include <JuceHeader.h>
 
 
 using juce::NormalisableRange, juce::StringArray;
 using juce::AudioParameterFloat, juce::AudioParameterChoice, juce::AudioParameterBool;
-using std::vector;
+using std::vector, std::string;
 
 enum ParameterType {
     knob, choice, button
@@ -78,10 +81,7 @@ static const juce::String randomHarmonyApproachKey = "random";
 static const juce::String diatonicHarmonyApproachKey = "diatonic";
 static const juce::String smoothishModulationsHarmonyApprachKey = "smoothish modulations";
 static const juce::StringArray harmonyApproaches = { randomHarmonyApproachKey, diatonicHarmonyApproachKey, smoothishModulationsHarmonyApprachKey };
-static HarmonyApproach getHarmonyApproach(juce::String approach) {
-    return (HarmonyApproach) harmonyApproaches.indexOf(approach);
-}
-
+HarmonyApproach getHarmonyApproach(juce::String approach);
 static const vector<Parameter> harmonyParameters {
     Parameter(harmonyApproachKey, "approach", harmonyApproaches, 1),
     Parameter(harmonyDensityKey, "harmony density", densityRange, 0.7, ""),
@@ -104,3 +104,7 @@ static const vector<Parameter> bassParameters {
     Parameter(bassBurstNoteLengthTwoKey, "burst note length 2", false, " subdivisions"),
     Parameter(bassBurstNoteLengthThreeKey, "burst note length 3", false, " subdivisions")
 };
+
+
+
+#endif

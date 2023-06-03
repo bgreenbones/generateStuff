@@ -5,7 +5,6 @@
               pluginCharacteristicsValue="pluginIsMidiEffectPlugin,pluginProducesMidiOut,pluginWantsMidiIn"
               cppLanguageStandard="17">
   <MAINGROUP id="MsxILz" name="generateStuff">
-    <GROUP id="{1F340CA5-7936-CCCD-FAE4-B8BBE23A3A37}" name="New Group"/>
     <GROUP id="{00999AAF-F7D5-2407-527D-4524909F0912}" name="Source">
       <GROUP id="{DCCBD608-3028-B941-FC99-E73F736C2121}" name="Music">
         <GROUP id="{AE91EE52-6503-4747-D707-8BCF1DF385A4}" name="Voices">
@@ -129,6 +128,8 @@
       <FILE id="TmiPLp" name="Random.h" compile="0" resource="0" file="Source/Random.h"/>
       <FILE id="sQSYQ8" name="VoiceParameters.h" compile="0" resource="0"
             file="Source/VoiceParameters.h"/>
+      <FILE id="RIOZ0i" name="VoiceParameters.cpp" compile="1" resource="0"
+            file="Source/VoiceParameters.cpp"/>
       <FILE id="ZCKUEe" name="Utility.h" compile="0" resource="0" file="Source/Utility.h"/>
       <FILE id="Zab2un" name="Utility.cpp" compile="1" resource="0" file="Source/Utility.cpp"/>
     </GROUP>

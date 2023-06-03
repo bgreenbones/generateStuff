@@ -16,6 +16,8 @@
 #include "Rhythm.h"
 
 namespace melody {
+    void arpeggiator(vector<Note>& notes,
+                    Tonality tonality);
     Pitch stepwiseMotion(vector<Note>& notes,
                         Sequence<ChordScale>& harmonies,
                         Pitch lastPitch,

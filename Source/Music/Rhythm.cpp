@@ -19,37 +19,52 @@
 void rhythm::multiplyTimeLength(vector<Timed>& timed, vector<Timed*> toMultiply, double multiplyBy) {
     for (auto timeIter = timed.begin(); timeIter < timed.end(); timeIter++) {
         Timed* time = &(*timeIter);
-        if (!contains<Timed*>(toMultiply, time)) {
-          continue;
-        }
+        if (!contains<Timed*>(toMultiply, time)) {continue;}
         
-        if (flipCoin()) {
-            // lengthen time by 2, erase next overlap
-            time->duration = 2 * time->duration;
-            if (timeIter + 1 == timed.end()) { continue; }
-            else if ((timeIter + 1)->startTime < time->endTime()) {
-                timed.erase(timeIter + 1);
-            }
-        } else {
-            // double stroke
-            time->duration = 0.5 * time->duration;
-            Timed doubleTime(*time);
-            doubleTime.startTime = time->endTime();
-            timeIter = timed.insert(timeIter + 1, doubleTime);
+        time->duration = multiplyBy * time->duration;
+        if (timeIter + 1 == timed.end()) { break; }
+        else if ((timeIter + 1)->containsPartially(*time)) {timed.erase(timeIter + 1);}
+    }
+}
+
+void rhythm::repeat(vector<Timed>& timed, vector<Timed*> toMultiply, double multiplyBy) {
+    if (multiplyBy >= 1) { return; }
+    for (auto timeIter = timed.begin(); timeIter < timed.end(); timeIter++) {
+        Timed* time = &(*timeIter);
+        if (!contains<Timed*>(toMultiply, time)) { continue; }
+        
+        Position originalEndTime = time->endTime();
+        time->duration = multiplyBy * time->duration;
+        Timed repetition(*time);
+        while (repetition.endTime() < originalEndTime) {
+            repetition.startTime = repetition.endTime();
+            if (repetition.endTime() > originalEndTime) {repetition.setEndTime(originalEndTime);}
+            timeIter = timed.insert(timeIter + 1, repetition);
         }
     }
 }
 
 vector<Timed*> rhythm::selectAtRandom(vector<Timed>& timed, Probability prob) {
     vector<Timed*> result;
-    for (auto it = timed.begin(); it < timed.end(); it++) {
+    for (Timed & time : timed) {
       if (prob) {
-        result.push_back(&(*it));
+        result.push_back(&time);
       }
     }
     return result;
 }
 
+vector<vector<Timed*>> rhythm::distinctSubsets(vector<Timed>& timed, int n, Probability prob) {
+    vector<Timed*> candidates = selectAtRandom(timed, prob);
+    vector<vector<Timed*>> result;
+    for (int i = 0; i < n; i++) {
+        result.push_back(vector<Timed*>());
+    }
+    for (Timed* time : candidates) {
+        result[rollDie(n - 1)].push_back(time);        
+    }
+    return result;    
+}
 vector<Timed> rhythm::onePerShortForLong(Duration longDuration, Duration shortDuration) {
     vector<Timed> timeds;
     int numberOfTimeds = longDuration / shortDuration;
@@ -193,14 +208,19 @@ Phrase rhythm::burst(Phrase fromPhrase, Note note, int minimumRepeats, int maxim
     vector<Subdivision> subdivs = fromPhrase.subdivisions.byPosition(note.startTime);
     Duration subdiv = subdivs.empty() ? sixteenths : subdivs.at(0);
     Duration noteLength = noteLengthInSubdivisions * subdiv;
+    note.duration = noteLength;
+    
     int numberOfPossibleBurstLengths = maximumRepeats - minimumRepeats;
     int numberOfNotes = rollDie(numberOfPossibleBurstLengths);
 
     vector<Timed> times = nOfLengthM(numberOfNotes, noteLength);
-    for (Timed time : times) {
-        Note repeatNote(note.pitch, note.velocity, note.startTime + time.startTime, noteLength);
-        fromPhrase.notes.add(repeatNote, PushBehavior::ignore, OverwriteBehavior::cutoff);
-    }
+    vector<Note> notes = Sequence<Note>::fromTimed(times, note);
+    fromPhrase.notes.insertVector(notes, note.startTime, PushBehavior::ignore, OverwriteBehavior::cutoff);
+    // for (Timed time : times) {
+    //     Note repeatNote(note.pitch, note.velocity, note.startTime + time.startTime, noteLength);
+    //     fromPhrase.notes.add(repeatNote, PushBehavior::ignore, OverwriteBehavior::cutoff);
+    // }
+    
     // for (double repeat = 0; repeat < numberOfNotes; repeat++) {
     //     Position position = note.startTime + repeat * noteLength;
     //     if (fromPhrase.notes.byStartPosition(position).empty()) {
