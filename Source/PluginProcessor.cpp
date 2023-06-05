@@ -227,19 +227,21 @@ float GenerateStuffAudioProcessor::bufferTimeFromPpqTime(juce::Optional<juce::Au
                 if (loop.ppqStart <= ppqTime) {
                     auto nowUntilLoopEnd = loop.ppqEnd - ppqPosition;
                     auto loopStartUntilNoteStart = ppqTime - loop.ppqStart;
-                    return (nowUntilLoopEnd + loopStartUntilNoteStart) * samplesPerBeat + 2; // + 2 ? I guess we're adding two + 1s demonstrated below?
+//                    return (nowUntilLoopEnd + loopStartUntilNoteStart) * samplesPerBeat + 2; // + 2 ? I guess we're adding two + 1s demonstrated below?
+                    return (nowUntilLoopEnd + loopStartUntilNoteStart) * samplesPerBeat;
                 }
             }
         }
     }
-    return (ppqTime - ppqPosition) * samplesPerBeat + 1; // + 1 seems to line things up better...
+//    return (ppqTime - ppqPosition) * samplesPerBeat + 1; // + 1 seems to line things up better...
+    return (ppqTime - ppqPosition) * samplesPerBeat;
 }
 
 
 bool GenerateStuffAudioProcessor::isPpqTimeInBuffer(juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo, double ppqPosition, float ppqTime) {
     float bufferTime = bufferTimeFromPpqTime(positionInfo, ppqPosition, ppqTime);
-//            return 0 <= bufferTime && bufferTime < mSamplesPerBlock;
-    return 0 < bufferTime && bufferTime <= mSamplesPerBlock; // todo: get actual lowest and highest indexes for the buffer instead of these guesses
+            return 0 <= bufferTime && bufferTime <= mSamplesPerBlock;
+//    return 0 < bufferTime && bufferTime <= mSamplesPerBlock; // todo: get actual lowest and highest indexes for the buffer instead of these guesses
 };
 
 
@@ -250,27 +252,46 @@ void GenerateStuffAudioProcessor::playNoteSequence(juce::MidiBuffer& midiMessage
     Timed scheduledTime,
     int midiChannel) {
 
-    int phraseLoopNumber = Quarters(ppqPosition) / noteSequence.parent.duration;
-    Position scheduledStartTime = scheduledTime.startTime + noteSequence.parent.startTime + phraseLoopNumber * noteSequence.parent.duration;
+    Position phraseStartPosition = scheduledTime.startTime + noteSequence.parent.startTime;
+    Position relativePosition = Quarters(ppqPosition) - phraseStartPosition;
+    int phraseLoopNumber = floor(relativePosition / noteSequence.parent.duration);
+    Position scheduledStartTime = phraseStartPosition + phraseLoopNumber * noteSequence.parent.duration;
     Position scheduledEndTime = scheduledTime.endTime();
 
     for (auto noteIt = noteSequence.begin(); noteIt != noteSequence.end(); ++noteIt) {
         Note note = *noteIt;
         
-        double noteOnTimeInQuarters = editorState.getDisplacement() + scheduledStartTime + note.startTime;
-        double noteOffTimeInQuarters = noteOnTimeInQuarters + note.duration;
+        // double noteOnTimeInQuarters = editorState.getDisplacement() + scheduledStartTime + note.startTime;
+        double noteOnTimeInQuarters = scheduledStartTime + note.startTime;
+//        Position phraseLoopWiseEndTime = scheduledStartTime + note.endTime() % noteSequence.parent.duration;
+        Position phraseLoopWiseEndTime = scheduledStartTime +
+            (note.endTime() > noteSequence.parent.duration
+                ? note.endTime() % noteSequence.parent.duration
+                : note.endTime());
+        // Position phraseLoopWiseEndTime = note.endTime() > noteSequence.parent.duration
+        //     ? note.endTime() - noteSequence.parent.duration
+        //     : note.endTime();
+        double noteOffTimeInQuarters = phraseLoopWiseEndTime < scheduledEndTime
+            ? phraseLoopWiseEndTime
+            : scheduledEndTime;
+        
+        // bool defensiveOffTime = relativePosition <= note.duration;
+        // bool pastFirstLoop = phraseLoopNumber > 0;
+        // if (defensiveOffTime && pastFirstLoop) {
+        //   noteOffTimeInQuarters -= noteSequence.parent.duration;
+        // }
 
-        if (!isPpqTimeInBuffer(positionInfo, ppqPosition, noteOnTimeInQuarters) &&
-            !isPpqTimeInBuffer(positionInfo, ppqPosition, noteOffTimeInQuarters)) {
-            while (ppqPosition > noteOffTimeInQuarters) { // might as well set it to be in the future
-                if (noteOnTimeInQuarters + noteSequence.parent.duration < scheduledEndTime) {
-                    noteOnTimeInQuarters += noteSequence.parent.duration;
-                    noteOffTimeInQuarters = noteOnTimeInQuarters + note.duration;
-                } else {
-                    break;
-                }
-            }
-        }
+        // if (!isPpqTimeInBuffer(positionInfo, ppqPosition, noteOnTimeInQuarters) &&
+        //     !isPpqTimeInBuffer(positionInfo, ppqPosition, noteOffTimeInQuarters)) {
+        //     while (ppqPosition > noteOffTimeInQuarters) { // might as well set it to be in the future
+        //         if (noteOnTimeInQuarters + noteSequence.parent.duration < scheduledEndTime) {
+        //             noteOnTimeInQuarters += noteSequence.parent.duration;
+        //             noteOffTimeInQuarters = noteOnTimeInQuarters + note.duration;
+        //         } else {
+        //             break;
+        //         }
+        //     }
+        // }
         
         if (isPpqTimeInBuffer(positionInfo, ppqPosition, noteOnTimeInQuarters)) {
             auto noteOn = juce::MidiMessage::noteOn (midiChannel,

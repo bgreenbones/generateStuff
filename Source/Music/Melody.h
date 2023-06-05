@@ -18,9 +18,9 @@
 namespace melody {
     void applyPitchSelector(vector<Note*> notes,
                     Sequence<ChordScale>& harmonies,
-                    Position cursor,
                     function<PitchClass(ChordScale)> pitchClassSelector,
-                    function<int()> octaveSelector);
+                    function<int()> octaveSelector,
+                    Position cursor);
     // void arpeggiator(vector<Note>& notes,
     //                 Tonality tonality);
     // void arpeggiator(vector<Note>& notes,

@@ -20,7 +20,10 @@ namespace rhythm {
   
     vector<Timed> onePerShortForLong(Duration longDuration, Duration shortDuration);
     vector<Timed> nOfLengthM(int n, Duration m);
-
+    vector<Timed> stabilityBased(Timed time, 
+                                  Sequence<Subdivision> subdivisions, 
+                                  double stabilityThreshold = 0., 
+                                  Probability filter = 0.6);
     
     template <typename T>
     vector<T*> selectAtRandom(vector<T>& t, Probability prob);

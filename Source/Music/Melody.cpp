@@ -59,9 +59,9 @@ int selectBassOctave() { return flipCoin() ? draw<int>({2, 3}) : draw<int>({3, 4
 
 void melody::applyPitchSelector(vector<Note*> notes,
                     Sequence<ChordScale>& harmonies,
-                    Position cursor,
                     function<PitchClass(ChordScale)> pitchClassSelector,
-                    function<int()> octaveSelector) {
+                    function<int()> octaveSelector,
+                    Position cursor = 0) {
     for (Note *note : notes) {
       note->pitch = Pitch(pitchClassSelector(harmonies.drawByPosition(cursor + note->startTime)),
                           octaveSelector());
@@ -80,21 +80,36 @@ Phrase melody::bass(Phrase harmony, Phrase rhythm, int minimumRepeats, int maxim
   for (ChordScale tonality : phrase.chordScales) { harmonicKeyPoints.emplace(tonality); keyPoints.emplace(tonality); }
   
   vector<Position> rhythmicPositions;
+  int i = 0;
   for (Timed keyPoint : keyPoints) {
     if (!contains<Timed>(harmonicKeyPoints, keyPoint) && flipWeightedCoin(0.4)) { continue; }
     rhythmicPositions.push_back(keyPoint.startTime);
     
     // ChordScale chordScale = phrase.chordScales.drawByPosition(keyPoint.startTime);
     // Tonality tonality = chordScale.harmony;
-    
-    Duration subdiv = rhythm.subdivisions.drawByPosition(keyPoint.startTime);
-    Duration noteLength = draw<float>(burstNoteLengthChoices) * subdiv;
-    
-    int numberOfNotes = uniformInt(minimumRepeats, maximumRepeats);
-    vector<Timed> times = rhythm::nOfLengthM(numberOfNotes, noteLength);
 
-    vector<Timed*> toHalf = rhythm::selectAtRandom<Timed>(times, 0.25);
-    rhythm::multiplyTimeLength(times, toHalf, 2);
+    vector<Timed> times = rhythm::stabilityBased(keyPoint, rhythm.subdivisions, 0.2, 0.3);
+    if (i > 6) {
+    // if (i <= 3) {
+      Duration subdiv = rhythm.subdivisions.drawByPosition(keyPoint.startTime);
+      Duration noteLength = draw<float>(burstNoteLengthChoices) * subdiv;
+      
+      int numberOfNotes = uniformInt(minimumRepeats, maximumRepeats);
+      times = rhythm::nOfLengthM(numberOfNotes, noteLength);
+      // vector<Timed> times = rhythm::nOfLengthM(numberOfNotes, noteLength);
+
+    }
+    if (i < 6) {
+      i++;
+    } else {
+      i = 0;
+    }
+    // vector<Timed*> toDouble = rhythm::selectAtRandom<Timed>(times, 0.25);
+    vector<vector<Timed*>> toDoubleOrTriple = rhythm::distinctSubsets<Timed>(times, 0.4, {0.7, 0.3});
+    vector<Timed*> toDouble = toDoubleOrTriple[0];
+    vector<Timed*> toTriple = toDoubleOrTriple[1];
+    rhythm::multiplyTimeLength(times, toDouble, 2);
+    rhythm::multiplyTimeLength(times, toTriple, 3);
     
     // Note note(Pitch(tonality.root, 3), 70, keyPoint.startTime, noteLength);
     // vector<Note> notes = Sequence<Note>::fromTimed(times, note);
@@ -103,11 +118,11 @@ Phrase melody::bass(Phrase harmony, Phrase rhythm, int minimumRepeats, int maxim
     vector<Note*> toArpeggiate = rootOrChordTones[0];
     vector<Note*> toRoot = rootOrChordTones[1];
     // arpeggiator(toArpeggiate, phrase.chordScales, keyPoint.startTime);
-    applyPitchSelector(toArpeggiate, phrase.chordScales, keyPoint.startTime, randomChordTone, selectBassOctave);
-    applyPitchSelector(toRoot, phrase.chordScales, keyPoint.startTime, selectHarmonicRoot, selectBassOctave);
+    applyPitchSelector(toArpeggiate, phrase.chordScales, randomChordTone, selectBassOctave, keyPoint.startTime);
+    applyPitchSelector(toRoot, phrase.chordScales, selectHarmonicRoot, selectBassOctave, keyPoint.startTime);
     
     // arpeggiator(notes, tonality);
-    phrase.notes.insertVector(notes, keyPoint.startTime, PushBehavior::ignore, OverwriteBehavior::cutoff);
+    phrase.notes.insertVector(notes, keyPoint.startTime, PushBehavior::truncate, OverwriteBehavior::cutoff);
   }
   
   dynamics::followAccents(phrase.notes, rhythmicPositions, mf, ff);

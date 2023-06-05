@@ -149,17 +149,19 @@ Phrase rhythm::rhythmicVariation(Phrase source) {
     return source;
 }
 
+// will be 0 < stability <= 1.0
 double rhythm::beatWiseStability(Position position) {
     Beats startingPoint = floor(position.asBeats());
     Beats positionInBeat = position - startingPoint;
-    if (positionInBeat == Beats(0.)) { positionInBeat += Beats(1); }
+    if (positionInBeat == Beats(0.)) { return 1.; }
+    // if (positionInBeat == Beats(0.)) { positionInBeat += Beats(1); }
     
     bool inFirstHalf = positionInBeat <= Beats(0.5);
     Beats halfWisePosition = inFirstHalf ? positionInBeat : positionInBeat - Beats(0.5);
     double halfWiseStability = halfWisePosition / Beats(0.5);
 
     // TODO: we need to use this to get -- lower stability scores in first half of beat, higher stability scores in second half of beat (highest of those is on the half way marker though) and highest scores are ON the beat
-    double secondHalfStablenessBoost = 0.4;
+    double secondHalfStablenessBoost = 0.3;
     double stability = inFirstHalf ? halfWiseStability : halfWiseStability + secondHalfStablenessBoost; // higher stabilities for second half
     stability /= (1. + secondHalfStablenessBoost); // normalize between 0 and 1
     
@@ -182,6 +184,28 @@ Phrase rhythm::stabilityBased(Phrase fromPhrase, Probability filter)
     }
     
     return fromPhrase;
+}
+
+vector<Timed> rhythm::stabilityBased(Timed time, 
+                                    Sequence<Subdivision> subdivisions, 
+                                    double stabilityThreshold, 
+                                    Probability filter)
+{
+    Position cursor = time.startTime;
+    vector<Timed> result;
+    while (cursor < time.endTime()) {
+        Subdivision subdiv = subdivisions.drawByPosition(cursor);
+        double stability = rhythm::beatWiseStability(cursor); 
+        double thresholdedStability = stability > stabilityThreshold 
+            ? (stability - stabilityThreshold) / (1. - stabilityThreshold)
+            : 0.; 
+        if(Probability(thresholdedStability) && filter) {
+            result.push_back(Timed(cursor - time.startTime, subdiv));
+        }
+        cursor += subdiv;
+    }
+    
+    return result;
 }
 
 
