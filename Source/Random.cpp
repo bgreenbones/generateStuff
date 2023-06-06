@@ -82,29 +82,33 @@ double boundedNormal(double min, double max, double thickness, double skew) { //
 
 
 template <class T>
-T draw(std::vector<T> hat) {
+T draw(std::vector<T> hat, std::vector<double> distribution) {
     if (hat.size() == 0) {
         std::cout << "real problem here";
         return T(); // TODO: use optional
     }
-    return hat[rollDie((int) hat.size()) - 1];
+    if (distribution.size() != hat.size()) {
+        return hat[rollDie((int) hat.size()) - 1];
+    }
+    std::discrete_distribution<int> dist (distribution.begin(), distribution.end());
+    return hat[dist(getGen())];
 }
 
-template float draw<float>(std::vector<float> hat);
-template int draw<int>(std::vector<int> hat);
-template OrnamentSimple draw<OrnamentSimple>(std::vector<OrnamentSimple> hat);
-template Subdivision draw<Subdivision>(std::vector<Subdivision> hat);
-template SyncopationType draw<SyncopationType>(std::vector<SyncopationType> hat);
-template Association draw<Association>(std::vector<Association> hat);
-template Note draw<Note>(std::vector<Note> hat);
+template float draw<float>(std::vector<float> hat, std::vector<double> distribution);
+template int draw<int>(std::vector<int> hat, std::vector<double> distribution);
+template OrnamentSimple draw<OrnamentSimple>(std::vector<OrnamentSimple> hat, std::vector<double> distribution);
+template Subdivision draw<Subdivision>(std::vector<Subdivision> hat, std::vector<double> distribution);
+template SyncopationType draw<SyncopationType>(std::vector<SyncopationType> hat, std::vector<double> distribution);
+template Association draw<Association>(std::vector<Association> hat, std::vector<double> distribution);
+template Note draw<Note>(std::vector<Note> hat, std::vector<double> distribution);
 
-template PitchClass draw<PitchClass>(std::vector<PitchClass> hat);
-template Pitch draw<Pitch>(std::vector<Pitch> hat);
-template Interval draw<Interval>(std::vector<Interval> hat);
-template vector<Interval> draw<vector<Interval>>(std::vector<vector<Interval>> hat);
-template Tonality draw<Tonality>(std::vector<Tonality> hat);
-template ChordScale draw<ChordScale>(std::vector<ChordScale> hat);
-template Direction draw<Direction>(std::vector<Direction> hat);
-template Timed draw<Timed>(std::vector<Timed> hat);
-template DynamicShape draw<DynamicShape>(std::vector<DynamicShape> hat);
-template DynamicLevel draw<DynamicLevel>(std::vector<DynamicLevel> hat);
+template PitchClass draw<PitchClass>(std::vector<PitchClass> hat, std::vector<double> distribution);
+template Pitch draw<Pitch>(std::vector<Pitch> hat, std::vector<double> distribution);
+template Interval draw<Interval>(std::vector<Interval> hat, std::vector<double> distribution);
+template vector<Interval> draw<vector<Interval>>(std::vector<vector<Interval>> hat, std::vector<double> distribution);
+template Tonality draw<Tonality>(std::vector<Tonality> hat, std::vector<double> distribution);
+template ChordScale draw<ChordScale>(std::vector<ChordScale> hat, std::vector<double> distribution);
+template Direction draw<Direction>(std::vector<Direction> hat, std::vector<double> distribution);
+template Timed draw<Timed>(std::vector<Timed> hat, std::vector<double> distribution);
+template DynamicShape draw<DynamicShape>(std::vector<DynamicShape> hat, std::vector<double> distribution);
+template DynamicLevel draw<DynamicLevel>(std::vector<DynamicLevel> hat, std::vector<double> distribution);

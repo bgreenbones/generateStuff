@@ -23,7 +23,7 @@ vector<T> filter(vector<T> toFilter, function<bool(T)> condition) {
 };
 
 template <typename T, typename U>
-vector<U> mapp(vector<T> toMap, function<U(T)> transformation) {
+vector<U> mapp(vector<T> const& toMap, function<U(T)> transformation) {
     vector<U> result;
     transform(toMap.begin(),
               toMap.end(),

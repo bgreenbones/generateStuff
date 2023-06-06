@@ -23,4 +23,4 @@ double boundedNormal(double min, double max, double thickness = 0);
 double boundedNormal(double min, double max, double thickness, double skew);
 
 template <typename T>
-T draw(std::vector<T> hat);
+T draw(std::vector<T> hat, std::vector<double> distribution = {});

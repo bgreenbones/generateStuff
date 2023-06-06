@@ -11,6 +11,7 @@
 #pragma once
 #include <vector>
 #include "Random.h"
+#include "Probability.h"
 
 using std::vector;
 
@@ -45,6 +46,7 @@ public:
     Pitch(PitchClass pitchClass, int octave);
     Pitch(int value);
     Pitch();
+    static Pitch randomInRange(PitchClass pitchClass, Pitch minimum, Pitch maximum);
     
     int getOctave() const;
     PitchClass getPitchClass() const;
@@ -53,4 +55,9 @@ public:
     Pitch operator-=(Interval interval);
     Interval operator-(Pitch other);
     
+    void within(Pitch const& other, Interval interval);
+    void makeCloserKeepPitchClass(Pitch const& other, Probability maybe = 0.6, Interval interval = tritone);
+
+    // void makeCloser(Pitch other);
+    // void maybeMakeCloser(Pitch other, Probability maybe = 0.6);
 };

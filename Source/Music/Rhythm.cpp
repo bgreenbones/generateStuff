@@ -84,7 +84,6 @@ vector<vector<T*>> rhythm::distinctSubsets(vector<T>& t, Probability prob, vecto
         result.push_back(vector<T*>());
     }
     for (T* time : candidates) {
-        // result[rollDie(n - 1)].push_back(time);        
         result[selectSubset(getGen())].push_back(time);
     }
     return result;    

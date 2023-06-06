@@ -123,7 +123,7 @@ Phrase harmony::generateChordScales(Phrase fromPhrase, HarmonyApproach approach,
             }
         }
     }
-    fromPhrase.chordScales.tie();
+    fromPhrase.chordScales.tie(true);
     return fromPhrase;
 }
 

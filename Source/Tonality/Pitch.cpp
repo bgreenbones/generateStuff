@@ -1,5 +1,4 @@
 /*
-  ==============================================================================
 
     Pitch.cpp
     Created: 23 Jan 2023 10:23:47pm
@@ -56,3 +55,33 @@ Pitch Pitch::operator-=(Interval interval) {
 Interval Pitch::operator-(Pitch other) {
     return (Interval) abs(pitchValue - other.pitchValue);
 }
+
+Pitch Pitch::randomInRange(PitchClass pitchClass, Pitch rangeMinimum, Pitch rangeMaximum) {
+    Pitch minimum = Pitch(pitchClass, rangeMinimum.getOctave());
+    if (minimum < rangeMinimum) { minimum += octave; }
+    Pitch maximum = Pitch(pitchClass, rangeMaximum.getOctave());
+    if (maximum > rangeMaximum) { maximum -= octave; }
+    int octave = uniformInt(minimum.getOctave(), maximum.getOctave());
+    return Pitch(pitchClass, octave);
+}
+
+    // void Pitch::makeCloser(Pitch other, Tonality tonality) {
+        
+    //     }
+    void Pitch::within(Pitch const& other, Interval interval) {
+        if (interval < tritone) { interval = tritone; }
+        while (*this - other > interval) {
+            makeCloserKeepPitchClass(other, interval);
+        }
+    }
+    void Pitch::makeCloserKeepPitchClass(Pitch const& other, Probability maybe, Interval interval) {
+        if (interval < tritone) { interval = tritone; }
+        if (*this - other > interval) {
+            if (*this > other) {
+                pitchValue -= octave;
+            } else {
+                pitchValue += octave;
+            }
+        }
+    }
+    // void Pitch::maybeMakeCloser(Pitch other, Probability maybe = 0.6);
