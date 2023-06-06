@@ -25,6 +25,29 @@ Pitch melody::stepwiseMotion(vector<Note>& notes,
   return lastPitch;
 }
 
+void melody::stepwiseMotion(vector<Note>& notes,
+                    Sequence<ChordScale>& scales,
+                    Pitch rangeMinimum, Pitch rangeMaximum
+                    // Interval maxJump
+                    ) {
+  Pitch lastPitch(uniformInt(rangeMinimum.pitchValue, rangeMaximum.pitchValue));
+  for (Note &note : notes) {
+      Direction direction = rollDie(2) == 2 ? Direction::down : Direction::up;
+      Pitch candidatePitch = scales.drawByPosition(note.startTime).scale
+          .step(lastPitch, direction);
+      if (candidatePitch < rangeMinimum) {
+        candidatePitch = scales.drawByPosition(note.startTime).scale
+            .step(lastPitch, Direction::up);
+      }
+      if (candidatePitch > rangeMaximum) {
+        candidatePitch = scales.drawByPosition(note.startTime).scale
+            .step(lastPitch, Direction::down);
+      }
+      note.pitch = candidatePitch;
+      lastPitch = note.pitch;
+  }
+}
+
 // void melody::arpeggiator(vector<Note>& notes,
 //                     Sequence<ChordScale>& harmonies,
 //                     Position cursor) {
@@ -185,7 +208,7 @@ Phrase melody::melody(Phrase harmony) {
         // convert to notes
         vector<Note> burstOfNotes = Sequence<Note>::fromTimed(burstOfTimes);
         // choose notes
-        lastPitch = stepwiseMotion(burstOfNotes, phrase.chordScales, lastPitch, cursor);
+        // lastPitch = stepwiseMotion(burstOfNotes, phrase.chordScales, lastPitch, cursor);
         
         Dynamics d = {
           .range = {
@@ -203,8 +226,9 @@ Phrase melody::melody(Phrase harmony) {
         // cursor = (phrase.notes.end() - 1)->endTime() + betweenBursts;
         cursor += burstLength * subdiv + betweenBursts;
     }
+    stepwiseMotion(phrase.notes, phrase.chordScales);
 
-     dynamics::randomAccents(phrase.notes, fffff);
+    dynamics::randomAccents(phrase.notes, fffff);
     
     return phrase;
 };

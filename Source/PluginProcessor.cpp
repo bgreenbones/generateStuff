@@ -281,17 +281,69 @@ void GenerateStuffAudioProcessor::playNoteSequence(juce::MidiBuffer& midiMessage
         //   noteOffTimeInQuarters -= noteSequence.parent.duration;
         // }
 
-        // if (!isPpqTimeInBuffer(positionInfo, ppqPosition, noteOnTimeInQuarters) &&
-        //     !isPpqTimeInBuffer(positionInfo, ppqPosition, noteOffTimeInQuarters)) {
-        //     while (ppqPosition > noteOffTimeInQuarters) { // might as well set it to be in the future
-        //         if (noteOnTimeInQuarters + noteSequence.parent.duration < scheduledEndTime) {
-        //             noteOnTimeInQuarters += noteSequence.parent.duration;
-        //             noteOffTimeInQuarters = noteOnTimeInQuarters + note.duration;
-        //         } else {
-        //             break;
-        //         }
-        //     }
-        // }
+        if (!isPpqTimeInBuffer(positionInfo, ppqPosition, noteOnTimeInQuarters)) {
+            while (ppqPosition > noteOnTimeInQuarters) { // might as well set it to be in the future
+                if (noteOnTimeInQuarters + noteSequence.parent.duration < scheduledEndTime) {
+                    noteOnTimeInQuarters += noteSequence.parent.duration;
+                } else {
+                    break;
+                }
+            }
+            
+        }
+        
+        if (!isPpqTimeInBuffer(positionInfo, ppqPosition, noteOnTimeInQuarters)) {
+            bool isLooping = positionInfo->getIsLooping();
+            if (isLooping) {
+                juce::AudioPlayHead::LoopPoints no_loop = juce::AudioPlayHead::LoopPoints();
+                juce::AudioPlayHead::LoopPoints loop = (positionInfo->getLoopPoints()).orFallback(no_loop);
+                
+                if (loop != no_loop) {
+                    if (loop.ppqStart < ppqPosition &&
+                        isPpqTimeInBuffer(positionInfo, ppqPosition, loop.ppqStart)) {
+                        while (scheduledStartTime >= noteOnTimeInQuarters) { // might as well set it to be in the future
+                            if (noteOnTimeInQuarters - noteSequence.parent.duration >= loop.ppqStart) {
+                                noteOnTimeInQuarters -= noteSequence.parent.duration;
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!isPpqTimeInBuffer(positionInfo, ppqPosition, noteOffTimeInQuarters)) {
+            while (ppqPosition > noteOffTimeInQuarters) { // might as well set it to be in the future
+                if (noteOffTimeInQuarters + noteSequence.parent.duration < scheduledEndTime) {
+                    noteOffTimeInQuarters += noteSequence.parent.duration;
+                } else {
+                    break;
+                }
+            }
+        }
+
+        
+        if (!isPpqTimeInBuffer(positionInfo, ppqPosition, noteOffTimeInQuarters)) {
+            bool isLooping = positionInfo->getIsLooping();
+            if (isLooping) {
+                juce::AudioPlayHead::LoopPoints no_loop = juce::AudioPlayHead::LoopPoints();
+                juce::AudioPlayHead::LoopPoints loop = (positionInfo->getLoopPoints()).orFallback(no_loop);
+                
+                if (loop != no_loop) {
+                    if (loop.ppqStart < ppqPosition &&
+                        isPpqTimeInBuffer(positionInfo, ppqPosition, loop.ppqStart)) {
+                        while (scheduledStartTime >= noteOffTimeInQuarters) { // might as well set it to be in the future
+                            if (noteOffTimeInQuarters - noteSequence.parent.duration >= loop.ppqStart) {
+                                noteOffTimeInQuarters -= noteSequence.parent.duration;
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
         
         if (isPpqTimeInBuffer(positionInfo, ppqPosition, noteOnTimeInQuarters)) {
             auto noteOn = juce::MidiMessage::noteOn (midiChannel,

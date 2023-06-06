@@ -33,6 +33,10 @@ namespace melody {
                         Sequence<ChordScale>& harmonies,
                         Pitch lastPitch,
                         Position cursor = 0);
+    void stepwiseMotion(vector<Note>& notes,
+                    Sequence<ChordScale>& scales,
+                    Pitch rangeMinimum = Pitch(45), Pitch rangeMaximum = Pitch(85)
+                    );
     Phrase bass(Phrase harmony, Phrase rhythm, int burstLengthMin, int burstLengthMax, vector<float> burstNoteLengthChoices = {});
     Phrase melody(Phrase harmony);
 }
