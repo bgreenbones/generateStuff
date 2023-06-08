@@ -37,6 +37,20 @@ vector<T> mapp(vector<T> toMap, function<T(T)> transformation) {
     return mapp<T, T>(toMap, transformation);
 };
 
+template <typename T>
+vector<T*> toPointerVector(typename vector<T>::iterator begin,
+                           typename vector<T>::iterator end) {
+  vector<T*> result;
+  while (begin < end) {
+    result.push_back(&(*begin++));
+  }
+  return result;  
+}
+
+template <typename T>
+vector<T*> toPointerVector(vector<T>& v) {
+  return toPointerVector<T>(v.begin(), v.end());
+}
 
 template <typename T>
 bool contains(vector<T> const& v, T const& e) {
@@ -46,4 +60,10 @@ template <typename T>
 bool contains(set<T> const& s, T const& e) {
   return std::find(s.begin(), s.end(), e) != s.end();
 }
-
+template <typename T>
+void sort(vector<T> v) {
+  sort(v.begin(), v.end(),
+    [](T const &a, T const &b) {
+    return a < b;
+  });
+}

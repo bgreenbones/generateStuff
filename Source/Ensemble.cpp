@@ -26,6 +26,8 @@ void Ensemble::writeSong() {
     Phrase chordsPhrase = harmony::smoothVoicings(harmony.loop(chordsPhraseLength), clavePhrase.loop(chordsPhraseLength));
     Phrase bassPhrase = melody::bass(harmony.loop(chordsPhraseLength), clavePhrase.loop(chordsPhraseLength), 1, 4, { 1 }); // burst length min, max, and note length choices
     Phrase leadPhrase = melody::melody(harmony.loop(leadPhraseLength));
+    chordsPhrase = harmony::voicingFills(chordsPhrase.loop(leadPhraseLength),
+                                         {bassPhrase.loop(leadPhraseLength), leadPhrase});
     
     dynamics::randomFlux(clavePhrase.notes);
     dynamics::randomFlux(cascaraPhrase.notes);

@@ -12,7 +12,105 @@
 #include "Rhythm.h"
 #include "Utility.h"
 
+Phrase harmony::voicingFills(Phrase unfilledVoicings, vector<Phrase> competingVoices) {
+  unfilledVoicings.subdivisions.tie(true);
 
+  vector<Position> startTimes = {0, unfilledVoicings.getDuration()};
+//   vector<Position> startTimes = {0 };
+  for (Phrase competingPhrase : competingVoices) {
+    sort(competingPhrase.notes.begin(), competingPhrase.notes.end(), 
+        [](Note const &a, Note const &b) {
+        return a.startTime < b.startTime;
+    });
+    for (Note note : competingPhrase.notes) {
+      if (note.startTime != startTimes[startTimes.size() - 1]) {
+        startTimes.push_back(note.startTime);
+      }
+      // startTimes.emplace(note.startTime);
+    }
+  }
+//   startTimes.push_back(unfilledVoicings.getDuration());
+  sort(startTimes);
+  
+  Phrase filledVoicings(unfilledVoicings);
+  vector<Timed> spaces;
+  Duration totalSpaceToFill = 0;
+  for (auto it = startTimes.begin(); it != startTimes.end(); it++) {
+    auto next = it + 1;
+    if (next == startTimes.end()) {
+      break;
+    }
+    Duration difference = *next - *it;
+    if (difference > unfilledVoicings.subdivisions.drawByPosition(*it)) {
+      spaces.push_back(Timed(*it, difference));
+      totalSpaceToFill += difference;
+    }
+  }
+
+  if (totalSpaceToFill / unfilledVoicings.getDuration() < 1./6.
+        || spaces.empty()) {
+    // in this case we might just add rhythms on top of other active voices 
+    // instead of trying to fill in space
+    return unfilledVoicings;
+  }
+
+  sort(spaces.begin(), spaces.end(), 
+        [](Timed const &a, Timed const &b) { return a.duration > b.duration; }); // longest to shortest
+
+
+  for (int i = 0; i < spaces.size() / 2 + 1; i++) {
+    if (flipCoin()) {// TODO: let's do better random
+      continue;
+    }
+    Timed spaceToFill = spaces[i];
+
+    
+    // vector<Timed> times = rhythm::stabilityBased(spaceToFill, unfilledVoicings.subdivisions, 0, 0.7);
+    Subdivision subdivision = unfilledVoicings.subdivisions.drawByPosition(spaceToFill.startTime);
+    int lengthInSubdivisions = rollDie(spaceToFill.duration / subdivision);
+    vector<Timed> times = rhythm::nOfLengthM(lengthInSubdivisions, subdivision);
+    vector<vector<Timed*>> toDoubleOrHalf = rhythm::distinctSubsets<Timed>(times, 0.5, {0.3, 0.1});
+    vector<Timed*> toDouble = toDoubleOrHalf[0];
+    vector<Timed*> toHalf = toDoubleOrHalf[1];
+    // // modify times
+    rhythm::multiplyTimeLength(times, toDouble, 2);
+    rhythm::repeat(times, toHalf, 0.5);
+    // convert to notes
+    // vector<Note> notes = Sequence<Note>::fromTimed(times);
+    vector<Note*> voicing;
+    for (Timed time : times) {
+        double displacementInSubdivisions = rollDie(time.duration / subdivision - lengthInSubdivisions);
+        Position realStartTime = spaceToFill.startTime + displacementInSubdivisions + time.startTime;
+        Position realEndTime = spaceToFill.startTime + displacementInSubdivisions + time.endTime();
+        vector<Note*> possibleVoicing = filledVoicings.notes.pointersByPosition(realStartTime);
+        if (possibleVoicing.size() > 1) {
+          voicing = possibleVoicing;
+
+          // get out of the way
+          // todo: only do this once for the new rhythm instead of for every note.
+          for (Note* note : possibleVoicing) { // TODO: this should probably abstracted out and refined
+              // TODO: this should maybe happen with a call to sequence.insert?
+            if (note->startTime < realStartTime) {
+                note->setEndTime(realStartTime);
+            }
+            if (note->startTime >= realStartTime ) {
+              note->setStartTime(realEndTime);
+            }
+            // todo: what if the voicing is both before AND after time? as in, it's long?
+          }
+        }
+
+        for (Note* note : voicing) {
+            Note toAdd = Note(*note);
+            toAdd.startTime = spaceToFill.startTime + displacementInSubdivisions+ time.startTime;
+            toAdd.duration = time.duration;
+            filledVoicings.notes.add(toAdd);
+        }
+    }
+  }
+
+  return filledVoicings;
+}
 
 ChordScale harmony::selectApproachAndGenerate(juce::String approach, vector<ChordScale> chordScales, Position startTime, Duration chordLength) {
     if (approach == randomHarmonyApproachKey || chordScales.empty()) {
@@ -167,7 +265,9 @@ Phrase harmony::smoothVoicings(Phrase harmony, Phrase rhythm) {
         voicing::decreaseSpread(voicing);
         voicing::preventRumble(voicing);
         for (Pitch pitchToAdd : voicing) {
-            Note noteToAdd(pitchToAdd.pitchValue, 70, note.startTime, chordScale.endTime() - note.startTime);
+            // int velocity = 70;
+            int velocity = 127 - pitchToAdd.pitchValue; // todo: this is cool but maybe we should be aware and control it somehwere
+            Note noteToAdd(pitchToAdd.pitchValue, velocity, note.startTime, chordScale.endTime() - note.startTime);
             harmony.addNote(noteToAdd);
         }
         lastVoicing = voicing;

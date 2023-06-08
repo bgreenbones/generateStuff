@@ -36,6 +36,7 @@ namespace harmony {
 
     Phrase randomVoicings(Phrase phrase);
     Phrase smoothVoicings(Phrase harmony, Phrase rhythm);
-    vector<ChordScale> onePerShortForLong(HarmonyApproach approach, Duration longDuration, Duration shortDuration);
+    Phrase voicingFills(Phrase unfilledVoicings, vector<Phrase> competingVoices = {});
+    // vector<ChordScale> onePerShortForLong(HarmonyApproach approach, Duration longDuration, Duration shortDuration);
 }
 

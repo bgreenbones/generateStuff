@@ -12,78 +12,32 @@
 #include "Ensemble.h"
 #include "Utility.h"
 
-Pitch melody::stepwiseMotion(vector<Note>& notes,
-                    Sequence<ChordScale>& harmonies,
-                    Pitch lastPitch,
-                    Position cursor) {
-  for (Note &note : notes) {
-      Direction direction = rollDie(2) == 2 ? Direction::down : Direction::up;
-      note.pitch = harmonies.drawByPosition(cursor + note.startTime).scale
-          .step(lastPitch, direction);
-      lastPitch = note.pitch;
-  }
-  return lastPitch;
-}
-
-void melody::stepwiseMotion(vector<Note>& notes,
+void melody::stepwiseMotion(vector<Note*> notes,
                     Sequence<ChordScale>& scales,
                     Pitch rangeMinimum, Pitch rangeMaximum
                     // Interval maxJump
                     ) {
   Pitch lastPitch(uniformInt(rangeMinimum.pitchValue, rangeMaximum.pitchValue));
-  for (Note &note : notes) {
+  for (Note *note : notes) {
       Direction direction = rollDie(2) == 2 ? Direction::down : Direction::up;
-      Pitch candidatePitch = scales.drawByPosition(note.startTime).scale
+      Pitch candidatePitch = scales.drawByPosition(note->startTime).scale
           .step(lastPitch, direction);
       if (candidatePitch < rangeMinimum) {
-        candidatePitch = scales.drawByPosition(note.startTime).scale
+        candidatePitch = scales.drawByPosition(note->startTime).scale
             .step(lastPitch, Direction::up);
       }
       if (candidatePitch > rangeMaximum) {
-        candidatePitch = scales.drawByPosition(note.startTime).scale
+        candidatePitch = scales.drawByPosition(note->startTime).scale
             .step(lastPitch, Direction::down);
       }
-      note.pitch = candidatePitch;
-      lastPitch = note.pitch;
+      note->pitch = candidatePitch;
+      lastPitch = note->pitch;
   }
 }
 
-// void melody::arpeggiator(vector<Note>& notes,
-//                     Sequence<ChordScale>& harmonies,
-//                     Position cursor) {
-//   vector<Note*> note_p;
-//   for (Note& note : notes) {
-//     note_p.push_back(&note);
-//   }
-//   return arpeggiator(note_p, harmonies, cursor);
-// }
-// void melody::arpeggiator(vector<Note*> notes,
-//                     Sequence<ChordScale>& harmonies,
-//                     Position cursor) {
-//   for (Note *note : notes) {
-//       note->pitch = draw<Pitch>(harmonies.drawByPosition(cursor + note->startTime).harmony.getPitches());
-//   }
-// }
-// void melody::arpeggiator(vector<Note>& notes,
-//                     Tonality tonality) {
-//   for (Note &note : notes) {
-//       // Direction direction = rollDie(2) == 2 ? Direction::down : Direction::up;
-//       note.pitch = flipWeightedCoin(0.6) 
-//         ? Pitch(tonality.root, flipCoin() ? draw<int>({2, 3}) : draw<int>({3, 4}))
-//         : draw<Pitch>(tonality.getPitches());
-//   }
-// }
 
 
-
-PitchClass selectHarmonicRoot(ChordScale chordScale) {return chordScale.harmony.root;}
-PitchClass randomChordTone(ChordScale chordScale) {return draw<PitchClass>(chordScale.harmony.getPitchClasses());}
-int selectBassOctave() { return flipCoin() ? draw<int>({2, 3}) : draw<int>({3, 4}); }
-
-
-
-
-Pitch bassMelody(vector<Note*> notes,
+void bassPitches(vector<Note*> notes,
                     Sequence<ChordScale>& harmonies,
                     Position cursor = 0) {
     // for (Note *note : notes) {
@@ -125,7 +79,6 @@ Phrase melody::bass(Phrase harmony, Phrase rhythm, int minimumRepeats, int maxim
   for (ChordScale tonality : phrase.chordScales) { harmonicKeyPoints.emplace(tonality); keyPoints.emplace(tonality); }
   
   vector<Position> rhythmicPositions;
-  int i = 0;
   for (Timed keyPoint : keyPoints) {
     if (!contains<Timed>(harmonicKeyPoints, keyPoint) && flipWeightedCoin(0.4)) { continue; }
     rhythmicPositions.push_back(keyPoint.startTime);
@@ -134,10 +87,8 @@ Phrase melody::bass(Phrase harmony, Phrase rhythm, int minimumRepeats, int maxim
     // Tonality tonality = chordScale.harmony;
 
     vector<Timed> times = rhythm::stabilityBased(keyPoint, rhythm.subdivisions, 0.1, 0.4);
-    // if (i > 6) {
     bool barIsEven = (int)floor(keyPoint.startTime.asBars()) % 2;
     if (barIsEven) {
-    // if (i <= 3) {
       Duration subdiv = rhythm.subdivisions.drawByPosition(keyPoint.startTime);
       Duration noteLength = draw<float>(burstNoteLengthChoices) * subdiv;
       
@@ -146,11 +97,7 @@ Phrase melody::bass(Phrase harmony, Phrase rhythm, int minimumRepeats, int maxim
       // vector<Timed> times = rhythm::nOfLengthM(numberOfNotes, noteLength);
 
     }
-    if (i < 6) {
-      i++;
-    } else {
-      i = 0;
-    }
+
     vector<vector<Timed*>> toDoubleOrTriple = rhythm::distinctSubsets<Timed>(times, 0.4, {0.7, 0.3});
     vector<Timed*> toDouble = toDoubleOrTriple[0];
     vector<Timed*> toTriple = toDoubleOrTriple[1];
@@ -158,14 +105,12 @@ Phrase melody::bass(Phrase harmony, Phrase rhythm, int minimumRepeats, int maxim
     rhythm::multiplyTimeLength(times, toTriple, 3);
     
     vector<Note> notes = Sequence<Note>::fromTimed(times);
-    vector<Note*> notes_p;
-    for (Note &note : notes) { notes_p.push_back(&note); }
     // vector<vector<Note*>> rootOrChordTones = rhythm::distinctSubsets<Note>(notes, 1, {0.4, 0.6});
     // vector<Note*> toArpeggiate = rootOrChordTones[0];
     // vector<Note*> toRoot = rootOrChordTones[1];
     // applyPitchSelector(toArpeggiate, phrase.chordScales, randomChordTone, selectBassOctave, keyPoint.startTime);
     // applyPitchSelector(toRoot, phrase.chordScales, selectHarmonicRoot, selectBassOctave, keyPoint.startTime);
-    bassMelody(notes_p, phrase.chordScales, keyPoint.startTime);
+    bassPitches(toPointerVector<Note>(notes), phrase.chordScales, keyPoint.startTime);
 
     phrase.notes.insertVector(notes, keyPoint.startTime, PushBehavior::truncate, OverwriteBehavior::cutoff);
   }
@@ -207,8 +152,6 @@ Phrase melody::melody(Phrase harmony) {
         rhythm::repeat(burstOfTimes, toHalf, 0.5);
         // convert to notes
         vector<Note> burstOfNotes = Sequence<Note>::fromTimed(burstOfTimes);
-        // choose notes
-        // lastPitch = stepwiseMotion(burstOfNotes, phrase.chordScales, lastPitch, cursor);
         
         Dynamics d = {
           .range = {
@@ -226,8 +169,9 @@ Phrase melody::melody(Phrase harmony) {
         // cursor = (phrase.notes.end() - 1)->endTime() + betweenBursts;
         cursor += burstLength * subdiv + betweenBursts;
     }
-    stepwiseMotion(phrase.notes, phrase.chordScales);
 
+    // choose notes
+    stepwiseMotion(toPointerVector<Note>(phrase.notes), phrase.chordScales);
     dynamics::randomAccents(phrase.notes, fffff);
     
     return phrase;

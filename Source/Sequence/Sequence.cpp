@@ -345,6 +345,16 @@ vector<T> Sequence<T>::byPosition(Position position) const {
     }
     return result;
 };
+template<class T>
+vector<T*> Sequence<T>::pointersByPosition(Position position) {
+    vector<T*> result;
+    for (auto it = this->begin(); it < this->end(); it++) {
+        if (it->contains(position)) {
+            result.push_back(&(*it));
+        }
+    }
+    return result;
+};
 // template<class T>
 // vector<T&> Sequence<T>::refsByPosition(Position position) const {
 //     vector<T&> result;
