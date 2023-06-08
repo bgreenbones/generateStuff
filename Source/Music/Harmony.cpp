@@ -12,43 +12,19 @@
 #include "Rhythm.h"
 #include "Utility.h"
 
+
+
 Phrase harmony::voicingFills(Phrase unfilledVoicings, vector<Phrase> competingVoices) {
   unfilledVoicings.subdivisions.tie(true);
 
-  vector<Position> startTimes = {0, unfilledVoicings.getDuration()};
-//   vector<Position> startTimes = {0 };
-  for (Phrase competingPhrase : competingVoices) {
-    sort(competingPhrase.notes.begin(), competingPhrase.notes.end(), 
-        [](Note const &a, Note const &b) {
-        return a.startTime < b.startTime;
-    });
-    for (Note note : competingPhrase.notes) {
-      if (note.startTime != startTimes[startTimes.size() - 1]) {
-        startTimes.push_back(note.startTime);
-      }
-      // startTimes.emplace(note.startTime);
-    }
-  }
-//   startTimes.push_back(unfilledVoicings.getDuration());
-  sort(startTimes);
   
   Phrase filledVoicings(unfilledVoicings);
-  vector<Timed> spaces;
-  Duration totalSpaceToFill = 0;
-  for (auto it = startTimes.begin(); it != startTimes.end(); it++) {
-    auto next = it + 1;
-    if (next == startTimes.end()) {
-      break;
-    }
-    Duration difference = *next - *it;
-    if (difference > unfilledVoicings.subdivisions.drawByPosition(*it)) {
-      spaces.push_back(Timed(*it, difference));
-      totalSpaceToFill += difference;
-    }
-  }
+  vector<Timed> spaces = rhythm::gaps(filledVoicings, competingVoices);
+  // Duration totalSpaceToFill = 0;
 
-  if (totalSpaceToFill / unfilledVoicings.getDuration() < 1./6.
-        || spaces.empty()) {
+  // if (totalSpaceToFill / unfilledVoicings.getDuration() < 1./6.
+  //       || spaces.empty()) {
+  if (spaces.empty()) {
     // in this case we might just add rhythms on top of other active voices 
     // instead of trying to fill in space
     return unfilledVoicings;
@@ -59,7 +35,7 @@ Phrase harmony::voicingFills(Phrase unfilledVoicings, vector<Phrase> competingVo
 
 
   for (int i = 0; i < spaces.size() / 2 + 1; i++) {
-    if (flipCoin()) {// TODO: let's do better random
+    if (flipWeightedCoin(0.3)) {// TODO: let's do better random
       continue;
     }
     Timed spaceToFill = spaces[i];
@@ -67,7 +43,10 @@ Phrase harmony::voicingFills(Phrase unfilledVoicings, vector<Phrase> competingVo
     
     // vector<Timed> times = rhythm::stabilityBased(spaceToFill, unfilledVoicings.subdivisions, 0, 0.7);
     Subdivision subdivision = unfilledVoicings.subdivisions.drawByPosition(spaceToFill.startTime);
-    int lengthInSubdivisions = rollDie(spaceToFill.duration / subdivision);
+    int subdivisionsInSpace = spaceToFill.duration / subdivision;
+    int lengthInSubdivisions = rollDie(subdivisionsInSpace);
+    double displacementInSubdivisions = rollDie(subdivisionsInSpace - lengthInSubdivisions);
+    Duration displacement = displacementInSubdivisions * subdivision;
     vector<Timed> times = rhythm::nOfLengthM(lengthInSubdivisions, subdivision);
     vector<vector<Timed*>> toDoubleOrHalf = rhythm::distinctSubsets<Timed>(times, 0.5, {0.3, 0.1});
     vector<Timed*> toDouble = toDoubleOrHalf[0];
@@ -79,11 +58,11 @@ Phrase harmony::voicingFills(Phrase unfilledVoicings, vector<Phrase> competingVo
     // vector<Note> notes = Sequence<Note>::fromTimed(times);
     vector<Note*> voicing;
     for (Timed time : times) {
-        double displacementInSubdivisions = rollDie(time.duration / subdivision - lengthInSubdivisions);
-        Position realStartTime = spaceToFill.startTime + displacementInSubdivisions + time.startTime;
-        Position realEndTime = spaceToFill.startTime + displacementInSubdivisions + time.endTime();
+        Position realStartTime = spaceToFill.startTime + displacement + time.startTime;
+        Position realEndTime = spaceToFill.startTime + displacement + time.endTime();
+        
         vector<Note*> possibleVoicing = filledVoicings.notes.pointersByPosition(realStartTime);
-        if (possibleVoicing.size() > 1) {
+        if (possibleVoicing.size() > 0) {
           voicing = possibleVoicing;
 
           // get out of the way
@@ -102,7 +81,7 @@ Phrase harmony::voicingFills(Phrase unfilledVoicings, vector<Phrase> competingVo
 
         for (Note* note : voicing) {
             Note toAdd = Note(*note);
-            toAdd.startTime = spaceToFill.startTime + displacementInSubdivisions+ time.startTime;
+            toAdd.startTime = realStartTime;
             toAdd.duration = time.duration;
             filledVoicings.notes.add(toAdd);
         }

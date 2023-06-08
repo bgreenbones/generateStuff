@@ -18,6 +18,8 @@ typedef string VoiceName;
 
 namespace rhythm {
   
+    vector<Timed> gaps(Phrase gapFiller, vector<Phrase> competingVoices);
+  
     vector<Timed> onePerShortForLong(Duration longDuration, Duration shortDuration);
     vector<Timed> nOfLengthM(int n, Duration m);
     vector<Timed> stabilityBased(Timed time, 

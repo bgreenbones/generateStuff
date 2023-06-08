@@ -61,7 +61,7 @@ bool contains(set<T> const& s, T const& e) {
   return std::find(s.begin(), s.end(), e) != s.end();
 }
 template <typename T>
-void sort(vector<T> v) {
+void sort(vector<T>& v) {
   sort(v.begin(), v.end(),
     [](T const &a, T const &b) {
     return a < b;

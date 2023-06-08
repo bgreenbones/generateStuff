@@ -492,7 +492,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "87"
             endingLineNumber = "87"
-            landmarkName = "draw(hat)"
+            landmarkName = "draw(hat, distribution)"
             landmarkType = "9">
             <Locations>
                <Location
@@ -2463,7 +2463,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "102"
             endingLineNumber = "102"
-            landmarkName = "harmony::voicingFills(unfilledVoicings, competingVoices)"
+            landmarkName = "harmony::selectApproachAndGenerate(approach, chordScales, startTime, chordLength)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2717,8 +2717,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "63"
             endingLineNumber = "63"
-            landmarkName = "bassMelody(notes, harmonies)"
-            landmarkType = "9">
+            landmarkName = "melody::applyPitchSelector(notes, harmonies, pitchClassSelector, octaveSelector)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2733,8 +2733,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "62"
             endingLineNumber = "62"
-            landmarkName = "bassMelody(notes, harmonies)"
-            landmarkType = "9">
+            landmarkName = "melody::applyPitchSelector(notes, harmonies, pitchClassSelector, octaveSelector)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -4315,7 +4315,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "26"
             endingLineNumber = "26"
-            landmarkName = "rhythm::multiplyTimeLength(timed, toMultiply, multiplyBy)"
+            landmarkName = "rhythm::gaps(gapFiller, competingVoices)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4871,7 +4871,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "4170F932-97E6-4960-A12F-21B066ED3760"
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/Music/Harmony.cpp"
@@ -4959,7 +4959,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "109"
             endingLineNumber = "109"
-            landmarkName = "harmony::voicingFills(unfilledVoicings, competingVoices)"
+            landmarkName = "harmony::randomChordScale(startTime, duration)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4991,7 +4991,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "111"
             endingLineNumber = "111"
-            landmarkName = "harmony::voicingFills(unfilledVoicings, competingVoices)"
+            landmarkName = "harmony::randomChordScale(startTime, duration)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4999,7 +4999,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "4F1D90FE-AC6E-442A-8692-8B4C2F41131D"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/Music/Harmony.cpp"
@@ -5007,8 +5007,40 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "106"
             endingLineNumber = "106"
-            landmarkName = "harmony::voicingFills(unfilledVoicings, competingVoices)"
-            landmarkType = "7">
+            landmarkName = "unknown"
+            landmarkType = "0">
+            <Locations>
+               <Location
+                  uuid = "4F1D90FE-AC6E-442A-8692-8B4C2F41131D - 86236f0dc0b45040"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::voicingFills(Phrase, std::__1::vector&lt;Phrase, std::__1::allocator&lt;Phrase&gt; &gt;)"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "106"
+                  endingLineNumber = "106"
+                  offsetFromSymbolStart = "4484">
+               </Location>
+               <Location
+                  uuid = "4F1D90FE-AC6E-442A-8692-8B4C2F41131D - 9b8084188275420f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "harmony::randomChordScale(Duration, Duration)"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Music/Harmony.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "106"
+                  endingLineNumber = "106"
+                  offsetFromSymbolStart = "48">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -5093,7 +5125,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "1236522E-9B5A-463B-914D-491DD99F76D2"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/Music/Harmony.cpp"
@@ -5109,7 +5141,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "B3F800D6-7ED8-464F-8324-6106B10EDF53"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/Music/Harmony.cpp"
@@ -5118,6 +5150,54 @@
             startingLineNumber = "48"
             endingLineNumber = "48"
             landmarkName = "harmony::voicingFills(unfilledVoicings, competingVoices)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6D6B481C-A158-4EFE-B662-ADCDB78A6C66"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Music/Harmony.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "harmony::voicingFills(unfilledVoicings, competingVoices)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FF7BD20D-002E-4758-B509-4699FB0B3A8A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Music/Rhythm.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "rhythm::gaps(gapFiller, competingVoices)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5548B0EC-ADC9-4381-BC21-BFD3227E6F55"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Music/Rhythm.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "rhythm::gaps(gapFiller, competingVoices)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

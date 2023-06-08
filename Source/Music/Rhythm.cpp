@@ -15,6 +15,50 @@
 #include "Utility.h"
 
 
+vector<Timed> rhythm::gaps(Phrase gapFiller, vector<Phrase> competingVoices) {
+
+  vector<Position> startTimes = {0};
+  vector<Position> allStartTimes = {0};
+  // Position longestPhraseDuration = 0;
+//   vector<Position> startTimes = {0 };
+  for (Phrase competingPhrase : competingVoices) {
+    // if (competingPhrase.getDuration() > longestPhraseDuration) {
+    //   longestPhraseDuration = competingPhrase.getDuration();
+    // }
+    for (Note note : competingPhrase.notes) {
+      if (note.startTime < gapFiller.getDuration()) {
+        allStartTimes.push_back(note.startTime);
+      }
+      // startTimes.emplace(note.startTime);
+    }
+  }
+  allStartTimes.push_back(gapFiller.getDuration());
+    
+  sort(allStartTimes);
+  for (Position startTime : allStartTimes) {
+      if (startTime != startTimes[startTimes.size() - 1]) {
+        startTimes.push_back(startTime);
+      }
+  }
+//   startTimes.push_back(unfilledVoicings.getDuration());
+  // sort(startTimes);
+  vector<Timed> spaces;
+  for (auto it = startTimes.begin(); it != startTimes.end(); it++) {
+    auto next = it + 1;
+    if (next == startTimes.end()) {
+      break;
+    }
+    Duration difference = *next - *it;
+    Subdivision subdivision = gapFiller.subdivisions.drawByPosition(*it);
+    Duration threshold = subdivision;
+    if (difference > threshold) {
+      spaces.push_back(Timed(*it, difference));
+    //   spaces.push_back(Timed(*it + threshold, difference - threshold));
+//      totalSpaceToFill += difference;
+    }
+  }
+  return spaces;
+}
 
 void rhythm::multiplyTimeLength(vector<Timed>& timed, vector<Timed*> toMultiply, double multiplyBy) {
     for (auto timeIter = timed.begin(); timeIter < timed.end(); timeIter++) {
