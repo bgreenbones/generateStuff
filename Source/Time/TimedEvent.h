@@ -53,8 +53,11 @@ public:
     
     Position endTime() const { return this->startTime + this->duration; }
     bool contains(const Position position) const { return this->startTime <= position && this->endTime() > position; }
-    bool containsPartially(const Timed &other) const { return this->startTime <= other.startTime && this->endTime() > other.startTime; }
-    bool containsCompletely(const Timed &other) const { return this->startTime <= other.startTime && this->endTime() >= other.endTime(); }
+    bool containsPartially(const Timed &other) const {
+        return (this->startTime <= other.startTime && this->endTime() > other.startTime)
+            || (other.startTime <= this->startTime && other.endTime() > this->startTime); }
+    bool containsCompletely(const Timed &other) const {
+        return (this->startTime <= other.startTime && this->endTime() >= other.endTime()); }
     
     // TODO: siighhh ideally this is like, pure virtual, but then inheriting classes implementing it actually take their SPECIFIC class as argument, not a TimedEvent
     // also we need instances of TimedEvent so it doesn't really work as purevirtual

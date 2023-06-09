@@ -45,7 +45,7 @@ Phrase harmony::voicingFills(Phrase unfilledVoicings, vector<Phrase> competingVo
     Subdivision subdivision = unfilledVoicings.subdivisions.drawByPosition(spaceToFill.startTime);
     int subdivisionsInSpace = spaceToFill.duration / subdivision;
     int lengthInSubdivisions = rollDie(subdivisionsInSpace);
-    double displacementInSubdivisions = rollDie(subdivisionsInSpace - lengthInSubdivisions);
+    double displacementInSubdivisions = uniformInt(0, subdivisionsInSpace - lengthInSubdivisions);
     Duration displacement = displacementInSubdivisions * subdivision;
     vector<Timed> times = rhythm::nOfLengthM(lengthInSubdivisions, subdivision);
     vector<vector<Timed*>> toDoubleOrHalf = rhythm::distinctSubsets<Timed>(times, 0.5, {0.3, 0.1});
@@ -61,10 +61,12 @@ Phrase harmony::voicingFills(Phrase unfilledVoicings, vector<Phrase> competingVo
         Position realStartTime = spaceToFill.startTime + displacement + time.startTime;
         Position realEndTime = spaceToFill.startTime + displacement + time.endTime();
         
-        vector<Note*> possibleVoicing = filledVoicings.notes.pointersByPosition(realStartTime);
+        vector<Note*> possibleVoicing = unfilledVoicings.notes.pointersByPosition(realStartTime);
         if (possibleVoicing.size() > 0) {
           voicing = possibleVoicing;
-
+//          if (voicing.size() < 3) {
+//            int i = 1;
+//          }
           // get out of the way
           // todo: only do this once for the new rhythm instead of for every note.
           for (Note* note : possibleVoicing) { // TODO: this should probably abstracted out and refined
@@ -78,8 +80,12 @@ Phrase harmony::voicingFills(Phrase unfilledVoicings, vector<Phrase> competingVo
             // todo: what if the voicing is both before AND after time? as in, it's long?
           }
         }
-
+//        vector<Pitch> pitches;
         for (Note* note : voicing) {
+//            if (contains(pitches, note->pitch)) {
+//              int i = 1;
+//            }
+//            pitches.push_back(note->pitch);
             Note toAdd = Note(*note);
             toAdd.startTime = realStartTime;
             toAdd.duration = time.duration;

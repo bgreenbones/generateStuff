@@ -54,7 +54,7 @@ public:
     Pitch operator+=(Interval interval);
     Pitch operator-=(Interval interval);
     Interval operator-(Pitch other);
-    
+
     void within(Pitch const& other, Interval interval);
     void makeCloserKeepPitchClass(Pitch const& other, Probability maybe = 0.6, Interval interval = tritone);
 

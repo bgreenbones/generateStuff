@@ -137,6 +137,11 @@ Tonality::Tonality(PitchClass root, vector<Interval> intervals): root(root), int
     };
 Tonality::Tonality(): Tonality(C, ionian) {};
 
+
+bool Tonality::containsPitch(Pitch pitch) const {
+  return contains(getPitchClasses(), pitch.getPitchClass());
+}
+
 int Tonality::stepHelper(Interval first, Direction direction) const {
     auto tonalityMemberInterval = std::find(intervalsUpFromRoot.begin(), intervalsUpFromRoot.end(), first);
     bool notInTonality = tonalityMemberInterval == intervalsUpFromRoot.end();

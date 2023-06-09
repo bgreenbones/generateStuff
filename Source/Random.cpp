@@ -29,6 +29,9 @@ std::mt19937 &getGen() {
 int uniformInt(int min, int max) {
     if (min > max) {
         std::cout << "nonsensical random call";
+        int temp = min;
+        min = max;
+        max = min;
     }
     int possibleNumbers = max - min + 1;
     int choice = ((rand() % possibleNumbers) + min);
@@ -43,6 +46,7 @@ double uniformDouble(double min, double max) {
 int rollDie(int sides) {
     if (sides < 1) {
         std::cout << "nonsensical random call";
+        return 0;
     }
     return uniformInt(1, sides);
 };

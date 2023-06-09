@@ -48,7 +48,7 @@ Pitch Pitch::operator+=(Interval interval) {
     return *this;
 }
 Pitch Pitch::operator-=(Interval interval) {
-    pitchValue += interval;
+    pitchValue -= interval;
     return *this;
 }
 

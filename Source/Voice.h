@@ -21,6 +21,8 @@
 typedef string VoiceName;
 using std::vector;
 
+class Ensemble;
+
 // TODO: change the key and the channel data into some other enum or struct type or something
 static const VoiceName claveKey = "clave";
 static const VoiceName cascaraKey = "cascara";

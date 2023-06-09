@@ -67,7 +67,8 @@ void rhythm::multiplyTimeLength(vector<Timed>& timed, vector<Timed*> toMultiply,
         
         time->duration = multiplyBy * time->duration;
         if (timeIter + 1 == timed.end()) { break; }
-        else if ((timeIter + 1)->containsPartially(*time)) {timed.erase(timeIter + 1);}
+        else if ((timeIter + 1)->containsPartially(*time)) {
+            timeIter = timed.erase(timeIter + 1) - 1;}
     }
 }
 

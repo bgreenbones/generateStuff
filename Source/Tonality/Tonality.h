@@ -75,6 +75,8 @@ public:
 private:
     int stepHelper(Interval first, Direction direction) const;
 public:
+    vector<int> intervals(vector<Pitch> pitches); // this should help transfer a shape to another tonality??
+    Pitch quantize(Pitch toQuantize) const;
     Pitch step(Pitch first, Direction direction = Direction::up) const;
     Pitch multiStep(Pitch first, int steps, Direction direction = Direction::up) const;
     vector<Pitch> getPitches(int octave = 3) const;
@@ -86,6 +88,7 @@ public:
     Tonality scaleToHarmony() const;
     double similarity(Tonality other) const;
     bool includes(Tonality other) const;
+    bool containsPitch(Pitch pitch) const;
     Tonality smoothModulation(int n, Direction direction) const;
     Tonality raise(int n) const;
     Tonality lower(int n) const;

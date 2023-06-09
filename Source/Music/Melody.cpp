@@ -20,15 +20,22 @@ void melody::stepwiseMotion(vector<Note*> notes,
   Pitch lastPitch(uniformInt(rangeMinimum.pitchValue, rangeMaximum.pitchValue));
   for (Note *note : notes) {
       Direction direction = rollDie(2) == 2 ? Direction::down : Direction::up;
-      Pitch candidatePitch = scales.drawByPosition(note->startTime).scale
-          .step(lastPitch, direction);
+      Tonality scale = scales.drawByPosition(note->startTime).scale;
+      Pitch candidatePitch = scale.step(lastPitch, direction);
+      // if (!scale.containsPitch(candidatePitch)) { // TODO: make stuff like this into asserts
+      //   int i = 1;
+      // }
       if (candidatePitch < rangeMinimum) {
-        candidatePitch = scales.drawByPosition(note->startTime).scale
-            .step(lastPitch, Direction::up);
+        candidatePitch = scale.step(lastPitch, Direction::up);
+      // if (!scale.containsPitch(candidatePitch)) {
+      //   int i = 1;
+      // }
       }
       if (candidatePitch > rangeMaximum) {
-        candidatePitch = scales.drawByPosition(note->startTime).scale
-            .step(lastPitch, Direction::down);
+        candidatePitch = scale.step(lastPitch, Direction::down);
+      // if (!scale.containsPitch(candidatePitch)) {
+      //   int i = 1;
+      // }
       }
       note->pitch = candidatePitch;
       lastPitch = note->pitch;
@@ -166,8 +173,8 @@ Phrase melody::melody(Phrase harmony) {
         phrase.notes.insertVector(burstOfNotes, cursor, PushBehavior::truncate);
 
         Duration betweenBursts = rollDie(12) * subdiv;
-        // cursor = (phrase.notes.end() - 1)->endTime() + betweenBursts;
-        cursor += burstLength * subdiv + betweenBursts;
+        cursor = phrase.notes.last()->endTime() + betweenBursts;
+        // cursor += burstLength * subdiv + betweenBursts;
     }
 
     // choose notes

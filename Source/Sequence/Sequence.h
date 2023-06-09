@@ -52,7 +52,8 @@ public:
     Sequence<T> toMonophonic() const;
     Sequence<T> toPolyphonic() const;
 
-    T primary() const { return longest<T>(*this); }
+    T primary() const {return longest<T>(*this);}
+    T* last() { return this->empty() ? nullptr : &(*this)[this->size() - 1];};
     vector<T> byPosition(Position position) const;
     vector<T*> pointersByPosition(Position position);
     // vector<T&> refsByPosition(Position position) const;

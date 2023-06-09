@@ -195,7 +195,8 @@ typename vector<T>::const_iterator next(Sequence<T> const& seq, typename vector<
         iter = iter + 1 == seq.end() ? seq.begin() : iter + 1;
         if (iter == seq.begin()) { break; }
     }
-    return iter + 1 == seq.end() ? seq.begin() : iter + 1;
+//    return iter + 1 == seq.end() ? seq.begin() : iter + 1;
+    return iter;
 }
 
 template <class T>
@@ -207,14 +208,5 @@ Duration timeBetween(T const& first, T const& second, Phrase phrase)
         : second.startTime + phrase.getDuration() - first.startTime;
 }
 
-typedef string VoiceName;
-// typedef function<Phrase(Phrase, GenerateStuffEditorState const&)> GenerationFunction;
-// typedef function<Phrase(Phrase, shared_ptr<Ensemble>, GenerateStuffEditorState const&)> GenerationFunction;
-// typedef function<Phrase(Ensemble const&, GenerateStuffEditorState const&)> GenerationFunction;
-
-class Ensemble;
-class Voice;
-typedef function<Phrase(Phrase, Ensemble&, GenerateStuffEditorState const&)> GenerationFunction;
-typedef function<Phrase(Voice const&)> GenerationFunction2;
 
 #endif /* Phrase_hpp */
