@@ -35,6 +35,7 @@ typedef enum Direction {
     down = -1, up = 1
 } Direction;
 
+Interval pitchClassInterval(PitchClass low, PitchClass high);
 PitchClass pitchClassIncrement(PitchClass pitch, Interval interval);
 
 class Pitch {
@@ -54,6 +55,7 @@ public:
     Pitch operator+=(Interval interval);
     Pitch operator-=(Interval interval);
     Interval operator-(Pitch other);
+    Pitch operator+(int other);
 
     void within(Pitch const& other, Interval interval);
     void makeCloserKeepPitchClass(Pitch const& other, Probability maybe = 0.6, Interval interval = tritone);

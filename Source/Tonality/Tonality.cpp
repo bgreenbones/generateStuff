@@ -10,6 +10,7 @@
 
 #include "Tonality.h"
 #include "Utility.h"
+#include "Note.hpp"
 
 
 double voicing::crunch(vector<Pitch> const& voicing) {
@@ -142,6 +143,34 @@ bool Tonality::containsPitch(Pitch pitch) const {
   return contains(getPitchClasses(), pitch.getPitchClass());
 }
 
+
+vector<Note> Tonality::quantize(vector<Note> toQuantize) const {
+  return mapp<Note>(toQuantize, [this](Note note) {
+    note.pitch = quantize(note.pitch);
+    return note;
+  });
+} 
+Pitch Tonality::quantize(Pitch toQuantize) const {
+    Interval intervalFromRoot = pitchClassInterval(root, toQuantize.getPitchClass());
+    auto tonalityMemberInterval = std::find(intervalsUpFromRoot.begin(), intervalsUpFromRoot.end(), intervalFromRoot);
+    bool inTonality = tonalityMemberInterval != intervalsUpFromRoot.end();
+    if (inTonality) {
+      return toQuantize;
+    }
+    auto lessIt = intervalsUpFromRoot.begin();
+    while (lessIt + 1 != intervalsUpFromRoot.end() && *(lessIt + 1) < intervalFromRoot) { lessIt++; }
+    int less = *lessIt < intervalFromRoot ? *lessIt : *(intervalsUpFromRoot.end()) - 12;
+    int more = lessIt + 1 != intervalsUpFromRoot.end() ? *(lessIt + 1) : *intervalsUpFromRoot.begin() + 12;
+    int quantizedInterval = intervalFromRoot - less < more - intervalFromRoot 
+      ? less
+      : intervalFromRoot - less > more - intervalFromRoot 
+        ? more
+        : flipCoin()
+          ? less
+          : more;
+    return Pitch(toQuantize.pitchValue + quantizedInterval - intervalFromRoot);
+}
+
 int Tonality::stepHelper(Interval first, Direction direction) const {
     auto tonalityMemberInterval = std::find(intervalsUpFromRoot.begin(), intervalsUpFromRoot.end(), first);
     bool notInTonality = tonalityMemberInterval == intervalsUpFromRoot.end();
@@ -166,10 +195,7 @@ int Tonality::stepHelper(Interval first, Direction direction) const {
 
 
 Pitch Tonality::step(Pitch first, Direction direction) const {
-    Interval firstInterval = root > first.getPitchClass()
-        ? (Interval) (12 + first.getPitchClass() - root)
-        : (Interval) (first.getPitchClass() - root);
-
+    Interval firstInterval = pitchClassInterval(root, first.getPitchClass());
     return Pitch(first.pitchValue + stepHelper(firstInterval, direction) - firstInterval);
 }
 

@@ -9,6 +9,12 @@
 
 #include "Pitch.h"
 
+Interval pitchClassInterval(PitchClass low, PitchClass high) {
+    return low > high
+        ? (Interval) (12 + high - low)
+        : (Interval) (high - low);
+}
+
 PitchClass pitchClassIncrement(PitchClass pitch, Interval interval) {
     return Pitch(pitch, 0).pitchFromInterval(interval, Direction::up).getPitchClass();
 }
@@ -54,6 +60,10 @@ Pitch Pitch::operator-=(Interval interval) {
 
 Interval Pitch::operator-(Pitch other) {
     return (Interval) abs(pitchValue - other.pitchValue);
+}
+
+Pitch Pitch::operator+(int other) {
+    return Pitch(this->pitchValue + other);
 }
 
 Pitch Pitch::randomInRange(PitchClass pitchClass, Pitch rangeMinimum, Pitch rangeMaximum) {

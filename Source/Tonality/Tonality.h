@@ -12,7 +12,7 @@
 
 #include "Pitch.h"
 
-
+class Note;
 
 static const vector<Interval> intervals = { unison, m2, M2, m3, M3, P4, tritone, P5, m6, M6, m7, M7, octave };
 static const vector<Interval> chromatic = { unison, m2, M2, m3, M3, P4, tritone, P5, m6, M6, m7, M7 };
@@ -75,7 +75,7 @@ public:
 private:
     int stepHelper(Interval first, Direction direction) const;
 public:
-    vector<int> intervals(vector<Pitch> pitches); // this should help transfer a shape to another tonality??
+    vector<Note> quantize(vector<Note> toQuantize) const; 
     Pitch quantize(Pitch toQuantize) const;
     Pitch step(Pitch first, Direction direction = Direction::up) const;
     Pitch multiStep(Pitch first, int steps, Direction direction = Direction::up) const;
