@@ -37,6 +37,7 @@ typedef enum Direction {
 
 Interval pitchClassInterval(PitchClass low, PitchClass high);
 PitchClass pitchClassIncrement(PitchClass pitch, Interval interval);
+Interval invert(Interval ToInvert);
 
 class Pitch {
 private:
@@ -53,6 +54,7 @@ public:
     PitchClass getPitchClass() const;
     Pitch pitchFromInterval(Interval interval, Direction direction) const;
     Pitch operator+=(Interval interval);
+    Pitch operator+=(int interval);
     Pitch operator-=(Interval interval);
     Interval operator-(Pitch other);
     Pitch operator+(int other);

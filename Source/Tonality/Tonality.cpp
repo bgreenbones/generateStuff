@@ -376,7 +376,21 @@ Tonality Tonality::smoothModulation(int n, Direction direction) const {
         return interval == toModulate ? modulated : interval;
     });
     
-    return Tonality(root, newIntervalsUpFromRoot).smoothModulation(n - 1, direction);
+    Tonality tempTonality = Tonality(root, newIntervalsUpFromRoot);
+    PitchClass newRoot = draw<PitchClass>(tempTonality.getPitchClasses());
+    int rootDifference = (int)root - (int)newRoot;
+    for (Interval& interval : newIntervalsUpFromRoot) {
+      if ((int)interval + rootDifference >= octave)
+      {
+        interval = (Interval)(interval + rootDifference - octave);
+      } else if ((int)interval + rootDifference < 0) {
+        interval = (Interval)(interval + octave + rootDifference);
+      } else {
+        interval = (Interval)(interval + rootDifference);
+      }
+    }
+    sort(newIntervalsUpFromRoot);
+    return Tonality(newRoot, newIntervalsUpFromRoot).smoothModulation(n - 1, direction);
 }
 
 

@@ -46,7 +46,8 @@ namespace melody {
     //                 Pitch rangeMinimum = Pitch(45), Pitch rangeMaximum = Pitch(85)
     //                 );
     Phrase bass(Phrase harmony, Phrase rhythm, int burstLengthMin, int burstLengthMax, vector<float> burstNoteLengthChoices = {});
-    Phrase melody(Phrase harmony);
+    Phrase streamOfConsciousness(Phrase harmony);
+    Phrase repeatingShape(Phrase harmony, Duration shapeLength);
 }
 
 

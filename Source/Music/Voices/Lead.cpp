@@ -33,7 +33,7 @@ Phrase Lead::newPhrase() const {
         harmonicDensity) 
     : generateFromPhrase;
 
-  Phrase phrase = melody::melody(harmony);
+  Phrase phrase = melody::streamOfConsciousness(harmony);
   
   
   dynamics::randomAccents(phrase.notes, mf, ff);
@@ -65,7 +65,7 @@ Phrase Lead::phraseFrom() const {
           harmonicDensity) 
       : generateFromPhrase;
 
-    Phrase phrase = melody::melody(harmony);
+    Phrase phrase = melody::streamOfConsciousness(harmony);
 
     dynamics::randomFlux(phrase.notes); // why the heck not give everything a little life.
     phrase.voice = name;

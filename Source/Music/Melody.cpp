@@ -128,13 +128,12 @@ Phrase melody::bass(Phrase harmony, Phrase rhythm, int minimumRepeats, int maxim
 };
 
 
-Phrase melody::melody(Phrase harmony) {
+Phrase melody::streamOfConsciousness(Phrase harmony) {
     Phrase phrase(harmony);
     phrase.notes = harmony.notes.toMonophonic();
     phrase.notes.clear();
     
     Position cursor = 0;
-    Pitch lastPitch(uniformInt(55, 75));
     while (cursor < phrase.getDuration()) {
         
         // get underlying phrase structures.
@@ -183,3 +182,41 @@ Phrase melody::melody(Phrase harmony) {
     
     return phrase;
 };
+
+Phrase melody::repeatingShape(Phrase harmony, Duration shapeLength) {
+    Phrase phrase(harmony);
+    phrase.notes = harmony.notes.toMonophonic();
+    phrase.notes.clear();
+
+    Phrase shortHarmony(harmony);
+    shortHarmony.setDuration(shapeLength);
+
+    Phrase shape = streamOfConsciousness(shortHarmony);
+    
+    Phrase result = shape.loop(harmony.getDuration());
+    result.chordScales = harmony.chordScales;
+    if (result.notes.empty()) {
+      return result;
+    }
+    
+    Tonality firstScale = harmony.chordScales.drawByPosition(result.notes[0].startTime).scale;
+    int transpose = 0;
+    int repetition = 1;
+    for (Note& note : result.notes) {
+        if (note.startTime >= repetition * shapeLength) {
+          repetition++;
+          Tonality scale = harmony.chordScales.drawByPosition(note.startTime).scale;
+          // if (scale.root != firstScale.root) {
+              Interval goUp = pitchClassInterval(firstScale.root, scale.root);
+              transpose = (int)goUp;
+              if (flipCoin()) {
+                  Interval goDown = invert(goUp);
+                  transpose = -(int)goDown;
+              }
+          // }
+        }
+        note.pitch += transpose;
+    }
+    result.pitchQuantize();
+    return result;
+}

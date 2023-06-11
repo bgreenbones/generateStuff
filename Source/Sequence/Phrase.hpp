@@ -150,10 +150,11 @@ public:
         return result;
     }
     
-    //
     Duration halfLength() const {
         return duration / 2.;
     };
+    void pitchQuantize();
+
     bool isNoteOnLeft(Note note) const { return note.startTime < halfLength(); };
     bool isNoteOnRight(Note note) const { return !isNoteOnLeft(note); };
 

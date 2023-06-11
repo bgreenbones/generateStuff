@@ -9,6 +9,11 @@
 
 #include "Pitch.h"
 
+Interval invert(Interval toInvert) {
+    int octaves = (int)toInvert / (int)octave;
+    int negative = (int) toInvert - (octaves * 2 + 1) * (int) octave;
+    return (Interval) abs(negative);
+}
 Interval pitchClassInterval(PitchClass low, PitchClass high) {
     return low > high
         ? (Interval) (12 + high - low)
@@ -50,6 +55,10 @@ Pitch Pitch::pitchFromInterval(Interval interval, Direction direction) const {
     return Pitch(newPitchValue);
 }
 Pitch Pitch::operator+=(Interval interval) {
+    pitchValue += interval;
+    return *this;
+}
+Pitch Pitch::operator+=(int interval) {
     pitchValue += interval;
     return *this;
 }

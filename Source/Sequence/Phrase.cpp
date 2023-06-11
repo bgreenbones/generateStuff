@@ -8,6 +8,28 @@
 #include "Phrase.hpp"
 #include <JuceHeader.h>
 
+
+void Phrase::pitchQuantize() {
+    if (notes.empty()) {
+        return;
+    }
+    // Tonality firstScale = chordScales.drawByPosition(notes[0].startTime).scale;
+    // int transpose = 0;
+    for (Note& note : notes) {
+        Tonality scale = chordScales.drawByPosition(note.startTime).scale;
+        // if (scale.root != firstScale.root) {
+        //     Interval goUp = pitchClassInterval(firstScale.root, scale.root);
+        //     transpose = (int)goUp;
+        //     if (flipCoin()) {
+        //         Interval goDown = invert(goUp);
+        //         transpose = -(int)goDown;
+        //     }
+        // }
+        // note.pitch += transpose;
+        note.pitch = scale.quantize(note.pitch);
+    }
+}
+
 Position Phrase::nextSubdivisionPosition(Position position) {
     Subdivision atPosition = subdivisions.drawByPosition(position);
     Position next = position + atPosition;
