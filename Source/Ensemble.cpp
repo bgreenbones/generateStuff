@@ -26,7 +26,8 @@ void Ensemble::writeSong() {
     Phrase chordsPhrase = harmony::smoothVoicings(harmony.loop(chordsPhraseLength), clavePhrase.loop(chordsPhraseLength));
     Phrase bassPhrase = melody::bass(harmony.loop(chordsPhraseLength), clavePhrase.loop(chordsPhraseLength), 1, 4, { 1 }); // burst length min, max, and note length choices
     // Phrase leadPhrase = melody::streamOfConsciousness(harmony.loop(leadPhraseLength));
-    Phrase leadPhrase = melody::repeatingShape(harmony.loop(leadPhraseLength), Beats(3));
+    // Phrase leadPhrase = melody::repeatingShape(harmony.loop(leadPhraseLength), Beats(3));
+    Phrase leadPhrase = melody::streamWithThemes(harmony.loop(leadPhraseLength));
     chordsPhrase = harmony::voicingFills(chordsPhrase.loop(leadPhraseLength),
                                          {bassPhrase.loop(leadPhraseLength), leadPhrase});
     

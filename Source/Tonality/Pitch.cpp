@@ -16,7 +16,7 @@ Interval invert(Interval toInvert) {
 }
 Interval pitchClassInterval(PitchClass low, PitchClass high) {
     return low > high
-        ? (Interval) (12 + high - low)
+        ? (Interval) (12 + (int)high - (int)low)
         : (Interval) (high - low);
 }
 
@@ -62,6 +62,10 @@ Pitch Pitch::operator+=(int interval) {
     pitchValue += interval;
     return *this;
 }
+Pitch Pitch::operator-=(int interval) {
+    pitchValue -= interval;
+    return *this;
+}
 Pitch Pitch::operator-=(Interval interval) {
     pitchValue -= interval;
     return *this;
@@ -74,33 +78,40 @@ Interval Pitch::operator-(Pitch other) {
 Pitch Pitch::operator+(int other) {
     return Pitch(this->pitchValue + other);
 }
+Pitch Pitch::operator-(int other) {
+    return Pitch(this->pitchValue - other);
+}
 
 Pitch Pitch::randomInRange(PitchClass pitchClass, Pitch rangeMinimum, Pitch rangeMaximum) {
     Pitch minimum = Pitch(pitchClass, rangeMinimum.getOctave());
-    if (minimum < rangeMinimum) { minimum += octave; }
+    while (minimum < rangeMinimum) { minimum += octave; }
     Pitch maximum = Pitch(pitchClass, rangeMaximum.getOctave());
-    if (maximum > rangeMaximum) { maximum -= octave; }
+    while (maximum > rangeMaximum) { maximum -= octave; }
     int octave = uniformInt(minimum.getOctave(), maximum.getOctave());
     return Pitch(pitchClass, octave);
 }
+void Pitch::keepInRange(Pitch rangeMinimum, Pitch rangeMaximum) {
+    while (*this < rangeMinimum) { *this += octave; }
+    while (*this > rangeMaximum) { *this -= octave; }
+}
 
-    // void Pitch::makeCloser(Pitch other, Tonality tonality) {
-        
-    //     }
-    void Pitch::within(Pitch const& other, Interval interval) {
-        if (interval < tritone) { interval = tritone; }
-        while (*this - other > interval) {
-            makeCloserKeepPitchClass(other, interval);
+// void Pitch::makeCloser(Pitch other, Tonality tonality) {
+    
+//     }
+void Pitch::within(Pitch const& other, Interval interval) {
+    if (interval < tritone) { interval = tritone; }
+    while (*this - other > interval) {
+        makeCloserKeepPitchClass(other, interval);
+    }
+}
+void Pitch::makeCloserKeepPitchClass(Pitch const& other, Probability maybe, Interval interval) {
+    if (interval < tritone) { interval = tritone; }
+    if (*this - other > interval) {
+        if (*this > other) {
+            pitchValue -= octave;
+        } else {
+            pitchValue += octave;
         }
     }
-    void Pitch::makeCloserKeepPitchClass(Pitch const& other, Probability maybe, Interval interval) {
-        if (interval < tritone) { interval = tritone; }
-        if (*this - other > interval) {
-            if (*this > other) {
-                pitchValue -= octave;
-            } else {
-                pitchValue += octave;
-            }
-        }
-    }
-    // void Pitch::maybeMakeCloser(Pitch other, Probability maybe = 0.6);
+}
+// void Pitch::maybeMakeCloser(Pitch other, Probability maybe = 0.6);

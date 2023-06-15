@@ -1181,7 +1181,7 @@
 					"/Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_processors/format_types/VST3_SDK",
 					"$(SRCROOT)/../../JuceLibraryCode",
 					"/Users/beng/experiments/musicDevelopment/JUCE/modules",
-					"$(SRCROOT)/../../Source",
+					"$(SRCROOT)/../../Source/**",
 					"/Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_plugin_client",
 					"$(inherited)",
 				);
@@ -1191,7 +1191,7 @@
 				LIBRARY_STYLE = Bundle;
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MTL_HEADER_SEARCH_PATHS = "/Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode /Users/beng/experiments/musicDevelopment/JUCE/modules $(SRCROOT)/../../Source /Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_plugin_client";
+				MTL_HEADER_SEARCH_PATHS = "/Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode /Users/beng/experiments/musicDevelopment/JUCE/modules $(SRCROOT)/../../Source/** /Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_plugin_client";
 				OTHER_LDFLAGS = "-bundle -lgenerateStuff2 -weak_framework Metal -weak_framework MetalKit";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.generateStuff;
 				PRODUCT_NAME = "generateStuff2";
@@ -1414,7 +1414,7 @@
 					"/Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_processors/format_types/VST3_SDK",
 					"$(SRCROOT)/../../JuceLibraryCode",
 					"/Users/beng/experiments/musicDevelopment/JUCE/modules",
-					"$(SRCROOT)/../../Source",
+					"$(SRCROOT)/../../Source/**",
 					"/Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_plugin_client",
 					"$(inherited)",
 				);
@@ -1424,7 +1424,7 @@
 				LIBRARY_STYLE = Bundle;
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MTL_HEADER_SEARCH_PATHS = "/Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode /Users/beng/experiments/musicDevelopment/JUCE/modules $(SRCROOT)/../../Source /Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_plugin_client";
+				MTL_HEADER_SEARCH_PATHS = "/Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode /Users/beng/experiments/musicDevelopment/JUCE/modules $(SRCROOT)/../../Source/** /Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_plugin_client";
 				OTHER_LDFLAGS = "-bundle -lgenerateStuff2 -weak_framework Metal -weak_framework MetalKit";
 				OTHER_REZFLAGS = "-d ppc_$ppc -d i386_$i386 -d ppc64_$ppc64 -d x86_64_$x86_64 -d arm64_$arm64 -I /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Versions/A/Headers -I \"$(DEVELOPER_DIR)/Extras/CoreAudio/AudioUnits/AUPublic/AUBase\" -I \"$(DEVELOPER_DIR)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/AudioUnit.framework/Headers\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.generateStuff;
@@ -1529,7 +1529,7 @@
 					"/Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_processors/format_types/VST3_SDK",
 					"$(SRCROOT)/../../JuceLibraryCode",
 					"/Users/beng/experiments/musicDevelopment/JUCE/modules",
-					"$(SRCROOT)/../../Source",
+					"$(SRCROOT)/../../Source/**",
 					"/Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_plugin_client",
 					"$(inherited)",
 				);
@@ -1537,7 +1537,7 @@
 				INFOPLIST_PREPROCESS = NO;
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MTL_HEADER_SEARCH_PATHS = "/Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode /Users/beng/experiments/musicDevelopment/JUCE/modules $(SRCROOT)/../../Source /Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_plugin_client";
+				MTL_HEADER_SEARCH_PATHS = "/Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode /Users/beng/experiments/musicDevelopment/JUCE/modules $(SRCROOT)/../../Source/** /Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_plugin_client";
 				OTHER_LDFLAGS = "-lgenerateStuff2 -weak_framework Metal -weak_framework MetalKit";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.generateStuff;
 				PRODUCT_NAME = "generateStuff2";
@@ -1801,14 +1801,14 @@
 					"/Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_processors/format_types/VST3_SDK",
 					"$(SRCROOT)/../../JuceLibraryCode",
 					"/Users/beng/experiments/musicDevelopment/JUCE/modules",
-					"$(SRCROOT)/../../Source",
+					"$(SRCROOT)/../../Source/**",
 					"/Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_plugin_client",
 					"$(inherited)",
 				);
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MTL_HEADER_SEARCH_PATHS = "/Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode /Users/beng/experiments/musicDevelopment/JUCE/modules $(SRCROOT)/../../Source /Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_plugin_client";
+				MTL_HEADER_SEARCH_PATHS = "/Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_processors/format_types/VST3_SDK $(SRCROOT)/../../JuceLibraryCode /Users/beng/experiments/musicDevelopment/JUCE/modules $(SRCROOT)/../../Source/** /Users/beng/experiments/musicDevelopment/JUCE/modules/juce_audio_plugin_client";
 				OTHER_LDFLAGS = "-weak_framework Metal -weak_framework MetalKit";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.generateStuff;
 				PRODUCT_NAME = "generateStuff2";

@@ -20,17 +20,17 @@
 
 
 template <class T>
-vector<T> Sequence<T>::fromTimed(vector<Timed> const& timed, T const& t) {
+vector<T> Sequence<T>::fromTimed(vector<Timed> const& timed, T const& t, Position cursor) {
     return mapp<Timed, T>(timed, [&](Timed time) {
         T newT = T(t);
-        newT.startTime = time.startTime;
+        newT.startTime = time.startTime + cursor;
         newT.duration = time.duration;
         return newT;
     });
 }
 template <class T>
-vector<T> Sequence<T>::fromTimed(vector<Timed> const& timed) {
-    return Sequence<T>::fromTimed(timed, T());
+vector<T> Sequence<T>::fromTimed(vector<Timed> const& timed, Position cursor) {
+    return Sequence<T>::fromTimed(timed, T(), cursor);
 }
 
 template <class T>

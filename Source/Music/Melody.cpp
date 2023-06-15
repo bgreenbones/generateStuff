@@ -41,13 +41,31 @@ void melody::stepwiseMotion(vector<Note*> notes,
       lastPitch = note->pitch;
   }
 }
+void melody::stepwiseMotion(vector<Note*> notes,
+                    Pitch rangeMinimum, Pitch rangeMaximum) {
+  Pitch lastPitch(uniformInt(rangeMinimum.pitchValue, rangeMaximum.pitchValue));
+  for (Note *note : notes) {
+      Direction direction = flipCoin() ? Direction::down : Direction::up;
+      Interval interval = flipCoin() ? M2 : m2;
+      Pitch candidatePitch = lastPitch + (int) direction * interval;
+      if (candidatePitch < rangeMinimum) {
+        candidatePitch = lastPitch + (int)interval;
+      }
+      if (candidatePitch > rangeMaximum) {
+        candidatePitch = lastPitch - (int)interval;
+      }
+      note->pitch = candidatePitch;
+      lastPitch = note->pitch;
+  }
+}
 
 
 
 void bassPitches(vector<Note*> notes,
                     Sequence<ChordScale>& harmonies,
                     Position cursor = 0) {
-    // for (Note *note : notes) {
+    Pitch bassMin = Pitch(A, 2); 
+    Pitch bassMax = Pitch(D, 5);
     for (int i = 0; i <notes.size(); i++) {
       Note *note = notes[i];
       Note *previousNote = notes[max(i - 1,0)];
@@ -55,10 +73,9 @@ void bassPitches(vector<Note*> notes,
       PitchClass root = chordScale.harmony.root;
       PitchClass chordTone = draw<PitchClass>(chordScale.harmony.getPitchClasses());
       PitchClass bassPitchClass = draw<PitchClass>({root, chordTone}, {0.6, 0.4});
-      note->pitch = Pitch::randomInRange(bassPitchClass,
-                            Pitch(Gb, 2), Pitch(F, 4));
+      note->pitch = Pitch::randomInRange(bassPitchClass, bassMin, bassMax);
       note->pitch.makeCloserKeepPitchClass(previousNote->pitch, 0.7);
-      
+      note->pitch.keepInRange(bassMin, bassMax);
     }
 }
 
@@ -137,12 +154,12 @@ Phrase melody::streamOfConsciousness(Phrase harmony) {
     while (cursor < phrase.getDuration()) {
         
         // get underlying phrase structures.
-        vector<ChordScale> chordScales = phrase.chordScales.byPosition(cursor);
-        if (chordScales.empty()) {
-            cursor += 1;
-            continue;
-        }
-        ChordScale chordScale = chordScales.at(0);
+        // vector<ChordScale> chordScales = phrase.chordScales.byPosition(cursor);
+        // if (chordScales.empty()) {
+        //     cursor += 1;
+        //     continue;
+        // }
+        // ChordScale chordScale = chordScales.at(0);
         vector<Subdivision> subdivs = phrase.subdivisions.byPosition(cursor);
         Duration subdiv = subdivs.empty() ? sixteenths : subdivs.at(0);
         
@@ -182,6 +199,131 @@ Phrase melody::streamOfConsciousness(Phrase harmony) {
     
     return phrase;
 };
+
+// todo: doesn't work yet for max jump less than and octave
+void melody::decreaseSpread(vector<Note> & melody, Interval maxJump) {
+  if (melody.size() < 2) {
+    return;
+  }
+  Interval firstRoundInterval = max(maxJump, octave);
+  for (int i = 0; i < melody.size() - 1; i++) {
+    int j = i + 1;
+    int transpose = 0;
+    while (melody[i].pitch - melody[j].pitch >= firstRoundInterval) {
+      int pitchDifference = melody[j].pitch.pitchValue - melody[i].pitch.pitchValue;
+      int sign = pitchDifference / abs(pitchDifference);
+      transpose += sign * octave; 
+      melody[j].pitch -= sign * octave;
+    }
+    while (++j < melody.size()) {
+      melody[j].pitch -= transpose;
+    }
+  }
+}
+vector<Note> melody::shape(Duration shapeLength, Duration subdivision) {
+    Duration leadingRest = uniformInt(0, 4) * subdivision;
+    Position cursor = leadingRest;
+    vector<Note> result;
+    while (cursor < shapeLength) {
+      int maxDurationInSubdivisions = (shapeLength - cursor) / subdivision;
+      
+      // get stream of times
+      int longestBurst = min(12, maxDurationInSubdivisions);
+      int shortBurst = min(5, longestBurst);
+
+      int burstLength = rollDie(flipWeightedCoin(0.35) ? shortBurst : longestBurst);
+      vector<Timed> times = rhythm::doublesAndDiddles(rhythm::nOfLengthM(burstLength, subdivision));
+      vector<Note> notes = Sequence<Note>::fromTimed(times, cursor);
+      dynamics::shape(notes);
+      // choose notes
+      stepwiseMotion(toPointerVector<Note>(notes));
+      result.insert(result.end(), notes.begin(), notes.end());
+
+      Duration betweenBursts = rollDie(4) * subdivision;
+      cursor = result.back().endTime() + betweenBursts;
+    }
+    dynamics::randomAccents(result, fffff);
+    melody::decreaseSpread(result, octave);
+    return result;
+};
+
+// Pitch melody::highPitch = Pitch(85);
+// Pitch melody::lowPitch = Pitch(45);
+double pitchGravity(Pitch pitch) {
+  double range = Pitch::max - Pitch::min;
+  // double range = melody::highPitch.pitchValue - melody::lowPitch.pitchValue;
+  Pitch center = range / 2. + Pitch::min;
+  // Pitch center = range / 2. + melody::lowPitch.pitchValue;
+  return (pitch.pitchValue - center.pitchValue) / (range / 2.);
+}
+
+double pitchSlope(vector<Note> shape) {
+  if (shape.size() < 2) {
+    return 0;
+  }
+  if (shape.size() == 1) {
+    return 0;
+  }
+  double shapeWidth = shape.back().startTime - shape.front().endTime();
+  double shapeHeight = shape.back().pitch.pitchValue - shape.front().pitch.pitchValue;
+  // return shapeHeight / shapeWidth;
+  return shapeHeight;
+}
+
+Phrase melody::streamWithThemes(Phrase harmony) {
+    Phrase phrase(harmony);
+    phrase.notes = harmony.notes.toMonophonic();
+    phrase.notes.clear();
+
+    Subdivision subdivision = harmony.subdivisions.primary();
+    int numberOfThemes = 4;
+    vector<vector<Note>> themes;
+    while (numberOfThemes-- > 0) {
+      Duration themeLength = Beats(3 + numberOfThemes);
+      themes.push_back(shape(themeLength, subdivision));
+    }
+
+    Position cursor = 0;
+    // Tonality firstScale = harmony.chordScales[0].scale;
+    while (cursor < phrase.getDuration()) {
+        vector<Note> themeToInsert = draw<vector<Note>>(themes);
+        if (themeToInsert.empty()) {
+          continue;
+        }
+        // Tonality scale = harmony.chordScales.drawByPosition(themeToInsert[0].startTime).scale;
+        // Interval goUp = pitchClassInterval(firstScale.root, scale.root);
+        // int transpose = (int)goUp;
+        // if (flipCoin()) {
+        //     Interval goDown = invert(goUp);
+        //     transpose = -(int)goDown;
+        // }
+        // for (Note& note : themeToInsert) {
+        //     note.pitch += transpose;
+        // }
+        if (!phrase.notes.empty()) {
+          // Tonality scale = harmony.chordScales.drawByPosition(themeToInsert[0].startTime).scale;
+          int noJumpTranspose = phrase.notes.back().pitch.pitchValue - themeToInsert[0].pitch.pitchValue;
+          for (Note& note : themeToInsert) {
+              note.pitch += noJumpTranspose;
+          }
+          double gravity = pitchGravity(themeToInsert.back().pitch);
+          double slope = pitchSlope(themeToInsert);
+          int avoidExtremesTranspose = gravity * rollDie(24) + slope / rollDie(3);
+          for (Note& note : themeToInsert) {
+              note.pitch -= avoidExtremesTranspose;
+          }
+        }
+        // insert to phrase
+        phrase.notes.insertVector(themeToInsert, cursor, PushBehavior::truncate);
+
+        Duration betweenBursts = rollDie(8) * subdivision;
+        cursor = quantize(phrase.notes.last()->endTime() + betweenBursts, Beats(1));
+        // cursor += burstLength * subdiv + betweenBursts;
+    }
+    phrase.pitchQuantize();
+
+    return phrase;
+}
 
 Phrase melody::repeatingShape(Phrase harmony, Duration shapeLength) {
     Phrase phrase(harmony);

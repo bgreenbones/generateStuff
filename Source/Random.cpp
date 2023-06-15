@@ -105,6 +105,7 @@ template Subdivision draw<Subdivision>(std::vector<Subdivision> hat, std::vector
 template SyncopationType draw<SyncopationType>(std::vector<SyncopationType> hat, std::vector<double> distribution);
 template Association draw<Association>(std::vector<Association> hat, std::vector<double> distribution);
 template Note draw<Note>(std::vector<Note> hat, std::vector<double> distribution);
+template std::vector<Note> draw<std::vector<Note>>(std::vector<std::vector<Note>> hat, std::vector<double> distribution);
 
 template PitchClass draw<PitchClass>(std::vector<PitchClass> hat, std::vector<double> distribution);
 template Pitch draw<Pitch>(std::vector<Pitch> hat, std::vector<double> distribution);

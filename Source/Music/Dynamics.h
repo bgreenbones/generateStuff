@@ -7,10 +7,10 @@
 
   ==============================================================================
 */
-
 #pragma once
 
 #include "Duration.h"
+#include "Random.h"
 #include <vector>
 using namespace std;
 class Note; // just a forward declaration
@@ -52,7 +52,14 @@ typedef struct Dynamics {
 namespace dynamics {
     // todo: want to be generic over pitch, velocity, pressure, generic CC, uhhhh note length, uh,, other stuff, idk
     vector<Note>& shape(vector<Note>& source, int originVelocity, int targetVelocity);
-    vector<Note>& shape(vector<Note>& source, Dynamics dynamics);
+    vector<Note>& shape(vector<Note>& source, Dynamics dynamics = {
+        .range = {
+          .high = draw<DynamicLevel>({ff, fff, ffff}),
+          .median = draw<DynamicLevel>({p, mp, mf, f}),
+          .low = draw<DynamicLevel>({pp, ppp, pppp}),
+        },
+        .shape = draw<DynamicShape>({cresc, decresc, steady})
+      });
     vector<Note>& stretch(vector<Note> &source, DynamicRange targetRange);
     vector<Note>& stretch(vector<Note> &source, DynamicLevel targetMinimum, DynamicLevel targetMaximum);
     vector<Note>& randomFlux(vector<Note> &source, double minScale = 0.7, double maxScale = 1.3);

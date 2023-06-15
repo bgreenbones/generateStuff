@@ -15,6 +15,18 @@
 #include "Utility.h"
 
 
+vector<Timed> rhythm::doublesAndDiddles(vector<Timed> times) {
+    // choose times to modify
+    vector<vector<Timed*>> toDoubleOrHalf = rhythm::distinctSubsets<Timed>(times, 0.25, {0.3, 0.1});
+    vector<Timed*> toDouble = toDoubleOrHalf[0];
+    vector<Timed*> toHalf = toDoubleOrHalf[1];
+    // // modify times
+    rhythm::multiplyTimeLength(times, toDouble, 2);
+    rhythm::repeat(times, toHalf, 0.5);
+
+    return times;
+}
+    
 vector<Timed> rhythm::gaps(Phrase gapFiller, vector<Phrase> competingVoices) {
 
   vector<Position> startTimes = {0};
@@ -617,17 +629,17 @@ Phrase rhythm::randomClave(Phrase fromPhrase, int minNoteLengthInSubdivisions, i
     //   2. 2-sided - 2-3 and 3-2 - even 2-1 and 1-2 -  maybe 3-4 and 4-3 - maybe 2-4 and 4-2?
     //      a. the longer they are, the more can fit in?
     clave.setDuration(Bars(1));
-    int numNotes = getPotentialClaveNoteCount(clave, minNoteLength, maxNoteLength);
     // const int maxClaveNotes = 10; // a regular clave rhythm should really not have too many notes.
     // while (numNotes > maxClaveNotes) {
         // clave.duration -= Bars(1);
         // numNotes = getPotentialClaveNoteCount(clave, minNoteLength, maxNoteLength);
     // }
-    int notesOnLeft = chooseNumberOfNotesOnLeft(numNotes);
 
     bool constraintsBroken = false;
     int attempts = 0;
     do {
+        int numNotes = getPotentialClaveNoteCount(clave, minNoteLength, maxNoteLength);
+        int notesOnLeft = chooseNumberOfNotesOnLeft(numNotes);
         constraintsBroken = false;
         clave.notes.clear();
         attempts++;

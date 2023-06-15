@@ -44,6 +44,8 @@ private:
     static int getPitchValue(PitchClass pitchClass, int octave);
 public:
     int pitchValue;
+    static const int max = 127;
+    static const int min = 0;
     operator int() const;
     Pitch(PitchClass pitchClass, int octave);
     Pitch(int value);
@@ -53,14 +55,17 @@ public:
     int getOctave() const;
     PitchClass getPitchClass() const;
     Pitch pitchFromInterval(Interval interval, Direction direction) const;
-    Pitch operator+=(Interval interval);
     Pitch operator+=(int interval);
+    Pitch operator-=(int interval);
+    Pitch operator+=(Interval interval);
     Pitch operator-=(Interval interval);
     Interval operator-(Pitch other);
     Pitch operator+(int other);
+    Pitch operator-(int other);
 
     void within(Pitch const& other, Interval interval);
     void makeCloserKeepPitchClass(Pitch const& other, Probability maybe = 0.6, Interval interval = tritone);
+    void keepInRange(Pitch rangeMinimum, Pitch rangeMaximum);
 
     // void makeCloser(Pitch other);
     // void maybeMakeCloser(Pitch other, Probability maybe = 0.6);
