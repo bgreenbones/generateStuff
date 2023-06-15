@@ -65,7 +65,7 @@ public:
 //        DBG("...should this be pure virtual? but then timed event is an abstract class..which makes some things not work..");
 //        return false;
 //    };//= 0;
-    virtual bool equalsExcludingTime(Timed &other) const { return true; };
+    virtual bool equalsExcludingTime(Timed const& other) const { return true; };
 
 };
 

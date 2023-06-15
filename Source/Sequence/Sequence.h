@@ -214,7 +214,7 @@ public:
     bool operator< (const Note &other) { return startTime < other.startTime; }
     bool operator> (const Note &other) { return startTime > other.startTime; }
     
-    bool equalsExcludingTime(Note &other) {
+    bool equalsExcludingTime(Note const& other) const {
         return this->pitch == other.pitch &&
             this->velocity == other.velocity &&
             this->accented == other.accented &&

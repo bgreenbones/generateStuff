@@ -102,40 +102,47 @@ bool Sequence<T>::add(T toAdd, PushBehavior pushBehavior, OverwriteBehavior over
                 break;
         }
     }
-    
-    if (this->monophonic) {
-        vector<T> bad_examples;
-        switch (overwriteBehavior) {
-            case OverwriteBehavior::ignore:
-                copy_if(this->begin(),
-                        this->end(),
-                        back_inserter(bad_examples),
-                        [toAdd](T t) { return toAdd.containsPartially(t) || t.containsPartially(toAdd); });
-                if (bad_examples.size() > 0) {
-                    DBG ("trying to add timed event where other events are in its way");
-                    return false;
+
+    auto needToAvoidTimeOverlap = [this](T const a, T const b) { return monophonic || a.equalsExcludingTime(b); };
+    auto problematicOverlap = [this, needToAvoidTimeOverlap](T const toAdd) {
+                            return [this, needToAvoidTimeOverlap, toAdd](T t) { 
+                                    return needToAvoidTimeOverlap(toAdd, t) && toAdd.containsPartially(t);
+                                };
+                            };
+
+    vector<T> bad_examples;
+    switch (overwriteBehavior) {
+        case OverwriteBehavior::ignore:
+            copy_if(this->begin(), this->end(),
+                    back_inserter(bad_examples),
+                    problematicOverlap(toAdd));
+            if (bad_examples.size() > 0) {
+                DBG ("trying to add timed event where other events are in its way");
+                return false;
+            }
+            break;
+        case OverwriteBehavior::erase:
+            this->erase(std::remove_if(this->begin(), this->end(), problematicOverlap(toAdd)),
+                        this->end());
+            break;
+        case OverwriteBehavior::cutoff:
+            this->erase(std::remove_if(this->begin(), this->end(),
+                                        [this, needToAvoidTimeOverlap, toAdd](T t) { return toAdd.startTime == t.startTime
+                                                    && needToAvoidTimeOverlap(toAdd, t); }),
+                        this->end());
+            for (auto iter = this->begin(); iter != this->end(); iter++) {
+                if (!needToAvoidTimeOverlap(toAdd, *iter)) {
+                    continue;
                 }
-                break;
-            case OverwriteBehavior::erase:
-                this->erase(std::remove_if(this->begin(), this->end(),
-                                           [toAdd](T t) { return toAdd.containsPartially(t) || t.containsPartially(toAdd); }),
-                            this->end());
-                break;
-            case OverwriteBehavior::cutoff:
-                this->erase(std::remove_if(this->begin(), this->end(),
-                                           [toAdd](T t) { return toAdd.startTime == t.startTime; }),
-                            this->end());
-                for (auto iter = this->begin(); iter != this->end(); iter++) {
-                    if (toAdd.contains(iter->startTime)) {
-                        toAdd.duration = iter->startTime - toAdd.startTime;
-                    } else if (iter->contains(toAdd.startTime)) {
-                        iter->duration = toAdd.startTime - iter->startTime;
-                    }
+                if (toAdd.contains(iter->startTime)) {
+                    toAdd.setEndTime(iter->startTime);
+                } else if (iter->contains(toAdd.startTime)) {
+                    iter->setEndTime(toAdd.startTime);
                 }
-                break;
+            }
+            break;
 //            case default:
 //                break;
-        }
     }
     
     

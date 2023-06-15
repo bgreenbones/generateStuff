@@ -42,7 +42,7 @@ public:
         return *this;
     };
     
-    bool equalsExcludingTime(Subdivision &other) {
+    bool equalsExcludingTime(Subdivision const& other) const {
         return this->asQuarters() == other.asQuarters();
     }
     

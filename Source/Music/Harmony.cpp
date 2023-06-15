@@ -61,7 +61,8 @@ Phrase harmony::voicingFills(Phrase unfilledVoicings, vector<Phrase> competingVo
         Position realStartTime = spaceToFill.startTime + displacement + time.startTime;
         Position realEndTime = spaceToFill.startTime + displacement + time.endTime();
         
-        vector<Note*> possibleVoicing = unfilledVoicings.notes.pointersByPosition(realStartTime);
+        // vector<Note*> possibleVoicing = unfilledVoicings.notes.pointersByPosition(realStartTime);
+        vector<Note*> possibleVoicing = filledVoicings.notes.pointersByPosition(realStartTime);
         if (possibleVoicing.size() > 0) {
           voicing = possibleVoicing;
 //          if (voicing.size() < 3) {
@@ -69,16 +70,16 @@ Phrase harmony::voicingFills(Phrase unfilledVoicings, vector<Phrase> competingVo
 //          }
           // get out of the way
           // todo: only do this once for the new rhythm instead of for every note.
-          for (Note* note : possibleVoicing) { // TODO: this should probably abstracted out and refined
-              // TODO: this should maybe happen with a call to sequence.insert?
-            if (note->startTime < realStartTime) {
-                note->setEndTime(realStartTime);
-            }
-            if (note->startTime >= realStartTime ) {
-              note->setStartTime(realEndTime);
-            }
-            // todo: what if the voicing is both before AND after time? as in, it's long?
-          }
+          // for (Note* note : possibleVoicing) { // TODO: this should probably abstracted out and refined
+          //     // TODO: this should maybe happen with a call to sequence.insert?
+          //   if (note->startTime < realStartTime) {
+          //       note->setEndTime(realStartTime);
+          //   }
+          //   if (note->startTime >= realStartTime ) {
+          //     note->setStartTime(realEndTime);
+          //   }
+          //   // todo: what if the voicing is both before AND after time? as in, it's long?
+          // }
         }
 //        vector<Pitch> pitches;
         for (Note* note : voicing) {
@@ -89,7 +90,7 @@ Phrase harmony::voicingFills(Phrase unfilledVoicings, vector<Phrase> competingVo
             Note toAdd = Note(*note);
             toAdd.startTime = realStartTime;
             toAdd.duration = time.duration;
-            filledVoicings.notes.add(toAdd);
+            filledVoicings.notes.add(toAdd, PushBehavior::ignore, OverwriteBehavior::cutoff);
         }
     }
   }

@@ -27,5 +27,5 @@ public:
     ChordScale(char mininotation, Position startTime, Duration duration);
     
 public:
-    bool equalsExcludingTime(ChordScale &other) const;
+    bool equalsExcludingTime(ChordScale const& other) const;
 };

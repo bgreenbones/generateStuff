@@ -270,8 +270,8 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
             landmarkName = "add(toAdd, pushBehavior, overwriteBehavior)"
             landmarkType = "9">
             <Locations>
@@ -380,10 +380,10 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "151"
+            endingLineNumber = "151"
+            landmarkName = "add(toAdd, pushBehavior, overwriteBehavior)"
+            landmarkType = "9">
             <Locations>
                <Location
                   uuid = "5BFB9288-243B-4836-8C22-97C6A6605129 - cf55b86d9b091135"
@@ -763,8 +763,8 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "357"
-            endingLineNumber = "357"
+            startingLineNumber = "358"
+            endingLineNumber = "358"
             landmarkName = "pointersByPosition(position)"
             landmarkType = "9">
             <Locations>
@@ -2302,10 +2302,10 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "396"
-            endingLineNumber = "396"
-            landmarkName = "byStartPosition(position)"
-            landmarkType = "9">
+            startingLineNumber = "397"
+            endingLineNumber = "397"
+            landmarkName = "unknown"
+            landmarkType = "0">
             <Locations>
                <Location
                   uuid = "52049F85-4C35-4EC0-B14B-21BDDC6CA849 - 261e227de1c58c62"
@@ -2396,8 +2396,8 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
             landmarkName = "add(toAdd, pushBehavior, overwriteBehavior)"
             landmarkType = "9">
             <Locations>
@@ -2571,8 +2571,8 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "141"
-            endingLineNumber = "141"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
             landmarkName = "add(toAdd, pushBehavior, overwriteBehavior)"
             landmarkType = "9">
             <Locations>
@@ -2855,8 +2855,8 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "135"
-            endingLineNumber = "135"
+            startingLineNumber = "136"
+            endingLineNumber = "136"
             landmarkName = "add(toAdd, pushBehavior, overwriteBehavior)"
             landmarkType = "9">
             <Locations>
@@ -4453,8 +4453,8 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "180"
-            endingLineNumber = "180"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
             landmarkName = "unknown"
             landmarkType = "0">
             <Locations>
@@ -4531,9 +4531,9 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "177"
-            endingLineNumber = "177"
-            landmarkName = "insertSequence(other, startTime, pushBehavior, overwriteBehavior)"
+            startingLineNumber = "178"
+            endingLineNumber = "178"
+            landmarkName = "insertVector(other, startTime, pushBehavior, overwriteBehavior)"
             landmarkType = "9">
             <Locations>
                <Location
@@ -5051,8 +5051,8 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "398"
-            endingLineNumber = "398"
+            startingLineNumber = "399"
+            endingLineNumber = "399"
             landmarkName = "byStartPosition(position)"
             landmarkType = "9">
             <Locations>

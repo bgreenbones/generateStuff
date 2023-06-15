@@ -25,6 +25,6 @@ ChordScale::ChordScale(Position startTime, Duration duration): ChordScale(C, ion
 ChordScale::ChordScale(): ChordScale(C, chromatic) {};
 ChordScale::ChordScale(char mininotation, Position startTime, Duration duration): ChordScale(startTime, duration) {}
 
-bool ChordScale::equalsExcludingTime(ChordScale &other) const {
+bool ChordScale::equalsExcludingTime(ChordScale const& other) const {
     return other.scale == scale && other.harmony == harmony;
 }
