@@ -88,7 +88,6 @@ public:
         return modified;
     }
     
-    Sequence<Note> placeOrnament(OrnamentSimple ornamentSimple, double breadth) const;
     
     Pitch pitch;
     int velocity;

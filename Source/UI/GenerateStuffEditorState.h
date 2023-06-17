@@ -11,8 +11,8 @@
 #pragma once
 
 #include "Duration.h"
-#include "Subdivision.h"
 
+using std::map, std::string;
 
 
 class TransformEditorState {

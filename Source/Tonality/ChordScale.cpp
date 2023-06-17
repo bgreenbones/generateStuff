@@ -24,6 +24,7 @@ ChordScale::ChordScale(PitchClass root, vector<Interval> intervals): ChordScale(
 ChordScale::ChordScale(): ChordScale(C, chromatic) {};
 // ChordScale::ChordScale(char mininotation, Position startTime, Duration duration): ChordScale(startTime, duration) {}
 
-bool ChordScale::equalsExcludingTime(ChordScale const& other) const {
+bool ChordScale::operator==(ChordScale const & other) const {
     return other.scale == scale && other.harmony == harmony;
 }
+

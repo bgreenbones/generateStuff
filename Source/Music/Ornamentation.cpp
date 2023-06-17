@@ -76,12 +76,13 @@ Phrase Phrase::addOrnaments(vector<OrnamentSimple> possibleOrnaments, Probabilit
     Phrase ornamented = (*this);
     ornamented.ornamentationNotes.clear();
     for (auto noteIt = notes.begin(); noteIt < notes.end(); noteIt++) {
-        if (!noteIt->ornamented || !prob) {
+        if (!noteIt->item.ornamented || !prob) {
             continue;
         }
         OrnamentSimple ornament = draw<OrnamentSimple>(possibleOrnaments, {}); // todo: use probabilities map
-        Sequence<Note> ornamentNotes = noteIt->placeOrnament(ornament, breadth);
-        for_each(ornamentNotes.begin(), ornamentNotes.end(), [&](Note toAdd) -> void { ornamented.ornamentationNotes.add(toAdd); });
+        vector<Timed<Note>> ornamentNotes = placeOrnament(*noteIt, ornament, breadth);
+        ornamented.ornamentationNotes.insertVector(ornamentNotes);
+//        for_each(ornamentNotes.begin(), ornamentNotes.end(), [&](Timed<Note> toAdd) -> void { ornamented.ornamentationNotes.add(toAdd); });
     }
     return ornamented;
 }
@@ -92,17 +93,17 @@ Phrase Phrase::addOrnaments(OrnamentSimple ornament, Probability prob, double br
 
 
 DynamicLevel rollVelocity = pp;
-vector<Note> roll(Duration length, Subdivision subdivision) {
+vector<Timed<Note>> roll(Duration length, Duration subdivision) {
     double numNotesInFill = length.asQuarters() / subdivision.asQuarters();
     if (std::fmod(numNotesInFill, 1.) != 0) {
         DBG ("something's wrong");
     }
     
-    vector<Note> roll = Mininotation::parse<Note>(std::string(floor(numNotesInFill), 'x'), subdivision);
-    for (Note &note : roll) {
-        note.pitch += octave; // TODO: idk
-        note.isOrnament = true;
-        note.velocity = rollVelocity; // TODO: give a little variance above and below? crescendo/decrescendo into next note?
+    vector<Timed<Note>> roll = Mininotation::parse<Note>(std::string(floor(numNotesInFill), 'x'), subdivision);
+    for (Timed<Note> &note : roll) {
+        note.item.pitch += octave; // TODO: idk
+        note.item.isOrnament = true;
+        note.item.velocity = rollVelocity; // TODO: give a little variance above and below? crescendo/decrescendo into next note?
     }
     return roll;
 }
@@ -116,9 +117,9 @@ Phrase Phrase::withRoll(Position start, Position target, Association association
     
     Phrase withRoll(*this);
     double tuplet = (double) uniformInt(2, 4);
-    Duration subdivision = subdivisions.drawByPosition(start % this->duration) / tuplet;
+    Duration subdivision = subdivisions.drawByPosition(start % this->time.duration).item / tuplet;
     
-    vector<Note> rollNotes;
+    vector<Timed<Note>> rollNotes;
     switch (association) {
         case pickup:
             start = quantize(start, subdivision, target);
@@ -160,7 +161,7 @@ Phrase Phrase::fillWithRolls(Probability rollProb,
         Position targetNoteStartTime;
         if (nextNote == this->notes.end()) {
             nextNote = this->notes.begin();
-            targetNoteStartTime = nextNote->startTime + this->duration;
+            targetNoteStartTime = nextNote->startTime + this->time.duration;
         } else {
             targetNoteStartTime = nextNote->startTime;
         }
@@ -175,4 +176,28 @@ Phrase Phrase::fillWithRolls(Probability rollProb,
     }
     
     return filled;
+}
+
+vector<Timed<Note>> placeOrnament(Timed<Note> const& note, OrnamentSimple ornamentSimple, double breadth) {
+    Ornament ornament = getOrnament(ornamentSimple, breadth, gridded);
+    auto noteLength = (ornament.length / (float) ornament.numNotes);
+    
+    vector<Timed<Note>> ornamentNotes;
+    
+    for (unsigned short notesLeft = ornament.numNotes; notesLeft > 0; notesLeft--) {
+        Time ornamentTime;
+        Note ornamentNote;
+        auto offset = ornament.placement * noteLength * notesLeft;
+        ornamentTime.startTime = note.startTime + offset;
+        ornamentTime.duration = trunc(noteLength * 100.) / 100.; // truncate to avoid overlapping notes
+        ornamentNote.isOrnament = true;
+        ornamentNote.pitch += P5;
+        ornamentNotes.push_back(Timed<Note>(ornamentTime, ornamentNote));
+    }
+    
+    
+    
+//    ornamentNotes.events = applyDynamics(ornamentNotes.events, ornament.dynamics);
+    dynamics::shape(ornamentNotes, ornament.dynamics);
+    return ornamentNotes;
 }

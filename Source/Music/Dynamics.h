@@ -10,7 +10,6 @@
 #pragma once
 
 #include "TimedEvent.h"
-#include "Note.hpp"
 #include "Duration.h"
 #include "Random.h"
 #include <vector>
@@ -46,10 +45,10 @@ typedef struct DynamicRange {
     DynamicLevel median;
 } DynamicRange;
 
-typedef struct Dynamics {
+struct Dynamics {
     DynamicShape shape;
     DynamicRange range;
-} Dynamics;
+};
 
 
 namespace dynamics {

@@ -59,20 +59,29 @@ public:
             || (other.startTime <= this->startTime && other.endTime() > this->startTime); }
     bool containsCompletely(const Time &other) const {
         return (this->startTime <= other.startTime && this->endTime() >= other.endTime()); }
-    
-
     virtual bool equalsExcludingTime(Time const& other) const { return true; }; // TODO: remove when we can
+    
+    void trim(Time const& container) {
+        if (container.containsCompletely(*this)) { return; }
+        if(startTime < container.startTime) {
+            setStartTime(container.startTime);
+        }
+        if (endTime() > container.endTime()) {
+            setEndTime(container.endTime());
+        }
+    }
 };
 
 static const Time nullTime(0,0);
 
 template <typename T>
-class Timed : public Time, public T {
-// class Timed : public Time {
+// class Timed : public Time, public T {
+class Timed : public Time {
 public:
-    // T item;
-    Timed(Time time, T t): Time(time), T(t) {}
-    // Timed(Time time, T t): Time(time), item(t) {}
+    T item;
+    // Timed(Time time, T t): Time(time), T(t) {}
+    Timed(Time time, T t): Time(time), item(t) {}
+//    Timed(T t, Time time): Time(time), item(t) {}
     Timed(const Time& time): Time(time) {}
     Timed(): Time(nullTime) {}
     Timed(char mininotation, Position startTime, Duration duration): Time(startTime, duration) {
@@ -97,14 +106,13 @@ public:
     }
 
     bool equalsExcludingTime(Timed<T> const& other) const { 
-        // return item == other.item;
-        return T::operator==(other.item);
+         return item == other.item;
     };
     
     Timed<T>& operator=(Timed<T> const& other) {
         Time::operator=(other);
-        T::operator=(other);
-        // this->item = other.item;
+//        T::operator=(other);
+         this->item = other.item;
         return *this;
     };
     
@@ -112,7 +120,7 @@ public:
         Time::operator=(other); 
         return *this;
     };
+
+//    operator Time() const { return Time(startTime, duration); }
+    operator T() const { return item; }
 };
-
-
-

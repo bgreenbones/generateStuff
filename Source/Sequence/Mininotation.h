@@ -14,9 +14,13 @@
 #define mininotation_H
 
 #include <vector>
+
 #include "Duration.h"
 
 using namespace std;
+
+template <typename T>
+class Timed;
 
 class Mininotation {
 public:
@@ -98,7 +102,7 @@ public:
     }
     
     template <class T>
-    static vector<T> parse(std::string phraseString, Duration stepLength);
+    static vector<Timed<T>> parse(std::string phraseString, Duration stepLength);
 };
 
 # endif

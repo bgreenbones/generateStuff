@@ -41,7 +41,7 @@ namespace rhythm {
     vector<Time> onePerShortForLong(Duration longDuration, Duration shortDuration);
     vector<Time> nOfLengthM(int n, Duration m);
     vector<Time> stabilityBased(Time time, 
-                                  Sequence<Subdivision> subdivisions, 
+                                  Sequence<Duration> subdivisions, 
                                   double stabilityThreshold = 0., 
                                   Probability filter = 0.6);
     
@@ -74,7 +74,7 @@ namespace rhythm {
     Phrase flip(Phrase fromPhrase);
 
         
-    Phrase burst(Phrase fromPhrase, Note note, int minimumRepeats, int maximumRepeats, float noteLengthInSubdivisions = 1.);
+    Phrase burst(Phrase fromPhrase, Timed<Note> note, int minimumRepeats, int maximumRepeats, float noteLengthInSubdivisions = 1.);
 
 
     // 0. is super not stable, 1. is super stable.

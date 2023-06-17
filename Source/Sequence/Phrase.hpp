@@ -15,7 +15,6 @@
 #include <random>
 
 #include "Note.hpp"
-#include "Subdivision.h"
 #include "Syncopation.h"
 #include "Random.h"
 #include "Pitch.h"
@@ -29,54 +28,55 @@ static const Duration defaultSubdivision = Beats(0.25);
 static const Position defaultStartTime = Position(0, true);
 static const Duration defaultDuration = Bars(2, true);
 
-class Phrase: private Time
+class Phrase
 {
 public:
-    Position getStartTime() { return startTime; }
-    Position getEndTime() { return endTime(); }
-    void setStartTime(Position newStartTime) { startTime = newStartTime; }
-    Duration getDuration() { return duration; }
+    Time time;
+    Position getStartTime() { return time.startTime; }
+    Position getEndTime() { return time.endTime(); }
+    void setStartTime(Position newStartTime) { time.startTime = newStartTime; }
+    Duration getDuration() { return time.duration; }
     void setDuration(Duration newDuration) {
-        if (newDuration < duration) {      
+        if (newDuration < time.duration) {
             for (auto sequence : noteSequences) {
                 sequence->chopAfterDuration(newDuration);
             }
             subdivisions.chopAfterDuration(newDuration);
             chordScales.chopAfterDuration(newDuration);
         }
-        duration = newDuration;
+        time.duration = newDuration;
     }
     
     Phrase(Duration subdivision, Position startTime, Duration duration):
-        Time(startTime, duration),
-        notes(*this),
-        connectingNotes(*this),
-        ornamentationNotes(*this),
-        subdivisions(*this),
-        chordScales(*this)
+        time(startTime, duration),
+        notes(time),
+        connectingNotes(time),
+        ornamentationNotes(time),
+        subdivisions(time),
+        chordScales(time)
     {
-        this->subdivisions.add(Subdivision(subdivision, startTime, duration));
+        this->subdivisions.add(Timed<Duration>(Time(startTime, duration),subdivision));
     }
     Phrase(Position startTime, Duration duration): Phrase (defaultSubdivision, startTime, duration) {}
     Phrase(Duration duration): Phrase(defaultSubdivision, defaultStartTime, duration) {}
     Phrase(): Phrase(defaultSubdivision, defaultStartTime, defaultDuration) {}
     Phrase(Phrase const& other):
-        Time(other),
+        time(other.time),
         voice(other.voice),
         schedule(other.schedule),
-        notes(other.notes, *this),
-        connectingNotes(other.connectingNotes, *this),
-        ornamentationNotes(other.ornamentationNotes, *this),
-        subdivisions(other.subdivisions, *this),
-        chordScales(other.chordScales, *this)
+        notes(other.notes, time),
+        connectingNotes(other.connectingNotes, time),
+        ornamentationNotes(other.ornamentationNotes, time),
+        subdivisions(other.subdivisions, time),
+        chordScales(other.chordScales, time)
         {};
     Phrase& operator=(Phrase const& other) {
-        Time::operator=(other);
-        notes = Sequence<Note>(other.notes, *this);
-        connectingNotes = Sequence<Note>(other.connectingNotes, *this);
-        ornamentationNotes = Sequence<Note>(other.ornamentationNotes, *this);
-        subdivisions = Sequence<Duration>(other.subdivisions, *this);
-        chordScales = Sequence<ChordScale>(other.chordScales, *this);
+        time = other.time;
+        notes = Sequence<Note>(other.notes, time);
+        connectingNotes = Sequence<Note>(other.connectingNotes, time);
+        ornamentationNotes = Sequence<Note>(other.ornamentationNotes, time);
+        subdivisions = Sequence<Duration>(other.subdivisions, time);
+        chordScales = Sequence<ChordScale>(other.chordScales, time);
         voice = other.voice;
         schedule = other.schedule;
         return *this;
@@ -125,8 +125,8 @@ public:
     
     template <class T>
     static void addTimedEvent(T toAdd, vector<T>& eventList);
-    bool addNote(Note toAdd);
-    bool addSubdivision(Subdivision toAdd);
+    bool addNote(Timed<Note> toAdd);
+    bool addSubdivision(Timed<Duration> toAdd);
     void tieSubdivisions();
     void clear() { notes.clear(); subdivisions.clear(); };
     template <class T>
@@ -134,24 +134,24 @@ public:
     Phrase concat(Phrase other, bool useLastNote = false, bool keepDuration = false) const;
     Phrase insert(Phrase other, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignoreOverwrite) const;
     Phrase loop(Duration loopDuration) const {
-        if (this->duration == loopDuration) {
+        if (this->time.duration == loopDuration) {
             return *this;
         }
         Phrase result(*this);
-        while (result.duration < loopDuration) {
+        while (result.time.duration < loopDuration) {
             result.notes.concat(result.notes);
             result.connectingNotes.concat(result.connectingNotes);
             result.ornamentationNotes.concat(result.ornamentationNotes);
             result.subdivisions.concat(result.subdivisions);
             result.chordScales.concat(result.chordScales);
-            result.setDuration(2*result.duration);
+            result.setDuration(2*result.time.duration);
         }
         result.setDuration(loopDuration);
         return result;
     }
     
     Duration halfLength() const {
-        return duration / 2.;
+        return this->time.duration / 2.;
     };
     void pitchQuantize();
 
@@ -182,14 +182,14 @@ public:
     Phrase withRoll(Position start, Position target, Association association) const;
     
     // Mininotation stuff
-    Phrase parseMininotation(std::string phraseString, Subdivision subdivision);
+    Phrase parseMininotation(std::string phraseString, Duration subdivision);
     
 
 };
 
 // THIS ASSUMES SEQUENCE SORTED BY STARTTIME
 template <class T>
-typename vector<T>::const_iterator next(Sequence<T> const& seq, typename vector<T>::const_iterator iter) {
+typename vector<Timed<T>>::const_iterator next(Sequence<T> const& seq, typename vector<Timed<T>>::const_iterator iter) {
 //    typename vector<T>::const_iterator next(Sequence<T> const& seq, typename vector<T>::const_iterator const& iter) {
     Position startTime = iter->startTime;
     while(iter->startTime == startTime) {
@@ -201,7 +201,7 @@ typename vector<T>::const_iterator next(Sequence<T> const& seq, typename vector<
 }
 
 template <class T>
-Duration timeBetween(T const& first, T const& second, Phrase phrase)
+Duration timeBetween(Timed<T> const& first, Timed<T> const& second, Phrase phrase)
 
 {
     return first.startTime < second.startTime

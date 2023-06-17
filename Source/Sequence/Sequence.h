@@ -38,7 +38,7 @@ public:
     
     Sequence(vector<Timed<T>> events, bool monophonic, Time& parent): vector<Timed<T>>(events), monophonic(monophonic), parent(parent) {}
     Sequence(vector<Timed<T>> events, Time& parent): Sequence(events, true, parent) {}
-    Sequence(Time &parent): Sequence({}, parent) {}
+    Sequence(Time& parent): Sequence({}, parent) {}
     Sequence(Sequence other, Time& newParent): Sequence(other, other.monophonic, newParent) {}
     Sequence& operator=(Sequence const& other) {
         this->assignEvents(other);
@@ -49,7 +49,7 @@ public:
     
     bool monophonic = true;
     bool isPolyphonic() { return !monophonic; }
-    Time &parent;
+    Time& parent;
 
     Sequence<T> toMonophonic() const;
     Sequence<T> toPolyphonic() const;
@@ -84,8 +84,8 @@ public:
     Sequence<T> tie(bool fillBeginning = false);
     Sequence<T> legato();
     bool concat(Sequence<T> other, bool useLast = false, PushBehavior pushBehavior = PushBehavior::ignorePush);
-    bool insertVector(vector<Timed<T>> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignorePush, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignoreOverwrite);
-    bool insertSequence(Sequence<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignorePush, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignoreOverwrite);
+    bool insertVector(vector<Timed<T>> other, Position startTime = Position(0), PushBehavior pushBehavior = PushBehavior::ignorePush, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignoreOverwrite);
+    bool insertSequence(Sequence<T> other, Position startTime = Position(0), PushBehavior pushBehavior = PushBehavior::ignorePush, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignoreOverwrite);
     bool chopAfterDuration(Duration duration);
     bool flip();
     

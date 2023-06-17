@@ -20,21 +20,18 @@
 
 
 template <class T>
-vector<T> Sequence<T>::fromTimes(vector<Time> const& timed, T const& t, Position cursor) {
-    return mapp<Time, T>(timed, [&](Time time) {
-        T newT = T(t);
-        newT.startTime = time.startTime + cursor;
-        newT.duration = time.duration;
-        return newT;
+vector<Timed<T>> Sequence<T>::fromTimes(vector<Time> const& timed, T const& t, Position cursor) {
+    return mapp<Time, Timed<T>>(timed, [&](Time time) {
+        return Timed<T>(Time(time.startTime + cursor, time.duration), T());
     });
 }
 template <class T>
-vector<T> Sequence<T>::fromTimes(vector<Time> const& timed, Position cursor) {
+vector<Timed<T>> Sequence<T>::fromTimes(vector<Time> const& timed, Position cursor) {
     return Sequence<T>::fromTimes(timed, T(), cursor);
 }
 
 template <class T>
-vector<T> Sequence<T>::burst(Duration eventLength, int numberOfEvents) {
+vector<Timed<T>> Sequence<T>::burst(Duration eventLength, int numberOfEvents) {
     return fromTimes(rhythm::nOfLengthM(numberOfEvents, eventLength));
 }
 
@@ -55,7 +52,7 @@ Position Sequence<T>::nextStartTime(Position previousStartTime) const {
 
 template <class T>
 bool Sequence<T>::flip() {
-    auto flipTime = [this](std::__wrap_iter<T*> t) { return (t->startTime + (parent.duration / 2.)) % parent.duration; };
+    auto flipTime = [this](std::__wrap_iter<Timed<T>*> t) { return (t->startTime + (parent.duration / 2.)) % parent.duration; };
     for (auto event = this->begin(); event < this->end(); event++) {
         event->startTime = flipTime(event);
     }
@@ -69,7 +66,7 @@ Sequence<T> Sequence<T>::toMonophonic() const {
     Sequence<T> result(*this);
     result.clear();
     result.monophonic = true;
-    for (T toAdd : *this) { result.add(toAdd, PushBehavior::ignorePush, OverwriteBehavior::cutoff); }
+    for (Timed<T> toAdd : *this) { result.add(toAdd, PushBehavior::ignorePush, OverwriteBehavior::cutoff); }
 //    result.tie();
     
     return result;
@@ -84,7 +81,7 @@ Sequence<T> Sequence<T>::toPolyphonic() const {
 }
 
 template <class T>
-bool Sequence<T>::add(T toAdd, PushBehavior pushBehavior, OverwriteBehavior overwriteBehavior) {
+bool Sequence<T>::add(Timed<T> toAdd, PushBehavior pushBehavior, OverwriteBehavior overwriteBehavior) {
     if (!(this->parent.containsPartially(toAdd))) {
         double phraseLength = this->parent.duration.asQuarters();
         double eventStartTime = toAdd.startTime.asQuarters();
@@ -96,23 +93,23 @@ bool Sequence<T>::add(T toAdd, PushBehavior pushBehavior, OverwriteBehavior over
             case PushBehavior::wrap:
                 toAdd.startTime = std::fmod(eventStartTime, phraseLength);
                 break;
-            case PushBehavior::ignore:
+            case PushBehavior::ignorePush:
                 break;
             default:
                 break;
         }
     } 
 
-    auto needToAvoidTimeOverlap = [this](T const a, T const b) { return monophonic || a.equalsExcludingTime(b); };
-    auto problematicOverlap = [this, needToAvoidTimeOverlap](T const toAdd) {
-                            return [this, needToAvoidTimeOverlap, toAdd](T t) { 
+    auto needToAvoidTimeOverlap = [this](Timed<T> const a, Timed<T> const b) { return monophonic || a.equalsExcludingTime(b); };
+    auto problematicOverlap = [this, needToAvoidTimeOverlap](Timed<T> const toAdd) {
+                            return [this, needToAvoidTimeOverlap, toAdd](Timed<T> t) {
                                     return needToAvoidTimeOverlap(toAdd, t) && toAdd.containsPartially(t);
                                 };
                             };
 
-    vector<T> bad_examples;
+    vector<Timed<T>> bad_examples;
     switch (overwriteBehavior) {
-        case OverwriteBehavior::ignore:
+        case OverwriteBehavior::ignoreOverwrite:
             copy_if(this->begin(), this->end(),
                     back_inserter(bad_examples),
                     problematicOverlap(toAdd));
@@ -127,7 +124,7 @@ bool Sequence<T>::add(T toAdd, PushBehavior pushBehavior, OverwriteBehavior over
             break;
         case OverwriteBehavior::cutoff:
             this->erase(std::remove_if(this->begin(), this->end(),
-                                        [this, needToAvoidTimeOverlap, toAdd](T t) { return toAdd.startTime == t.startTime
+                                        [this, needToAvoidTimeOverlap, toAdd](Timed<T> t) { return toAdd.startTime == t.startTime
                                                     && needToAvoidTimeOverlap(toAdd, t); }),
                         this->end());
             for (auto iter = this->begin(); iter != this->end(); iter++) {
@@ -147,7 +144,7 @@ bool Sequence<T>::add(T toAdd, PushBehavior pushBehavior, OverwriteBehavior over
                     continue;
                 }
                 if (toAdd.contains(iter->startTime)) {
-                    T alsoAdd(toAdd);
+                    Timed<T> alsoAdd(toAdd);
                     toAdd.setEndTime(iter->startTime);
                     if (alsoAdd.endTime() > iter->endTime()) {
                     //  add: -------- 
@@ -158,7 +155,7 @@ bool Sequence<T>::add(T toAdd, PushBehavior pushBehavior, OverwriteBehavior over
                         }
                     }
                 } else if (iter->contains(toAdd.startTime)) {
-                    T alsoAdd(*iter);
+                    Timed<T> alsoAdd(*iter);
                     iter->setEndTime(toAdd.startTime);
                     if (iter->duration <= Duration(0)) {
                         iter = this->erase(iter);
@@ -184,7 +181,7 @@ bool Sequence<T>::add(T toAdd, PushBehavior pushBehavior, OverwriteBehavior over
     }
     sort(this->begin(),
          this->end(),
-         [](T const &a, T const &b) { return a.startTime < b.startTime; });
+         [](Timed<T> const &a, Timed<T> const &b) { return a.startTime < b.startTime; });
     
     return true;
 }
@@ -203,7 +200,7 @@ bool Sequence<T>::concat(Sequence<T> other, bool useLast, PushBehavior pushBehav
 }
 
 template <class T>
-bool Sequence<T>::insertVector(vector<T> other, Position startTime, PushBehavior pushBehavior, OverwriteBehavior overwriteBehavior) {
+bool Sequence<T>::insertVector(vector<Timed<T>> other, Position startTime, PushBehavior pushBehavior, OverwriteBehavior overwriteBehavior) {
     for (auto iter = other.begin(); iter < other.end(); iter++) {
             iter->startTime += startTime;
         if (!(this->add(*iter, pushBehavior, overwriteBehavior))) {
@@ -226,7 +223,7 @@ Sequence<T> Sequence<T>::tie(bool fillBeginning) { // TODO: this isn't working r
         return *this;
     }
     bool tryAgain = false;
-    vector<T> tiedEvents;
+    vector<Timed<T>> tiedEvents;
     for (auto event = this->begin(); event < this->end(); event++) {
         auto otherEvent = event + 1;
         if (otherEvent == this->end()) {
@@ -243,7 +240,7 @@ Sequence<T> Sequence<T>::tie(bool fillBeginning) { // TODO: this isn't working r
         event->duration = otherEvent->startTime - event->startTime;
         
         if (event->equalsExcludingTime(*otherEvent)) { // tie events together.
-            T tiedEvent(*event);
+            Timed<T> tiedEvent(*event);
             tiedEvent.startTime = event->startTime;
             tiedEvent.duration = otherEvent->endTime() - event->startTime; // event->duration + otherEvent->duration;
             tiedEvents.push_back(tiedEvent);
@@ -301,19 +298,19 @@ bool Sequence<T>::chopAfterDuration(Duration duration) {
     
     if (this->empty()) { return true; }
 
-    vector<T> filtered;
+    vector<Timed<T>> filtered;
     copy_if (this->begin(),
              this->end(),
              back_inserter(filtered),
-             [duration](T &t) { return t.startTime <= duration; });
+             [duration](Timed<T> &t) { return t.startTime <= duration; });
 
     if (filtered.empty()) { return true; }
 
-    vector<T> chopped;
+    vector<Timed<T>> chopped;
     transform(filtered.begin(),
               filtered.end(),
               back_inserter(chopped),
-              [duration](T &t) {
+              [duration](Timed<T> &t) {
                 bool tooLong = t.endTime() > duration;
                 if (tooLong) {
                     t.duration =  duration - t.startTime;
@@ -328,8 +325,8 @@ template <class T>
 Sequence<T> Sequence<T>::parseMininotation(std::string phraseString, Duration stepLength) { 
     Sequence<T> result(*this);
     result.clear();
-    vector<T> parsed = Mininotation::parse<T>(phraseString, stepLength);
-    for (T t : parsed) {
+    vector<Timed<T>> parsed = Mininotation::parse<T>(phraseString, stepLength);
+    for (Timed<T> t : parsed) {
         result.add(t); // might be a better way to get similar result but this will handle duration overflow and stuff.
     }
 //
@@ -378,8 +375,8 @@ bool Sequence<T>::insertMininotation(std::string phraseString,
 
 
 template<class T>
-vector<T> Sequence<T>::byPosition(Position position) const {
-    vector<T> result;
+vector<Timed<T>> Sequence<T>::byPosition(Position position) const {
+    vector<Timed<T>> result;
     for (auto it = this->begin(); it < this->end(); it++) {
         if (it->contains(position)) {
             result.push_back(*it);
@@ -388,8 +385,8 @@ vector<T> Sequence<T>::byPosition(Position position) const {
     return result;
 };
 template<class T>
-vector<T*> Sequence<T>::pointersByPosition(Position position) {
-    vector<T*> result;
+vector<Timed<T>*> Sequence<T>::pointersByPosition(Position position) {
+    vector<Timed<T>*> result;
     for (auto it = this->begin(); it < this->end(); it++) {
         if (it->contains(position)) {
             result.push_back(&(*it));
@@ -397,20 +394,10 @@ vector<T*> Sequence<T>::pointersByPosition(Position position) {
     }
     return result;
 };
-// template<class T>
-// vector<T&> Sequence<T>::refsByPosition(Position position) const {
-//     vector<T&> result;
-//     for (auto it = this->begin(); it < this->end(); it++) {
-//         if (it->contains(position)) {
-//             result.push_back(*it);
-//         }
-//     }
-//     return result;
-// };
 
 template<class T>
-vector<T> Sequence<T>::bySpan(Time span) const {
-    vector<T> result;
+vector<Timed<T>> Sequence<T>::bySpan(Time span) const {
+    vector<Timed<T>> result;
     for (auto it = this->begin(); it < this->end(); it++) {
         if (span.contains(it->startTime)) {
             result.push_back(*it);
@@ -419,19 +406,20 @@ vector<T> Sequence<T>::bySpan(Time span) const {
     return result;
 }
 template<class T>
-vector<reference_wrapper<T>> Sequence<T>::refsBySpan(Time span) {
-    vector<reference_wrapper<T>> result;
+vector<reference_wrapper<Timed<T>>> Sequence<T>::refsBySpan(Time span) {
+    vector<reference_wrapper<Timed<T>>> result;
     for (auto it = this->begin(); it < this->end(); it++) {
         if (span.contains(it->startTime)) {
-            result.push_back(reference_wrapper<T>(*it));
+            result.push_back(reference_wrapper<Timed<T>>(*it));
         }
     }
     return result;
 }
 
+
 template<class T>
-vector<T> Sequence<T>::byStartPosition(Position position) const {
-    vector<T> result;
+vector<Timed<T>> Sequence<T>::byStartPosition(Position position) const {
+    vector<Timed<T>> result;
     for (auto it = this->begin(); it < this->end(); it++) {
         if (it->startTime == position) {
             result.push_back(*it);
@@ -441,13 +429,13 @@ vector<T> Sequence<T>::byStartPosition(Position position) const {
 }
 
 template<class T>
-T Sequence<T>::drawByPosition(Position position) const {
+Timed<T> Sequence<T>::drawByPosition(Position position) const {
     auto available = this->byPosition(position);
     if (available.empty()) {
         DBG ("Nothing to draw from :(");
-        return T();
+        return Timed<T>();
     }
-    return draw<T>(available);
+    return draw<Timed<T>>(available);
 }
 
 
@@ -511,6 +499,6 @@ Sequence<T> Sequence<T>::pulseAndDisplace(Duration pulse,
 
 
 template class Sequence<Note>;
-template class Sequence<Subdivision>;
+template class Sequence<Duration>;
 template class Sequence<ChordScale>;
 template class Sequence<Time>;
