@@ -17,7 +17,10 @@
         "random": "cpp",
         "initializer_list": "cpp",
         "istream": "cpp",
-        "tuple": "cpp"
+        "tuple": "cpp",
+        "complex": "cpp",
+        "deque": "cpp",
+        "iterator": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

@@ -779,8 +779,8 @@
             filePath = "../../Source/Time/TimedEvent.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
             landmarkName = "setEndTime(newEndTime)"
             landmarkType = "7">
          </BreakpointContent>
@@ -875,9 +875,9 @@
             filePath = "../../Source/Time/TimedEvent.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
-            landmarkName = "Timed"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "Time"
             landmarkType = "3">
             <Locations>
                <Location
@@ -924,9 +924,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "148"
-            endingLineNumber = "148"
-            landmarkName = "Note"
-            landmarkType = "3">
+            endingLineNumber = "148">
             <Locations>
                <Location
                   uuid = "D8A4B682-752C-4742-99BC-F6D94E4A9F73 - 14ba064a7b286efe"
@@ -1053,8 +1051,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "78"
             endingLineNumber = "78"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "harmony::selectApproachAndGenerate(approach, chordScales, startTime, chordLength)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2195,9 +2193,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "46"
-            endingLineNumber = "46"
-            landmarkName = "equalsExcludingTime(other)"
-            landmarkType = "7">
+            endingLineNumber = "46">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2859,7 +2855,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "80"
             endingLineNumber = "80"
-            landmarkName = "harmony::randomChordScale(startTime, duration)"
+            landmarkName = "harmony::selectApproachAndGenerate(approach, chordScales, startTime, chordLength)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4237,7 +4233,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "26"
             endingLineNumber = "26"
-            landmarkName = "rhythm::doublesAndDiddles(times)"
+            landmarkName = "rhythm::doublesAndDiddles(times, modifyProportion, doubleProportion, halfProportion)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -5167,8 +5163,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "86"
             endingLineNumber = "86"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "harmony::randomChordScale(startTime, duration)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -5183,8 +5179,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "68"
             endingLineNumber = "68"
-            landmarkName = "harmony::selectApproachAndGenerate(approach, chordScales, startTime, chordLength)"
-            landmarkType = "7">
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -5359,7 +5355,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "632"
             endingLineNumber = "632"
-            landmarkName = "rhythm::randomClave(fromPhrase, minNoteLengthInSubdivisions, maxNoteLengthInSubdivisions)"
+            landmarkName = "rhythm::randomClave(fromPhrase, LengthInSubdivisions, LengthInSubdivisions)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -5375,7 +5371,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "660"
             endingLineNumber = "660"
-            landmarkName = "rhythm::randomClave(fromPhrase, minNoteLengthInSubdivisions, maxNoteLengthInSubdivisions)"
+            landmarkName = "rhythm::randomClave(fromPhrase, LengthInSubdivisions, LengthInSubdivisions)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -5391,7 +5387,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "644"
             endingLineNumber = "644"
-            landmarkName = "rhythm::randomClave(fromPhrase, minNoteLengthInSubdivisions, maxNoteLengthInSubdivisions)"
+            landmarkName = "rhythm::randomClave(fromPhrase, LengthInSubdivisions, LengthInSubdivisions)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -5407,7 +5403,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "652"
             endingLineNumber = "652"
-            landmarkName = "rhythm::randomClave(fromPhrase, minNoteLengthInSubdivisions, maxNoteLengthInSubdivisions)"
+            landmarkName = "rhythm::randomClave(fromPhrase, LengthInSubdivisions, LengthInSubdivisions)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -5423,8 +5419,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "425"
             endingLineNumber = "425"
-            landmarkName = "rhythm::getPotentialClaveNoteCount(fromPhrase, minNoteLength, maxNoteLength)"
-            landmarkType = "7">
+            landmarkName = "Count(fromPhrase, Length, Length)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -5455,7 +5451,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "626"
             endingLineNumber = "626"
-            landmarkName = "rhythm::randomClave(fromPhrase, minNoteLengthInSubdivisions, maxNoteLengthInSubdivisions)"
+            landmarkName = "rhythm::randomClave(fromPhrase, LengthInSubdivisions, LengthInSubdivisions)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -5518,7 +5514,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "248"
-            endingLineNumber = "248">
+            endingLineNumber = "248"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

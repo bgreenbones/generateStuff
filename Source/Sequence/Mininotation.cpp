@@ -51,4 +51,4 @@ vector<T> Mininotation::parse(std::string phraseString, Duration stepLength) {
 template vector<Note> Mininotation::parse<Note>(std::string phraseString, Duration stepLength);
 template vector<Subdivision> Mininotation::parse<Subdivision>(std::string phraseString, Duration stepLength);
 template vector<ChordScale> Mininotation::parse<ChordScale>(std::string phraseString, Duration stepLength);
-template vector<Timed> Mininotation::parse<Timed>(std::string phraseString, Duration stepLength);
+template vector<Time> Mininotation::parse<Time>(std::string phraseString, Duration stepLength);

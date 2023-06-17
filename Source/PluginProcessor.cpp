@@ -249,7 +249,7 @@ void GenerateStuffAudioProcessor::playNoteSequence(juce::MidiBuffer& midiMessage
     juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo,
     const double ppqPosition, 
     Sequence<Note> noteSequence, 
-    Timed scheduledTime,
+    Time scheduledTime,
     int midiChannel) {
 
     Position phraseStartPosition = scheduledTime.startTime + noteSequence.parent.startTime;
@@ -409,7 +409,7 @@ void GenerateStuffAudioProcessor::playPlayables(
         if (voice.mute) { continue; }
         int midiChannel = voice.midiChannel;
 
-        for (Timed scheduledTime : phrase.schedule) {
+        for (Time scheduledTime : phrase.schedule) {
             playNoteSequence(midiMessages, positionInfo, ppqPosition, phrase.notes, scheduledTime, midiChannel);
             if (!voice.muteConnecting) {
                 playNoteSequence(midiMessages, positionInfo, ppqPosition, phrase.connectingNotes, scheduledTime, midiChannel);

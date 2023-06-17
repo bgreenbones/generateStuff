@@ -19,7 +19,7 @@ Sequence<Note> Note::placeOrnament(OrnamentSimple ornamentSimple, double breadth
     auto noteLength = (ornament.length / (float) ornament.numNotes);
     
 //    vector<Note> ornamentNotes = {};
-    Timed* parent = (Timed*)this;
+    Time* parent = (Time*)this;
     Sequence<Note> ornamentNotes(*parent);
     
     for (unsigned short notesLeft = ornament.numNotes; notesLeft > 0; notesLeft--) {
@@ -30,7 +30,7 @@ Sequence<Note> Note::placeOrnament(OrnamentSimple ornamentSimple, double breadth
         ornamentNote.isOrnament = true;
         ornamentNote.pitch += P5;
 //        ornamentNotes.push_back(ornamentNote);
-        ornamentNotes.add(ornamentNote, PushBehavior::ignore, OverwriteBehavior::ignore);
+        ornamentNotes.add(ornamentNote, PushBehavior::ignorePush, OverwriteBehavior::ignoreOverwrite);
     }
     
     

@@ -11,19 +11,18 @@
 #include "ChordScale.h"
 
 
-ChordScale::ChordScale(Tonality scale, Tonality harmony, Position startTime, Duration duration): 
-    Timed(startTime, duration), 
+ChordScale::ChordScale(Tonality scale, Tonality harmony): 
     scale(scale), 
     harmony(harmony) {}
-ChordScale::ChordScale(Tonality scale, Position startTime, Duration duration): Timed(startTime, duration), scale(scale) {
+ChordScale::ChordScale(Tonality scale): scale(scale) {
     harmony = scale.scaleToHarmony();
     // TODO: functions for seeing if scale tones are chord tones or not...
 }
-ChordScale::ChordScale(PitchClass root, vector<Interval> intervals, Position startTime, Duration duration): ChordScale(Tonality(root, intervals), startTime, duration) {};
-ChordScale::ChordScale(PitchClass root, vector<Interval> intervals): ChordScale(root, intervals, 0, 0) {};
-ChordScale::ChordScale(Position startTime, Duration duration): ChordScale(C, ionian, startTime, duration) {};
+ChordScale::ChordScale(PitchClass root, vector<Interval> intervals): ChordScale(Tonality(root, intervals)) {};
+// ChordScale::ChordScale(PitchClass root, vector<Interval> intervals): ChordScale(root, intervals) {};
+// ChordScale::ChordScale(Position startTime, Duration duration): ChordScale(C, ionian) {};
 ChordScale::ChordScale(): ChordScale(C, chromatic) {};
-ChordScale::ChordScale(char mininotation, Position startTime, Duration duration): ChordScale(startTime, duration) {}
+// ChordScale::ChordScale(char mininotation, Position startTime, Duration duration): ChordScale(startTime, duration) {}
 
 bool ChordScale::equalsExcludingTime(ChordScale const& other) const {
     return other.scale == scale && other.harmony == harmony;

@@ -29,7 +29,7 @@ static const Duration defaultSubdivision = Beats(0.25);
 static const Position defaultStartTime = Position(0, true);
 static const Duration defaultDuration = Bars(2, true);
 
-class Phrase: private Timed
+class Phrase: private Time
 {
 public:
     Position getStartTime() { return startTime; }
@@ -48,7 +48,7 @@ public:
     }
     
     Phrase(Duration subdivision, Position startTime, Duration duration):
-        Timed(startTime, duration),
+        Time(startTime, duration),
         notes(*this),
         connectingNotes(*this),
         ornamentationNotes(*this),
@@ -61,7 +61,7 @@ public:
     Phrase(Duration duration): Phrase(defaultSubdivision, defaultStartTime, duration) {}
     Phrase(): Phrase(defaultSubdivision, defaultStartTime, defaultDuration) {}
     Phrase(Phrase const& other):
-        Timed(other),
+        Time(other),
         voice(other.voice),
         schedule(other.schedule),
         notes(other.notes, *this),
@@ -71,11 +71,11 @@ public:
         chordScales(other.chordScales, *this)
         {};
     Phrase& operator=(Phrase const& other) {
-        Timed::operator=(other);
+        Time::operator=(other);
         notes = Sequence<Note>(other.notes, *this);
         connectingNotes = Sequence<Note>(other.connectingNotes, *this);
         ornamentationNotes = Sequence<Note>(other.ornamentationNotes, *this);
-        subdivisions = Sequence<Subdivision>(other.subdivisions, *this);
+        subdivisions = Sequence<Duration>(other.subdivisions, *this);
         chordScales = Sequence<ChordScale>(other.chordScales, *this);
         voice = other.voice;
         schedule = other.schedule;
@@ -83,14 +83,14 @@ public:
     };
 
     string voice;
-    set<Timed> schedule;
+    set<Time> schedule;
     Sequence<Note> notes;
     Sequence<Note> connectingNotes;
     Sequence<Note> ornamentationNotes;
     vector<Sequence<Note>*> noteSequences = {
         &notes, &connectingNotes, &ornamentationNotes
     };
-    Sequence<Subdivision> subdivisions;
+    Sequence<Duration> subdivisions;
     Sequence<ChordScale> chordScales;
 
     Position nextSubdivisionPosition(Position position);
@@ -116,9 +116,9 @@ public:
         result.ornamentationNotes = result.ornamentationNotes.toPolyphonic();
         return result;
     }
-    Subdivision primarySubdivision() const { return subdivisions.primary(); }
+    Timed<Duration> primarySubdivision() const { return subdivisions.primary(); }
     
-    bool equalsExcludingTime(Timed &other) {
+    bool equalsExcludingTime(Time &other) {
         DBG("Not implemented yet");
         return false;
     }
@@ -132,7 +132,7 @@ public:
     template <class T>
     vector<T> concatEvents(vector<T> eventList, vector<T> otherList) const;
     Phrase concat(Phrase other, bool useLastNote = false, bool keepDuration = false) const;
-    Phrase insert(Phrase other, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignore) const;
+    Phrase insert(Phrase other, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignoreOverwrite) const;
     Phrase loop(Duration loopDuration) const {
         if (this->duration == loopDuration) {
             return *this;
@@ -155,8 +155,8 @@ public:
     };
     void pitchQuantize();
 
-    bool isNoteOnLeft(Note note) const { return note.startTime < halfLength(); };
-    bool isNoteOnRight(Note note) const { return !isNoteOnLeft(note); };
+    bool isNoteOnLeft(Timed<Note> note) const { return note.startTime < halfLength(); };
+    bool isNoteOnRight(Timed<Note> note) const { return !isNoteOnLeft(note); };
 
     Phrase fillWithRolls(Probability rollProb,
                          Probability associationProb,
@@ -168,7 +168,7 @@ public:
     Phrase randomGhostSubdivision(Probability ghostProbability = 0.6,
                                   Probability subdivisionProbability = 1.,
                                   Pitch pitch = defaultPitch,
-                                  Timed span = nullTime) const;
+                                  Time span = nullTime) const;
     Phrase ghostSubdivision(Pitch pitch = defaultPitch) const;
     Phrase randomGhostBursts(Duration minimumBurstLength = Beats(1./2.),
                              Duration maximumBurstLength = Beats(2),

@@ -78,8 +78,8 @@ public:
         return result;
     }
     
-    Subdivision getSubdivision() const {
-        return Subdivision(Beats(subdivision), getStartTime(), getPhraseLength());
+    Duration getSubdivision() const {
+        return Beats(subdivision);
     }
     
     Beats getDisplacement() const { return Beats(displace, true); }

@@ -18,7 +18,7 @@ Phrase harmony::voicingFills(Phrase unfilledVoicings, vector<Phrase> competingVo
   unfilledVoicings.subdivisions.tie(true);
   
   Phrase filledVoicings(unfilledVoicings);
-  vector<Timed> spaces = rhythm::gaps(filledVoicings, competingVoices);
+  vector<Time> spaces = rhythm::gaps(filledVoicings, competingVoices);
 
   // if (totalSpaceToFill / unfilledVoicings.getDuration() < 1./6.
   //       || spaces.empty()) {
@@ -29,26 +29,26 @@ Phrase harmony::voicingFills(Phrase unfilledVoicings, vector<Phrase> competingVo
   }
 
   sort(spaces.begin(), spaces.end(), 
-        [](Timed const &a, Timed const &b) { return a.duration > b.duration; }); // longest to shortest
+        [](Time const &a, Time const &b) { return a.duration > b.duration; }); // longest to shortest
 
   for (int i = 0; i < spaces.size() / 2 + 1; i++) {
     if (flipWeightedCoin(0.3)) {// TODO: let's do better random
       continue;
     }
-    Timed spaceToFill = spaces[i];
+    Time spaceToFill = spaces[i];
     
     Subdivision subdivision = unfilledVoicings.subdivisions.drawByPosition(spaceToFill.startTime);
     int subdivisionsInSpace = spaceToFill.duration / subdivision;
     int lengthInSubdivisions = rollDie(subdivisionsInSpace);
     
-    vector<Timed> times = rhythm::nOfLengthM(lengthInSubdivisions, subdivision);
+    vector<Time> times = rhythm::nOfLengthM(lengthInSubdivisions, subdivision);
     times = rhythm::doublesAndDiddles(times, 0.5);
 
     double displacementInSubdivisions = uniformInt(0, subdivisionsInSpace - lengthInSubdivisions);
     Duration displacement = displacementInSubdivisions * subdivision;
     
     vector<Note> voicing;
-    for (Timed time : times) {
+    for (Time time : times) {
         Position realStartTime = spaceToFill.startTime + displacement + time.startTime;
         
         vector<Note> possibleVoicing = unfilledVoicings.notes.byPosition(realStartTime);
@@ -58,7 +58,7 @@ Phrase harmony::voicingFills(Phrase unfilledVoicings, vector<Phrase> competingVo
         OverwriteBehavior overwrite = draw<OverwriteBehavior>({OverwriteBehavior::insert, OverwriteBehavior::cutoff});
         for (Note note : voicing) {
             Note toAdd = Note(note.pitch, note.velocity, realStartTime, time.duration);
-            filledVoicings.notes.add(toAdd, PushBehavior::ignore, overwrite);
+            filledVoicings.notes.add(toAdd, PushBehavior::ignorePush, overwrite);
         }
     }
   }
@@ -139,9 +139,9 @@ ChordScale harmony::subtleModulations(ChordScale previousChordScale, Position st
 }
 
 
-vector<ChordScale> harmony::timedChordScales(vector<Timed> times, HarmonyApproach approach) {
+vector<ChordScale> harmony::timedChordScales(vector<Time> times, HarmonyApproach approach) {
     vector<ChordScale> chords;
-    for(Timed time : times) {
+    for(Time time : times) {
         ChordScale chordScale = selectApproachAndGenerate(harmonyApproaches[(int)approach].toStdString(),
             chords,
             time.startTime,
@@ -160,7 +160,7 @@ Phrase harmony::generateChordScales(Phrase fromPhrase, HarmonyApproach approach,
     
 
     if (accents.empty()) {
-        vector<Timed> times = rhythm::onePerShortForLong(Bars(1), fromPhrase.getDuration());
+        vector<Time> times = rhythm::onePerShortForLong(Bars(1), fromPhrase.getDuration());
         vector<ChordScale> harmonies = harmony::timedChordScales(times, approach);
         fromPhrase.chordScales.assignEvents(harmonies);
     } else {
@@ -236,7 +236,7 @@ Phrase harmony::smoothVoicings(Phrase harmony, Phrase rhythm, Probability random
             // int velocity = 70;
             int velocity = 127 - pitchToAdd.pitchValue; // todo: this is cool but maybe we should be aware and control it somehwere
             Note noteToAdd(pitchToAdd.pitchValue, velocity, keyPoint, chordScale.endTime() - keyPoint);
-            harmony.notes.add(noteToAdd, PushBehavior::ignore, OverwriteBehavior::insert);
+            harmony.notes.add(noteToAdd, PushBehavior::ignorePush, OverwriteBehavior::insert);
         }
         lastVoicing = voicing;
     }

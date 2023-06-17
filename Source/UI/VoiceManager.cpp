@@ -36,7 +36,7 @@ void VoiceManager::midiChannelChanged(string voiceName) {
 }
 
 
-void VoiceManager::callAddAndMakeVisible(Component *editor) {
+void VoiceManager::callAddAndMakeVisible(juce::Component *editor) {
     for (auto voiceIt = voices.begin(); voiceIt != voices.end(); voiceIt++) {
         voiceIt->second.callAddAndMakeVisible(editor);
     }
@@ -48,7 +48,7 @@ void VoiceManager::configureButtons() {
     }
 }
 
-void VoiceManager::configure(Component *editor) {
+void VoiceManager::configure(juce::Component *editor) {
     mainEditor = editor;
     configureButtons();
     callAddAndMakeVisible(editor);

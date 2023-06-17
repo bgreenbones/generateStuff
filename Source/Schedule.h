@@ -80,8 +80,8 @@
 class VoiceSchedule {
 public:
     Form form;
-    Sequence<Timed> scheduleTimes;
-    map<Timed, Phrase> schedule;
+    Sequence<Time> scheduleTimes;
+    map<Time, Phrase> schedule;
     VoiceSchedule() : scheduleTimes(form) {
       scheduleTimes = scheduleTimes.toMonophonic();
     }
@@ -98,12 +98,12 @@ public:
       if (!isScheduledAt(ppqPosition)) {
         return nullptr;
       }
-      Timed time = scheduleTimes.drawByPosition(ppqPosition);
+      Time time = scheduleTimes.drawByPosition(ppqPosition);
       Phrase const& result = schedule.at(time);
       return &result;
     }
 
-    bool schedulePhrase(Timed time, Phrase phrase) {
+    bool schedulePhrase(Time time, Phrase phrase) {
       phrase.schedule.emplace(time);
       if (find(scheduleTimes.begin(), scheduleTimes.end(), time) == scheduleTimes.end()) {
         if (!scheduleTimes.add(time)) {
@@ -119,13 +119,13 @@ public:
       return true;
     }
     
-    void unschedulePhrase(Timed time) {
+    void unschedulePhrase(Time time) {
       if (schedule.find(time) == schedule.end()) {
         return;
       }
       
       scheduleTimes.erase(std::remove_if(scheduleTimes.begin(), scheduleTimes.end(),
-                                [time](Timed t) { return time == t; }),
+                                [time](Time t) { return time == t; }),
                                 scheduleTimes.end());
 
       schedule.erase(time);

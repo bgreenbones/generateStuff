@@ -20,8 +20,8 @@
 
 
 template <class T>
-vector<T> Sequence<T>::fromTimed(vector<Timed> const& timed, T const& t, Position cursor) {
-    return mapp<Timed, T>(timed, [&](Timed time) {
+vector<T> Sequence<T>::fromTimes(vector<Time> const& timed, T const& t, Position cursor) {
+    return mapp<Time, T>(timed, [&](Time time) {
         T newT = T(t);
         newT.startTime = time.startTime + cursor;
         newT.duration = time.duration;
@@ -29,13 +29,13 @@ vector<T> Sequence<T>::fromTimed(vector<Timed> const& timed, T const& t, Positio
     });
 }
 template <class T>
-vector<T> Sequence<T>::fromTimed(vector<Timed> const& timed, Position cursor) {
-    return Sequence<T>::fromTimed(timed, T(), cursor);
+vector<T> Sequence<T>::fromTimes(vector<Time> const& timed, Position cursor) {
+    return Sequence<T>::fromTimes(timed, T(), cursor);
 }
 
 template <class T>
 vector<T> Sequence<T>::burst(Duration eventLength, int numberOfEvents) {
-    return fromTimed(rhythm::nOfLengthM(numberOfEvents, eventLength));
+    return fromTimes(rhythm::nOfLengthM(numberOfEvents, eventLength));
 }
 
 template <class T>
@@ -69,7 +69,7 @@ Sequence<T> Sequence<T>::toMonophonic() const {
     Sequence<T> result(*this);
     result.clear();
     result.monophonic = true;
-    for (T toAdd : *this) { result.add(toAdd, PushBehavior::ignore, OverwriteBehavior::cutoff); }
+    for (T toAdd : *this) { result.add(toAdd, PushBehavior::ignorePush, OverwriteBehavior::cutoff); }
 //    result.tie();
     
     return result;
@@ -409,7 +409,7 @@ vector<T*> Sequence<T>::pointersByPosition(Position position) {
 // };
 
 template<class T>
-vector<T> Sequence<T>::bySpan(Timed span) const {
+vector<T> Sequence<T>::bySpan(Time span) const {
     vector<T> result;
     for (auto it = this->begin(); it < this->end(); it++) {
         if (span.contains(it->startTime)) {
@@ -419,7 +419,7 @@ vector<T> Sequence<T>::bySpan(Timed span) const {
     return result;
 }
 template<class T>
-vector<reference_wrapper<T>> Sequence<T>::refsBySpan(Timed span) {
+vector<reference_wrapper<T>> Sequence<T>::refsBySpan(Time span) {
     vector<reference_wrapper<T>> result;
     for (auto it = this->begin(); it < this->end(); it++) {
         if (span.contains(it->startTime)) {
@@ -513,4 +513,4 @@ Sequence<T> Sequence<T>::pulseAndDisplace(Duration pulse,
 template class Sequence<Note>;
 template class Sequence<Subdivision>;
 template class Sequence<ChordScale>;
-template class Sequence<Timed>;
+template class Sequence<Time>;

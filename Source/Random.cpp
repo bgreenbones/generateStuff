@@ -114,7 +114,7 @@ template vector<Interval> draw<vector<Interval>>(std::vector<vector<Interval>> h
 template Tonality draw<Tonality>(std::vector<Tonality> hat, std::vector<double> distribution);
 template ChordScale draw<ChordScale>(std::vector<ChordScale> hat, std::vector<double> distribution);
 template Direction draw<Direction>(std::vector<Direction> hat, std::vector<double> distribution);
-template Timed draw<Timed>(std::vector<Timed> hat, std::vector<double> distribution);
+template Time draw<Time>(std::vector<Time> hat, std::vector<double> distribution);
 template DynamicShape draw<DynamicShape>(std::vector<DynamicShape> hat, std::vector<double> distribution);
 template DynamicLevel draw<DynamicLevel>(std::vector<DynamicLevel> hat, std::vector<double> distribution);
 template OverwriteBehavior draw<OverwriteBehavior>(std::vector<OverwriteBehavior> hat, std::vector<double> distribution);

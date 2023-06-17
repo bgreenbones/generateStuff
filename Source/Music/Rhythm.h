@@ -36,11 +36,11 @@ namespace rhythm {
 //        [](Timed const &a, Timed const &b) { return a.duration > b.duration; }); // longest to shortest
 //  }
   
-    vector<Timed> gaps(Phrase gapFiller, vector<Phrase> competingVoices);
-    vector<Timed> doublesAndDiddles(vector<Timed> t, double modifyProportion = 0.25, double doubleProportion = 0.3, double halfProportion = 0.1);
-    vector<Timed> onePerShortForLong(Duration longDuration, Duration shortDuration);
-    vector<Timed> nOfLengthM(int n, Duration m);
-    vector<Timed> stabilityBased(Timed time, 
+    vector<Time> gaps(Phrase gapFiller, vector<Phrase> competingVoices);
+    vector<Time> doublesAndDiddles(vector<Time> t, double modifyProportion = 0.25, double doubleProportion = 0.3, double halfProportion = 0.1);
+    vector<Time> onePerShortForLong(Duration longDuration, Duration shortDuration);
+    vector<Time> nOfLengthM(int n, Duration m);
+    vector<Time> stabilityBased(Time time, 
                                   Sequence<Subdivision> subdivisions, 
                                   double stabilityThreshold = 0., 
                                   Probability filter = 0.6);
@@ -52,8 +52,8 @@ namespace rhythm {
     template <typename T>
     vector<vector<T*>> distinctSubsets(vector<T>& t, Probability prob, vector<double> distribution);
     
-    void multiplyTimeLength(vector<Timed>& timed, vector<Timed*> toMultiply, double multiplyBy);
-    void repeat(vector<Timed>& timed, vector<Timed*> toMultiply, double multiplyBy);
+    void multiplyTimeLength(vector<Time>& timed, vector<Time*> toMultiply, double multiplyBy);
+    void repeat(vector<Time>& timed, vector<Time*> toMultiply, double multiplyBy);
 
     Phrase rhythmicVariation(Phrase source);
 
