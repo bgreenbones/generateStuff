@@ -30,8 +30,10 @@ static const Duration defaultDuration = Bars(2, true);
 
 class Phrase
 {
-public:
+private:
     Time time;
+public:
+    Time getTime() { return time; }
     Position getStartTime() { return time.startTime; }
     Position getEndTime() { return time.endTime(); }
     void setStartTime(Position newStartTime) { time.startTime = newStartTime; }
@@ -132,7 +134,6 @@ public:
     template <class T>
     vector<T> concatEvents(vector<T> eventList, vector<T> otherList) const;
     Phrase concat(Phrase other, bool useLastNote = false, bool keepDuration = false) const;
-    Phrase insert(Phrase other, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignoreOverwrite) const;
     Phrase loop(Duration loopDuration) const {
         if (this->time.duration == loopDuration) {
             return *this;

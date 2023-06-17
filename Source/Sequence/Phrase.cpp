@@ -156,46 +156,6 @@ Phrase Phrase::concat(Phrase other, bool useLastNote, bool keepDuration) const {
     return phrase;
 }
 
-Phrase Phrase::insert(Phrase other, OverwriteBehavior overwriteBehavior) const {
-    Phrase phrase(*this);
-    
-    if (overwriteBehavior != OverwriteBehavior::ignoreOverwrite) {
-        // TODO: notes and subdivisions and future expressions should be in a vector or map that will allow us to iterate over them.
-        
-        phrase.notes.erase(std::remove_if(phrase.notes.begin(), phrase.notes.end(),
-                                [other](Time t) { return other.time.containsPartially(t) || t.containsPartially(other.time); }),
-                                phrase.notes.end());
-                                
-        phrase.connectingNotes.erase(std::remove_if(phrase.connectingNotes.begin(), phrase.connectingNotes.end(),
-                                [other](Time t) { return other.time.containsPartially(t) || t.containsPartially(other.time); }),
-                                phrase.connectingNotes.end());
-                                
-        phrase.ornamentationNotes.erase(std::remove_if(phrase.ornamentationNotes.begin(), phrase.ornamentationNotes.end(),
-                                [other](Time t) { return other.time.containsPartially(t) || t.containsPartially(other.time); }),
-                                phrase.ornamentationNotes.end());
-        
-        phrase.subdivisions.erase(std::remove_if(phrase.subdivisions.begin(), phrase.subdivisions.end(),
-                                [other](Time t) { return other.time.containsPartially(t) || t.containsPartially(other.time); }),
-                                phrase.subdivisions.end());
-        
-        phrase.chordScales.erase(std::remove_if(phrase.chordScales.begin(), phrase.chordScales.end(),
-                                [other](Time t) { return other.time.containsPartially(t) || t.containsPartially(other.time); }),
-                                phrase.chordScales.end());
-        
-    }
-
-    
-    phrase.notes.insertSequence(other.notes, phrase.time.startTime, PushBehavior::ignorePush, overwriteBehavior);
-    phrase.connectingNotes.insertSequence(other.connectingNotes, phrase.time.startTime, PushBehavior::ignorePush, overwriteBehavior);
-    phrase.ornamentationNotes.insertSequence(other.ornamentationNotes, phrase.time.startTime, PushBehavior::ignorePush, overwriteBehavior);
-    phrase.subdivisions.insertSequence(other.subdivisions, phrase.time.startTime, PushBehavior::ignorePush, overwriteBehavior);
-    phrase.subdivisions.tie(true);
-    phrase.chordScales.insertSequence(other.chordScales, phrase.time.startTime, PushBehavior::ignorePush, overwriteBehavior);
-    phrase.chordScales.tie(true);
-    
-    return phrase;
-}
-
 
 // TODO: we can actually optionally get subdivs from the subdivs sequence??
 Phrase Phrase::parseMininotation(std::string phraseString, Duration subdivision) {

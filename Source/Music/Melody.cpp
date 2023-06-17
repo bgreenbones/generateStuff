@@ -103,7 +103,7 @@ Phrase melody::bass(Phrase harmony, Phrase rhythm, int minimumRepeats, int maxim
   set<Time> keyPoints;
   
   for (Timed<Note> note : rhythm.notes) {
-      note.trim(phrase.time);
+      note.trim(phrase.getTime());
       rhythmicKeyPoints.emplace(note);
       keyPoints.emplace(note);
   }
