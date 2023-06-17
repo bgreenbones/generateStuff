@@ -15,9 +15,9 @@
 #include "Utility.h"
 
 
-vector<Timed> rhythm::doublesAndDiddles(vector<Timed> times) {
+vector<Timed> rhythm::doublesAndDiddles(vector<Timed> times, double modifyProportion, double doubleProportion, double halfProportion) {
     // choose times to modify
-    vector<vector<Timed*>> toDoubleOrHalf = rhythm::distinctSubsets<Timed>(times, 0.25, {0.3, 0.1});
+    vector<vector<Timed*>> toDoubleOrHalf = rhythm::distinctSubsets<Timed>(times, modifyProportion, {doubleProportion, halfProportion});
     vector<Timed*> toDouble = toDoubleOrHalf[0];
     vector<Timed*> toHalf = toDoubleOrHalf[1];
     // // modify times
@@ -75,7 +75,12 @@ vector<Timed> rhythm::gaps(Phrase gapFiller, vector<Phrase> competingVoices) {
 void rhythm::multiplyTimeLength(vector<Timed>& timed, vector<Timed*> toMultiply, double multiplyBy) {
     for (auto timeIter = timed.begin(); timeIter < timed.end(); timeIter++) {
         Timed* time = &(*timeIter);
-        if (!contains<Timed*>(toMultiply, time)) {continue;}
+        if (!contains<Timed*>(toMultiply, time)) {
+          continue;
+        }
+        if (multiplyBy > 1 && timeIter == timed.end() - 1) {
+          continue;
+        }
         
         time->duration = multiplyBy * time->duration;
         if (timeIter + 1 == timed.end()) { break; }

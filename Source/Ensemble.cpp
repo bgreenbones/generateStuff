@@ -15,15 +15,29 @@
 void Ensemble::writeSong() {
     Timed form = Timed(0, Bars(8));
     
-    Duration harmonyPhraseLength = Bars(2);
-    Duration chordsPhraseLength = Bars(4);
+    Duration harmonyPhraseLength = Bars(draw<int>({1,2,4}));
+    Duration chordsPhraseLength = Bars(draw<int>({(int)harmonyPhraseLength.asBars(), 2*(int)harmonyPhraseLength.asBars(), 4, 8}));
     Duration leadPhraseLength = Bars(8);
 
     Phrase clavePhrase = rhythm::randomClave(emptyPhrase(claveKey), 2, 4); // min and max note length
     Phrase cascaraPhrase = rhythm::cascaraFrom(clavePhrase);
+    // Probability chordPerAccentProbability = 0.6;
+    // double harmonicDensity = 0.7;
+    Probability chordPerAccentProbability = uniformDouble(0.1, 0.9);
+    double harmonicDensity = uniformDouble(0.1, 0.9);
     Phrase harmony = harmony::generateChordScales(clavePhrase.loop(harmonyPhraseLength),
-        HarmonyApproach::smoothishModulations, 0.6, 0.7); // harmonic density and probability per accent
-    Phrase chordsPhrase = harmony::smoothVoicings(harmony.loop(chordsPhraseLength), clavePhrase.loop(chordsPhraseLength));
+        HarmonyApproach::smoothishModulations, chordPerAccentProbability, harmonicDensity); // harmonic density and probability per accent
+    
+    double min = 0;
+    double max = 0.6;
+    double thickness = 0.6; // 0 to 1
+    double skew = 0.2; // 0 to 1, less than 0.5 skews less
+    Probability randomVoicingProb = boundedNormal(min, max, thickness, skew);
+    int maximumCrunch = uniformInt(2, 7);
+    Phrase chordsPhrase = harmony::smoothVoicings(
+        harmony.loop(chordsPhraseLength), clavePhrase.loop(chordsPhraseLength),
+        randomVoicingProb,
+        maximumCrunch);
     Phrase bassPhrase = melody::bass(harmony.loop(chordsPhraseLength), clavePhrase.loop(chordsPhraseLength), 1, 4, { 1 }); // burst length min, max, and note length choices
     // Phrase leadPhrase = melody::streamOfConsciousness(harmony.loop(leadPhraseLength));
     // Phrase leadPhrase = melody::repeatingShape(harmony.loop(leadPhraseLength), Beats(3));

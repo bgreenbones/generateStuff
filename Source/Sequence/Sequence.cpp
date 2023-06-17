@@ -101,7 +101,7 @@ bool Sequence<T>::add(T toAdd, PushBehavior pushBehavior, OverwriteBehavior over
             default:
                 break;
         }
-    }
+    } 
 
     auto needToAvoidTimeOverlap = [this](T const a, T const b) { return monophonic || a.equalsExcludingTime(b); };
     auto problematicOverlap = [this, needToAvoidTimeOverlap](T const toAdd) {
@@ -141,12 +141,47 @@ bool Sequence<T>::add(T toAdd, PushBehavior pushBehavior, OverwriteBehavior over
                 }
             }
             break;
+        case OverwriteBehavior::insert:
+            for (auto iter = this->begin(); iter != this->end(); iter++) {
+                if (!needToAvoidTimeOverlap(toAdd, *iter)) {
+                    continue;
+                }
+                if (toAdd.contains(iter->startTime)) {
+                    T alsoAdd(toAdd);
+                    toAdd.setEndTime(iter->startTime);
+                    if (alsoAdd.endTime() > iter->endTime()) {
+                    //  add: -------- 
+                    // iter:   ----
+                        alsoAdd.setStartTime(iter->endTime());
+                        if (alsoAdd.duration > Duration(0)) {
+                            iter = this->insert(iter, alsoAdd);
+                        }
+                    }
+                } else if (iter->contains(toAdd.startTime)) {
+                    T alsoAdd(*iter);
+                    iter->setEndTime(toAdd.startTime);
+                    if (iter->duration <= Duration(0)) {
+                        iter = this->erase(iter);
+                    }
+                    if (alsoAdd.endTime() > toAdd.endTime()) {
+                    //  add:   ----
+                    // iter: --------
+                        alsoAdd.setStartTime(toAdd.endTime());
+                        if (alsoAdd.duration > Duration(0)) {
+                            iter = this->insert(iter, alsoAdd);
+                        }
+                    }
+                }
+            }
+          break;
 //            case default:
 //                break;
     }
     
     
-    this->push_back(toAdd);
+    if (toAdd.duration > Duration(0)) {
+        this->push_back(toAdd);
+    }
     sort(this->begin(),
          this->end(),
          [](T const &a, T const &b) { return a.startTime < b.startTime; });

@@ -46,8 +46,8 @@ public:
         return *this;
     };
     bool operator==(Timed const& other) const { return startTime == other.startTime && duration == other.duration; };
-    bool operator<(Timed const& other) const { return startTime < other.startTime || duration > other.duration; };
-    bool operator>(Timed const& other) const { return startTime > other.startTime || duration > other.duration; };
+    bool operator<(Timed const& other) const { return startTime < other.startTime || (startTime == other.startTime && duration < other.duration); };
+    bool operator>(Timed const& other) const { return startTime > other.startTime || (startTime == other.startTime && duration > other.duration); };
     
     virtual ~Timed() {};
     

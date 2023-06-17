@@ -107,9 +107,6 @@ Phrase melody::bass(Phrase harmony, Phrase rhythm, int minimumRepeats, int maxim
     if (!contains<Timed>(harmonicKeyPoints, keyPoint) && flipWeightedCoin(0.4)) { continue; }
     rhythmicPositions.push_back(keyPoint.startTime);
     
-    // ChordScale chordScale = phrase.chordScales.drawByPosition(keyPoint.startTime);
-    // Tonality tonality = chordScale.harmony;
-
     vector<Timed> times = rhythm::stabilityBased(keyPoint, rhythm.subdivisions, 0.1, 0.4);
     bool barIsEven = (int)floor(keyPoint.startTime.asBars()) % 2;
     if (barIsEven) {
@@ -118,8 +115,6 @@ Phrase melody::bass(Phrase harmony, Phrase rhythm, int minimumRepeats, int maxim
       
       int numberOfNotes = uniformInt(minimumRepeats, maximumRepeats);
       times = rhythm::nOfLengthM(numberOfNotes, noteLength);
-      // vector<Timed> times = rhythm::nOfLengthM(numberOfNotes, noteLength);
-
     }
 
     vector<vector<Timed*>> toDoubleOrTriple = rhythm::distinctSubsets<Timed>(times, 0.4, {0.7, 0.3});
@@ -129,11 +124,6 @@ Phrase melody::bass(Phrase harmony, Phrase rhythm, int minimumRepeats, int maxim
     rhythm::multiplyTimeLength(times, toTriple, 3);
     
     vector<Note> notes = Sequence<Note>::fromTimed(times);
-    // vector<vector<Note*>> rootOrChordTones = rhythm::distinctSubsets<Note>(notes, 1, {0.4, 0.6});
-    // vector<Note*> toArpeggiate = rootOrChordTones[0];
-    // vector<Note*> toRoot = rootOrChordTones[1];
-    // applyPitchSelector(toArpeggiate, phrase.chordScales, randomChordTone, selectBassOctave, keyPoint.startTime);
-    // applyPitchSelector(toRoot, phrase.chordScales, selectHarmonicRoot, selectBassOctave, keyPoint.startTime);
     bassPitches(toPointerVector<Note>(notes), phrase.chordScales, keyPoint.startTime);
 
     phrase.notes.insertVector(notes, keyPoint.startTime, PushBehavior::truncate, OverwriteBehavior::cutoff);

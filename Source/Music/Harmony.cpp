@@ -16,11 +16,9 @@
 
 Phrase harmony::voicingFills(Phrase unfilledVoicings, vector<Phrase> competingVoices) {
   unfilledVoicings.subdivisions.tie(true);
-
   
   Phrase filledVoicings(unfilledVoicings);
   vector<Timed> spaces = rhythm::gaps(filledVoicings, competingVoices);
-  // Duration totalSpaceToFill = 0;
 
   // if (totalSpaceToFill / unfilledVoicings.getDuration() < 1./6.
   //       || spaces.empty()) {
@@ -33,64 +31,34 @@ Phrase harmony::voicingFills(Phrase unfilledVoicings, vector<Phrase> competingVo
   sort(spaces.begin(), spaces.end(), 
         [](Timed const &a, Timed const &b) { return a.duration > b.duration; }); // longest to shortest
 
-
   for (int i = 0; i < spaces.size() / 2 + 1; i++) {
     if (flipWeightedCoin(0.3)) {// TODO: let's do better random
       continue;
     }
     Timed spaceToFill = spaces[i];
-
     
-    // vector<Timed> times = rhythm::stabilityBased(spaceToFill, unfilledVoicings.subdivisions, 0, 0.7);
     Subdivision subdivision = unfilledVoicings.subdivisions.drawByPosition(spaceToFill.startTime);
     int subdivisionsInSpace = spaceToFill.duration / subdivision;
     int lengthInSubdivisions = rollDie(subdivisionsInSpace);
+    
+    vector<Timed> times = rhythm::nOfLengthM(lengthInSubdivisions, subdivision);
+    times = rhythm::doublesAndDiddles(times, 0.5);
+
     double displacementInSubdivisions = uniformInt(0, subdivisionsInSpace - lengthInSubdivisions);
     Duration displacement = displacementInSubdivisions * subdivision;
-    vector<Timed> times = rhythm::nOfLengthM(lengthInSubdivisions, subdivision);
-    vector<vector<Timed*>> toDoubleOrHalf = rhythm::distinctSubsets<Timed>(times, 0.5, {0.3, 0.1});
-    vector<Timed*> toDouble = toDoubleOrHalf[0];
-    vector<Timed*> toHalf = toDoubleOrHalf[1];
-    // // modify times
-    rhythm::multiplyTimeLength(times, toDouble, 2);
-    rhythm::repeat(times, toHalf, 0.5);
-    // convert to notes
-    // vector<Note> notes = Sequence<Note>::fromTimed(times);
-    vector<Note*> voicing;
+    
+    vector<Note> voicing;
     for (Timed time : times) {
         Position realStartTime = spaceToFill.startTime + displacement + time.startTime;
-        Position realEndTime = spaceToFill.startTime + displacement + time.endTime();
         
-        // vector<Note*> possibleVoicing = unfilledVoicings.notes.pointersByPosition(realStartTime);
-        vector<Note*> possibleVoicing = filledVoicings.notes.pointersByPosition(realStartTime);
-        if (possibleVoicing.size() > 0) {
-          voicing = possibleVoicing;
-//          if (voicing.size() < 3) {
-//            int i = 1;
-//          }
-          // get out of the way
-          // todo: only do this once for the new rhythm instead of for every note.
-          // for (Note* note : possibleVoicing) { // TODO: this should probably abstracted out and refined
-          //     // TODO: this should maybe happen with a call to sequence.insert?
-          //   if (note->startTime < realStartTime) {
-          //       note->setEndTime(realStartTime);
-          //   }
-          //   if (note->startTime >= realStartTime ) {
-          //     note->setStartTime(realEndTime);
-          //   }
-          //   // todo: what if the voicing is both before AND after time? as in, it's long?
-          // }
-        }
-//        vector<Pitch> pitches;
-        for (Note* note : voicing) {
-//            if (contains(pitches, note->pitch)) {
-//              int i = 1;
-//            }
-//            pitches.push_back(note->pitch);
-            Note toAdd = Note(*note);
-            toAdd.startTime = realStartTime;
-            toAdd.duration = time.duration;
-            filledVoicings.notes.add(toAdd, PushBehavior::ignore, OverwriteBehavior::cutoff);
+        vector<Note> possibleVoicing = unfilledVoicings.notes.byPosition(realStartTime);
+        voicing = possibleVoicing.empty() ? voicing : possibleVoicing;
+        
+        // TODO: make this depend on how many chords we actually want to play
+        OverwriteBehavior overwrite = draw<OverwriteBehavior>({OverwriteBehavior::insert, OverwriteBehavior::cutoff});
+        for (Note note : voicing) {
+            Note toAdd = Note(note.pitch, note.velocity, realStartTime, time.duration);
+            filledVoicings.notes.add(toAdd, PushBehavior::ignore, overwrite);
         }
     }
   }
@@ -226,26 +194,40 @@ Phrase harmony::randomVoicings(Phrase phrase) {
     return phrase;
 };
 
-Phrase harmony::smoothVoicings(Phrase harmony, Phrase rhythm) {
+Phrase harmony::smoothVoicings(Phrase harmony, Phrase rhythm, Probability randomVoicingProb, int maximumCrunch) {
     harmony = harmony.toPolyphonic();
     harmony.notes.clear();
     rhythm = rhythm.toMonophonic();
-    
+
     if (harmony.chordScales.empty()) {
       return harmony;
     }
+    // set<Timed> harmonicKeyPoints;
+    // set<Timed> rhythmicKeyPoints;
+    set<Position> keyPoints;
+    vector<Position> sortedKeyPoints;
+    
+    for (Note note : rhythm.notes) { 
+      // rhythmicKeyPoints.emplace(note);
+      keyPoints.emplace(note.startTime); }
+    for (ChordScale tonality : harmony.chordScales) {
+      // harmonicKeyPoints.emplace(tonality);
+      keyPoints.emplace(tonality.startTime); }
+    sortedKeyPoints.insert(sortedKeyPoints.begin(), keyPoints.begin(), keyPoints.end());
+    sort(sortedKeyPoints);
+    
     vector<Pitch> lastVoicing = harmony.chordScales[0].harmony.randomVoicing();
     vector<ChordScale> voiced;
-    for (Note note : rhythm.notes) {
-        ChordScale chordScale = harmony.chordScales.drawByPosition(note.startTime);
+    for (Position keyPoint : sortedKeyPoints) {
+        ChordScale chordScale = harmony.chordScales.drawByPosition(keyPoint);
         if (contains(voiced, chordScale)) {
           continue;
         }
         voiced.push_back(chordScale);
-        vector<Pitch> voicing = flipWeightedCoin(0.9) // can't be too smooth!
+        vector<Pitch> voicing = flipWeightedCoin(1 - randomVoicingProb) // can't be too smooth!
             ? chordScale.harmony.smoothVoicing(lastVoicing)
             : chordScale.harmony.randomVoicing();
-        while (voicing::crunch(voicing) >= 4) { // control clusters
+        while (voicing::crunch(voicing) >= maximumCrunch) { // control clusters
             voicing::decreaseCrunch(voicing);
         }
         voicing::decreaseSpread(voicing);
@@ -253,8 +235,8 @@ Phrase harmony::smoothVoicings(Phrase harmony, Phrase rhythm) {
         for (Pitch pitchToAdd : voicing) {
             // int velocity = 70;
             int velocity = 127 - pitchToAdd.pitchValue; // todo: this is cool but maybe we should be aware and control it somehwere
-            Note noteToAdd(pitchToAdd.pitchValue, velocity, note.startTime, chordScale.endTime() - note.startTime);
-            harmony.addNote(noteToAdd);
+            Note noteToAdd(pitchToAdd.pitchValue, velocity, keyPoint, chordScale.endTime() - keyPoint);
+            harmony.notes.add(noteToAdd, PushBehavior::ignore, OverwriteBehavior::insert);
         }
         lastVoicing = voicing;
     }

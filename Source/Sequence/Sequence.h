@@ -21,7 +21,7 @@ typedef enum PushBehavior {
 } PushBehavior;
 
 enum OverwriteBehavior {
-    ignore, erase, cutoff
+    ignore, erase, cutoff, insert
 };
 
 // this can encapsulate functionality related to the various vectors inside phrase

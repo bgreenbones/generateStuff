@@ -117,3 +117,4 @@ template Direction draw<Direction>(std::vector<Direction> hat, std::vector<doubl
 template Timed draw<Timed>(std::vector<Timed> hat, std::vector<double> distribution);
 template DynamicShape draw<DynamicShape>(std::vector<DynamicShape> hat, std::vector<double> distribution);
 template DynamicLevel draw<DynamicLevel>(std::vector<DynamicLevel> hat, std::vector<double> distribution);
+template OverwriteBehavior draw<OverwriteBehavior>(std::vector<OverwriteBehavior> hat, std::vector<double> distribution);
