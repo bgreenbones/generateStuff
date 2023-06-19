@@ -30,23 +30,6 @@ public:
     Note(Pitch pitch = defaultPitch,
          int velocity = defaultVelocity
          ): pitch(pitch), velocity(velocity), accented(false), ornamented(false), isOrnament(false) { }
-         // Position startTime = 0,
-         // Duration duration = 1): Time(startTime, duration), pitch(pitch), velocity(velocity), accented(false), ornamented(false), isOrnament(false) { }
-    // Note(Position startTime, Duration duration): Note(defaultPitch, defaultVelocity, startTime, duration) { }
-//    Note(char mininotation, Position startTime, Duration duration): Note(defaultPitch, defaultVelocity, startTime, duration) {
-//        if (Mininotation::isValue(mininotation)) {
-//            DBG ("ok, good");
-//        } else {
-//            DBG ("i think we have to handle this");
-//        }
-//        
-//        if (Mininotation::isAlternate(mininotation)) {
-//            accent();
-//            if (accented != 1.0) {
-//                DBG ("i guess accented() called the const version");
-//            }
-//        }
-//    }
     
     static DynamicLevel accentVelocity;
     operator int() const { return pitch.pitchValue; };

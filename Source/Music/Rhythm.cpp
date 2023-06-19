@@ -553,12 +553,15 @@ Phrase rhythm::cascaraFrom(Phrase fromPhrase) {
         
         if (subdivisionsBetweenClaveNotes == 2.) {
             if (subdivisionsSinceLastCascaraNote == 0.) { // x . x
-                cascara.notes.append(".X", subdivision, PushBehavior::wrap);
+                cascara.notes.append(".x", subdivision, PushBehavior::wrap);
+                cascara.notes.last()->item.accent();
             } else if (subdivisionsSinceLastCascaraNote == 1.0) {
                 if (flipCoin()) { // . x x
-                    cascara.notes.append(".xX", subdivision, PushBehavior::wrap);
+                    cascara.notes.append(".xx", subdivision, PushBehavior::wrap);
+                    cascara.notes.last()->item.accent();
                 } else { // x . x
-                    cascara.notes.append("x.X", subdivision, PushBehavior::wrap);
+                    cascara.notes.append("x.x", subdivision, PushBehavior::wrap);
+                    cascara.notes.last()->item.accent();
                 }
             } else {
                 DBG ("cascara has some weird note lengths??");
@@ -567,30 +570,37 @@ Phrase rhythm::cascaraFrom(Phrase fromPhrase) {
             if (subdivisionsSinceLastCascaraNote == 0.) { // this note already hit. just add next note.
                 auto choice = rollDie(3);
                 if (choice == 1) { // x x . x
-                    cascara.notes.append("x.X", subdivision, PushBehavior::wrap);
+                    cascara.notes.append("x.x", subdivision, PushBehavior::wrap);
+                    cascara.notes.last()->item.accent();
                 } else if (choice == 2) { // x . x x
-                    cascara.notes.append(".xX", subdivision, PushBehavior::wrap);
+                    cascara.notes.append(".xx", subdivision, PushBehavior::wrap);
+                    cascara.notes.last()->item.accent();
                 } else if (choice == 3) { // x . x . misses next note!!
                     cascara.notes.append(".x.", subdivision, PushBehavior::wrap);
                 }
             } else if (subdivisionsSinceLastCascaraNote == 1.0) {
                 // only one option: . x . x
-                cascara.notes.append(".x.X", subdivision, PushBehavior::wrap);
+                cascara.notes.append(".x.x", subdivision, PushBehavior::wrap);
+                cascara.notes.last()->item.accent();
             } else {
                 DBG ("cascara has some weird note lengths??");
             }
         } else if (subdivisionsBetweenClaveNotes == 4.) {
             if (subdivisionsSinceLastCascaraNote == 0.) { // this note already hit.
                 if (flipCoin()) { // x . x . x
-                    cascara.notes.append(".x.X", subdivision, PushBehavior::wrap);
+                    cascara.notes.append(".x.x", subdivision, PushBehavior::wrap);
+                    cascara.notes.last()->item.accent();
                 } else { // x x . x x
-                    cascara.notes.append("x.xX", subdivision, PushBehavior::wrap);
+                    cascara.notes.append("x.xx", subdivision, PushBehavior::wrap);
+                    cascara.notes.last()->item.accent();
                 }
             } else if (subdivisionsSinceLastCascaraNote == 1.0) {
                 if (flipCoin()) { // // . x x . x
-                    cascara.notes.append(".xx.X", subdivision, PushBehavior::wrap);
+                    cascara.notes.append(".xx.x", subdivision, PushBehavior::wrap);
+                    cascara.notes.last()->item.accent();
                 } else { // . x . x x
-                    cascara.notes.append(".x.xX", subdivision, PushBehavior::wrap);
+                    cascara.notes.append(".x.xx", subdivision, PushBehavior::wrap);
+                    cascara.notes.last()->item.accent();
                 }
             } else {
                 DBG ("cascara has some weird note lengths??");

@@ -31,7 +31,7 @@ static const Duration defaultDuration = Bars(2, true);
 class Phrase
 {
 private:
-    Time time;
+    Time time; //TODO: use Timed<Phrase> instead of doing this?? would complicate setDuration(), etc...
 public:
     Time getTime() { return time; }
     Position getStartTime() { return time.startTime; }
@@ -83,6 +83,15 @@ public:
         schedule = other.schedule;
         return *this;
     };
+    bool operator==(Phrase const& other) const {
+        return notes == other.notes &&
+        connectingNotes == other.connectingNotes &&
+        ornamentationNotes == other.ornamentationNotes &&
+        subdivisions == other.subdivisions &&
+        chordScales == other.chordScales &&
+        voice == other.voice &&
+        schedule == other.schedule;
+    };
 
     string voice;
     set<Time> schedule;
@@ -119,11 +128,6 @@ public:
         return result;
     }
     Timed<Duration> primarySubdivision() const { return subdivisions.primary(); }
-    
-    bool equalsExcludingTime(Time &other) {
-        DBG("Not implemented yet");
-        return false;
-    }
     
     template <class T>
     static void addTimedEvent(T toAdd, vector<T>& eventList);

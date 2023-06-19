@@ -380,8 +380,8 @@
             filePath = "../../Source/Random.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
             landmarkName = "flipCoin()"
             landmarkType = "9">
          </BreakpointContent>
@@ -396,8 +396,8 @@
             filePath = "../../Source/Random.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
             landmarkName = "unknown"
             landmarkType = "0">
             <Locations>
@@ -669,8 +669,8 @@
             filePath = "../../Source/Random.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
             landmarkName = "flipWeightedCoin(pTrue)"
             landmarkType = "9">
          </BreakpointContent>
@@ -685,8 +685,8 @@
             filePath = "../../Source/Sequence/Sequence.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "358"
-            endingLineNumber = "358"
+            startingLineNumber = "359"
+            endingLineNumber = "359"
             landmarkName = "parseMininotation(phraseString, stepLength)"
             landmarkType = "9">
             <Locations>
@@ -763,8 +763,8 @@
             filePath = "../../Source/Random.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
             landmarkName = "boundedNormal(min, max, thickness)"
             landmarkType = "9">
          </BreakpointContent>
@@ -779,9 +779,9 @@
             filePath = "../../Source/Time/TimedEvent.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "26"
-            endingLineNumber = "26"
-            landmarkName = "setEndTime(newEndTime)"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
+            landmarkName = "setStartTime(newStartTime)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -873,8 +873,8 @@
             filePath = "../../Source/Time/TimedEvent.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
             landmarkName = "Time"
             landmarkType = "3">
             <Locations>
@@ -967,8 +967,8 @@
             filePath = "../../Source/Sequence/Mininotation.h"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
             landmarkName = "isIn(symbol, array)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1033,8 +1033,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "198"
             endingLineNumber = "198"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "Phrase::randomGhostSubdivision(ghostProbability, subdivisionProbability, pitch, span)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2315,8 +2315,8 @@
             filePath = "../../Source/Music/Ornamentation.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
             landmarkName = "Phrase::withRoll(start, target, association)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4637,8 +4637,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "90"
             endingLineNumber = "90"
-            landmarkName = "harmony::newChordSameScale(previousChordScale, limitChordQualities)"
-            landmarkType = "7">
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -4779,8 +4779,8 @@
             filePath = "../../Source/Random.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
             landmarkName = "rollDie(sides)"
             landmarkType = "9">
          </BreakpointContent>
@@ -4861,8 +4861,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "68"
             endingLineNumber = "68"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "harmony::voicingFills(unfilledVoicings, competingVoices)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -5133,8 +5133,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "628"
             endingLineNumber = "628"
-            landmarkName = "rhythm::randomClave(fromPhrase, minNoteLengthInSubdivisions, maxNoteLengthInSubdivisions)"
-            landmarkType = "7">
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -5204,16 +5204,110 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "ED6E5180-8C19-4561-A41E-20A5502A6DB3"
+            uuid = "CEE5E663-11C4-4576-9838-417C378C2795"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Time/TimedEvent.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "withDuration(newDuration)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "CEE5E663-11C4-4576-9838-417C378C2795 - 121678cfb63b36ec"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Timed&lt;Note&gt;::Timed(char, Duration, Duration)"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Time/TimedEvent.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "89"
+                  endingLineNumber = "89"
+                  offsetFromSymbolStart = "436">
+               </Location>
+               <Location
+                  uuid = "CEE5E663-11C4-4576-9838-417C378C2795 - 6d031e5fdc877918"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Timed&lt;Duration&gt;::Timed(char, Duration, Duration)"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Time/TimedEvent.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "89"
+                  endingLineNumber = "89"
+                  offsetFromSymbolStart = "432">
+               </Location>
+               <Location
+                  uuid = "CEE5E663-11C4-4576-9838-417C378C2795 - abd094506305e1b4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Timed&lt;ChordScale&gt;::Timed(char, Duration, Duration)"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Time/TimedEvent.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "89"
+                  endingLineNumber = "89"
+                  offsetFromSymbolStart = "432">
+               </Location>
+               <Location
+                  uuid = "CEE5E663-11C4-4576-9838-417C378C2795 - e2fab7c0d19597e7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Timed&lt;Time&gt;::Timed(char, Duration, Duration)"
+                  moduleName = "generateStuff2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/beng/experiments/musicDevelopment/generateStuff2/Source/Time/TimedEvent.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "89"
+                  endingLineNumber = "89"
+                  offsetFromSymbolStart = "432">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "016ADB6E-23B7-460A-989C-37FB9C9CFB7D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Music/Rhythm.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "552"
+            endingLineNumber = "552"
+            landmarkName = "rhythm::cascaraFrom(fromPhrase)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1968773F-C6C1-4969-BBCB-FC4A71296D73"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../../Source/Time/Duration.h"
+            filePath = "../../Source/Music/Rhythm.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
-            landmarkName = "Duration(value, dynamicTimeSignature)"
+            startingLineNumber = "626"
+            endingLineNumber = "626"
+            landmarkName = "rhythm::cascaraFrom(fromPhrase)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

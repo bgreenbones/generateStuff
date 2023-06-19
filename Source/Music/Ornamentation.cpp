@@ -99,7 +99,8 @@ vector<Timed<Note>> roll(Duration length, Duration subdivision) {
         DBG ("something's wrong");
     }
     
-    vector<Timed<Note>> roll = Mininotation::parse<Note>(std::string(floor(numNotesInFill), 'x'), subdivision);
+    vector<Timed<Note>> roll =
+        Timed<Note>::fromTimes(Mininotation::parse(std::string(floor(numNotesInFill), 'x'), subdivision));
     for (Timed<Note> &note : roll) {
         note.item.pitch += octave; // TODO: idk
         note.item.isOrnament = true;

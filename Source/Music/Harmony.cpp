@@ -84,7 +84,7 @@ ChordScale harmony::selectApproachAndGenerate(juce::String approach, vector<Time
 ChordScale harmony::randomChordScale() {
     PitchClass root = draw<PitchClass>(pitches);
     vector<Interval> scale = draw<vector<Interval>>(diatonicModes);
-    ChordScale harm(root, scale);
+    ChordScale harm(Tonality(root, scale));
     return harm;
 }
 

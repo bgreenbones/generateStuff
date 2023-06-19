@@ -17,7 +17,7 @@
 #include "ChordScale.h"
 #include "Rhythm.h"
 #include "Utility.h"
-
+#include "Phrase.hpp"
 
 template <class T>
 vector<Timed<T>> Sequence<T>::fromTimes(vector<Time> const& timed, T const& t, Position cursor) {
@@ -325,36 +325,11 @@ template <class T>
 Sequence<T> Sequence<T>::parseMininotation(std::string phraseString, Duration stepLength) { 
     Sequence<T> result(*this);
     result.clear();
-    vector<Timed<T>> parsed = Mininotation::parse<T>(phraseString, stepLength);
-    for (Timed<T> t : parsed) {
-        result.add(t); // might be a better way to get similar result but this will handle duration overflow and stuff.
+    vector<Time> parsed = Mininotation::parse(phraseString, stepLength);
+    for (Time t : parsed) {
+        Timed<T> toAdd(t);
+        result.add(toAdd); // might be a better way to get similar result but this will handle duration overflow and stuff.
     }
-//
-//    auto symbolIter = phraseString.begin();
-//    Duration length = stepLength * ((double) Mininotation::getLength(phraseString));
-//    for(Position startTime = 0; startTime < length; startTime += stepLength) {
-//        char symbol = *symbolIter++;
-//
-//        if (!Mininotation::isInNotation(symbol)) {
-//            DBG ("misuse of mininotation");
-//            continue;
-//        }
-//        if (symbol == Mininotation::rest) { continue; }
-//
-//
-//        if (symbol == Mininotation::sustain) {
-//            if (!result.events.empty()) {
-//                result.events.back().duration += stepLength;
-//            }
-//            continue;
-//        }
-//
-//        if (Mininotation::isNote(symbol)) {  // TODO: implement class-specific interpretations of mininotation symbols
-//            T toAdd(symbol, startTime, stepLength);
-//            result.add(toAdd);
-//        }
-//    }
-
     return result;
 }
 
@@ -502,3 +477,6 @@ template class Sequence<Note>;
 template class Sequence<Duration>;
 template class Sequence<ChordScale>;
 template class Sequence<Time>;
+template class Sequence<Phrase>;
+
+

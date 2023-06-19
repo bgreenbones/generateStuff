@@ -11,7 +11,7 @@
 #pragma once
 
 #include "Duration.h"
-#include "Mininotation.h"
+#include "Utility.h"
 
 class Time {
 public:
@@ -67,7 +67,6 @@ public:
         }
     }
     
-    virtual bool equalsExcludingTime(Time const& other) const { return true; }; // TODO: remove when we can
 };
 
 static const Time nullTime(0,0);
@@ -79,19 +78,9 @@ public:
     Timed(Time time, T t): Time(time), item(t) {}
     Timed(const Time& time): Time(time) {}
     Timed(): Time(nullTime) {}
-    Timed(char mininotation, Position startTime, Duration duration): Time(startTime, duration) {
-        if (Mininotation::isValue(mininotation)) {
-            DBG ("ok, good");
-        } else {
-            DBG ("i think we have to handle this");
-        }
-        
-        if (Mininotation::isAlternate(mininotation)) {
-            // accent();
-            // if (accented != 1.0) {
-            //     DBG ("i guess accented() called the const version");
-            // }
-        }
+
+    static vector<Timed<T>> fromTimes(vector<Time> times) {
+        return mapp<Time, Timed<T>>(times, [](Time time) { return Timed<T>(time); });
     }
     
     Timed<T> withDuration(Duration const& newDuration) const {
@@ -106,7 +95,7 @@ public:
     
     Timed<T>& operator=(Timed<T> const& other) {
         Time::operator=(other);
-         this->item = other.item;
+        this->item = other.item;
         return *this;
     };
     

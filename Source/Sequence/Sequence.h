@@ -26,9 +26,7 @@ enum OverwriteBehavior {
     ignoreOverwrite, erase, cutoff, insert
 };
 
-// this can encapsulate functionality related to the various vectors inside phrase
-// ...notes...subdivisions...dynamics, and other expressions to be added down the line
-template <typename T> // T as to be TimedEvent subclass
+template <typename T>
 class Sequence: public vector<Timed<T>>
 {
 public:

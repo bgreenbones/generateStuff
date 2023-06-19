@@ -187,7 +187,7 @@ Phrase Phrase::randomSubdivisions(vector<Duration> availableSubdivisions, vector
     
     for (Timed<Note> note : accents) {
         int subdivisionIndex = subdivisionIndexDistribution(getGen());
-        Timed<Duration> randomSubdivision(availableSubdivisions[subdivisionIndex], note.startTime, note.duration);
+        Timed<Duration> randomSubdivision(Time(note.startTime, note.duration), availableSubdivisions[subdivisionIndex]);
         result.subdivisions.add(randomSubdivision);
     }
     

@@ -11,6 +11,7 @@
 #pragma once
 
 #include <random>
+#include <iostream>
 
 
 std::mt19937 &getGen();
@@ -23,4 +24,14 @@ double boundedNormal(double min, double max, double thickness = 0);
 double boundedNormal(double min, double max, double thickness, double skew);
 
 template <typename T>
-T draw(std::vector<T> hat, std::vector<double> distribution = {});
+T draw(std::vector<T> hat, std::vector<double> distribution = {}) {
+    if (hat.size() == 0) {
+         std::cout << "real problem here";
+         return T(); // TODO: use optional
+    }
+    if (distribution.size() != hat.size()) {
+        return hat[rollDie((int) hat.size()) - 1];
+    }
+    std::discrete_distribution<int> dist (distribution.begin(), distribution.end());
+    return hat[dist(getGen())];
+}
