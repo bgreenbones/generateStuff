@@ -14,30 +14,5 @@
 
 DynamicLevel Note::accentVelocity = fffff;
 
-Sequence<Note> Note::placeOrnament(OrnamentSimple ornamentSimple, double breadth) const {
-    Ornament ornament = getOrnament(ornamentSimple, breadth, gridded);
-    auto noteLength = (ornament.length / (float) ornament.numNotes);
-    
-//    vector<Note> ornamentNotes = {};
-    Timed* parent = (Timed*)this;
-    Sequence<Note> ornamentNotes(*parent);
-    
-    for (unsigned short notesLeft = ornament.numNotes; notesLeft > 0; notesLeft--) {
-        Note ornamentNote;
-        auto offset = ornament.placement * noteLength * notesLeft;
-        ornamentNote.startTime = this->startTime + offset;
-        ornamentNote.duration = trunc(noteLength * 100.) / 100.; // truncate to avoid overlapping notes
-        ornamentNote.isOrnament = true;
-        ornamentNote.pitch += P5;
-//        ornamentNotes.push_back(ornamentNote);
-        ornamentNotes.add(ornamentNote, PushBehavior::ignore, OverwriteBehavior::ignore);
-    }
-    
-    
-    
-//    ornamentNotes.events = applyDynamics(ornamentNotes.events, ornament.dynamics);
-    dynamics::shape(ornamentNotes, ornament.dynamics);
-    return ornamentNotes;
-}
 
 

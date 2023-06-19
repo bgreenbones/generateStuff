@@ -13,19 +13,15 @@
 #include "Tonality.h"
 #include "TimedEvent.h"
 
-class ChordScale: public Timed {
+class ChordScale {
 public:
     Tonality scale;
     Tonality harmony;
 
-    ChordScale(Tonality scale, Tonality harmony, Position startTime, Duration duration);
-    ChordScale(Tonality scale, Position startTime, Duration duration);
-    ChordScale(PitchClass root, vector<Interval> intervals, Position startTime, Duration duration);
-    ChordScale(PitchClass root, vector<Interval> intervals);
-    ChordScale(Position startTime, Duration duration);
+    ChordScale(Tonality scale, Tonality harmony);
+    ChordScale(Tonality scale);
     ChordScale();
-    ChordScale(char mininotation, Position startTime, Duration duration);
     
 public:
-    bool equalsExcludingTime(ChordScale const& other) const;
+    bool operator==(ChordScale const & other) const;
 };

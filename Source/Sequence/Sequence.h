@@ -11,33 +11,33 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include "TimedEvent.h"
-#include "Subdivision.h"
 #include "Probability.h"
-#include "Pitch.h"
+
+
+using std::vector, std::reference_wrapper;
 
 typedef enum PushBehavior {
-    ignore, truncate, wrap
+    ignorePush, truncate, wrap
 } PushBehavior;
 
 enum OverwriteBehavior {
-    ignore, erase, cutoff, insert
+    ignoreOverwrite, erase, cutoff, insert
 };
 
-// this can encapsulate functionality related to the various vectors inside phrase
-// ...notes...subdivisions...dynamics, and other expressions to be added down the line
-template <typename T> // T as to be TimedEvent subclass
-class Sequence: public vector<T>
+template <typename T>
+class Sequence: public vector<Timed<T>>
 {
 public:
-    static vector<T> fromTimed(vector<Timed> const& timed, T const& t, Position cursor = 0);
-    static vector<T> fromTimed(vector<Timed> const& timed, Position cursor = 0);
-    static vector<T> burst(Duration eventLength, int numberOfEvents);
+    static vector<Timed<T>> fromTimes(vector<Time> const& timed, T const& t, Position cursor = 0);
+    static vector<Timed<T>> fromTimes(vector<Time> const& timed, Position cursor = 0);
+    static vector<Timed<T>> burst(Duration eventLength, int numberOfEvents);
     
-    Sequence(vector<T> events, bool monophonic, Timed& parent): vector<T>(events), monophonic(monophonic), parent(parent) {}
-    Sequence(vector<T> events, Timed& parent): Sequence(events, true, parent) {}
-    Sequence(Timed &parent): Sequence({}, parent) {}
-    Sequence(Sequence other, Timed& newParent): Sequence(other, other.monophonic, newParent) {}
+    Sequence(vector<Timed<T>> events, bool monophonic, Time& parent): vector<Timed<T>>(events), monophonic(monophonic), parent(parent) {}
+    Sequence(vector<Timed<T>> events, Time& parent): Sequence(events, true, parent) {}
+    Sequence(Time& parent): Sequence({}, parent) {}
+    Sequence(Sequence other, Time& newParent): Sequence(other, other.monophonic, newParent) {}
     Sequence& operator=(Sequence const& other) {
         this->assignEvents(other);
         this->parent = other.parent;
@@ -47,32 +47,43 @@ public:
     
     bool monophonic = true;
     bool isPolyphonic() { return !monophonic; }
-    Timed &parent;
+    Time& parent;
 
     Sequence<T> toMonophonic() const;
     Sequence<T> toPolyphonic() const;
 
-    T primary() const {return longest<T>(*this);}
-    T* last() { return this->empty() ? nullptr : &(*this)[this->size() - 1];};
-    vector<T> byPosition(Position position) const;
-    vector<T*> pointersByPosition(Position position);
+    Timed<T> primary() const { 
+        Timed<T> result;
+        Duration maximumDuration = 0;
+        for (auto it = this->begin(); it < this->end(); it++) {
+            if (it->duration > maximumDuration) {
+                maximumDuration = it->duration;
+                result = *it;
+            }
+        }
+        return result;
+        // return longest<T>(*this);
+    }
+    Timed<T>* last() { return this->empty() ? nullptr : &(*this)[this->size() - 1];};
+    vector<Timed<T>> byPosition(Position position) const;
+    vector<Timed<T>*> pointersByPosition(Position position);
     // vector<T&> refsByPosition(Position position) const;
-    vector<T> byStartPosition(Position position) const;
-    vector<T> bySpan(Timed span) const;
-    vector<reference_wrapper<T>> refsBySpan(Timed span);
-    T drawByPosition(Position position) const;
+    vector<Timed<T>> byStartPosition(Position position) const;
+    vector<Timed<T>> bySpan(Time span) const;
+    vector<reference_wrapper<Timed<T>>> refsBySpan(Time span);
+    Timed<T> drawByPosition(Position position) const;
     Position nextStartTime(Position previousStartTime) const;
         
     Position endTime() const {
         return this->size() > 0 ? this->back().endTime() : Position(0);
     }
     
-    bool add(T toAdd, PushBehavior pushBehavior = PushBehavior::ignore, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignore);
+    bool add(Timed<T> toAdd, PushBehavior pushBehavior = PushBehavior::ignorePush, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignoreOverwrite);
     Sequence<T> tie(bool fillBeginning = false);
     Sequence<T> legato();
-    bool concat(Sequence<T> other, bool useLast = false, PushBehavior pushBehavior = PushBehavior::ignore);
-    bool insertVector(vector<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignore);
-    bool insertSequence(Sequence<T> other, Position startTime, PushBehavior pushBehavior = PushBehavior::ignore, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignore);
+    bool concat(Sequence<T> other, bool useLast = false, PushBehavior pushBehavior = PushBehavior::ignorePush);
+    bool insertVector(vector<Timed<T>> other, Position startTime = Position(0), PushBehavior pushBehavior = PushBehavior::ignorePush, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignoreOverwrite);
+    bool insertSequence(Sequence<T> other, Position startTime = Position(0), PushBehavior pushBehavior = PushBehavior::ignorePush, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignoreOverwrite);
     bool chopAfterDuration(Duration duration);
     bool flip();
     
@@ -85,20 +96,20 @@ public:
 
     // Mininotation stuff
     Sequence<T> parseMininotation(std::string phraseString, Duration stepLength);
-    bool append(std::string phraseString, Duration stepLength, PushBehavior pushBehavior = PushBehavior::ignore);
+    bool append(std::string phraseString, Duration stepLength, PushBehavior pushBehavior = PushBehavior::ignorePush);
 //    bool insertMininotation(std::string phraseString, Position startTime, Duration stepLength, PushBehavior pushBehavior = PushBehavior::ignore, bool overwrite = false);
-    bool insertMininotation(std::string phraseString, Position startTime, Duration stepLength, PushBehavior pushBehavior = PushBehavior::ignore, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignore);
+    bool insertMininotation(std::string phraseString, Position startTime, Duration stepLength, PushBehavior pushBehavior = PushBehavior::ignorePush, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignoreOverwrite);
     
     // 'visualization' / debugging
     std::string getStartTimesString();
     
     
-    void assignEvents(vector<T> events) {
+    void assignEvents(vector<Timed<T>> events) {
         this->clear();
         this->assign(events.begin(), events.end());
     };
     
-    bool equals(vector<T> other) {
+    bool equals(vector<Timed<T>> other) {
         if (other.size() != this->size()) {
             return false;
         }
@@ -121,108 +132,5 @@ public:
 // then we won't have to iterate to get timed events from their positions
     // vector<int> sparse;
 };
-
-
-
-
-
-// Haha declaring Note now because of crazy explicit template instantiation logistics.
-#include "Probability.h"
-#include "Mininotation.h"
-#include "Ornamentation.h"
-#include "Dynamics.h"
-
-static const DynamicLevel accentVelocity = DynamicLevel::fff;
-static const DynamicLevel unaccentedVelocity = DynamicLevel::mp;
-static const DynamicLevel defaultVelocity = DynamicLevel::mf;
-
-static const Pitch defaultPitch(C, 5);
-
-class Note: public Timed
-{
-public:
-    Note(Pitch pitch = defaultPitch,
-         int velocity = defaultVelocity,
-         Position startTime = 0,
-         Duration duration = 1): Timed(startTime, duration), pitch(pitch), velocity(velocity), accented(false), ornamented(false), isOrnament(false) { }
-    Note(Position startTime, Duration duration): Note(defaultPitch, defaultVelocity, startTime, duration) { }
-    Note(char mininotation, Position startTime, Duration duration): Note(defaultPitch, defaultVelocity, startTime, duration) {
-        if (Mininotation::isValue(mininotation)) {
-            DBG ("ok, good");
-        } else {
-            DBG ("i think we have to handle this");
-        }
-        
-        if (Mininotation::isAlternate(mininotation)) {
-            accent();
-            if (accented != 1.0) {
-                DBG ("i guess accented() called the const version");
-            }
-        }
-    }
-    
-    static DynamicLevel accentVelocity;
-    operator int() const { return pitch.pitchValue; };
-    
-    Note operator+(const Duration duration);
-    Note operator+(const Note pitch);
-    
-    Note& operator=(Note const& other) {
-        this->startTime = other.startTime;
-        this->duration = other.duration;
-        this->pitch = other.pitch;
-        this->velocity = other.velocity;
-        this->accented = other.accented;
-        this->ornamented = other.ornamented;
-        this->isOrnament = other.isOrnament;
-        return *this;
-    };
-    
-    Note displace(Duration toDisplaceBy, bool forwards = true);
-    Note accent() {
-        this->accented = 1.0;
-        this->velocity = accentVelocity;
-        return *this;
-    };
-
-    Note withAccent() const {
-        Note modified = Note(*this);
-        return modified.accent();
-    };
-    
-    Note withDuration(Duration newDuration) const {
-        Note modified = Note(*this);
-        modified.duration = newDuration;
-        return modified;
-    }
-
-    Note ornament() const {
-        Note modified = Note(*this);
-        modified.ornamented = 1.0;
-        return modified;
-    }
-    
-    Sequence<Note> placeOrnament(OrnamentSimple ornamentSimple, double breadth) const;
-    
-    Pitch pitch;
-    int velocity;
-    Probability accented;
-    Probability ornamented;
-    bool isOrnament;
-    // todo: other expressions for ccs
-    
-    bool operator< (const Note &other) { return startTime < other.startTime; }
-    bool operator> (const Note &other) { return startTime > other.startTime; }
-    
-    bool equalsExcludingTime(Note const& other) const {
-        return this->pitch == other.pitch &&
-            this->velocity == other.velocity &&
-            this->accented == other.accented &&
-            this->ornamented == other.ornamented &&
-            this->isOrnament == other.isOrnament;
-    }
-};
-
-
 
 

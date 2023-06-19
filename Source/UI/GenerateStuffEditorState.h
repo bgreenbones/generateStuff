@@ -11,8 +11,8 @@
 #pragma once
 
 #include "Duration.h"
-#include "Subdivision.h"
 
+using std::map, std::string;
 
 
 class TransformEditorState {
@@ -78,8 +78,8 @@ public:
         return result;
     }
     
-    Subdivision getSubdivision() const {
-        return Subdivision(Beats(subdivision), getStartTime(), getPhraseLength());
+    Duration getSubdivision() const {
+        return Beats(subdivision);
     }
     
     Beats getDisplacement() const { return Beats(displace, true); }

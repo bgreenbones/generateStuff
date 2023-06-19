@@ -26,7 +26,7 @@ std::size_t VoiceControls::getNumberOfColumns() {
     return getNumberOfButtons() + 1;
 }
 
-void VoiceControls::callAddAndMakeVisible(Component *editor) {
+void VoiceControls::callAddAndMakeVisible(juce::Component *editor) {
     editor->addAndMakeVisible (midiChannel);
     for (auto button : buttons) {
         editor->addAndMakeVisible (button);

@@ -94,7 +94,7 @@ private:
       juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo, 
       const double ppqPosition, 
       Sequence<Note> noteSequence, 
-      Timed scheduledTime,
+      Time scheduledTime,
       int midiChannel);
     
 };

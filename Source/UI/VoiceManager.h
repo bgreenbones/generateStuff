@@ -25,7 +25,7 @@ private:
 public:
     GenerateStuffAudioProcessor& processor;    
     Ensemble& ensemble;
-    Component* mainEditor;
+    juce::Component* mainEditor;
     
     // string useAsSourcePhraseKeyState;
     
@@ -34,9 +34,9 @@ public:
 
     void midiChannelChanged(string voiceName);
     void setOnClicks();
-    void callAddAndMakeVisible(Component *editor);
+    void callAddAndMakeVisible(juce::Component *editor);
     void configureButtons();
-    void configure(Component *editor);
+    void configure(juce::Component *editor);
     void setBounds(int xCursor, int yCursor, int buttonWidth, int buttonHeight, int spaceBetweenControls);
     size_t getNumberOfButtons();
     size_t getNumberOfColumns();

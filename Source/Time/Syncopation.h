@@ -11,7 +11,6 @@
 #pragma once
 
 #include "Duration.h"
-#include "Subdivision.h"
 
 // TODO: this should be its own roll-to-target-note function? we can make different kinds of fills and have fill-in-gaps select them randomly
 // options:
@@ -31,5 +30,5 @@ public:
     
     Syncopation(SyncopationType type, double amount): type(type), amount(amount) {}
     Position getPlacement(Position start, Position target);
-    Position getPlacement(Position start, Position target, Subdivision subdivision);
+    Position getPlacement(Position start, Position target, Duration subdivision);
 };

@@ -187,6 +187,7 @@ public:
     operator Beats() const;
     operator Bars() const;
     operator double() const { return this->asQuarters(); };
+
 };
 
 

@@ -249,7 +249,7 @@ void GenerateStuffAudioProcessor::playNoteSequence(juce::MidiBuffer& midiMessage
     juce::Optional<juce::AudioPlayHead::PositionInfo> positionInfo,
     const double ppqPosition, 
     Sequence<Note> noteSequence, 
-    Timed scheduledTime,
+    Time scheduledTime,
     int midiChannel) {
 
     Position phraseStartPosition = scheduledTime.startTime + noteSequence.parent.startTime;
@@ -259,7 +259,7 @@ void GenerateStuffAudioProcessor::playNoteSequence(juce::MidiBuffer& midiMessage
     Position scheduledEndTime = scheduledTime.endTime();
 
     for (auto noteIt = noteSequence.begin(); noteIt != noteSequence.end(); ++noteIt) {
-        Note note = *noteIt;
+        Timed<Note> note = *noteIt;
         
         // double noteOnTimeInQuarters = editorState.getDisplacement() + scheduledStartTime + note.startTime;
         double noteOnTimeInQuarters = scheduledStartTime + note.startTime;
@@ -347,8 +347,8 @@ void GenerateStuffAudioProcessor::playNoteSequence(juce::MidiBuffer& midiMessage
         
         if (isPpqTimeInBuffer(positionInfo, ppqPosition, noteOnTimeInQuarters)) {
             auto noteOn = juce::MidiMessage::noteOn (midiChannel,
-                                                    note.pitch,
-                                                    (juce::uint8) note.velocity);
+                                                    note.item.pitch,
+                                                    (juce::uint8) note.item.velocity);
             double onTime = bufferTimeFromPpqTime(positionInfo, ppqPosition, noteOnTimeInQuarters);
             bool success = midiMessages.addEvent (noteOn, onTime);
             if (!success) {
@@ -359,8 +359,8 @@ void GenerateStuffAudioProcessor::playNoteSequence(juce::MidiBuffer& midiMessage
         
         if (isPpqTimeInBuffer(positionInfo, ppqPosition, noteOffTimeInQuarters)) {
             auto noteOff = juce::MidiMessage::noteOff (midiChannel,
-                                                        note.pitch,
-                                                        (juce::uint8) note.velocity);
+                                                        note.item.pitch,
+                                                        (juce::uint8) note.item.velocity);
             // double offTime = bufferTimeFromPpqTime(positionInfo, ppqPosition, noteOffTimeInQuarters) - 2; // maybe prevent some notes from missing their note off by ending them earlier
             double offTime = bufferTimeFromPpqTime(positionInfo, ppqPosition, noteOffTimeInQuarters);
             bool success = midiMessages.addEvent (noteOff, offTime);
@@ -409,7 +409,7 @@ void GenerateStuffAudioProcessor::playPlayables(
         if (voice.mute) { continue; }
         int midiChannel = voice.midiChannel;
 
-        for (Timed scheduledTime : phrase.schedule) {
+        for (Time scheduledTime : phrase.schedule) {
             playNoteSequence(midiMessages, positionInfo, ppqPosition, phrase.notes, scheduledTime, midiChannel);
             if (!voice.muteConnecting) {
                 playNoteSequence(midiMessages, positionInfo, ppqPosition, phrase.connectingNotes, scheduledTime, midiChannel);

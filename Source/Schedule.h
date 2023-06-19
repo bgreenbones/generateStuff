@@ -14,74 +14,12 @@
 #include "Phrase.hpp"
 #include "FormMusical.h"
 
-// class Schedule {
-//     Form form;
-// public:
-//     Sequence<TimedEvent> scheduleTimes;
-//     map<TimedEvent, vector<Phrase>> schedule;
-//     Schedule() : scheduleTimes(form) {
-//       scheduleTimes = scheduleTimes.toPolyphonic();
-//       scheduleTimes.add(TimedEvent(form.startTime, form.duration));
-//       schedule[scheduleTimes.back()] = {};
-//     }
-// 
-//     void clear() {
-//       schedule.clear();
-//       scheduleTimes.clear();
-//     }
-// 
-//     vector<Phrase> at(Quarters ppqPosition) {
-//       vector<Phrase> result;
-//     
-//       vector<TimedEvent> times = scheduleTimes.byPosition(ppqPosition);
-//       for (auto scheduleTime : times)
-//       {
-//         vector<Phrase> phrases = schedule.at(scheduleTime);
-//         for (Phrase phrase : phrases)
-//         {
-//           result.push_back(phrase);
-//         }
-//       }
-//       return result;
-//     }
-// 
-//     void schedulePhrase(TimedEvent time, Phrase phrase) {
-//       if (schedule.find(time) == schedule.end()) {
-//         scheduleTimes.add(time);
-//         schedule[time] = {};
-//       }
-//       phrase.schedule.emplace(time);
-//       schedule.at(time).push_back(phrase);
-//     }
-//     
-//     void unschedulePhrase(TimedEvent time, VoiceName voiceName) {
-//       if (schedule.find(time) == schedule.end()) {
-//         return;
-//       }
-//       
-//       scheduleTimes.erase(std::remove_if(scheduleTimes.begin(), scheduleTimes.end(),
-//                                 [time](TimedEvent t) { return time == t; }),
-//                                 scheduleTimes.end());
-//                                 
-//       vector<Phrase>& scheduled = schedule[time];                          
-//       scheduled.erase(std::remove_if(scheduled.begin(), scheduled.end(),
-//                                 [voiceName](Phrase p) { return p.voice == voiceName; }),
-//                                 scheduled.end());
-//                                 
-//       if (scheduled.empty()) {
-//         schedule.erase(time);
-//       }
-//     }
-// };
-
-
-
 
 class VoiceSchedule {
 public:
     Form form;
-    Sequence<Timed> scheduleTimes;
-    map<Timed, Phrase> schedule;
+    Sequence<Time> scheduleTimes;
+    map<Time, Phrase> schedule;
     VoiceSchedule() : scheduleTimes(form) {
       scheduleTimes = scheduleTimes.toMonophonic();
     }
@@ -98,12 +36,12 @@ public:
       if (!isScheduledAt(ppqPosition)) {
         return nullptr;
       }
-      Timed time = scheduleTimes.drawByPosition(ppqPosition);
+      Time time = scheduleTimes.drawByPosition(ppqPosition);
       Phrase const& result = schedule.at(time);
       return &result;
     }
 
-    bool schedulePhrase(Timed time, Phrase phrase) {
+    bool schedulePhrase(Time time, Phrase phrase) {
       phrase.schedule.emplace(time);
       if (find(scheduleTimes.begin(), scheduleTimes.end(), time) == scheduleTimes.end()) {
         if (!scheduleTimes.add(time)) {
@@ -119,13 +57,13 @@ public:
       return true;
     }
     
-    void unschedulePhrase(Timed time) {
+    void unschedulePhrase(Time time) {
       if (schedule.find(time) == schedule.end()) {
         return;
       }
       
       scheduleTimes.erase(std::remove_if(scheduleTimes.begin(), scheduleTimes.end(),
-                                [time](Timed t) { return time == t; }),
+                                [time](Time t) { return time == t; }),
                                 scheduleTimes.end());
 
       schedule.erase(time);

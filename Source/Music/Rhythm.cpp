@@ -15,11 +15,11 @@
 #include "Utility.h"
 
 
-vector<Timed> rhythm::doublesAndDiddles(vector<Timed> times, double modifyProportion, double doubleProportion, double halfProportion) {
+vector<Time> rhythm::doublesAndDiddles(vector<Time> times, double modifyProportion, double doubleProportion, double halfProportion) {
     // choose times to modify
-    vector<vector<Timed*>> toDoubleOrHalf = rhythm::distinctSubsets<Timed>(times, modifyProportion, {doubleProportion, halfProportion});
-    vector<Timed*> toDouble = toDoubleOrHalf[0];
-    vector<Timed*> toHalf = toDoubleOrHalf[1];
+    vector<vector<Time*>> toDoubleOrHalf = rhythm::distinctSubsets<Time>(times, modifyProportion, {doubleProportion, halfProportion});
+    vector<Time*> toDouble = toDoubleOrHalf[0];
+    vector<Time*> toHalf = toDoubleOrHalf[1];
     // // modify times
     rhythm::multiplyTimeLength(times, toDouble, 2);
     rhythm::repeat(times, toHalf, 0.5);
@@ -27,7 +27,7 @@ vector<Timed> rhythm::doublesAndDiddles(vector<Timed> times, double modifyPropor
     return times;
 }
     
-vector<Timed> rhythm::gaps(Phrase gapFiller, vector<Phrase> competingVoices) {
+vector<Time> rhythm::gaps(Phrase gapFiller, vector<Phrase> competingVoices) {
 
   vector<Position> startTimes = {0};
   vector<Position> allStartTimes = {0};
@@ -37,7 +37,7 @@ vector<Timed> rhythm::gaps(Phrase gapFiller, vector<Phrase> competingVoices) {
     // if (competingPhrase.getDuration() > longestPhraseDuration) {
     //   longestPhraseDuration = competingPhrase.getDuration();
     // }
-    for (Note note : competingPhrase.notes) {
+    for (Timed<Note> note : competingPhrase.notes) {
       if (note.startTime < gapFiller.getDuration()) {
         allStartTimes.push_back(note.startTime);
       }
@@ -54,17 +54,17 @@ vector<Timed> rhythm::gaps(Phrase gapFiller, vector<Phrase> competingVoices) {
   }
 //   startTimes.push_back(unfilledVoicings.getDuration());
   // sort(startTimes);
-  vector<Timed> spaces;
+  vector<Time> spaces;
   for (auto it = startTimes.begin(); it != startTimes.end(); it++) {
     auto next = it + 1;
     if (next == startTimes.end()) {
       break;
     }
     Duration difference = *next - *it;
-    Subdivision subdivision = gapFiller.subdivisions.drawByPosition(*it);
+    Duration subdivision = gapFiller.subdivisions.drawByPosition(*it);
     Duration threshold = subdivision;
     if (difference > threshold) {
-      spaces.push_back(Timed(*it, difference));
+      spaces.push_back(Time(*it, difference));
     //   spaces.push_back(Timed(*it + threshold, difference - threshold));
 //      totalSpaceToFill += difference;
     }
@@ -72,10 +72,10 @@ vector<Timed> rhythm::gaps(Phrase gapFiller, vector<Phrase> competingVoices) {
   return spaces;
 }
 
-void rhythm::multiplyTimeLength(vector<Timed>& timed, vector<Timed*> toMultiply, double multiplyBy) {
+void rhythm::multiplyTimeLength(vector<Time>& timed, vector<Time*> toMultiply, double multiplyBy) {
     for (auto timeIter = timed.begin(); timeIter < timed.end(); timeIter++) {
-        Timed* time = &(*timeIter);
-        if (!contains<Timed*>(toMultiply, time)) {
+        Time* time = &(*timeIter);
+        if (!contains<Time*>(toMultiply, time)) {
           continue;
         }
         if (multiplyBy > 1 && timeIter == timed.end() - 1) {
@@ -89,15 +89,15 @@ void rhythm::multiplyTimeLength(vector<Timed>& timed, vector<Timed*> toMultiply,
     }
 }
 
-void rhythm::repeat(vector<Timed>& timed, vector<Timed*> toMultiply, double multiplyBy) {
+void rhythm::repeat(vector<Time>& timed, vector<Time*> toMultiply, double multiplyBy) {
     if (multiplyBy >= 1) { return; }
     for (auto timeIter = timed.begin(); timeIter < timed.end(); timeIter++) {
-        Timed* time = &(*timeIter);
-        if (!contains<Timed*>(toMultiply, time)) { continue; }
+        Time* time = &(*timeIter);
+        if (!contains<Time*>(toMultiply, time)) { continue; }
         
         Position originalEndTime = time->endTime();
         time->duration = multiplyBy * time->duration;
-        Timed repetition(*time);
+        Time repetition(*time);
         while (repetition.endTime() < originalEndTime) {
             repetition.startTime = repetition.endTime();
             if (repetition.endTime() > originalEndTime) {repetition.setEndTime(originalEndTime);}
@@ -117,8 +117,8 @@ vector<T*> rhythm::selectAtRandom(vector<T>& t, Probability prob) {
     }
     return result;
 }
-template vector<Timed*> rhythm::selectAtRandom(vector<Timed>& t, Probability prob);
-template vector<Note*> rhythm::selectAtRandom(vector<Note>& t, Probability prob);
+template vector<Time*> rhythm::selectAtRandom(vector<Time>& t, Probability prob);
+template vector<Timed<Note>*> rhythm::selectAtRandom(vector<Timed<Note>>& t, Probability prob);
 
 template <typename T>
 vector<vector<T*>> rhythm::distinctSubsets(vector<T>& t, int n, Probability prob) {
@@ -132,8 +132,8 @@ vector<vector<T*>> rhythm::distinctSubsets(vector<T>& t, int n, Probability prob
     }
     return result;    
 }
-template vector<vector<Timed*>> rhythm::distinctSubsets(vector<Timed>& t, int n, Probability prob);
-template vector<vector<Note*>> rhythm::distinctSubsets(vector<Note>& t, int n, Probability prob);
+template vector<vector<Time*>> rhythm::distinctSubsets(vector<Time>& t, int n, Probability prob);
+template vector<vector<Timed<Note>*>> rhythm::distinctSubsets(vector<Timed<Note>>& t, int n, Probability prob);
 
 template <typename T>
 vector<vector<T*>> rhythm::distinctSubsets(vector<T>& t, Probability prob, vector<double> distribution) {
@@ -150,55 +150,55 @@ vector<vector<T*>> rhythm::distinctSubsets(vector<T>& t, Probability prob, vecto
     }
     return result;    
 }
-template vector<vector<Timed*>> rhythm::distinctSubsets(vector<Timed>& t, Probability prob, vector<double> distribution);
-template vector<vector<Note*>> rhythm::distinctSubsets(vector<Note>& t, Probability prob, vector<double> distribution);
+template vector<vector<Time*>> rhythm::distinctSubsets(vector<Time>& t, Probability prob, vector<double> distribution);
+template vector<vector<Timed<Note>*>> rhythm::distinctSubsets(vector<Timed<Note>>& t, Probability prob, vector<double> distribution);
 
-vector<Timed> rhythm::onePerShortForLong(Duration longDuration, Duration shortDuration) {
-    vector<Timed> timeds;
+vector<Time> rhythm::onePerShortForLong(Duration longDuration, Duration shortDuration) {
+    vector<Time> timeds;
     int numberOfTimeds = longDuration / shortDuration;
     int timedNumber = 0;
     while(numberOfTimeds-- > 0) {
         Duration startTime = (timedNumber++) * shortDuration;
         Duration untilEnd = longDuration - startTime;
         Duration timedLength(untilEnd < shortDuration ? untilEnd : shortDuration);
-        Timed timed(startTime, timedLength);
+        Time timed(startTime, timedLength);
         timeds.push_back(timed);
     }
     return timeds;
 }
 
-vector<Timed> rhythm::nOfLengthM(int n, Duration m) {
-    vector<Timed> timeds;
+vector<Time> rhythm::nOfLengthM(int n, Duration m) {
+    vector<Time> timeds;
     if (n < 1) {
         return timeds;
     }
     for (int i = 0; i < n; i++) {
         Position startTime = i * m;
-        timeds.push_back(Timed(startTime, m));
+        timeds.push_back(Time(startTime, m));
     }
     return timeds;
 }
 
 Phrase rhythm::rhythmicVariation(Phrase source) {
 
-    for (Note& note : source.notes) {
+    for (Timed<Note>& note : source.notes) {
 
         if (flipWeightedCoin(0.2)) {
-            Subdivision subDiv = source.subdivisions.drawByPosition(note.startTime);
+            Duration subDiv = source.subdivisions.drawByPosition(note.startTime);
             Position newStartTime = note.startTime - note.duration;
             if (flipCoin()) {        
                 // Subdivision subDiv = draw<Subdivision>(source.subdivisions.bySpan(TimedEvent(newStartTime, 2 * note.duration)));
                 newStartTime = note.startTime - subDiv;
                 note.startTime = newStartTime;
-                vector<reference_wrapper<Note>> overlappingNotes = source.notes.refsBySpan(note);
-                for (Note & overlapping : overlappingNotes) {
+                vector<reference_wrapper<Timed<Note>>> overlappingNotes = source.notes.refsBySpan(note);
+                for (Timed<Note> & overlapping : overlappingNotes) {
                     overlapping.duration = newStartTime - overlapping.startTime;
                 }
             } else {
                 newStartTime = note.startTime + subDiv;
                 note.startTime = newStartTime;
-                vector<reference_wrapper<Note>> overlappingNotes = source.notes.refsBySpan(note);
-                for (Note & overlapping : overlappingNotes) {
+                vector<reference_wrapper<Timed<Note>>> overlappingNotes = source.notes.refsBySpan(note);
+                for (Timed<Note> & overlapping : overlappingNotes) {
                     overlapping.duration = overlapping.endTime() - note.startTime;
                     overlapping.startTime = note.endTime();
                 }
@@ -235,10 +235,10 @@ Phrase rhythm::stabilityBased(Phrase fromPhrase, Probability filter)
     fromPhrase.notes.clear();
     Position cursor = fromPhrase.getStartTime();
     while (cursor < fromPhrase.getEndTime()) {
-        Subdivision subdiv = fromPhrase.subdivisions.drawByPosition(cursor);
+        Duration subdiv = fromPhrase.subdivisions.drawByPosition(cursor);
         
         if(Probability(rhythm::beatWiseStability(cursor)) && filter) {
-            fromPhrase.addNote(Note(cursor, subdiv));
+            fromPhrase.addNote(Timed<Note>(Time(cursor, subdiv)));
         }
         
         cursor += subdiv;
@@ -247,21 +247,22 @@ Phrase rhythm::stabilityBased(Phrase fromPhrase, Probability filter)
     return fromPhrase;
 }
 
-vector<Timed> rhythm::stabilityBased(Timed time, 
-                                    Sequence<Subdivision> subdivisions, 
+vector<Time> rhythm::stabilityBased(Time time, 
+                                    Sequence<Duration> subdivisions,
                                     double stabilityThreshold, 
                                     Probability filter)
 {
+    time.trim(subdivisions.parent);
     Position cursor = time.startTime;
-    vector<Timed> result;
+    vector<Time> result;
     while (cursor < time.endTime()) {
-        Subdivision subdiv = subdivisions.drawByPosition(cursor);
+        Duration subdiv = subdivisions.drawByPosition(cursor);
         double stability = rhythm::beatWiseStability(cursor); 
         double thresholdedStability = stability > stabilityThreshold 
             ? (stability - stabilityThreshold) / (1. - stabilityThreshold)
             : 0.; 
         if(Probability(thresholdedStability) && filter) {
-            result.push_back(Timed(cursor - time.startTime, subdiv));
+            result.push_back(Time(cursor - time.startTime, subdiv));
         }
         cursor += subdiv;
     }
@@ -279,7 +280,7 @@ Phrase rhythm::stabilityFilter(Phrase fromPhrase, Direction direction) {
     Sequence<Note> monoNotesCopy = fromPhrase.notes.toMonophonic();
     while (searchingForMovableNote && !monoNotesCopy.empty()) {
         shuffle(monoNotesCopy.begin(), monoNotesCopy.end(), getGen());
-        Note note = monoNotesCopy.back(); // sample without replacement.
+        Timed<Note> note = monoNotesCopy.back(); // sample without replacement.
         monoNotesCopy.pop_back();
         double noteStability = rhythm::beatWiseStability(note.startTime);
 
@@ -304,7 +305,7 @@ Phrase rhythm::stabilityFilter(Phrase fromPhrase, Direction direction) {
         Position nextNoteStartTime = monoNotesCopy.nextStartTime(newStartTime);
         Duration newDuration = min(nextNoteStartTime - newStartTime, note.duration);
         
-        for(Note &otherNote : fromPhrase.notes) {
+        for(Timed<Note> &otherNote : fromPhrase.notes) {
             if (otherNote.startTime == note.startTime) {
                 otherNote.startTime = newStartTime;
                 otherNote.duration = newDuration;
@@ -316,8 +317,8 @@ Phrase rhythm::stabilityFilter(Phrase fromPhrase, Direction direction) {
 
 
 
-Phrase rhythm::burst(Phrase fromPhrase, Note note, int minimumRepeats, int maximumRepeats, float noteLengthInSubdivisions) {
-    vector<Subdivision> subdivs = fromPhrase.subdivisions.byPosition(note.startTime);
+Phrase rhythm::burst(Phrase fromPhrase, Timed<Note> note, int minimumRepeats, int maximumRepeats, float noteLengthInSubdivisions) {
+    vector<Timed<Duration>> subdivs = fromPhrase.subdivisions.byPosition(note.startTime);
     Duration subdiv = subdivs.empty() ? sixteenths : subdivs.at(0);
     Duration noteLength = noteLengthInSubdivisions * subdiv;
     note.duration = noteLength;
@@ -325,19 +326,19 @@ Phrase rhythm::burst(Phrase fromPhrase, Note note, int minimumRepeats, int maxim
     int numberOfPossibleBurstLengths = maximumRepeats - minimumRepeats;
     int numberOfNotes = rollDie(numberOfPossibleBurstLengths);
 
-    vector<Timed> times = nOfLengthM(numberOfNotes, noteLength);
-    vector<Note> notes = Sequence<Note>::fromTimed(times, note);
-    fromPhrase.notes.insertVector(notes, note.startTime, PushBehavior::ignore, OverwriteBehavior::cutoff);
+    vector<Time> times = nOfLengthM(numberOfNotes, noteLength);
+    vector<Timed<Note>> notes = Sequence<Note>::fromTimes(times, note);
+    fromPhrase.notes.insertVector(notes, note.startTime, PushBehavior::ignorePush, OverwriteBehavior::cutoff);
     // for (Timed time : times) {
-    //     Note repeatNote(note.pitch, note.velocity, note.startTime + time.startTime, noteLength);
-    //     fromPhrase.notes.add(repeatNote, PushBehavior::ignore, OverwriteBehavior::cutoff);
+    //     Timed<Note> repeatTimed<Note>(note.pitch, note.velocity, note.startTime + time.startTime, noteLength);
+    //     fromPhrase.notes.add(repeatTimed<Note>, PushBehavior::ignore, OverwriteBehavior::cutoff);
     // }
     
-    // for (double repeat = 0; repeat < numberOfNotes; repeat++) {
+    // for (double repeat = 0; repeat < numberOfTimed<Note>s; repeat++) {
     //     Position position = note.startTime + repeat * noteLength;
     //     if (fromPhrase.notes.byStartPosition(position).empty()) {
-    //         Note repeatNote(note.pitch, note.velocity, position, noteLength);
-    //         fromPhrase.notes.add(repeatNote, PushBehavior::ignore, OverwriteBehavior::cutoff);
+    //         Timed<Note> repeatTimed<Note>(note.pitch, note.velocity, position, noteLength);
+    //         fromPhrase.notes.add(repeatTimed<Note>, PushBehavior::ignore, OverwriteBehavior::cutoff);
     //     }
     // }
     
@@ -368,9 +369,10 @@ Probability ornamentProbabilityClave = 0.75;
 int clavePitch = 60;
 DynamicLevel claveVelocity = ff;
 
-Note claveNote(Position startTime, Duration duration = 1) {
-    Note newClaveNote = Note(clavePitch, claveVelocity, startTime, duration).accent();
-    newClaveNote.ornamented = ornamentProbabilityClave;
+Timed<Note> claveNote(Position startTime, Duration duration = 1) {
+    Note n = Note(clavePitch, claveVelocity).accent();
+    n.ornamented = ornamentProbabilityClave;
+    Timed<Note> newClaveNote = Timed<Note>(Time(startTime, duration), n);
     return newClaveNote;
 }
 
@@ -380,11 +382,11 @@ void applyCascaraAccents(Sequence<Note> &cascara, Duration displacement) { // TO
          noteIt != cascara.end();
          noteIt++) {
         if (noteIt->duration == displacement) { // beginning of a double
-            noteIt->velocity = unaccentedVelocity;
+            noteIt->item.velocity = unaccentedVelocity;
         } else {
-            noteIt->accented = true;
-            noteIt->velocity = accentVelocity;
-            noteIt->ornamented = 0.5;
+            noteIt->item.accented = true;
+            noteIt->item.velocity = accentVelocity;
+            noteIt->item.ornamented = 0.5;
         }
     }
 }
@@ -470,7 +472,7 @@ Phrase rhythm::fillClave(Phrase fromPhrase,
             if (timeBetweenNotes <= maxNoteLength) { continue; }
             
             int iters = 0;
-            Note currentNote = *noteIt;
+            Timed<Note> currentNote = *noteIt;
             while (timeBetweenNotes > maxNoteLength && (notesNeededOnLeft > 0 || notesNeededOnRight > 0))
             {
                 Duration wrapAround = (nextNote->startTime < currentNote.startTime) ? clave.getDuration() : Duration(0.);
@@ -480,7 +482,7 @@ Phrase rhythm::fillClave(Phrase fromPhrase,
                 int numberOfPossibleNoteTimes = ((latestNoteTime - earliestNoteTime).asQuarters() / subdivision.asQuarters()) + 1;
                 Position chosenNoteTime = earliestNoteTime + (rollDie(numberOfPossibleNoteTimes) - 1) * subdivision;
                 chosenNoteTime = (chosenNoteTime > clave.getDuration()) ? chosenNoteTime - clave.getDuration() : chosenNoteTime;
-                Note newNote = claveNote(chosenNoteTime, nextNote->startTime - chosenNoteTime);
+                Timed<Note> newNote = claveNote(chosenNoteTime, nextNote->startTime - chosenNoteTime);
                 
                 bool newNoteIsOnLeft = clave.isNoteOnLeft(newNote);
                 bool newNoteIsOnRight = !newNoteIsOnLeft;
@@ -534,9 +536,9 @@ Phrase rhythm::cascaraFrom(Phrase fromPhrase) {
     Phrase cascara(fromPhrase);
     Duration subdivision = cascara.primarySubdivision();
     cascara.notes.clear();
-    cascara.addNote(clave.notes.front()
-                    .withAccent()
-                    .withDuration(subdivision));
+    Timed<Note> firstNote = clave.notes.front().withDuration(subdivision);
+    firstNote.item = firstNote.item.withAccent();
+    cascara.addNote(firstNote);
 
     for (auto noteIt = clave.notes.begin();
          noteIt < clave.notes.end();
@@ -545,18 +547,21 @@ Phrase rhythm::cascaraFrom(Phrase fromPhrase) {
         auto nextNote = next<Note>(clave.notes, noteIt);
         Duration timeBetweenNotes = timeBetween<Note>(*noteIt, *nextNote, clave);
         double subdivisionsBetweenClaveNotes = timeBetweenNotes.asBeats() / subdivision.asBeats();
-        Note& lastCascaraNote = cascara.notes.back();
+        Timed<Note>& lastCascaraNote = cascara.notes.back();
         Duration timeSinceLastCascaraNoteStart = noteIt->startTime - lastCascaraNote.startTime;
         double subdivisionsSinceLastCascaraNote = timeSinceLastCascaraNoteStart.asBeats() / subdivision.asBeats();
         
         if (subdivisionsBetweenClaveNotes == 2.) {
             if (subdivisionsSinceLastCascaraNote == 0.) { // x . x
-                cascara.notes.append(".X", subdivision, PushBehavior::wrap);
+                cascara.notes.append(".x", subdivision, PushBehavior::wrap);
+                cascara.notes.last()->item.accent();
             } else if (subdivisionsSinceLastCascaraNote == 1.0) {
                 if (flipCoin()) { // . x x
-                    cascara.notes.append(".xX", subdivision, PushBehavior::wrap);
+                    cascara.notes.append(".xx", subdivision, PushBehavior::wrap);
+                    cascara.notes.last()->item.accent();
                 } else { // x . x
-                    cascara.notes.append("x.X", subdivision, PushBehavior::wrap);
+                    cascara.notes.append("x.x", subdivision, PushBehavior::wrap);
+                    cascara.notes.last()->item.accent();
                 }
             } else {
                 DBG ("cascara has some weird note lengths??");
@@ -565,30 +570,37 @@ Phrase rhythm::cascaraFrom(Phrase fromPhrase) {
             if (subdivisionsSinceLastCascaraNote == 0.) { // this note already hit. just add next note.
                 auto choice = rollDie(3);
                 if (choice == 1) { // x x . x
-                    cascara.notes.append("x.X", subdivision, PushBehavior::wrap);
+                    cascara.notes.append("x.x", subdivision, PushBehavior::wrap);
+                    cascara.notes.last()->item.accent();
                 } else if (choice == 2) { // x . x x
-                    cascara.notes.append(".xX", subdivision, PushBehavior::wrap);
+                    cascara.notes.append(".xx", subdivision, PushBehavior::wrap);
+                    cascara.notes.last()->item.accent();
                 } else if (choice == 3) { // x . x . misses next note!!
                     cascara.notes.append(".x.", subdivision, PushBehavior::wrap);
                 }
             } else if (subdivisionsSinceLastCascaraNote == 1.0) {
                 // only one option: . x . x
-                cascara.notes.append(".x.X", subdivision, PushBehavior::wrap);
+                cascara.notes.append(".x.x", subdivision, PushBehavior::wrap);
+                cascara.notes.last()->item.accent();
             } else {
                 DBG ("cascara has some weird note lengths??");
             }
         } else if (subdivisionsBetweenClaveNotes == 4.) {
             if (subdivisionsSinceLastCascaraNote == 0.) { // this note already hit.
                 if (flipCoin()) { // x . x . x
-                    cascara.notes.append(".x.X", subdivision, PushBehavior::wrap);
+                    cascara.notes.append(".x.x", subdivision, PushBehavior::wrap);
+                    cascara.notes.last()->item.accent();
                 } else { // x x . x x
-                    cascara.notes.append("x.xX", subdivision, PushBehavior::wrap);
+                    cascara.notes.append("x.xx", subdivision, PushBehavior::wrap);
+                    cascara.notes.last()->item.accent();
                 }
             } else if (subdivisionsSinceLastCascaraNote == 1.0) {
                 if (flipCoin()) { // // . x x . x
-                    cascara.notes.append(".xx.X", subdivision, PushBehavior::wrap);
+                    cascara.notes.append(".xx.x", subdivision, PushBehavior::wrap);
+                    cascara.notes.last()->item.accent();
                 } else { // . x . x x
-                    cascara.notes.append(".x.xX", subdivision, PushBehavior::wrap);
+                    cascara.notes.append(".x.xx", subdivision, PushBehavior::wrap);
+                    cascara.notes.last()->item.accent();
                 }
             } else {
                 DBG ("cascara has some weird note lengths??");
@@ -654,7 +666,7 @@ Phrase rhythm::randomClave(Phrase fromPhrase, int minNoteLengthInSubdivisions, i
         }
         float notePosition = subdivision * (rollDie(maxNoteLengthInSubdivisions) - 1);
         for (int noteInd = 0; noteInd < numNotes; noteInd++) {
-            Note note = claveNote(notePosition);
+            Timed<Note> note = claveNote(notePosition);
             // note doesn't fall within its side, scrap it and try again
             if ((noteInd < notesOnLeft && clave.isNoteOnRight(note)) ||
                 (noteInd >= notesOnLeft && (clave.isNoteOnLeft(note) || note.startTime >= clave.getDuration()))) {

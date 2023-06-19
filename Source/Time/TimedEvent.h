@@ -11,8 +11,9 @@
 #pragma once
 
 #include "Duration.h"
+#include "Utility.h"
 
-class Timed {
+class Time {
 public:
     Position startTime;
     Duration duration;
@@ -29,75 +30,79 @@ public:
         startTime += toShiftBy;        
     }
     
-    Timed(Position startTime, Duration duration):
+    Time(Position startTime, Duration duration):
         startTime(startTime),
         duration(duration),
         settings(HostSettings::instance()) { }
-    Timed(): Timed(0, 1) { }
-    Timed(Timed const& other): Timed(other.startTime, other.duration) {}
-//        startTime(other.startTime),
-//        duration(other.duration),
-//        settings(HostSettings::instance()) { }
+    Time(): Time(0, 1) { }
+    Time(Time const& other): Time(other.startTime, other.duration) {}
 
-    Timed(char mininotation, Position startTime, Duration duration) : Timed(startTime, duration) {}
-    Timed& operator=(Timed const& other) {
+    Time(char mininotation, Position startTime, Duration duration) : Time(startTime, duration) {}
+    Time& operator=(Time const& other) {
         startTime = other.startTime;
         duration = other.duration;
         return *this;
     };
-    bool operator==(Timed const& other) const { return startTime == other.startTime && duration == other.duration; };
-    bool operator<(Timed const& other) const { return startTime < other.startTime || (startTime == other.startTime && duration < other.duration); };
-    bool operator>(Timed const& other) const { return startTime > other.startTime || (startTime == other.startTime && duration > other.duration); };
+    bool operator==(Time const& other) const { return startTime == other.startTime && duration == other.duration; };
+    bool operator<(Time const& other) const { return startTime < other.startTime || (startTime == other.startTime && duration < other.duration); };
+    bool operator>(Time const& other) const { return startTime > other.startTime || (startTime == other.startTime && duration > other.duration); };
     
-    virtual ~Timed() {};
+    virtual ~Time() {};
     
     Position endTime() const { return this->startTime + this->duration; }
     bool contains(const Position position) const { return this->startTime <= position && this->endTime() > position; }
-    bool containsPartially(const Timed &other) const {
+    bool containsPartially(const Time &other) const {
         return (this->startTime <= other.startTime && this->endTime() > other.startTime)
             || (other.startTime <= this->startTime && other.endTime() > this->startTime); }
-    bool containsCompletely(const Timed &other) const {
+    bool containsCompletely(const Time &other) const {
         return (this->startTime <= other.startTime && this->endTime() >= other.endTime()); }
     
-    // TODO: siighhh ideally this is like, pure virtual, but then inheriting classes implementing it actually take their SPECIFIC class as argument, not a TimedEvent
-    // also we need instances of TimedEvent so it doesn't really work as purevirtual
-//    virtual bool equalsExcludingTime(TimedEvent &other) {
-//        DBG("...should this be pure virtual? but then timed event is an abstract class..which makes some things not work..");
-//        return false;
-//    };//= 0;
-    virtual bool equalsExcludingTime(Timed const& other) const { return true; };
-
-};
-
-static const Timed nullTime(0,0);
-
-
-
-template<class T> // must be TimedEvent
-std::vector<T> byPosition(std::vector<T> events, Position position) { // todo: remove this in favor of Sequence implementation.
-    static_assert(std::is_base_of<Timed, T>::value, "T not derived from TimedEvent");
-    std::vector<T> result;
-    for (auto it = events.begin(); it < events.end(); it++) {
-        if (it->contains(position)) {
-            result.push_back(*it);
+    void trim(Time const& container) {
+        if (container.containsCompletely(*this)) { return; }
+        if(startTime < container.startTime) {
+            setStartTime(container.startTime);
+        }
+        if (endTime() > container.endTime()) {
+            setEndTime(container.endTime());
         }
     }
-    return result;
+    
 };
 
-template<class T> // must be TimedEvent
-T longest(std::vector<T> events) {
-    static_assert(std::is_base_of<Timed, T>::value, "T not derived from TimedEvent");
-    T result;
-    Duration maximumDuration = 0;
-    for (auto it = events.begin(); it < events.end(); it++) {
-        if (it->duration > maximumDuration) {
-            maximumDuration = it->duration;
-            result = *it;
-        }
+static const Time nullTime(0,0);
+
+template <typename T>
+class Timed : public Time {
+public:
+    T item;
+    Timed(Time time, T t): Time(time), item(t) {}
+    Timed(const Time& time): Time(time) {}
+    Timed(): Time(nullTime) {}
+
+    static vector<Timed<T>> fromTimes(vector<Time> times) {
+        return mapp<Time, Timed<T>>(times, [](Time time) { return Timed<T>(time); });
     }
-    return result;
+    
+    Timed<T> withDuration(Duration const& newDuration) const {
+        Timed<T> modified = Timed<T>(*this);
+        modified.duration = newDuration;
+        return modified;
+    }
+
+    bool equalsExcludingTime(Timed<T> const& other) const { 
+         return item == other.item;
+    };
+    
+    Timed<T>& operator=(Timed<T> const& other) {
+        Time::operator=(other);
+        this->item = other.item;
+        return *this;
+    };
+    
+    Timed<T>& operator=(Time const& other) {
+        Time::operator=(other); 
+        return *this;
+    };
+
+    operator T() const { return item; }
 };
-
-
-

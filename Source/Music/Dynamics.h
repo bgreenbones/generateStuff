@@ -9,12 +9,14 @@
 */
 #pragma once
 
+#include "TimedEvent.h"
 #include "Duration.h"
 #include "Random.h"
 #include <vector>
-using namespace std;
-class Note; // just a forward declaration
 
+using std::vector;
+
+class Note;
 
 typedef enum DynamicShape {
     cresc, steady, decresc
@@ -43,16 +45,16 @@ typedef struct DynamicRange {
     DynamicLevel median;
 } DynamicRange;
 
-typedef struct Dynamics {
+struct Dynamics {
     DynamicShape shape;
     DynamicRange range;
-} Dynamics;
+};
 
 
 namespace dynamics {
     // todo: want to be generic over pitch, velocity, pressure, generic CC, uhhhh note length, uh,, other stuff, idk
-    vector<Note>& shape(vector<Note>& source, int originVelocity, int targetVelocity);
-    vector<Note>& shape(vector<Note>& source, Dynamics dynamics = {
+    vector<Timed<Note>>& shape(vector<Timed<Note>>& source, int originVelocity, int targetVelocity);
+    vector<Timed<Note>>& shape(vector<Timed<Note>>& source, Dynamics dynamics = {
         .range = {
           .high = draw<DynamicLevel>({ff, fff, ffff}),
           .median = draw<DynamicLevel>({p, mp, mf, f}),
@@ -60,13 +62,13 @@ namespace dynamics {
         },
         .shape = draw<DynamicShape>({cresc, decresc, steady})
       });
-    vector<Note>& stretch(vector<Note> &source, DynamicRange targetRange);
-    vector<Note>& stretch(vector<Note> &source, DynamicLevel targetMinimum, DynamicLevel targetMaximum);
-    vector<Note>& randomFlux(vector<Note> &source, double minScale = 0.7, double maxScale = 1.3);
-    vector<Note>& randomAccents(vector<Note> &source, DynamicLevel low, DynamicLevel high);
-    vector<Note>& randomAccents(vector<Note> &source
+    vector<Timed<Note>>& stretch(vector<Timed<Note>> &source, DynamicRange targetRange);
+    vector<Timed<Note>>& stretch(vector<Timed<Note>> &source, DynamicLevel targetMinimum, DynamicLevel targetMaximum);
+    vector<Timed<Note>>& randomFlux(vector<Timed<Note>> &source, double minScale = 0.7, double maxScale = 1.3);
+    vector<Timed<Note>>& randomAccents(vector<Timed<Note>> &source, DynamicLevel low, DynamicLevel high);
+    vector<Timed<Note>>& randomAccents(vector<Timed<Note>> &source
                                 , DynamicLevel high);
-    vector<Note>& followAccents(vector<Note> &source, vector<Position> accents, DynamicLevel low, DynamicLevel high);
+    vector<Timed<Note>>& followAccents(vector<Timed<Note>> &source, vector<Position> accents, DynamicLevel low, DynamicLevel high);
 }
 
 

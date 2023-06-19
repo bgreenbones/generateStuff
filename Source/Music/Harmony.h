@@ -16,17 +16,15 @@
 
 
 namespace harmony {
-    vector<ChordScale> timedChordScales(vector<Timed> times, HarmonyApproach approach);
-    ChordScale randomChordScale(Position startTime = 0, Duration duration = Bars(1));
-    ChordScale newChordSameScale(ChordScale previousChordScale, 
-                                  Position startTime, 
-                                  Duration duration,
+    vector<Timed<ChordScale>> timedChordScales(vector<Time> times, HarmonyApproach approach);
+    ChordScale randomChordScale();
+    ChordScale newChordSameScale(ChordScale previousChordScale,
                                   vector<vector<Interval>> limitChordQualities = {});
-    ChordScale subtleModulations(ChordScale previousChordScale, Position startTime, Duration duration);
+    ChordScale subtleModulations(ChordScale previousChordScale);
     
     vector<Pitch> randomChord();
         
-    ChordScale selectApproachAndGenerate(juce::String approach, vector<ChordScale> chordScales, Position startTime, Duration chordLength);
+    ChordScale selectApproachAndGenerate(juce::String approach, vector<Timed<ChordScale>> chordScales);
 
     Phrase generateChordScales(Phrase fromPhrase,
                             HarmonyApproach approach,

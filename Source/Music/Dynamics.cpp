@@ -21,7 +21,7 @@
 //    return ((level + 1.) / numberOfLevels) * velocityRange + minVelocity;
 //}
 
-vector<Note>& dynamics::shape(vector<Note>& source, Dynamics dynamics) {
+vector<Timed<Note>>& dynamics::shape(vector<Timed<Note>>& source, Dynamics dynamics) {
     int highVelocity = dynamics.range.high;
     int medianVelocity = dynamics.range.median;
     int lowVelocity = dynamics.range.low;
@@ -44,10 +44,10 @@ vector<Note>& dynamics::shape(vector<Note>& source, Dynamics dynamics) {
 
 
 // shaping - want to be generic over pitch, velocity, pressure, generic CC, uhhhh note length, uh,, other stuff, idk
-vector<Note>& dynamics::shape(vector<Note>& source, int originVelocity, int targetVelocity)
+vector<Timed<Note>>& dynamics::shape(vector<Timed<Note>>& source, int originVelocity, int targetVelocity)
 {
     if (source.size() == 0) { return source; }
-//    vector<Note> expressive;
+//    vector<Timed<Timed<Note>>> expressive;
     
     // possible approaches:
     // shape wise:
@@ -70,9 +70,9 @@ vector<Note>& dynamics::shape(vector<Note>& source, int originVelocity, int targ
         return y;
     };
     for (double i = 0.; i < source.size(); i++) {
-//        Note note = source[i];
+//        Timed<Note> note = source[i];
         double x = (i / (double)source.size());
-        source[i].velocity = linear(x);
+        source[i].item.velocity = linear(x);
 //        expressive.push_back(note);
     }
     
@@ -80,14 +80,14 @@ vector<Note>& dynamics::shape(vector<Note>& source, int originVelocity, int targ
     return source;
 }
 
-vector<Note>& dynamics::stretch(vector<Note>& source, DynamicRange targetRange)
+vector<Timed<Note>>& dynamics::stretch(vector<Timed<Note>>& source, DynamicRange targetRange)
 {
     int currentMinVelocity = 127;
     int currentMaxVelocity = 1;
     
-    for (Note note : source) {
-        currentMaxVelocity = max(note.velocity, currentMaxVelocity);
-        currentMinVelocity = min(note.velocity, currentMinVelocity);
+    for (Timed<Note> note : source) {
+        currentMaxVelocity = max(note.item.velocity, currentMaxVelocity);
+        currentMinVelocity = min(note.item.velocity, currentMinVelocity);
     }
     
     double currentRangeWidth = currentMaxVelocity - currentMinVelocity;
@@ -97,36 +97,36 @@ vector<Note>& dynamics::stretch(vector<Note>& source, DynamicRange targetRange)
     double transposer = targetRange.low < targetRange.high // if you want I think you could flip dynamics by giving targetRange.high < targetRange.low
                         ? targetRange.low
                         : 2 * targetRange.high + targetRange.low;
-    for (Note &note : source) {
-        note.velocity = (note.velocity - currentMinVelocity) * scaler + transposer;
+    for (Timed<Note> &note : source) {
+        note.item.velocity = (note.item.velocity - currentMinVelocity) * scaler + transposer;
     }
     
     return source;
 }
 
-vector<Note>& dynamics::stretch(vector<Note>& source, DynamicLevel targetMinimum, DynamicLevel targetMaximum)
+vector<Timed<Note>>& dynamics::stretch(vector<Timed<Note>>& source, DynamicLevel targetMinimum, DynamicLevel targetMaximum)
 {
     return dynamics::stretch(source, DynamicRange { .low = targetMinimum, .high = targetMaximum });
 }
 
-vector<Note>& dynamics::randomFlux(vector<Note>& source, double minScale, double maxScale) {
-    for (Note &note : source) { note.velocity *= uniformDouble(minScale, maxScale); }
+vector<Timed<Note>>& dynamics::randomFlux(vector<Timed<Note>>& source, double minScale, double maxScale) {
+    for (Timed<Note> &note : source) { note.item.velocity *= uniformDouble(minScale, maxScale); }
     return source;
 }
 
-vector<Note>& dynamics::randomAccents(vector<Note> &source, DynamicLevel low, DynamicLevel high) {
-    for (Note &note : source) { note.velocity = flipWeightedCoin(0.4) ? high : low; }
+vector<Timed<Note>>& dynamics::randomAccents(vector<Timed<Note>> &source, DynamicLevel low, DynamicLevel high) {
+    for (Timed<Note> &note : source) { note.item.velocity = flipWeightedCoin(0.4) ? high : low; }
     return source;
 }
 
-vector<Note>& dynamics::randomAccents(vector<Note> &source, DynamicLevel high) {
-    for (Note &note : source) { note.velocity = flipWeightedCoin(0.4) ? high : note.velocity; }
+vector<Timed<Note>>& dynamics::randomAccents(vector<Timed<Note>> &source, DynamicLevel high) {
+    for (Timed<Note> &note : source) { note.item.velocity = flipWeightedCoin(0.4) ? high : note.item.velocity; }
     return source;
 }
 
 
-vector<Note>& dynamics::followAccents(vector<Note> &source, vector<Position> accents, DynamicLevel low, DynamicLevel high) {
-    for (Note &note : source) { note.velocity = 
+vector<Timed<Note>>& dynamics::followAccents(vector<Timed<Note>> &source, vector<Position> accents, DynamicLevel low, DynamicLevel high) {
+    for (Timed<Note> &note : source) { note.item.velocity =
         (contains<Position>(accents, note.startTime) && flipWeightedCoin(0.9))
             || flipWeightedCoin(0.2) ? high
             : low;

@@ -91,8 +91,6 @@
         <FILE id="RsQGR1" name="TimedEvent.h" compile="0" resource="0" file="Source/Time/TimedEvent.h"/>
         <FILE id="rwfToY" name="Duration.cpp" compile="1" resource="0" file="Source/Time/Duration.cpp"/>
         <FILE id="qpYMCJ" name="Duration.h" compile="0" resource="0" file="Source/Time/Duration.h"/>
-        <FILE id="y64dvW" name="Subdivision.cpp" compile="1" resource="0" file="Source/Time/Subdivision.cpp"/>
-        <FILE id="jt7jv0" name="Subdivision.h" compile="0" resource="0" file="Source/Time/Subdivision.h"/>
         <FILE id="as1oLj" name="TimeSignature.cpp" compile="1" resource="0"
               file="Source/Time/TimeSignature.cpp"/>
         <FILE id="re9oif" name="TimeSignature.h" compile="0" resource="0" file="Source/Time/TimeSignature.h"/>

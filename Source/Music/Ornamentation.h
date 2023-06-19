@@ -14,6 +14,8 @@
 #include "Dynamics.h"
 #include "Timing.h"
 
+class Note;
+
 //typedef enum OrnamentPlacement {
 //    leading, trailing
 //} OrnamentPlacement;
@@ -27,7 +29,7 @@ typedef enum OrnamentContent {
 } OrnamentContent;
 
 
-typedef struct Ornament { // todo: hell yea
+typedef struct Ornament {
     Placement placement;
     Griddedness griddedness;
     OrnamentContent content;
@@ -44,3 +46,4 @@ typedef enum OrnamentSimple {
 
 //Ornament getOrnament(OrnamentSimple ornamentSimple, double tempo, double breadth, Griddedness griddedness);
 Ornament getOrnament(OrnamentSimple ornamentSimple, double breadth, Griddedness griddedness);
+vector<Timed<Note>> placeOrnament(Timed<Note> const& note, OrnamentSimple ornamentSimple, double breadth);

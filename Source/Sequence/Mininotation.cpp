@@ -11,12 +11,11 @@
 
 #include "Mininotation.h"
 #include "Note.hpp"
-#include "Subdivision.h"
 #include "ChordScale.h"
+#include "Phrase.hpp"
 
-template <class T>
-vector<T> Mininotation::parse(std::string phraseString, Duration stepLength) {
-    vector<T> result;
+vector<Time> Mininotation::parse(std::string phraseString, Duration stepLength) {
+    vector<Time> result;
     
     auto symbolIter = phraseString.begin();
     Duration length = stepLength * ((double) getLength(phraseString));
@@ -37,8 +36,8 @@ vector<T> Mininotation::parse(std::string phraseString, Duration stepLength) {
             continue;
         }
 
-        if (isValue(symbol)) {  // TODO: implement class-specific interpretations of mininotation symbols
-            T toAdd(symbol, startTime, stepLength);
+        if (isValue(symbol)) {
+            Time toAdd(startTime, stepLength);
             result.push_back(toAdd);
         }
     }
@@ -46,9 +45,3 @@ vector<T> Mininotation::parse(std::string phraseString, Duration stepLength) {
     return result;
 }
 
-
-
-template vector<Note> Mininotation::parse<Note>(std::string phraseString, Duration stepLength);
-template vector<Subdivision> Mininotation::parse<Subdivision>(std::string phraseString, Duration stepLength);
-template vector<ChordScale> Mininotation::parse<ChordScale>(std::string phraseString, Duration stepLength);
-template vector<Timed> Mininotation::parse<Timed>(std::string phraseString, Duration stepLength);

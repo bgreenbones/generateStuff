@@ -15,8 +15,8 @@ void Phrase::pitchQuantize() {
     }
     // Tonality firstScale = chordScales.drawByPosition(notes[0].startTime).scale;
     // int transpose = 0;
-    for (Note& note : notes) {
-        Tonality scale = chordScales.drawByPosition(note.startTime).scale;
+    for (Timed<Note>& note : notes) {
+        Tonality scale = chordScales.drawByPosition(note.startTime).item.scale;
         // if (scale.root != firstScale.root) {
         //     Interval goUp = pitchClassInterval(firstScale.root, scale.root);
         //     transpose = (int)goUp;
@@ -26,33 +26,33 @@ void Phrase::pitchQuantize() {
         //     }
         // }
         // note.pitch += transpose;
-        note.pitch = scale.quantize(note.pitch);
+        note.item.pitch = scale.quantize(note.item.pitch);
     }
 }
 
 Position Phrase::nextSubdivisionPosition(Position position) {
-    Subdivision atPosition = subdivisions.drawByPosition(position);
-    Position next = position + atPosition;
-    if (next >= endTime()) {
-        return startTime;
+    Timed<Duration> atPosition = subdivisions.drawByPosition(position);
+    Position next = position + atPosition.item;
+    if (next >= time.endTime()) {
+        return time.startTime;
     }
     
-    Subdivision atNextPosition = subdivisions.drawByPosition(next);
+    Timed<Duration> atNextPosition = subdivisions.drawByPosition(next);
     if (atPosition.duration == atNextPosition.duration) { return next; }
     return atNextPosition.startTime;
 }
 
 Position Phrase::previousSubdivisionPosition(Position position) {
-    Subdivision atPosition = subdivisions.drawByPosition(position);
+    Timed<Duration> atPosition = subdivisions.drawByPosition(position);
     Position previous = position - atPosition;
-    if (previous < startTime) {
-        Subdivision atEnd = subdivisions.drawByPosition(endTime() - Beats(0.001));
-        return endTime() - atEnd;
+    if (previous < time.startTime) {
+        Timed<Duration> atEnd = subdivisions.drawByPosition(time.endTime() - Beats(0.001));
+        return time.endTime() - atEnd.item;
     }
     
-    Subdivision atPreviousPosition = subdivisions.drawByPosition(previous);
+    Timed<Duration> atPreviousPosition = subdivisions.drawByPosition(previous);
     if (atPosition.duration == atPreviousPosition.duration) { return previous; }
-    return atPreviousPosition.endTime() - atPreviousPosition;
+    return atPreviousPosition.endTime() - atPreviousPosition.item;
 }
 
 
@@ -64,16 +64,16 @@ void Phrase::addTimedEvent(T toAdd, vector<T>& eventList) {
          [](T const &a, T const &b) { return a.startTime < b.startTime; });
 }
 
-bool Phrase::addNote(Note toAdd) {    
-    bool fitsInPhrase = this->containsPartially(toAdd);
+bool Phrase::addNote(Timed<Note> toAdd) {    
+    bool fitsInPhrase = this->time.containsPartially(toAdd);
     if (fitsInPhrase) {
         notes.add(toAdd);
     }
     return fitsInPhrase;
 }
 
-bool Phrase::addSubdivision(Subdivision toAdd) {
-    bool fitsInPhrase = this->containsPartially(toAdd);
+bool Phrase::addSubdivision(Timed<Duration> toAdd) {
+    bool fitsInPhrase = this->time.containsPartially(toAdd);
     if (fitsInPhrase) {
         subdivisions.add(toAdd);
     }
@@ -84,7 +84,7 @@ bool Phrase::addSubdivision(Subdivision toAdd) {
 template <class T>
 vector<T> Phrase::concatEvents(vector<T> eventList, vector<T> otherList) const {
     for (auto iter = otherList.begin(); iter < otherList.end(); iter++) {
-        iter->startTime += duration;
+        iter->startTime += time.duration;
         addTimedEvent<T>(*iter, eventList);
     }
     return eventList;
@@ -137,7 +137,7 @@ Phrase Phrase::concat(Phrase other, bool useLastNote, bool keepDuration) const {
     // I imagine that later, and for other expressions we want to phrase,
     // we will want to have a concat method that can only concat some particular vectors...
     Phrase phrase(*this);
-    Duration durationToPersist = phrase.duration;
+    Duration durationToPersist = phrase.time.duration;
     
     
     // // // // // // /// Sequence version.
@@ -156,49 +156,9 @@ Phrase Phrase::concat(Phrase other, bool useLastNote, bool keepDuration) const {
     return phrase;
 }
 
-Phrase Phrase::insert(Phrase other, OverwriteBehavior overwriteBehavior) const {
-    Phrase phrase(*this);
-    
-    if (overwriteBehavior != OverwriteBehavior::ignore) {
-        // TODO: notes and subdivisions and future expressions should be in a vector or map that will allow us to iterate over them.
-        
-        phrase.notes.erase(std::remove_if(phrase.notes.begin(), phrase.notes.end(),
-                                [other](Timed t) { return other.containsPartially(t) || t.containsPartially(other); }),
-                                phrase.notes.end());
-                                
-        phrase.connectingNotes.erase(std::remove_if(phrase.connectingNotes.begin(), phrase.connectingNotes.end(),
-                                [other](Timed t) { return other.containsPartially(t) || t.containsPartially(other); }),
-                                phrase.connectingNotes.end());
-                                
-        phrase.ornamentationNotes.erase(std::remove_if(phrase.ornamentationNotes.begin(), phrase.ornamentationNotes.end(),
-                                [other](Timed t) { return other.containsPartially(t) || t.containsPartially(other); }),
-                                phrase.ornamentationNotes.end());
-        
-        phrase.subdivisions.erase(std::remove_if(phrase.subdivisions.begin(), phrase.subdivisions.end(),
-                                [other](Timed t) { return other.containsPartially(t) || t.containsPartially(other); }),
-                                phrase.subdivisions.end());
-        
-        phrase.chordScales.erase(std::remove_if(phrase.chordScales.begin(), phrase.chordScales.end(),
-                                [other](Timed t) { return other.containsPartially(t) || t.containsPartially(other); }),
-                                phrase.chordScales.end());
-        
-    }
-
-    
-    phrase.notes.insertSequence(other.notes, phrase.startTime, PushBehavior::ignore, overwriteBehavior);
-    phrase.connectingNotes.insertSequence(other.connectingNotes, phrase.startTime, PushBehavior::ignore, overwriteBehavior);
-    phrase.ornamentationNotes.insertSequence(other.ornamentationNotes, phrase.startTime, PushBehavior::ignore, overwriteBehavior);
-    phrase.subdivisions.insertSequence(other.subdivisions, phrase.startTime, PushBehavior::ignore, overwriteBehavior);
-    phrase.subdivisions.tie(true);
-    phrase.chordScales.insertSequence(other.chordScales, phrase.startTime, PushBehavior::ignore, overwriteBehavior);
-    phrase.chordScales.tie(true);
-    
-    return phrase;
-}
-
 
 // TODO: we can actually optionally get subdivs from the subdivs sequence??
-Phrase Phrase::parseMininotation(std::string phraseString, Subdivision subdivision) {
+Phrase Phrase::parseMininotation(std::string phraseString, Duration subdivision) {
     double phraseLength = subdivision.asQuarters() * (double) Mininotation::getLength(phraseString);
     Phrase phrase = Phrase(subdivision, 0, Quarters(phraseLength));
     phrase.notes = notes.parseMininotation(phraseString, subdivision);
@@ -208,7 +168,7 @@ Phrase Phrase::parseMininotation(std::string phraseString, Subdivision subdivisi
 Phrase Phrase::accents() const {
     Phrase result(*this);
     result.notes.erase(std::remove_if(result.notes.begin(), result.notes.end(),
-                       [](Note note) { return !(note.accented || note.velocity >= accentVelocity); }),
+                       [](Timed<Note> note) { return !(note.item.accented || note.item.velocity >= accentVelocity); }),
                        result.notes.end());
     return result;
 }
@@ -225,9 +185,9 @@ Phrase Phrase::randomSubdivisions(vector<Duration> availableSubdivisions, vector
     
     std::discrete_distribution<int> subdivisionIndexDistribution (weights.begin(), weights.end());
     
-    for (Note note : accents) {
+    for (Timed<Note> note : accents) {
         int subdivisionIndex = subdivisionIndexDistribution(getGen());
-        Subdivision randomSubdivision(availableSubdivisions[subdivisionIndex], note.startTime, note.duration);
+        Timed<Duration> randomSubdivision(Time(note.startTime, note.duration), availableSubdivisions[subdivisionIndex]);
         result.subdivisions.add(randomSubdivision);
     }
     
@@ -235,18 +195,18 @@ Phrase Phrase::randomSubdivisions(vector<Duration> availableSubdivisions, vector
 }
 
 
-Phrase Phrase::randomGhostSubdivision(Probability ghostProbability, Probability subdivisionProbability, Pitch pitch, Timed span) const {
+Phrase Phrase::randomGhostSubdivision(Probability ghostProbability, Probability subdivisionProbability, Pitch pitch, Time span) const {
     Phrase result(*this);
     bool fillWholePhrase = span == nullTime;
     
-    for (Subdivision subdiv : result.subdivisions) {
+    for (Timed<Duration> subdiv : result.subdivisions) {
         if (subdivisionProbability) {
             double numberOfGhosts = subdiv.duration / subdiv;
             for (double ghost = 0; ghost < numberOfGhosts; ghost++) {
-                Position ghostPosition = subdiv.startTime + ghost * subdiv;
+                Position ghostPosition = subdiv.startTime + ghost * subdiv.item;
                 if (fillWholePhrase || span.contains(ghostPosition)) {
                     if (notes.byStartPosition(ghostPosition).empty() && ghostProbability) {
-                        result.notes.add(Note(pitch, pppp, ghostPosition, subdiv), PushBehavior::ignore, OverwriteBehavior::cutoff);
+                        result.notes.add(Timed<Note>(Time(ghostPosition, subdiv), Note(pitch, pppp)), PushBehavior::ignorePush, OverwriteBehavior::cutoff);
                     }
                 }
             }
@@ -267,9 +227,9 @@ Phrase Phrase::randomGhostBursts(Duration minimumBurstLength, Duration maximumBu
     Position cursor = 0;
     double numberOfPossibleBurstLengths = (maximumBurstLength - minimumBurstLength) / sixteenths;
     
-    while (cursor < result.duration) {
+    while (cursor < result.time.duration) {
         Duration burstLength = minimumBurstLength + (rollDie(numberOfPossibleBurstLengths) * sixteenths);
-        Timed span(cursor, burstLength);
+        Time span(cursor, burstLength);
         result = burstProbability ? result.randomGhostSubdivision(ghostProbabilityWithinBurst, 1, pitch, span) : result;
         cursor += burstLength;
     }
