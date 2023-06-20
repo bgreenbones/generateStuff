@@ -19,23 +19,10 @@ typedef string VoiceName;
 namespace rhythm {
 
   // todo: maybe this go in a orchestration namespace or something
-  Phrase leaveSpace(Phrase tooBusy, vector<Phrase> competingVoices);
-    // tooBusy.subdivisions.tie(true);
-    
-    // Phrase filledVoicings(tooBusy);
-    // vector<Timed> spaces = rhythm::gaps(filledVoicings, competingVoices);
+    Phrase leaveSpace(Phrase tooBusy, vector<Phrase> competingVoices);
+    Phrase fillLegatoLongTones(Phrase unfilled, vector<Phrase> competingVoices = {});
 
-    // if (spaces.empty()) {
-    //   // in this case we might just add rhythms on top of other active voices 
-    //   // instead of trying to fill in space
-    //   return tooBusy;
-    // }
-  
-
-//  sort(spaces.begin(), spaces.end(),
-//        [](Timed const &a, Timed const &b) { return a.duration > b.duration; }); // longest to shortest
-//  }
-  
+    vector<Time> busySpots(vector<Phrase> competingVoices, Duration threshold = 2*sixteenths);
     vector<Time> gaps(Phrase gapFiller, vector<Phrase> competingVoices);
     vector<Time> doublesAndDiddles(vector<Time> t, double modifyProportion = 0.25, double doubleProportion = 0.3, double halfProportion = 0.1);
     vector<Time> onePerShortForLong(Duration longDuration, Duration shortDuration);

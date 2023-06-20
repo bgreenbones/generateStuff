@@ -13,59 +13,38 @@
 #include "Utility.h"
 
 
-
-Phrase harmony::voicingFills(Phrase unfilledVoicings, vector<Phrase> competingVoices) {
-  unfilledVoicings.subdivisions.tie(true);
-  
-  Phrase filledVoicings(unfilledVoicings);
-  vector<Time> spaces = rhythm::gaps(filledVoicings, competingVoices);
-
-  // if (totalSpaceToFill / unfilledVoicings.getDuration() < 1./6.
-  //       || spaces.empty()) {
-  if (spaces.empty()) {
-    // in this case we might just add rhythms on top of other active voices 
-    // instead of trying to fill in space
-    return unfilledVoicings;
-  }
-
-  sort(spaces.begin(), spaces.end(), 
-        [](Time const &a, Time const &b) { return a.duration > b.duration; }); // longest to shortest
-
-  for (int i = 0; i < spaces.size() / 2 + 1; i++) {
-    if (flipWeightedCoin(0.3)) {// TODO: let's do better random
-      continue;
+Phrase harmony::chordSteps(Phrase chords) {
+  vector<Timed<Note>*> currentVertical;
+  vector<Timed<Note>*> previousVertical;
+  Direction d = flipCoin() ? Direction::up : Direction::down;
+  for (Timed<Note> &note : chords.notes) {
+    if (currentVertical.empty() || note.startTime == currentVertical.back()->startTime) {
+      currentVertical.push_back(&note);
+    } else {
+      previousVertical = currentVertical;
+        d = flipCoin() ? Direction::up : Direction::down;
+      currentVertical.clear();
+      currentVertical.push_back(&note);
     }
-    Time spaceToFill = spaces[i];
-    
-    Duration subdivision = unfilledVoicings.subdivisions.drawByPosition(spaceToFill.startTime);
-    int subdivisionsInSpace = spaceToFill.duration / subdivision;
-    int lengthInSubdivisions = rollDie(subdivisionsInSpace);
-    
-    vector<Time> times = rhythm::nOfLengthM(lengthInSubdivisions, subdivision);
-    times = rhythm::doublesAndDiddles(times, 0.5);
 
-    double displacementInSubdivisions = uniformInt(0, subdivisionsInSpace - lengthInSubdivisions);
-    Duration displacement = displacementInSubdivisions * subdivision;
-    
-    vector<Timed<Note>> voicing;
-    for (Time time : times) {
-        Position realStartTime = spaceToFill.startTime + displacement + time.startTime;
-        Time noteTime(realStartTime, time.duration);
-        
-        vector<Timed<Note>> possibleVoicing = unfilledVoicings.notes.byPosition(realStartTime);
-        voicing = possibleVoicing.empty() ? voicing : possibleVoicing;
-        
-        // TODO: make this depend on how many chords we actually want to play
-        // OverwriteBehavior overwrite = draw<OverwriteBehavior>({OverwriteBehavior::insert, OverwriteBehavior::cutoff});
-        OverwriteBehavior overwrite = OverwriteBehavior::insert;
-        for (Timed<Note> note : voicing) {
-            filledVoicings.notes.add(Timed<Note>(noteTime, note.item), PushBehavior::ignorePush, overwrite);
-        }
+    if (!previousVertical.empty()) {
+      Timed<ChordScale> previousHarmony = chords.chordScales.drawByPosition(previousVertical.back()->startTime);
+      Timed<ChordScale> currentHarmony = chords.chordScales.drawByPosition(note.startTime);
+      if (previousHarmony.item.harmony == currentHarmony.item.harmony) {
+        note.item.pitch = previousVertical[currentVertical.size() - 1]->item.pitch;
+        // for (Timed<Note> *previousNote : previousVertical) {
+          // if (previousNote->item.pitch == note.item.pitch) {
+            // note.item.pitch = currentHarmony.item.harmony.step(previousNote->item.pitch, Direction::down);
+            note.item.pitch = currentHarmony.item.harmony.step(note.item.pitch, d);
+            // break;
+          // }
+        // }
+      }
     }
   }
-
-  return filledVoicings;
+  return chords;
 }
+
 
 ChordScale harmony::selectApproachAndGenerate(juce::String approach, vector<Timed<ChordScale>> chordScales) {
     if (approach == randomHarmonyApproachKey || chordScales.empty()) {

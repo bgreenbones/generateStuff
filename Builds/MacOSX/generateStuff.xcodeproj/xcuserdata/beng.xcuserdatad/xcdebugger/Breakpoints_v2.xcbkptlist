@@ -1047,9 +1047,9 @@
             filePath = "../../Source/Music/Harmony.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
-            landmarkName = "harmony::selectApproachAndGenerate(approach, chordScales)"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
+            landmarkName = "harmony::newChordSameScale(previousChordScale, limitChordQualities)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2299,8 +2299,8 @@
             filePath = "../../Source/Music/Harmony.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
             landmarkName = "harmony::newChordSameScale(previousChordScale, limitChordQualities)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2661,9 +2661,9 @@
             filePath = "../../Source/Music/Harmony.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
-            landmarkName = "harmony::selectApproachAndGenerate(approach, chordScales)"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
+            landmarkName = "harmony::newChordSameScale(previousChordScale, limitChordQualities)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4025,7 +4025,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "26"
             endingLineNumber = "26"
-            landmarkName = "rhythm::doublesAndDiddles(times, modifyProportion, doubleProportion, halfProportion)"
+            landmarkName = "rhythm::leaveSpace(tooBusy, competingVoices)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4541,7 +4541,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "22"
             endingLineNumber = "22"
-            landmarkName = "harmony::voicingFills(unfilledVoicings, competingVoices)"
+            landmarkName = "harmony::chordSteps(chords)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4555,9 +4555,9 @@
             filePath = "../../Source/Music/Harmony.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
-            landmarkName = "harmony::voicingFills(unfilledVoicings, competingVoices)"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
+            landmarkName = "harmony::chordSteps(chords)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4571,9 +4571,9 @@
             filePath = "../../Source/Music/Harmony.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
-            landmarkName = "harmony::voicingFills(unfilledVoicings, competingVoices)"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "harmony::selectApproachAndGenerate(approach, chordScales)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4589,7 +4589,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "30"
             endingLineNumber = "30"
-            landmarkName = "harmony::voicingFills(unfilledVoicings, competingVoices)"
+            landmarkName = "harmony::chordSteps(chords)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4605,7 +4605,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "32"
             endingLineNumber = "32"
-            landmarkName = "harmony::voicingFills(unfilledVoicings, competingVoices)"
+            landmarkName = "harmony::chordSteps(chords)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4619,8 +4619,8 @@
             filePath = "../../Source/Music/Harmony.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
             landmarkName = "harmony::newChordSameScale(previousChordScale, limitChordQualities)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4635,10 +4635,10 @@
             filePath = "../../Source/Music/Harmony.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "91"
+            endingLineNumber = "91"
+            landmarkName = "harmony::newChordSameScale(previousChordScale, limitChordQualities)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -4651,10 +4651,10 @@
             filePath = "../../Source/Music/Harmony.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
-            landmarkName = "harmony::newChordSameScale(previousChordScale, limitChordQualities)"
-            landmarkType = "7">
+            startingLineNumber = "110"
+            endingLineNumber = "110"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -4667,8 +4667,8 @@
             filePath = "../../Source/Music/Harmony.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
             landmarkName = "harmony::newChordSameScale(previousChordScale, limitChordQualities)"
             landmarkType = "7">
             <Locations>
@@ -4715,9 +4715,9 @@
             filePath = "../../Source/Music/Harmony.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
-            landmarkName = "harmony::voicingFills(unfilledVoicings, competingVoices)"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "harmony::chordSteps(chords)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4731,9 +4731,9 @@
             filePath = "../../Source/Music/Harmony.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
-            landmarkName = "harmony::voicingFills(unfilledVoicings, competingVoices)"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "harmony::selectApproachAndGenerate(approach, chordScales)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4749,7 +4749,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "45"
             endingLineNumber = "45"
-            landmarkName = "rhythm::gaps(gapFiller, competingVoices)"
+            landmarkName = "rhythm::leaveSpace(tooBusy, competingVoices)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4765,7 +4765,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "52"
             endingLineNumber = "52"
-            landmarkName = "rhythm::gaps(gapFiller, competingVoices)"
+            landmarkName = "rhythm::fillLegatoLongTones(unfilled, competingVoices)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4797,7 +4797,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "71"
             endingLineNumber = "71"
-            landmarkName = "rhythm::gaps(gapFiller, competingVoices)"
+            landmarkName = "rhythm::fillLegatoLongTones(unfilled, competingVoices)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4843,9 +4843,9 @@
             filePath = "../../Source/Music/Harmony.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
-            landmarkName = "harmony::randomChordScale()"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
+            landmarkName = "harmony::newChordSameScale(previousChordScale, limitChordQualities)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4859,10 +4859,10 @@
             filePath = "../../Source/Music/Harmony.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
-            landmarkName = "harmony::voicingFills(unfilledVoicings, competingVoices)"
-            landmarkType = "7">
+            startingLineNumber = "69"
+            endingLineNumber = "69"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -5037,7 +5037,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "634"
             endingLineNumber = "634"
-            landmarkName = "rhythm::randomClave(fromPhrase, minNoteLengthInSubdivisions, maxNoteLengthInSubdivisions)"
+            landmarkName = "rhythm::randomCascara(fromPhrase, pDisplace, pDouble)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -5053,7 +5053,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "662"
             endingLineNumber = "662"
-            landmarkName = "rhythm::randomClave(fromPhrase, minNoteLengthInSubdivisions, maxNoteLengthInSubdivisions)"
+            landmarkName = "rhythm::cascaraFrom(fromPhrase)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -5069,7 +5069,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "646"
             endingLineNumber = "646"
-            landmarkName = "rhythm::randomClave(fromPhrase, minNoteLengthInSubdivisions, maxNoteLengthInSubdivisions)"
+            landmarkName = "rhythm::cascaraFrom(fromPhrase)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -5085,7 +5085,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "654"
             endingLineNumber = "654"
-            landmarkName = "rhythm::randomClave(fromPhrase, minNoteLengthInSubdivisions, maxNoteLengthInSubdivisions)"
+            landmarkName = "rhythm::cascaraFrom(fromPhrase)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -5101,7 +5101,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "427"
             endingLineNumber = "427"
-            landmarkName = "rhythm::getPotentialClaveNoteCount(fromPhrase, minNoteLength, maxNoteLength)"
+            landmarkName = "rhythm::stabilityFilter(fromPhrase, direction)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -5117,7 +5117,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "408"
             endingLineNumber = "408"
-            landmarkName = "rhythm::fillCascara(fromPhrase)"
+            landmarkName = "rhythm::stabilityFilter(fromPhrase, direction)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -5133,8 +5133,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "628"
             endingLineNumber = "628"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "rhythm::randomCascara(fromPhrase, pDisplace, pDouble)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -5196,9 +5196,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "243"
-            endingLineNumber = "243"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            endingLineNumber = "243">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -5291,7 +5289,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "552"
             endingLineNumber = "552"
-            landmarkName = "rhythm::cascaraFrom(fromPhrase)"
+            landmarkName = "rhythm::getPotentialClaveNoteCount(fromPhrase, minNoteLength, maxNoteLength)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -5307,7 +5305,39 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "626"
             endingLineNumber = "626"
-            landmarkName = "rhythm::cascaraFrom(fromPhrase)"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F617E648-D070-4C82-9E87-0814A86AA6B8"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Ensemble.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "Ensemble::writeSong()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "ED913277-26C8-44C2-A2AA-32748BA34EC8"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/Music/Rhythm.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "rhythm::leaveSpace(tooBusy, competingVoices)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -44,8 +44,10 @@ void Ensemble::writeSong() {
     // Phrase leadPhrase = melody::streamOfConsciousness(harmony.loop(leadPhraseLength));
     // Phrase leadPhrase = melody::repeatingShape(harmony.loop(leadPhraseLength), Beats(3));
     Phrase leadPhrase = melody::streamWithThemes(harmony.loop(leadPhraseLength));
-    chordsPhrase = harmony::voicingFills(chordsPhrase.loop(leadPhraseLength),
+    chordsPhrase = rhythm::fillLegatoLongTones(chordsPhrase.loop(leadPhraseLength),
                                          {bassPhrase.loop(leadPhraseLength), leadPhrase});
+    chordsPhrase = rhythm::leaveSpace(chordsPhrase, {leadPhrase});
+    chordsPhrase = harmony::chordSteps(chordsPhrase);
     
     dynamics::randomFlux(clavePhrase.notes);
     dynamics::randomFlux(cascaraPhrase.notes);

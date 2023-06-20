@@ -15,6 +15,92 @@
 #include "Utility.h"
 
 
+
+Phrase rhythm::leaveSpace(Phrase tooBusy, vector<Phrase> competingVoices)
+{
+    
+    // tooBusy.subdivisions.tie(true);
+    
+    vector<Time> timeToBeQuiet = rhythm::busySpots(competingVoices);
+
+    if (timeToBeQuiet.empty()) {
+      // in this case we might just add rhythms on top of other active voices 
+      // instead of trying to fill in space
+      return tooBusy;
+    }
+  
+    // sort(timeToBeQuiet.begin(), timeToBeQuiet.end(),
+    //     [](Time const &a, Time const &b) { return a.duration > b.duration; }); // longest to shortest
+    
+    for (Time time : timeToBeQuiet) {
+      vector<Timed<Note>*> notesToCutOff = tooBusy.notes.pointersByPosition(time.startTime);
+      for (auto note : notesToCutOff) {
+        note->setEndTime(time.startTime);
+      }
+      vector<Timed<Note>*> notesToMoveUp = tooBusy.notes.pointersByPosition(time.endTime());
+      for (auto note : notesToMoveUp) {
+        note->setStartTime(time.endTime());
+      }
+    }
+
+    return tooBusy;
+
+}
+
+
+Phrase rhythm::fillLegatoLongTones(Phrase unfilled, vector<Phrase> competingVoices) {
+  unfilled.subdivisions.tie(true);
+  
+  Phrase filled(unfilled);
+  vector<Time> spaces = rhythm::gaps(filled, competingVoices);
+
+  // if (totalSpaceToFill / unfilledVoicings.getDuration() < 1./6.
+  //       || spaces.empty()) {
+  if (spaces.empty()) {
+    // in this case we might just add rhythms on top of other active voices 
+    // instead of trying to fill in space
+    return unfilled;
+  }
+
+  sort(spaces.begin(), spaces.end(), 
+        [](Time const &a, Time const &b) { return a.duration > b.duration; }); // longest to shortest
+
+  for (int i = 0; i < spaces.size() / 2 + 1; i++) {
+    if (flipWeightedCoin(0.3)) {// TODO: let's do better random
+      continue;
+    }
+    Time spaceToFill = spaces[i];
+    
+    Duration subdivision = unfilled.subdivisions.drawByPosition(spaceToFill.startTime);
+    int subdivisionsInSpace = spaceToFill.duration / subdivision;
+    int lengthInSubdivisions = rollDie(subdivisionsInSpace);
+    
+    vector<Time> times = rhythm::nOfLengthM(lengthInSubdivisions, subdivision);
+    times = rhythm::doublesAndDiddles(times, 0.5);
+
+    double displacementInSubdivisions = uniformInt(0, subdivisionsInSpace - lengthInSubdivisions);
+    Duration displacement = displacementInSubdivisions * subdivision;
+    
+    vector<Timed<Note>> vertical;
+    for (Time time : times) {
+        Position realStartTime = spaceToFill.startTime + displacement + time.startTime;
+        Time noteTime(realStartTime, time.duration);
+        
+        vector<Timed<Note>> newVertical = unfilled.notes.byPosition(realStartTime);
+        vertical = newVertical.empty() ? vertical : newVertical;
+        
+        // TODO: make this depend on how many chords we actually want to play
+        // OverwriteBehavior overwrite = draw<OverwriteBehavior>({OverwriteBehavior::insert, OverwriteBehavior::cutoff});
+        OverwriteBehavior overwrite = OverwriteBehavior::insert;
+        for (Timed<Note> note : vertical) {
+            filled.notes.add(Timed<Note>(noteTime, note.item), PushBehavior::ignorePush, overwrite);
+        }
+    }
+  }
+
+  return filled;
+}
+
 vector<Time> rhythm::doublesAndDiddles(vector<Time> times, double modifyProportion, double doubleProportion, double halfProportion) {
     // choose times to modify
     vector<vector<Time*>> toDoubleOrHalf = rhythm::distinctSubsets<Time>(times, modifyProportion, {doubleProportion, halfProportion});
@@ -27,21 +113,55 @@ vector<Time> rhythm::doublesAndDiddles(vector<Time> times, double modifyProporti
     return times;
 }
     
+vector<Time> rhythm::busySpots(vector<Phrase> competingVoices, Duration threshold) {
+
+  vector<Position> startTimes = {0};
+  vector<Position> allStartTimes = {0};
+  for (Phrase competingPhrase : competingVoices) {
+    for (Timed<Note> note : competingPhrase.notes) {
+      allStartTimes.push_back(note.startTime);
+    }
+  }
+    
+  sort(allStartTimes);
+  for (Position startTime : allStartTimes) {
+      if (startTime != startTimes[startTimes.size() - 1]) {
+        startTimes.push_back(startTime);
+      }
+  }
+  vector<Time> busy;
+  bool trackingBusySpot = false;
+  Time busySpot;
+  for (auto it = startTimes.begin(); it != startTimes.end(); it++) {
+    auto next = it + 1;
+    if (next == startTimes.end()) {
+      break;
+    }
+    Duration difference = *next - *it;
+    if (difference <= threshold) {
+        if (!trackingBusySpot) {
+          trackingBusySpot = true; 
+          busySpot.startTime = *it;
+          busySpot.duration = difference;
+        } else {
+          busySpot.duration += difference;
+        }
+    } else {
+      busy.push_back(busySpot);
+      trackingBusySpot = false;
+    }
+  }
+  return busy;
+} 
 vector<Time> rhythm::gaps(Phrase gapFiller, vector<Phrase> competingVoices) {
 
   vector<Position> startTimes = {0};
   vector<Position> allStartTimes = {0};
-  // Position longestPhraseDuration = 0;
-//   vector<Position> startTimes = {0 };
   for (Phrase competingPhrase : competingVoices) {
-    // if (competingPhrase.getDuration() > longestPhraseDuration) {
-    //   longestPhraseDuration = competingPhrase.getDuration();
-    // }
     for (Timed<Note> note : competingPhrase.notes) {
       if (note.startTime < gapFiller.getDuration()) {
         allStartTimes.push_back(note.startTime);
       }
-      // startTimes.emplace(note.startTime);
     }
   }
   allStartTimes.push_back(gapFiller.getDuration());
@@ -52,8 +172,6 @@ vector<Time> rhythm::gaps(Phrase gapFiller, vector<Phrase> competingVoices) {
         startTimes.push_back(startTime);
       }
   }
-//   startTimes.push_back(unfilledVoicings.getDuration());
-  // sort(startTimes);
   vector<Time> spaces;
   for (auto it = startTimes.begin(); it != startTimes.end(); it++) {
     auto next = it + 1;
@@ -65,8 +183,6 @@ vector<Time> rhythm::gaps(Phrase gapFiller, vector<Phrase> competingVoices) {
     Duration threshold = subdivision;
     if (difference > threshold) {
       spaces.push_back(Time(*it, difference));
-    //   spaces.push_back(Timed(*it + threshold, difference - threshold));
-//      totalSpaceToFill += difference;
     }
   }
   return spaces;
