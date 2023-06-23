@@ -9,6 +9,16 @@
 
 #include "Pitch.h"
 
+Interval intervalDifference(Interval large, Interval small) {
+    int result = large - small;
+    if (result < IntervalLowerBound) {
+        return IntervalLowerBound;
+    }
+    if (result > IntervalUpperBound) {
+        return IntervalUpperBound;
+    }
+    return (Interval) result;
+}
 Interval invert(Interval toInvert) {
     int octaves = (int)toInvert / (int)octave;
     int negative = (int) toInvert - (octaves * 2 + 1) * (int) octave;
@@ -115,3 +125,9 @@ void Pitch::makeCloserKeepPitchClass(Pitch const& other, Probability maybe, Inte
     }
 }
 // void Pitch::maybeMakeCloser(Pitch other, Probability maybe = 0.6);
+
+double Pitch::gravity(Pitch rangeMax, Pitch rangeMin) {
+  double range = rangeMax - rangeMin;
+  Pitch center = range / 2. + rangeMin;
+  return (pitchValue - center.pitchValue) / (range / 2.);
+}

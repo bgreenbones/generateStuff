@@ -233,7 +233,7 @@ vector<Pitch> Tonality::smoothVoicing(vector<Pitch> previousVoicing) const {
             return Pitch(pitch.getPitchClass(), octave);
         });
         Pitch closest;
-        Interval closestDistance = IntervalCount;
+        Interval closestDistance = IntervalUpperBound;
         for (Pitch precedingPitch : previousVoicing) {
             for (Pitch option : options) {
                 if (option - precedingPitch < closestDistance) {
@@ -249,6 +249,10 @@ vector<Pitch> Tonality::smoothVoicing(vector<Pitch> previousVoicing) const {
 
 Tonality Tonality::getMode(int n) const {
     return Tonality(root, nthMode(intervalsUpFromRoot, n));
+}
+
+bool Tonality::operator!=(Tonality other) const {
+  return !Tonality::operator==(other);
 }
 
 bool Tonality::operator==(Tonality other) const {
@@ -335,49 +339,118 @@ double Tonality::similarity(Tonality other) const {
     return (containedInThis + containedInOther) / 2.; // return average of two contain measures. 
 }
 
-bool Tonality::includes(Tonality other) const {
-    bool isInThis = true;
-    vector<PitchClass> pitchClasses = this->getPitchClasses();
-    for(PitchClass inOther : other.getPitchClasses()) {
-        isInThis = isInThis && contains<PitchClass>(pitchClasses, inOther);
+bool Tonality::includes(vector<Interval> other) const {
+  if (other.empty()) {
+    return true;
+  }
+  sort(other);
+  for (Interval& interval : other) { interval = intervalDifference(interval, other[0]); }
+  
+  vector<PitchClass> roots = getPitchClasses();
+  for (PitchClass newRoot : roots) {
+    Tonality newTonality = Tonality(newRoot , other);
+    if (includes(newTonality)) {
+      return true;
     }
-    return isInThis;
+  }
+  return false;
 }
 
-Tonality Tonality::smoothModulation(int n, Direction direction) const {
-    if (n <= 0) {
-        return *this;
+bool Tonality::includes(Tonality other) const {
+    vector<PitchClass> pitchClasses = this->getPitchClasses();
+    for(PitchClass inOther : other.getPitchClasses()) {
+        if(contains<PitchClass>(pitchClasses, inOther)) {
+            return true;
+        }
     }
+    return false;
+}
+
+
+vector<Interval> Tonality::getModulationOptions(Direction direction) const {
     vector<Interval> options;
     
     for (auto interval_it = intervalsUpFromRoot.begin(); interval_it < intervalsUpFromRoot.end(); interval_it++) {
         Interval interval = *interval_it;
-        int previous = interval_it == intervalsUpFromRoot.begin() ? intervalsUpFromRoot.back() - octave : *(interval_it - 1);
-        int next = interval_it == intervalsUpFromRoot.end() - 1 ? intervalsUpFromRoot.front() + octave : *(interval_it + 1);
+        Interval previous = interval_it == intervalsUpFromRoot.begin()
+                                ? intervalDifference(intervalsUpFromRoot.back(), octave)
+                                : *(interval_it - 1);
+        Interval next = interval_it == intervalsUpFromRoot.end() - 1
+                                ? (Interval)(intervalsUpFromRoot.front() + octave)
+                                : *(interval_it + 1);
         
-        Interval between_previous = (Interval) (interval - previous);
-        Interval between_next = (Interval) (next - interval);
+        Interval between_previous = intervalDifference(interval, previous);
+        Interval between_next = intervalDifference(next, interval);
         
         if ((direction == Direction::up && (between_previous < M2 && between_next >= M2))
             || (direction == Direction::down && (between_next < M2 && between_previous >= M2))) {
-            options.push_back(interval);
+          // if ((direction == Direction::up && (between_previous == m2 && between_next == M2))
+          //     || (direction == Direction::down && (between_next == m2 && between_previous == M2))) {
+              options.push_back(interval);
+          // } else {/
+          //   DBG("interesting");
+          // }
         }
     }
+    return options;
+}
+
+Tonality Tonality::smoothModulation(int n, Direction direction, vector<vector<Interval>> limitChordQualities) const {
+    if (n <= 0) {
+        return *this;
+    }
     
+    vector<Interval> options = getModulationOptions(direction);
+
     if (options.empty()) {
         return *this; // nothing to raise...
     }
+
+    vector<Interval> realOptions;
+    for (Interval option : options) {
+      if (limitChordQualities.empty()) { 
+        realOptions = options;
+        break;
+      }
+
+      vector<Interval> newIntervalsUpFromRoot = intervalsUpFromRoot;
+      for (Interval& interval : newIntervalsUpFromRoot) {
+        if (interval == option) {
+          interval = (Interval)(interval + direction);
+        }
+      }
+      Tonality newTonality = Tonality(root, newIntervalsUpFromRoot);
+      for (vector<Interval> quality : limitChordQualities) {
+        if (newTonality.includes(quality)) {
+          realOptions.push_back(option);
+          break;
+        }
+      }
+    }
+    if (realOptions.size() != options.size()) {
+      realOptions = options;
+    }
+
+    if (realOptions.empty()) {
+      realOptions = options;
+    }
+
     
-    Interval toModulate = draw<Interval>(options);
+    Interval toModulate = draw<Interval>(realOptions);
     Interval modulated = (Interval) (toModulate + direction);
     
-    vector<Interval> newIntervalsUpFromRoot;
-    transform(intervalsUpFromRoot.begin(), intervalsUpFromRoot.end(), back_inserter(newIntervalsUpFromRoot), [toModulate, modulated](Interval interval) {
+    vector<Interval> newIntervalsUpFromRoot = mapp<Interval>(intervalsUpFromRoot, [toModulate, modulated](Interval interval) {
         return interval == toModulate ? modulated : interval;
     });
     
     Tonality tempTonality = Tonality(root, newIntervalsUpFromRoot);
     PitchClass newRoot = draw<PitchClass>(tempTonality.getPitchClasses());
+    tempTonality = tempTonality.newRootSameTonality(newRoot);
+    return tempTonality.smoothModulation(n - 1, direction);
+}
+
+Tonality Tonality::newRootSameTonality(PitchClass newRoot) const {
+    vector<Interval> newIntervalsUpFromRoot = intervalsUpFromRoot;
     int rootDifference = (int)root - (int)newRoot;
     for (Interval& interval : newIntervalsUpFromRoot) {
       if ((int)interval + rootDifference >= octave)
@@ -390,9 +463,8 @@ Tonality Tonality::smoothModulation(int n, Direction direction) const {
       }
     }
     sort(newIntervalsUpFromRoot);
-    return Tonality(newRoot, newIntervalsUpFromRoot).smoothModulation(n - 1, direction);
+    return Tonality(newRoot, newIntervalsUpFromRoot);
 }
-
 
 Tonality Tonality::raise(int n) const {
     return smoothModulation(n, Direction::up);

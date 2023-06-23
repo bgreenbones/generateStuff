@@ -28,8 +28,14 @@ void Ensemble::writeSong() {
     Probability chordPerAccentProbability = uniformDouble(0.1, 0.9);
     double harmonicDensity = uniformDouble(0.1, 0.9);
     Phrase harmony = harmony::generateChordScales(clavePhrase.loop(harmonyPhraseLength),
-        HarmonyApproach::smoothishModulations, chordPerAccentProbability, harmonicDensity); // harmonic density and probability per accent
-    
+        {
+            .approach = HarmonyApproach::smoothishModulations, 
+            .chordProbabilityPerAccent = chordPerAccentProbability, 
+            .harmonicDensity = harmonicDensity,
+            .chordQualities = majorMinorOneColorTone
+        }); // harmonic density and probability per accent
+    // harmonyApproaches[(int)approach].toStdString(),
+
     double min = 0;
     double max = 0.6;
     double thickness = 0.6; // 0 to 1

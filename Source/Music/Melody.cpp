@@ -244,17 +244,8 @@ vector<Timed<Note>> melody::shape(Duration shapeLength, Duration subdivision) {
     return result;
 };
 
-// Pitch melody::highPitch = Pitch(85);
-// Pitch melody::lowPitch = Pitch(45);
-double pitchGravity(Pitch pitch) {
-  double range = Pitch::max - Pitch::min;
-  // double range = melody::highPitch.pitchValue - melody::lowPitch.pitchValue;
-  Pitch center = range / 2. + Pitch::min;
-  // Pitch center = range / 2. + melody::lowPitch.pitchValue;
-  return (pitch.pitchValue - center.pitchValue) / (range / 2.);
-}
 
-double pitchSlope(vector<Timed<Note>> shape) {
+double melody::slope(vector<Timed<Note>> shape) {
   if (shape.size() < 2) {
     return 0;
   }
@@ -287,24 +278,13 @@ Phrase melody::streamWithThemes(Phrase harmony) {
         if (themeToInsert.empty()) {
           continue;
         }
-        // Tonality scale = harmony.chordScales.drawByPosition(themeToInsert[0].startTime).scale;
-        // Interval goUp = pitchClassInterval(firstScale.root, scale.root);
-        // int transpose = (int)goUp;
-        // if (flipCoin()) {
-        //     Interval goDown = invert(goUp);
-        //     transpose = -(int)goDown;
-        // }
-        // for (Note& note : themeToInsert) {
-        //     note.pitch += transpose;
-        // }
         if (!phrase.notes.empty()) {
-          // Tonality scale = harmony.chordScales.drawByPosition(themeToInsert[0].startTime).scale;
           int noJumpTranspose = phrase.notes.back().item.pitch.pitchValue - themeToInsert[0].item.pitch.pitchValue;
           for (Timed<Note>& note : themeToInsert) {
               note.item.pitch += noJumpTranspose;
           }
-          double gravity = pitchGravity(themeToInsert.back().item.pitch);
-          double slope = pitchSlope(themeToInsert);
+          double gravity = themeToInsert.back().item.pitch.gravity();
+          double slope = melody::slope(themeToInsert);
           int avoidExtremesTranspose = gravity * rollDie(24) + slope / rollDie(3);
           for (Timed<Note>& note : themeToInsert) {
               note.item.pitch -= avoidExtremesTranspose;

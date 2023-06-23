@@ -39,6 +39,7 @@ namespace melody {
     //                 );
     static Pitch highPitch = Pitch(85);
     static Pitch lowPitch = Pitch(45);
+    double slope(vector<Timed<Note>> shape);
     void stepwiseMotion(vector<Timed<Note>*> notes,
                     Sequence<ChordScale>& scales,
                     Pitch rangeMinimum = lowPitch, Pitch rangeMaximum = highPitch);

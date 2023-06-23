@@ -17,12 +17,21 @@ Phrase harmony::chordSteps(Phrase chords) {
   vector<Timed<Note>*> currentVertical;
   vector<Timed<Note>*> previousVertical;
   Direction d = flipCoin() ? Direction::up : Direction::down;
+  bool fastStep = Probability(0.3);
+  sort(chords.notes);
   for (Timed<Note> &note : chords.notes) {
     if (currentVertical.empty() || note.startTime == currentVertical.back()->startTime) {
       currentVertical.push_back(&note);
     } else {
       previousVertical = currentVertical;
-        d = flipCoin() ? Direction::up : Direction::down;
+      sort(previousVertical);
+      vector<double> gravitys = mapp<Timed<Note>*, double>(previousVertical, [](Timed<Note>* note) {
+        return note->item.pitch.gravity();
+      });
+      double totalGravity = accumulate(gravitys.begin(), gravitys.end(), 0.);
+      double averageGravity = totalGravity / max(1, (int)gravitys.size());
+      d = Probability(0.5 + averageGravity) ? Direction::down : Direction::up;
+      fastStep = Probability(0.3);
       currentVertical.clear();
       currentVertical.push_back(&note);
     }
@@ -31,14 +40,16 @@ Phrase harmony::chordSteps(Phrase chords) {
       Timed<ChordScale> previousHarmony = chords.chordScales.drawByPosition(previousVertical.back()->startTime);
       Timed<ChordScale> currentHarmony = chords.chordScales.drawByPosition(note.startTime);
       if (previousHarmony.item.harmony == currentHarmony.item.harmony) {
-        note.item.pitch = previousVertical[currentVertical.size() - 1]->item.pitch;
-        // for (Timed<Note> *previousNote : previousVertical) {
-          // if (previousNote->item.pitch == note.item.pitch) {
-            // note.item.pitch = currentHarmony.item.harmony.step(previousNote->item.pitch, Direction::down);
-            note.item.pitch = currentHarmony.item.harmony.step(note.item.pitch, d);
-            // break;
-          // }
-        // }
+        Timed<Note>* previousNote = previousVertical.back();
+        if (currentVertical.size() <= previousVertical.size()) {
+          previousNote = previousVertical[currentVertical.size() - 1];
+          note.item = previousNote->item;
+        } else {
+          DBG("why does this happen");
+        }
+        if ((note.duration > thirtySeconds && previousNote->duration > thirtySeconds) || fastStep) {
+          note.item.pitch = currentHarmony.item.harmony.step(note.item.pitch, d);
+        }
       }
     }
   }
@@ -46,30 +57,52 @@ Phrase harmony::chordSteps(Phrase chords) {
 }
 
 
-ChordScale harmony::selectApproachAndGenerate(juce::String approach, vector<Timed<ChordScale>> chordScales) {
-    if (approach == randomHarmonyApproachKey || chordScales.empty()) {
-        return randomChordScale();
+ChordScale harmony::selectApproachAndGenerate(HarmonicArguments &args) {
+    if (args.modulationPoints.empty()) {
+        args.modulationPoints.push_back(args.upcomingTime.startTime);
+    } else {
+      Duration timeSinceLastModulation = args.upcomingTime.startTime - args.modulationPoints.back();
+      args.modulationProbability = timeSinceLastModulation / Bars(2);
     }
-    if (approach == diatonicHarmonyApproachKey) {
-        return newChordSameScale(chordScales.back());
+
+    ChordScale newChordScale;
+    if (args.chordScales.empty()) {
+      newChordScale = randomChordScale();
     }
-    if (approach == smoothishModulationsHarmonyApprachKey) {
-        return subtleModulations(chordScales.back());
+    switch (args.approach) {
+      case HarmonyApproach::random:
+        newChordScale = randomChordScale();
+        break;
+      case HarmonyApproach::diatonic:
+        newChordScale = newChordSameScale(args);
+        break;
+      case HarmonyApproach::smoothishModulations:
+        newChordScale = subtleModulations(args);
+        break;
+      case HarmonyApproach::harmonyApproachCount:
+          break;
     }
-    return randomChordScale();
+    
+    if (!args.chordScales.empty()) {
+      if (args.previousChordScale.scale != newChordScale.scale) {
+        args.modulationPoints.push_back(args.upcomingTime.startTime);
+      }
+    }
+    args.chordScales.push_back(Timed<ChordScale>(args.upcomingTime, newChordScale));
+
+    return newChordScale;
 };
 
 
-ChordScale harmony::randomChordScale() {
+ChordScale harmony::randomChordScale(HarmonicArguments args) {
     PitchClass root = draw<PitchClass>(pitches);
     vector<Interval> scale = draw<vector<Interval>>(diatonicModes);
     ChordScale harm(Tonality(root, scale));
     return harm;
 }
 
-ChordScale harmony::newChordSameScale(ChordScale previousChordScale,
-                                        vector<vector<Interval>> limitChordQualities) {
-    Tonality scale = previousChordScale.scale;
+ChordScale harmony::newChordSameScale(HarmonicArguments args) {
+    Tonality scale = args.previousChordScale.scale;
     ChordScale nextChordScale(scale);
     
     if (scale.intervalsUpFromRoot.size() > 1) {
@@ -78,7 +111,7 @@ ChordScale harmony::newChordSameScale(ChordScale previousChordScale,
       vector<PitchClass> candidateRoots = scale.getPitchClasses();
 
       for (PitchClass newChordRoot : candidateRoots) {
-        for (vector<Interval> quality : limitChordQualities) {
+        for (vector<Interval> quality : args.chordQualities) {
             Tonality newChord = Tonality(newChordRoot, quality);
             if (scale.includes(newChord)) {
               limitingCandidates.push_back(newChord);
@@ -108,47 +141,52 @@ ChordScale harmony::newChordSameScale(ChordScale previousChordScale,
     return nextChordScale;
 }
 
-ChordScale harmony::subtleModulations(ChordScale previousChordScale) {
-    ChordScale newChordScale(previousChordScale.scale.smoothModulation(1, draw<Direction>({ up, down })), 
-        previousChordScale.harmony);
-    return newChordSameScale(newChordScale, { major9chord, minor9chord });
+ChordScale harmony::subtleModulations(HarmonicArguments args) {
+  // vector<vector<Interval>> chordQualities = { majorAdd2};
+  // vector<vector<Interval>> chordQualities = augmentedAndDiminished;
+  // vector<vector<Interval>> chordQualities = majorMinorOneColorTone;
+
+
+  if (args.modulationProbability) {
+    args.previousChordScale.scale = args.previousChordScale.scale
+      .smoothModulation(1,
+                        draw<Direction>({ up, down }),
+                        args.chordQualities);
+  }
+  return newChordSameScale(args);
+
 }
 
 
-vector<Timed<ChordScale>> harmony::timedChordScales(vector<Time> times, HarmonyApproach approach) {
-    vector<Timed<ChordScale>> chords;
-    for(Time time : times) {
-        ChordScale chordScale = selectApproachAndGenerate(harmonyApproaches[(int)approach].toStdString(),
-                                                          chords);
-        chords.push_back(Timed<ChordScale>(time, chordScale));
-    }
-    return chords;
-}
 
-Phrase harmony::generateChordScales(Phrase fromPhrase, HarmonyApproach approach, Probability chordProbabilityPerAccent, double harmonicDensity) {
-// Phrase harmony::generateChordScales(Phrase fromPhrase, string harmonyApproach, Probability chordProbabilityPerAccent, double harmonicDensity) {
+Phrase harmony::generateChordScales(Phrase fromPhrase,
+                                    HarmonicArguments args) {
     Sequence<Note> notes(fromPhrase.notes.toMonophonic());
     Sequence<Note> accents(notes);
     accents.assignEvents(filter<Timed<Note>>(notes, [](Timed<Note> note) { return note.item.accented; }));
     accents.legato();
-    
 
     if (accents.empty()) {
         vector<Time> times = rhythm::onePerShortForLong(Bars(1), fromPhrase.getDuration());
-        vector<Timed<ChordScale>> harmonies = harmony::timedChordScales(times, approach);
-        fromPhrase.chordScales.assignEvents(harmonies);
+        for(Time time : times) {
+          args.upcomingTime = time;
+          ChordScale chordScale = selectApproachAndGenerate(args);
+        }
     } else {
         for (Timed<Note> accent : accents) {
-            if (chordProbabilityPerAccent) {
-                bool firstChord = fromPhrase.chordScales.empty();
-                double previousChordLength = firstChord ? 1. / harmonicDensity : (accent.startTime - fromPhrase.chordScales.back().startTime).asSeconds();
-                if (Probability(harmonicDensity * previousChordLength)) {
-                  ChordScale chordScale = selectApproachAndGenerate(harmonyApproaches[(int)approach].toStdString(), fromPhrase.chordScales);
-                  fromPhrase.chordScales.add(Timed<ChordScale>(accent, chordScale));
+            if (args.chordProbabilityPerAccent) {
+                bool firstChord = args.chordScales.empty();
+                double previousChordLength = firstChord 
+                  ? 1. / args.harmonicDensity
+                  : (accent.startTime - args.chordScales.back().startTime).asSeconds();
+                if (Probability(args.harmonicDensity * previousChordLength)) {
+                  args.upcomingTime = accent;
+                  ChordScale chordScale = selectApproachAndGenerate(args);
                 }
             }
         }
     }
+    fromPhrase.chordScales.assignEvents(args.chordScales);
     fromPhrase.chordScales.tie(true);
     return fromPhrase;
 }

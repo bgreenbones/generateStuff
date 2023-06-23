@@ -18,9 +18,11 @@ Phrase Chords::newPhrase() const {
   double harmonicDensity = ensemble.editorState.getKnobValue(harmonyDensityKey);
   
   Phrase harmony = harmony::generateChordScales(ensemble.emptyPhrase(harmonyKey),
-    getHarmonyApproach(harmonyApproach), 
-    chordProbabilityPerAccent,
-    harmonicDensity);
+    {
+      .approach = getHarmonyApproach(harmonyApproach),
+      .chordProbabilityPerAccent = chordProbabilityPerAccent,     
+      .harmonicDensity = harmonicDensity
+    });
 
   Phrase phrase = harmony::randomVoicings(harmony);
   dynamics::randomFlux(phrase.notes); // why the heck not give everything a little life.
@@ -47,9 +49,11 @@ Phrase Chords::phraseFrom() const {
 
   Phrase harmony = generateFromPhrase.chordScales.empty() 
     ? harmony::generateChordScales(generateFromPhrase, 
-        getHarmonyApproach(harmonyApproach), 
-        chordProbabilityPerAccent, 
-        harmonicDensity) 
+      {
+        .approach = getHarmonyApproach(harmonyApproach),
+        .chordProbabilityPerAccent = chordProbabilityPerAccent,     
+        .harmonicDensity = harmonicDensity
+      })
     : generateFromPhrase;
   // harmony.chordScales.clear();
 

@@ -28,9 +28,11 @@ Phrase Lead::newPhrase() const {
   
   Phrase harmony = generateFromPhrase.chordScales.empty() 
     ? harmony::generateChordScales(generateFromPhrase,
-        getHarmonyApproach(harmonyApproach),
-        chordProbabilityPerAccent, 
-        harmonicDensity) 
+    {
+      .approach = getHarmonyApproach(harmonyApproach),
+      .chordProbabilityPerAccent = chordProbabilityPerAccent,     
+      .harmonicDensity = harmonicDensity
+    })
     : generateFromPhrase;
 
   Phrase phrase = melody::streamOfConsciousness(harmony);
@@ -58,11 +60,13 @@ Phrase Lead::phraseFrom() const {
     Probability chordProbabilityPerAccent = ensemble.editorState.getKnobValue(harmonyProbabilityKey);
     double harmonicDensity = ensemble.editorState.getKnobValue(harmonyDensityKey);
     
-    Phrase harmony = generateFromPhrase.chordScales.empty() 
+    Phrase harmony = generateFromPhrase.chordScales.empty()
       ? harmony::generateChordScales(generateFromPhrase,
-          getHarmonyApproach(harmonyApproach),
-          chordProbabilityPerAccent, 
-          harmonicDensity) 
+      {
+        .approach = getHarmonyApproach(harmonyApproach),
+        .chordProbabilityPerAccent = chordProbabilityPerAccent,     
+        .harmonicDensity = harmonicDensity
+      })
       : generateFromPhrase;
 
     Phrase phrase = melody::streamOfConsciousness(harmony);

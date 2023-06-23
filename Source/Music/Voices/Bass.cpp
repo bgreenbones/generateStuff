@@ -21,10 +21,12 @@ Phrase Bass::newPhrase() const {
 
   Phrase harmony = ensemble.at(startTime, harmonyKey);
   harmony = harmony.chordScales.empty() 
-    ? harmony::generateChordScales(harmony, 
-        getHarmonyApproach(harmonyApproach), 
-        chordProbabilityPerAccent, 
-        harmonicDensity) 
+    ? harmony::generateChordScales(harmony,
+    {
+      .approach = getHarmonyApproach(harmonyApproach),
+      .chordProbabilityPerAccent = chordProbabilityPerAccent,     
+      .harmonicDensity = harmonicDensity
+    })
     : harmony;
   harmony = harmony.loop(phraseLength);
   

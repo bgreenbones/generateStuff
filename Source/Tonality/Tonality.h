@@ -54,6 +54,24 @@ static const vector<Interval> minorTriad = { unison, m3, P5 };
 static const vector<Interval> diminishedTriad = { unison, m3, b5 };
 static const vector<Interval> augmentedTriad = { unison, M3, s5 };
 
+
+static const vector<vector<Interval>> augmentedAndDiminished = {
+  diminishedTriad, augmentedTriad  
+};
+
+static const vector<Interval> major7chord = { unison, M3, P5, M7 };
+static const vector<Interval> minor7chord = { unison, m3, P5, m7 };
+static const vector<Interval> majorAdd2 = { unison, M2, M3, P5 };
+static const vector<Interval> minorAdd2 = { unison, M2, m3, P5 };
+static const vector<Interval> majorAdd4 = { unison, M3, P4, P5 };
+static const vector<Interval> minorAdd4 = { unison, m3, P4, P5 };
+static const vector<Interval> major6chord = { unison, M3, P5, M6};
+static const vector<Interval> minor6chord = { unison, m3, P5, M6 };
+
+static const vector<vector<Interval>> majorMinorOneColorTone = {
+  major7chord, minor7chord, majorAdd2, minorAdd2, majorAdd4, minorAdd4, major6chord, minor6chord
+};
+
 static const vector<Interval> major9chord = { unison, M3, P5, M7, M9 };
 static const vector<Interval> minor9chord = { unison, m3, P5, m7, M9 };
 
@@ -87,11 +105,15 @@ public:
     Tonality harmonyToScale() const;
     Tonality scaleToHarmony() const;
     double similarity(Tonality other) const;
+    bool includes(vector<Interval> other) const;
     bool includes(Tonality other) const;
     bool containsPitch(Pitch pitch) const;
-    Tonality smoothModulation(int n, Direction direction) const;
+    Tonality smoothModulation(int n, Direction direction, vector<vector<Interval>> limitChordQualities = {}) const;
+    vector<Interval> getModulationOptions(Direction direction) const;
     Tonality raise(int n) const;
     Tonality lower(int n) const;
+    Tonality newRootSameTonality(PitchClass newRoot) const;
     
     bool operator==(Tonality other) const;
+    bool operator!=(Tonality other) const;
 };

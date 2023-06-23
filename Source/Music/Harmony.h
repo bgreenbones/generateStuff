@@ -16,22 +16,30 @@
 
 
 namespace harmony {
-    
-    vector<Timed<ChordScale>> timedChordScales(vector<Time> times, HarmonyApproach approach);
-    ChordScale randomChordScale();
-    ChordScale newChordSameScale(ChordScale previousChordScale,
-                                  vector<vector<Interval>> limitChordQualities = {});
-    ChordScale subtleModulations(ChordScale previousChordScale);
-    
+    struct HarmonicArguments {
+      HarmonyApproach approach;
+      Time upcomingTime;
+      Probability modulationProbability;
+      vector<Position> modulationPoints;
+      ChordScale previousChordScale;
+      vector<Timed<ChordScale>> chordScales;
+      vector<vector<Interval>> chordQualities;
+      Probability chordProbabilityPerAccent;
+      double harmonicDensity;
+    };
+
+    // vector<Timed<ChordScale>> timedChordScales(vector<Time> times, HarmonicArguments args);
+    ChordScale randomChordScale(HarmonicArguments args = {});
+    ChordScale newChordSameScale(HarmonicArguments args);
+    ChordScale subtleModulations(HarmonicArguments args);
     vector<Pitch> randomChord();
-        
-    ChordScale selectApproachAndGenerate(juce::String approach, vector<Timed<ChordScale>> chordScales);
+    ChordScale selectApproachAndGenerate(HarmonicArguments &args);
 
-    Phrase generateChordScales(Phrase fromPhrase,
-                            HarmonyApproach approach,
-                            Probability chordProbabilityPerAccent,
-                            double harmonicDensity);
+    Phrase generateChordScales(Phrase fromPhrase, HarmonicArguments args);
 
+
+    // Pitch highPitch = Pitch(85);
+    // Pitch lowPitch = Pitch(50);
 
     Phrase chordSteps(Phrase chords);
     Phrase randomVoicings(Phrase phrase);
