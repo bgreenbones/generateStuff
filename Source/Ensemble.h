@@ -26,7 +26,7 @@ public:
 
     Clave clave;
     Cascara cascara;
-    Shaker shaker;
+    // Shaker shaker;
     Chords chords;
     Bass bass;
     Lead lead;
@@ -34,14 +34,14 @@ public:
     Ensemble(GenerateStuffEditorState& editorState): editorState(editorState),
       clave(Clave(*this)),
       cascara(Cascara(*this)),
-      shaker(Shaker(*this)),
+      // shaker(Shaker(*this)),
       chords (Chords(*this)),
       bass (Bass(*this)),
       lead (Lead(*this))
     {
       queue.emplace(clave.name, clave);
       queue.emplace(cascara.name, cascara);
-      queue.emplace(shaker.name, shaker);
+      // queue.emplace(shaker.name, shaker);
       queue.emplace(chords.name, chords);
       queue.emplace(bass.name, bass);
       queue.emplace(lead.name, lead);

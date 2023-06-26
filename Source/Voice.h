@@ -31,6 +31,9 @@ static const VoiceName harmonyKey = "harmony";
 static const VoiceName bassKey = "bass";
 static const VoiceName melodyKey = "melody";
 //static const string pulseAndDisplaceKey = "pulseAndDisplace";
+static const vector<VoiceName> voiceKeys = {
+  claveKey, cascaraKey, subdivisionsKey, harmonyKey, bassKey, melodyKey
+};
 
 static int claveChannel = 1;
 static int cascaraChannel = 2;

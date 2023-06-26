@@ -203,8 +203,9 @@ void GenerateStuffAudioProcessorEditor::resized()
 //    xCursor += sliderWidth + spaceBetweenControls;
     
     int buttonHeight = ui::getButtonHeight(voiceManager.getNumberOfVoices(), height);
+    int voiceTileHeight = ui::getVoiceTileHeight(height);
 
-    voiceManager.setBounds(xCursor, yCursor, buttonWidth, buttonHeight, ui::spaceBetweenControls);
+    voiceManager.setBounds(xCursor, yCursor, buttonWidth, voiceTileHeight, ui::spaceBetweenControls);
     xCursor += (buttonWidth + ui::spaceBetweenControls) * voiceManager.getNumberOfColumns();
     
 //    decorationDividerX = xCursor;

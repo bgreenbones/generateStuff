@@ -28,6 +28,17 @@ juce::AudioProcessorParameterGroup getVoiceParameters(VoiceName voiceName, vecto
     }
     return parameterGroup;
 }
+juce::AudioProcessorParameterGroup getAllVoiceParameters(VoiceName voiceName) {
+    juce::AudioProcessorParameterGroup parameterGroup(voiceName + "AllVoice", voiceName + "AllVoice", ":");
+    
+    auto density = Parameter(voiceName + "Density", voiceName + "Density", densityRange, 0.7, "");
+    auto lowPitch = Parameter(voiceName + "LowPitch", voiceName + "LowPitch", densityRange, 0.7, "");
+    auto highPitch = Parameter(voiceName + "HighPitch", voiceName + "HighPitch", densityRange, 0.7, "");
+    parameterGroup.addChild(make_unique<juce::AudioParameterFloat>(density.key, density.name, density.knobRange, density.defaultKnobValue, density.units));
+    parameterGroup.addChild(make_unique<juce::AudioParameterFloat>(lowPitch.key, lowPitch.name, lowPitch.knobRange, lowPitch.defaultKnobValue, lowPitch.units));
+    parameterGroup.addChild(make_unique<juce::AudioParameterFloat>(highPitch.key, highPitch.name, highPitch.knobRange, highPitch.defaultKnobValue, highPitch.units));
+    return parameterGroup;
+}
 
 juce::AudioProcessorValueTreeState::ParameterLayout getParameterLayout() {
     juce::AudioProcessorValueTreeState::ParameterLayout parameterLayout;
@@ -35,6 +46,10 @@ juce::AudioProcessorValueTreeState::ParameterLayout getParameterLayout() {
     parameterLayout.add(make_unique<juce::AudioProcessorParameterGroup>(getVoiceParameters(cascaraKey, cascaraParameters)));
     parameterLayout.add(make_unique<juce::AudioProcessorParameterGroup>(getVoiceParameters(harmonyKey, harmonyParameters)));
     parameterLayout.add(make_unique<juce::AudioProcessorParameterGroup>(getVoiceParameters(bassKey, bassParameters)));
+
+    for (auto voiceKey : voiceKeys) {
+      parameterLayout.add(make_unique<juce::AudioProcessorParameterGroup>(getAllVoiceParameters(voiceKey)));
+    }
     return parameterLayout;
 }
 

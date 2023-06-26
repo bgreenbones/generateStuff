@@ -14,3 +14,7 @@
 int ui::getButtonHeight(int rows, int height) {
     return (height - spaceBetweenControls * (rows - 1)) / rows;
 };
+
+int ui::getVoiceTileHeight(int height) {
+  return getButtonHeight(6, height);
+}

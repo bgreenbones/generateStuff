@@ -24,6 +24,7 @@ namespace ui {
     const int spaceBetweenControls = 10;
 
     int getButtonHeight(int rows, int height);
+    int getVoiceTileHeight(int height);
 }
 
 

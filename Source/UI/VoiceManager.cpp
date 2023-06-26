@@ -20,7 +20,7 @@ VoiceManager::VoiceManager(GenerateStuffAudioProcessor& processor):
     ensemble(processor.ensemble)
 {
     for (auto voiceEntry : ensemble.queue) {
-        voices.emplace(voiceEntry.second.name, VoiceControls(voiceEntry.second));
+        voices.emplace(voiceEntry.second.name, VoiceControls(voiceEntry.second, processor));
     }
 }
 
@@ -40,6 +40,9 @@ void VoiceManager::callAddAndMakeVisible(juce::Component *editor) {
     for (auto voiceIt = voices.begin(); voiceIt != voices.end(); voiceIt++) {
         voiceIt->second.callAddAndMakeVisible(editor);
     }
+    for (auto label : labels) {
+      editor->addAndMakeVisible(label);
+    }
 }
 
 void VoiceManager::configureButtons() {
@@ -55,11 +58,19 @@ void VoiceManager::configure(juce::Component *editor) {
     setOnClicks();
 }
 
-void VoiceManager::setBounds(int xCursor, int yCursor, int buttonWidth, int buttonHeight, int spaceBetweenControls) {
-    auto incrementCursor = [&]() { yCursor += buttonHeight + spaceBetweenControls; };
+// void VoiceManager::setBounds(int xCursor, int yCursor, int buttonWidth, int buttonHeight, int spaceBetweenControls) {
+void VoiceManager::setBounds(int xCursor, int yCursor, int buttonWidth, int voiceTileHeight, int spaceBetweenControls) {
+    auto incrementXCursor = [&]() { xCursor += buttonWidth + spaceBetweenControls; };
+    int labelCursor = yCursor;
+    auto incrementLabelCursor = [&]() { labelCursor += voiceTileHeight + spaceBetweenControls; };
+    for (auto label : labels) {
+      label->setBounds(xCursor, labelCursor, buttonWidth, voiceTileHeight);
+      incrementLabelCursor();
+    }
+    incrementXCursor();
     for (auto voiceIt = ensemble.queue.begin(); voiceIt != ensemble.queue.end(); voiceIt++) {
-        voices.at(voiceIt->second.name).setBounds (xCursor, yCursor, buttonWidth, buttonHeight, spaceBetweenControls);
-        incrementCursor();
+        voices.at(voiceIt->second.name).setBounds (xCursor, yCursor, buttonWidth, voiceTileHeight, spaceBetweenControls);
+        incrementXCursor();
     }
 }
 

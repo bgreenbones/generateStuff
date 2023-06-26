@@ -26,6 +26,11 @@ public:
     GenerateStuffAudioProcessor& processor;    
     Ensemble& ensemble;
     juce::Component* mainEditor;
+    juce::Label midiChannelLabel = juce::Label("midiChannelLabel", "MIDI Channel:");
+    juce::Label highPitchLabel = juce::Label("highPitchLabel", "Highest Pitch:");
+    juce::Label lowPitchLabel = juce::Label("lowPitchLabel", "Lowest Pitch:");
+    juce::Label densityLabel = juce::Label("densityLabel", "Density:");
+    vector<juce::Label*> labels = { &midiChannelLabel, &highPitchLabel, &lowPitchLabel, &densityLabel };
     
     // string useAsSourcePhraseKeyState;
     
@@ -43,8 +48,8 @@ public:
     size_t getNumberOfVoices();
     void updateUseAsSourceState();
     void updateState();
-    vector<const string> getConnectingKeys();
-    vector<const string> getOrnamentKeys();
+    // vector<const string> getConnectingKeys();
+    // vector<const string> getOrnamentKeys();
 
 };
 
