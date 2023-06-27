@@ -48,8 +48,6 @@ public:
     size_t getNumberOfVoices();
     void updateUseAsSourceState();
     void updateState();
-    // vector<const string> getConnectingKeys();
-    // vector<const string> getOrnamentKeys();
 
 };
 

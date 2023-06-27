@@ -14,10 +14,10 @@
 
 void melody::stepwiseMotion(vector<Timed<Note>*> notes,
                     Sequence<ChordScale>& scales,
-                    Pitch rangeMinimum, Pitch rangeMaximum
+                    PitchRange range
                     // Interval maxJump
                     ) {
-  Pitch lastPitch(uniformInt(rangeMinimum.pitchValue, rangeMaximum.pitchValue));
+  Pitch lastPitch(uniformInt(range.low, range.high));
   for (Timed<Note> *timedNote : notes) {
       Note& note = timedNote->item;
       Direction direction = rollDie(2) == 2 ? Direction::down : Direction::up;
@@ -26,13 +26,13 @@ void melody::stepwiseMotion(vector<Timed<Note>*> notes,
       // if (!scale.containsPitch(candidatePitch)) { // TODO: make stuff like this into asserts
       //   int i = 1;
       // }
-      if (candidatePitch < rangeMinimum) {
+      if (candidatePitch < range.low) {
         candidatePitch = scale.step(lastPitch, Direction::up);
       // if (!scale.containsPitch(candidatePitch)) {
       //   int i = 1;
       // }
       }
-      if (candidatePitch > rangeMaximum) {
+      if (candidatePitch > range.high) {
         candidatePitch = scale.step(lastPitch, Direction::down);
       // if (!scale.containsPitch(candidatePitch)) {
       //   int i = 1;
@@ -43,17 +43,17 @@ void melody::stepwiseMotion(vector<Timed<Note>*> notes,
   }
 }
 void melody::stepwiseMotion(vector<Timed<Note>*> notes,
-                    Pitch rangeMinimum, Pitch rangeMaximum) {
-  Pitch lastPitch(uniformInt(rangeMinimum.pitchValue, rangeMaximum.pitchValue));
+                    PitchRange range) {
+  Pitch lastPitch(uniformInt(range.low, range.high));
   for (Timed<Note> *timedNote : notes) {
       Note& note = timedNote->item;
       Direction direction = flipCoin() ? Direction::down : Direction::up;
       Interval interval = flipCoin() ? M2 : m2;
       Pitch candidatePitch = lastPitch + (int) direction * interval;
-      if (candidatePitch < rangeMinimum) {
+      if (candidatePitch < range.low) {
         candidatePitch = lastPitch + (int)interval;
       }
-      if (candidatePitch > rangeMaximum) {
+      if (candidatePitch > range.high) {
         candidatePitch = lastPitch - (int)interval;
       }
       note.pitch = candidatePitch;
@@ -65,9 +65,8 @@ void melody::stepwiseMotion(vector<Timed<Note>*> notes,
 
 void bassPitches(vector<Timed<Note>*> notes,
                     Sequence<ChordScale>& harmonies,
-                    Position cursor = 0) {
-    Pitch bassMin = Pitch(A, 2); 
-    Pitch bassMax = Pitch(D, 5);
+                    Position cursor = 0,
+                    PitchRange range = melody::bassRange) {
     for (int i = 0; i <notes.size(); i++) {
       Timed<Note> *timedNote = notes[i];
       Timed<Note> *previousNote = notes[max(i - 1,0)];
@@ -76,9 +75,9 @@ void bassPitches(vector<Timed<Note>*> notes,
       PitchClass chordTone = draw<PitchClass>(chordScale.harmony.getPitchClasses());
       PitchClass bassPitchClass = draw<PitchClass>({root, chordTone}, {0.6, 0.4});
       Note& note = timedNote->item;
-      note.pitch = Pitch::randomInRange(bassPitchClass, bassMin, bassMax);
+      note.pitch = Pitch::randomInRange(bassPitchClass, range);
       note.pitch.makeCloserKeepPitchClass(previousNote->item.pitch, 0.7);
-      note.pitch.keepInRange(bassMin, bassMax);
+      note.pitch.keepInRange(range);
     }
 }
 //
@@ -93,7 +92,9 @@ void bassPitches(vector<Timed<Note>*> notes,
 //    }
 //}
 
-Phrase melody::bass(Phrase harmony, Phrase rhythm, int minimumRepeats, int maximumRepeats, vector<float> burstNoteLengthChoices) {
+Phrase melody::bass(Phrase harmony, Phrase rhythm,
+                    int minimumRepeats, int maximumRepeats, vector<float> burstNoteLengthChoices,
+                    PitchRange range) {
   Phrase phrase(harmony);
   phrase.notes = harmony.notes.toMonophonic();
   phrase.notes.clear();
@@ -131,7 +132,7 @@ Phrase melody::bass(Phrase harmony, Phrase rhythm, int minimumRepeats, int maxim
     rhythm::multiplyTimeLength(times, toTriple, 3);
     
     vector<Timed<Note>> notes = Sequence<Note>::fromTimes(times);
-    bassPitches(toPointerVector<Timed<Note>>(notes), phrase.chordScales, keyPoint.startTime);
+    bassPitches(toPointerVector<Timed<Note>>(notes), phrase.chordScales, keyPoint.startTime, range);
 
     phrase.notes.insertVector(notes, keyPoint.startTime, PushBehavior::truncate, OverwriteBehavior::cutoff);
   }
@@ -217,7 +218,7 @@ void melody::decreaseSpread(vector<Timed<Note>> & melody, Interval maxJump) {
     }
   }
 }
-vector<Timed<Note>> melody::shape(Duration shapeLength, Duration subdivision) {
+vector<Timed<Note>> melody::shape(Duration shapeLength, Duration subdivision, PitchRange range) {
     Duration leadingRest = uniformInt(0, 4) * subdivision;
     Position cursor = leadingRest;
     vector<Timed<Note>> result;
@@ -233,7 +234,7 @@ vector<Timed<Note>> melody::shape(Duration shapeLength, Duration subdivision) {
       vector<Timed<Note>> notes = Sequence<Note>::fromTimes(times, cursor);
       dynamics::shape(notes);
       // choose notes
-      stepwiseMotion(toPointerVector<Timed<Note>>(notes));
+      stepwiseMotion(toPointerVector<Timed<Note>>(notes), range);
       result.insert(result.end(), notes.begin(), notes.end());
 
       Duration betweenBursts = rollDie(4) * subdivision;
@@ -258,7 +259,7 @@ double melody::slope(vector<Timed<Note>> shape) {
   return shapeHeight;
 }
 
-Phrase melody::streamWithThemes(Phrase harmony) {
+Phrase melody::streamWithThemes(Phrase harmony, PitchRange range) {
     Phrase phrase(harmony);
     phrase.notes = harmony.notes.toMonophonic();
     phrase.notes.clear();
@@ -268,7 +269,7 @@ Phrase melody::streamWithThemes(Phrase harmony) {
     vector<vector<Timed<Note>>> themes;
     while (numberOfThemes-- > 0) {
       Duration themeLength = Beats(3 + numberOfThemes);
-      themes.push_back(shape(themeLength, subdivision));
+      themes.push_back(shape(themeLength, subdivision, range));
     }
 
     Position cursor = 0;
@@ -283,7 +284,7 @@ Phrase melody::streamWithThemes(Phrase harmony) {
           for (Timed<Note>& note : themeToInsert) {
               note.item.pitch += noJumpTranspose;
           }
-          double gravity = themeToInsert.back().item.pitch.gravity();
+          double gravity = themeToInsert.back().item.pitch.gravity(range);
           double slope = melody::slope(themeToInsert);
           int avoidExtremesTranspose = gravity * rollDie(24) + slope / rollDie(3);
           for (Timed<Note>& note : themeToInsert) {

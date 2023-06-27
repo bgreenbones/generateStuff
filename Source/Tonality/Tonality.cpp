@@ -13,6 +13,15 @@
 #include "Note.hpp"
 
 
+const Pitch Tonality::chordsHigh = Pitch(75);
+const Pitch Tonality::chordsLow = Pitch(20);
+
+// const Pitch Tonality::chordsHigh = Pitch(90);
+// const Pitch Tonality::chordsLow = Pitch(26);
+
+// const Pitch Tonality::chordsLow = Pitch(50);
+// const Pitch Tonality::chordsHigh = Pitch(40);
+    
 double voicing::crunch(vector<Pitch> const& voicing) {
   if (voicing.size() < 2) {
     return 0;
@@ -216,22 +225,24 @@ vector<Pitch> Tonality::getPitches(int octave) const {
     return pitches;
 }
 
-vector<Pitch> Tonality::randomVoicing() const {
-    vector<Pitch> pitches = getPitches();
+vector<Pitch> Tonality::randomVoicing(PitchRange range) const {
+    vector<PitchClass> pitches = getPitchClasses();
     vector<Pitch> voicing;
-    transform(pitches.begin(), pitches.end(), back_inserter(voicing), [](Pitch pitch) {
-        int octave = uniformInt(3, 6);
-        return Pitch(pitch.getPitchClass(), octave);
+    transform(pitches.begin(), pitches.end(), back_inserter(voicing), [range](PitchClass pitchClass) {
+        // int octave = uniformInt(3, 6);
+        return Pitch::randomInRange(pitchClass, range);
+        // return Pitch(pitch.getPitchClass(), octave);
     });
     return voicing;
 }
 
-vector<Pitch> Tonality::smoothVoicing(vector<Pitch> previousVoicing) const {
-    vector<int> octaves = {3,4,5,6};
+vector<Pitch> Tonality::smoothVoicing(vector<Pitch> previousVoicing, PitchRange range) const {
+//    vector<int> octaves = {3,4,5,6};
     vector<Pitch> voicing = mapp<Pitch>(getPitches(), [&](Pitch pitch) {
-        vector<Pitch> options = mapp<int, Pitch>(octaves, [&](int octave) {
-            return Pitch(pitch.getPitchClass(), octave);
-        });
+        vector<Pitch> options = pitch.inRange(range);
+        // mapp<int, Pitch>(octaves, [&](int octave) {
+        //     return Pitch(pitch.getPitchClass(), octave);
+        // });
         Pitch closest;
         Interval closestDistance = IntervalUpperBound;
         for (Pitch precedingPitch : previousVoicing) {

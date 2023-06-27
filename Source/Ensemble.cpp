@@ -14,7 +14,26 @@
 
 void Ensemble::writeSong() {
     Time form = Time(0, Bars(8));
+
+
+    float chordsDensity = editorState.getKnobValue(voiceParameterKey(harmonyKey, densityKey));
+    float chordsLowPitchParam = editorState.getKnobValue(voiceParameterKey(harmonyKey, lowPitchKey));
+    float chordsHighPitchParam = editorState.getKnobValue(voiceParameterKey(harmonyKey, highPitchKey));
     
+    PitchRange chordsRange = attenuatePitchRange(harmony::pitchRange, chordsHighPitchParam, chordsLowPitchParam);
+
+    float bassDensity = editorState.getKnobValue(voiceParameterKey(bassKey, densityKey));
+    float bassLowPitchParam = editorState.getKnobValue(voiceParameterKey(bassKey, lowPitchKey));
+    float bassHighPitchParam = editorState.getKnobValue(voiceParameterKey(bassKey, highPitchKey));
+    
+    PitchRange bassRange = attenuatePitchRange(melody::bassRange, bassHighPitchParam, bassLowPitchParam);
+    
+    float melodyDensity = editorState.getKnobValue(voiceParameterKey(melodyKey, densityKey));
+    float melodyLowPitchParam = editorState.getKnobValue(voiceParameterKey(melodyKey, lowPitchKey));
+    float melodyHighPitchParam = editorState.getKnobValue(voiceParameterKey(melodyKey, highPitchKey));
+    
+    PitchRange melodyRange = attenuatePitchRange(melody::pitchRange, melodyHighPitchParam, melodyLowPitchParam);
+
     // Duration harmonyPhraseLength = Bars(draw<int>({1,2,4}));
     // Duration chordsPhraseLength = Bars(draw<int>({(int)harmonyPhraseLength.asBars(), 2*(int)harmonyPhraseLength.asBars(), 4, 8}));
     Duration harmonyPhraseLength = Bars(2);
@@ -25,8 +44,10 @@ void Ensemble::writeSong() {
     Phrase cascaraPhrase = rhythm::cascaraFrom(clavePhrase);
     // Probability chordPerAccentProbability = 0.6;
     // double harmonicDensity = 0.7;
-    Probability chordPerAccentProbability = uniformDouble(0.1, 0.9);
-    double harmonicDensity = uniformDouble(0.1, 0.9);
+
+    bool chordDensityControlsWhat = flipCoin();
+    Probability chordPerAccentProbability = chordDensityControlsWhat ? chordsDensity : uniformDouble(0.1, 0.9);
+    double harmonicDensity = chordDensityControlsWhat ? uniformDouble(0.1, 0.9) : chordsDensity;
     Phrase harmony = harmony::generateChordScales(clavePhrase.loop(harmonyPhraseLength),
         {
             .approach = HarmonyApproach::smoothishModulations, 
@@ -45,11 +66,14 @@ void Ensemble::writeSong() {
     Phrase chordsPhrase = harmony::smoothVoicings(
         harmony.loop(chordsPhraseLength), clavePhrase.loop(chordsPhraseLength),
         randomVoicingProb,
-        maximumCrunch);
-    Phrase bassPhrase = melody::bass(harmony.loop(chordsPhraseLength), clavePhrase.loop(chordsPhraseLength), 1, 4, { 1 }); // burst length min, max, and note length choices
+        maximumCrunch,
+        chordsRange);
+    Phrase bassPhrase = melody::bass(harmony.loop(chordsPhraseLength), clavePhrase.loop(chordsPhraseLength),
+                        1, 4, { 1 }, // burst length min, max, and note length choices
+                        bassRange);
     // Phrase leadPhrase = melody::streamOfConsciousness(harmony.loop(leadPhraseLength));
     // Phrase leadPhrase = melody::repeatingShape(harmony.loop(leadPhraseLength), Beats(3));
-    Phrase leadPhrase = melody::streamWithThemes(harmony.loop(leadPhraseLength));
+    Phrase leadPhrase = melody::streamWithThemes(harmony.loop(leadPhraseLength), melodyRange);
     chordsPhrase = rhythm::fillLegatoLongTones(chordsPhrase.loop(leadPhraseLength),
                                          {bassPhrase.loop(leadPhraseLength), leadPhrase});
     chordsPhrase = rhythm::leaveSpace(chordsPhrase, {leadPhrase});

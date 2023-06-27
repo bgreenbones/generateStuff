@@ -206,7 +206,8 @@ Phrase harmony::randomVoicings(Phrase phrase) {
     return phrase;
 };
 
-Phrase harmony::smoothVoicings(Phrase harmony, Phrase rhythm, Probability randomVoicingProb, int maximumCrunch) {
+Phrase harmony::smoothVoicings(Phrase harmony, Phrase rhythm, Probability randomVoicingProb, int maximumCrunch,
+                                PitchRange range) {
     harmony = harmony.toPolyphonic();
     harmony.notes.clear();
     rhythm = rhythm.toMonophonic();
@@ -237,8 +238,10 @@ Phrase harmony::smoothVoicings(Phrase harmony, Phrase rhythm, Probability random
         }
         voiced.push_back(chordScale);
         vector<Pitch> voicing = flipWeightedCoin(1 - randomVoicingProb) // can't be too smooth!
-            ? chordScale.item.harmony.smoothVoicing(lastVoicing)
-            : chordScale.item.harmony.randomVoicing();
+            ? chordScale.item.harmony.smoothVoicing(lastVoicing, range)
+            : chordScale.item.harmony.randomVoicing(range);
+
+            // TODO: TAKE range into account in the next 3 calls.
         while (voicing::crunch(voicing) >= maximumCrunch) { // control clusters
             voicing::decreaseCrunch(voicing);
         }

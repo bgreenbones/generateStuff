@@ -90,6 +90,8 @@ public:
     Tonality(PitchClass root, vector<Interval> intervals);
     Tonality();
     
+    static const Pitch chordsHigh;
+    static const Pitch chordsLow;
 private:
     int stepHelper(Interval first, Direction direction) const;
 public:
@@ -99,8 +101,8 @@ public:
     Pitch multiStep(Pitch first, int steps, Direction direction = Direction::up) const;
     vector<Pitch> getPitches(int octave = 3) const;
     vector<PitchClass> getPitchClasses() const;
-    vector<Pitch> randomVoicing() const;
-    vector<Pitch> smoothVoicing(vector<Pitch> lastVoicing) const;
+    vector<Pitch> randomVoicing(PitchRange range = { chordsLow, chordsHigh }) const;
+    vector<Pitch> smoothVoicing(vector<Pitch> lastVoicing, PitchRange range = { chordsLow, chordsHigh }) const;
     Tonality getMode(int n) const;
     Tonality harmonyToScale() const;
     Tonality scaleToHarmony() const;

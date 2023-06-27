@@ -38,12 +38,15 @@ namespace harmony {
     Phrase generateChordScales(Phrase fromPhrase, HarmonicArguments args);
 
 
-    // Pitch highPitch = Pitch(85);
-    // Pitch lowPitch = Pitch(50);
+    static Pitch highPitch = Tonality::chordsHigh;
+    static Pitch lowPitch = Tonality::chordsLow;
+    static PitchRange pitchRange =  { lowPitch, highPitch };
 
     Phrase chordSteps(Phrase chords);
     Phrase randomVoicings(Phrase phrase);
-    Phrase smoothVoicings(Phrase harmony, Phrase rhythm, Probability randomVoicingProb = 0.1, int maximumCrunch = 4);
+    Phrase smoothVoicings(Phrase harmony, Phrase rhythm,
+                          Probability randomVoicingProb = 0.1, int maximumCrunch = 4,
+                          PitchRange range = { lowPitch, highPitch });
     // vector<ChordScale> onePerShortForLong(HarmonyApproach approach, Duration longDuration, Duration shortDuration);
 }
 

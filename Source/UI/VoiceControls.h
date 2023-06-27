@@ -159,17 +159,20 @@ public:
         sliders.add(highPitchKnob);
         sliders.add(lowPitchKnob);
 
-        auto parameter = processor.apvts.getParameter(voiceName + "Density");
+        auto densityParameterKey = voiceParameterKey(voiceName, densityKey);
+        auto highPitchParameterKey = voiceParameterKey(voiceName, highPitchKey);
+        auto lowPitchParameterKey = voiceParameterKey(voiceName, lowPitchKey);
+        auto parameter = processor.apvts.getParameter(densityParameterKey);
         juce::AudioParameterFloat* floatParameter = nullptr;
         floatParameter = dynamic_cast<juce::AudioParameterFloat*>(parameter);
         jassert (floatParameter);  // If you get an error, the parameter doesn't exist or is of different type
         sliderAttachments.add(new juce::AudioProcessorValueTreeState::SliderAttachment(processor.apvts, floatParameter->getParameterID(), *densitySlider));
-        parameter = processor.apvts.getParameter(voiceName + "HighPitch");
+        parameter = processor.apvts.getParameter(highPitchParameterKey);
         floatParameter = nullptr;
         floatParameter = dynamic_cast<juce::AudioParameterFloat*>(parameter);
         jassert (floatParameter);  // If you get an error, the parameter doesn't exist or is of different type
         sliderAttachments.add(new juce::AudioProcessorValueTreeState::SliderAttachment(processor.apvts, floatParameter->getParameterID(), *highPitchKnob));
-        parameter = processor.apvts.getParameter(voiceName + "LowPitch");
+        parameter = processor.apvts.getParameter(lowPitchParameterKey);
         floatParameter = nullptr;
         floatParameter = dynamic_cast<juce::AudioParameterFloat*>(parameter);
         jassert (floatParameter);  // If you get an error, the parameter doesn't exist or is of different type

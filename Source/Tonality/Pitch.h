@@ -46,10 +46,20 @@ Interval pitchClassInterval(PitchClass low, PitchClass high);
 PitchClass pitchClassIncrement(PitchClass pitch, Interval interval);
 Interval invert(Interval ToInvert);
 
+
+struct PitchRange {
+    int low;
+    int high;
+};
+
+PitchRange attenuatePitchRange(PitchRange toAttenuate, float treble, float bass);
+
+
 class Pitch {
 private:
     static int getPitchValue(PitchClass pitchClass, int octave);
 public:
+    
     int pitchValue;
     static const int max = 127;
     static const int min = 0;
@@ -57,7 +67,9 @@ public:
     Pitch(PitchClass pitchClass, int octave);
     Pitch(int value);
     Pitch();
-    static Pitch randomInRange(PitchClass pitchClass, Pitch minimum, Pitch maximum);
+    static Pitch randomInRange(PitchClass pitchClass, PitchRange range);
+    
+     
     
     int getOctave() const;
     PitchClass getPitchClass() const;
@@ -72,9 +84,12 @@ public:
 
     void within(Pitch const& other, Interval interval);
     void makeCloserKeepPitchClass(Pitch const& other, Probability maybe = 0.6, Interval interval = tritone);
-    void keepInRange(Pitch rangeMinimum, Pitch rangeMaximum);
-    double gravity(Pitch rangeMax = Pitch::max, Pitch rangeMin = Pitch::min);
+    void keepInRange(PitchRange range);
+    vector<Pitch> inRange(PitchRange range);
+    double gravity(PitchRange range = { Pitch::min, Pitch::max });
+
 
     // void makeCloser(Pitch other);
     // void maybeMakeCloser(Pitch other, Probability maybe = 0.6);
 };
+

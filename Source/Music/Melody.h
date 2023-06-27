@@ -39,21 +39,30 @@ namespace melody {
     //                 );
     static Pitch highPitch = Pitch(85);
     static Pitch lowPitch = Pitch(45);
+    static PitchRange pitchRange = { lowPitch, highPitch };
+    
+    // static Pitch bassHighPitch = Pitch(D, 5);
+    // static Pitch bassLowPitch = Pitch(A, 2);
+    static Pitch bassHighPitch = Pitch(F, 5);
+    static Pitch bassLowPitch = Pitch(F, 2);
+    static PitchRange bassRange = { bassLowPitch, bassHighPitch };
+
     double slope(vector<Timed<Note>> shape);
     void stepwiseMotion(vector<Timed<Note>*> notes,
                     Sequence<ChordScale>& scales,
-                    Pitch rangeMinimum = lowPitch, Pitch rangeMaximum = highPitch);
-    void stepwiseMotion(vector<Timed<Note>*> notes,
-                    Pitch rangeMinimum = lowPitch, Pitch rangeMaximum = highPitch);
+                    PitchRange range = pitchRange);
+    void stepwiseMotion(vector<Timed<Note>*> notes, PitchRange range = pitchRange);
     void decreaseSpread(vector<Timed<Note>> & melody, Interval maxJump);
     // void stepwiseMotion(vector<Note>::iterator noteBegin, vector<Note>::iterator noteEnd,
     //                 Sequence<ChordScale>& scales,
     //                 Pitch rangeMinimum = Pitch(45), Pitch rangeMaximum = Pitch(85)
     //                 );
-    Phrase bass(Phrase harmony, Phrase rhythm, int burstLengthMin, int burstLengthMax, vector<float> burstNoteLengthChoices = {});
+    Phrase bass(Phrase harmony, Phrase rhythm,
+                int burstLengthMin, int burstLengthMax, vector<float> burstNoteLengthChoices = {},
+                PitchRange range = bassRange);
     Phrase streamOfConsciousness(Phrase harmony);
-    Phrase streamWithThemes(Phrase harmony);
-    vector<Timed<Note>> shape(Duration shapeLength, Duration subdivision);
+    Phrase streamWithThemes(Phrase harmony, PitchRange = pitchRange);
+    vector<Timed<Note>> shape(Duration shapeLength, Duration subdivision, PitchRange range = pitchRange);
     Phrase repeatingShape(Phrase harmony, Duration shapeLength);
 }
 

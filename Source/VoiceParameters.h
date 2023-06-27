@@ -46,7 +46,14 @@ public:
     Parameter(string key, string name, bool defaultButtonValue, string units = ""): type(ParameterType::button), key(key), name(name), units(units), defaultButtonValue(defaultButtonValue) {}
     Parameter(string key, string name, NormalisableRange<float> knobRange, float defaultKnobValue, string units = ""): type(ParameterType::knob), key(key), name(name), units(units), knobRange(knobRange), defaultKnobValue(defaultKnobValue) {}
     Parameter(string key, string name, StringArray choices, int defaultChoiceIndex, string units = ""): type(ParameterType::choice), key(key), name(name), units(units), choices(choices), defaultChoiceIndex(defaultChoiceIndex) {}
+
 };
+
+static const string densityKey = "Density";
+static const string highPitchKey = "HighPitch";
+static const string lowPitchKey = "LowPitch";
+static const juce::NormalisableRange<float> pitchRange(0.00f, 1.f, 0.01);
+string voiceParameterKey(string voiceKey, string paramKey);
 
 static const string claveMinNoteLengthKey = "claveMinNoteLength";
 static const string claveMaxNoteLengthKey = "claveMaxNoteLength";

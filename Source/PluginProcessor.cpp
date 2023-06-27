@@ -31,9 +31,12 @@ juce::AudioProcessorParameterGroup getVoiceParameters(VoiceName voiceName, vecto
 juce::AudioProcessorParameterGroup getAllVoiceParameters(VoiceName voiceName) {
     juce::AudioProcessorParameterGroup parameterGroup(voiceName + "AllVoice", voiceName + "AllVoice", ":");
     
-    auto density = Parameter(voiceName + "Density", voiceName + "Density", densityRange, 0.7, "");
-    auto lowPitch = Parameter(voiceName + "LowPitch", voiceName + "LowPitch", densityRange, 0.7, "");
-    auto highPitch = Parameter(voiceName + "HighPitch", voiceName + "HighPitch", densityRange, 0.7, "");
+    auto densityParameterKey = voiceParameterKey(voiceName, densityKey);
+    auto highPitchParameterKey = voiceParameterKey(voiceName, highPitchKey);
+    auto lowPitchParameterKey = voiceParameterKey(voiceName, lowPitchKey);
+    auto density = Parameter(densityParameterKey, densityParameterKey, densityRange, .5, "");
+    auto lowPitch = Parameter(lowPitchParameterKey, lowPitchParameterKey, pitchRange, .5, "");
+    auto highPitch = Parameter(highPitchParameterKey, highPitchParameterKey, pitchRange, .5, "");
     parameterGroup.addChild(make_unique<juce::AudioParameterFloat>(density.key, density.name, density.knobRange, density.defaultKnobValue, density.units));
     parameterGroup.addChild(make_unique<juce::AudioParameterFloat>(lowPitch.key, lowPitch.name, lowPitch.knobRange, lowPitch.defaultKnobValue, lowPitch.units));
     parameterGroup.addChild(make_unique<juce::AudioParameterFloat>(highPitch.key, highPitch.name, highPitch.knobRange, highPitch.defaultKnobValue, highPitch.units));

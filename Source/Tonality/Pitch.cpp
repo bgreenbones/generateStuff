@@ -9,6 +9,17 @@
 
 #include "Pitch.h"
 
+PitchRange attenuatePitchRange(PitchRange toAttenuate, float treble, float bass) {
+    int center = (toAttenuate.low + toAttenuate.high) / 2;
+    int highPitchMin = center + 5;
+    int lowPitchMax = center - 6;
+
+    Pitch newHighPitch = (toAttenuate.high - toAttenuate.low) * treble + highPitchMin;
+    Pitch newLowPitch = lowPitchMax - (lowPitchMax - toAttenuate.low) * bass;
+
+    return { newLowPitch, newHighPitch };
+}
+
 Interval intervalDifference(Interval large, Interval small) {
     int result = large - small;
     if (result < IntervalLowerBound) {
@@ -92,19 +103,24 @@ Pitch Pitch::operator-(int other) {
     return Pitch(this->pitchValue - other);
 }
 
-Pitch Pitch::randomInRange(PitchClass pitchClass, Pitch rangeMinimum, Pitch rangeMaximum) {
-    Pitch minimum = Pitch(pitchClass, rangeMinimum.getOctave());
-    while (minimum < rangeMinimum) { minimum += octave; }
-    Pitch maximum = Pitch(pitchClass, rangeMaximum.getOctave());
-    while (maximum > rangeMaximum) { maximum -= octave; }
-    int octave = uniformInt(minimum.getOctave(), maximum.getOctave());
-    return Pitch(pitchClass, octave);
+Pitch Pitch::randomInRange(PitchClass pitchClass, PitchRange range) {
+    return draw<Pitch>(Pitch(pitchClass, 0).inRange(range));
 }
-void Pitch::keepInRange(Pitch rangeMinimum, Pitch rangeMaximum) {
-    while (*this < rangeMinimum) { *this += octave; }
-    while (*this > rangeMaximum) { *this -= octave; }
+void Pitch::keepInRange(PitchRange range) {
+    while (*this < range.low) { *this += octave; }
+    while (*this > range.high) { *this -= octave; }
 }
 
+vector<Pitch> Pitch::inRange(PitchRange range) {
+    vector<Pitch> result;
+    Pitch cursor(this->getPitchClass(), 0);
+    cursor.keepInRange(range);
+    while (cursor >= range.low && cursor <= range.high) {
+        result.push_back(cursor);
+        cursor += octave;
+    }
+    return result;
+}
 // void Pitch::makeCloser(Pitch other, Tonality tonality) {
     
 //     }
@@ -126,8 +142,8 @@ void Pitch::makeCloserKeepPitchClass(Pitch const& other, Probability maybe, Inte
 }
 // void Pitch::maybeMakeCloser(Pitch other, Probability maybe = 0.6);
 
-double Pitch::gravity(Pitch rangeMax, Pitch rangeMin) {
-  double range = rangeMax - rangeMin;
-  Pitch center = range / 2. + rangeMin;
-  return (pitchValue - center.pitchValue) / (range / 2.);
+double Pitch::gravity(PitchRange range) {
+  double rangeWidth = range.high - range.low;
+  Pitch center = rangeWidth / 2. + range.low;
+  return (pitchValue - center.pitchValue) / (rangeWidth / 2.);
 }
