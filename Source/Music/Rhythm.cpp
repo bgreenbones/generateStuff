@@ -101,6 +101,8 @@ Phrase rhythm::fillLegatoLongTones(Phrase unfilled, vector<Phrase> competingVoic
   return filled;
 }
 
+
+
 vector<Time> rhythm::doublesAndDiddles(vector<Time> times, double modifyProportion, double doubleProportion, double halfProportion) {
     // choose times to modify
     vector<vector<Time*>> toDoubleOrHalf = rhythm::distinctSubsets<Time>(times, modifyProportion, {doubleProportion, halfProportion});

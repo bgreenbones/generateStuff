@@ -44,10 +44,11 @@ Phrase Bass::newPhrase() const {
   
   Phrase phrase = melody::bass(
       harmony, 
-      rhythm, 
-      burstLengthMin,
-      burstLengthMax,
-      burstNoteLengthChoices);
+      rhythm
+                               );
+//      burstLengthMin,
+//      burstLengthMax,
+//      burstNoteLengthChoices);
 
   dynamics::randomFlux(phrase.notes); // why the heck not give everything a little life.
   phrase.voice = name;

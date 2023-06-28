@@ -58,11 +58,11 @@ namespace melody {
     //                 Pitch rangeMinimum = Pitch(45), Pitch rangeMaximum = Pitch(85)
     //                 );
     Phrase bass(Phrase harmony, Phrase rhythm,
-                int burstLengthMin, int burstLengthMax, vector<float> burstNoteLengthChoices = {},
-                PitchRange range = bassRange);
+                // int burstLengthMin, int burstLengthMax, vector<float> burstNoteLengthChoices = {},
+                PitchRange range = bassRange, float density = 0.5);
     Phrase streamOfConsciousness(Phrase harmony);
-    Phrase streamWithThemes(Phrase harmony, PitchRange = pitchRange);
-    vector<Timed<Note>> shape(Duration shapeLength, Duration subdivision, PitchRange range = pitchRange);
+    Phrase streamWithThemes(Phrase harmony, PitchRange = pitchRange, float density = 0.5);
+    vector<Timed<Note>> shape(Duration shapeLength, Duration subdivision, PitchRange range = pitchRange, float density = 0.5);
     Phrase repeatingShape(Phrase harmony, Duration shapeLength);
 }
 

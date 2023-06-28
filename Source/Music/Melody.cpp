@@ -93,8 +93,8 @@ void bassPitches(vector<Timed<Note>*> notes,
 //}
 
 Phrase melody::bass(Phrase harmony, Phrase rhythm,
-                    int minimumRepeats, int maximumRepeats, vector<float> burstNoteLengthChoices,
-                    PitchRange range) {
+                    // int minimumRepeats, int maximumRepeats, vector<float> burstNoteLengthChoices,
+                    PitchRange range, float density) {
   Phrase phrase(harmony);
   phrase.notes = harmony.notes.toMonophonic();
   phrase.notes.clear();
@@ -103,6 +103,12 @@ Phrase melody::bass(Phrase harmony, Phrase rhythm,
   set<Time> rhythmicKeyPoints;
   set<Time> keyPoints;
   
+
+  int minimumRepeats = 1 + density;
+  int maximumRepeats = round(1 + 5 * density);
+  vector<float> burstNoteLengthChoices = { 1, (float) round(1 + 0.9 * (1 - density)), (float) round(1 + 1.9 * (1 - density)) };
+
+
   for (Timed<Note> note : rhythm.notes) {
       note.trim(phrase.getTime());
       rhythmicKeyPoints.emplace(note);
@@ -125,7 +131,9 @@ Phrase melody::bass(Phrase harmony, Phrase rhythm,
       times = rhythm::nOfLengthM(numberOfNotes, noteLength);
     }
 
-    vector<vector<Time*>> toDoubleOrTriple = rhythm::distinctSubsets<Time>(times, 0.4, {0.7, 0.3});
+    double portionToModify = (1 - density) * 0.7;
+    vector<vector<Time*>> toDoubleOrTriple = rhythm::distinctSubsets<Time>(times, portionToModify, {0.7, 0.3});
+    // vector<vector<Time*>> toDoubleOrTriple = rhythm::distinctSubsets<Time>(times, 0.4, {0.7, 0.3});
     vector<Time*> toDouble = toDoubleOrTriple[0];
     vector<Time*> toTriple = toDoubleOrTriple[1];
     rhythm::multiplyTimeLength(times, toDouble, 2);
@@ -218,19 +226,26 @@ void melody::decreaseSpread(vector<Timed<Note>> & melody, Interval maxJump) {
     }
   }
 }
-vector<Timed<Note>> melody::shape(Duration shapeLength, Duration subdivision, PitchRange range) {
-    Duration leadingRest = uniformInt(0, 4) * subdivision;
+vector<Timed<Note>> melody::shape(Duration shapeLength, Duration subdivision, PitchRange range, float density) {
+    int subdivsPerBeat = Beats(1) / subdivision.asBeats();
+    Duration leadingRest = uniformInt(0, subdivsPerBeat) * subdivision;
     Position cursor = leadingRest;
     vector<Timed<Note>> result;
     while (cursor < shapeLength) {
       int maxDurationInSubdivisions = (shapeLength - cursor) / subdivision;
       
+        int longestPossibleBurst = (subdivsPerBeat * 2) + density * subdivsPerBeat * 2;
       // get stream of times
-      int longestBurst = min(12, maxDurationInSubdivisions);
+      int longestBurst = min(longestPossibleBurst, maxDurationInSubdivisions);
+      // int longestBurst = min(12, maxDurationInSubdivisions);
       int shortBurst = min(5, longestBurst);
 
       int burstLength = rollDie(flipWeightedCoin(0.35) ? shortBurst : longestBurst);
-      vector<Time> times = rhythm::doublesAndDiddles(rhythm::nOfLengthM(burstLength, subdivision));
+      
+      double modifyProportion = uniformDouble(0.15, 0.35);
+      double doubleProportion = 0.6 * (1. - density); 
+      double halfProportion = 0.2 * density;
+      vector<Time> times = rhythm::doublesAndDiddles(rhythm::nOfLengthM(burstLength, subdivision), modifyProportion, doubleProportion, halfProportion);
       vector<Timed<Note>> notes = Sequence<Note>::fromTimes(times, cursor);
       dynamics::shape(notes);
       // choose notes
@@ -259,7 +274,7 @@ double melody::slope(vector<Timed<Note>> shape) {
   return shapeHeight;
 }
 
-Phrase melody::streamWithThemes(Phrase harmony, PitchRange range) {
+Phrase melody::streamWithThemes(Phrase harmony, PitchRange range, float density) {
     Phrase phrase(harmony);
     phrase.notes = harmony.notes.toMonophonic();
     phrase.notes.clear();
@@ -269,7 +284,7 @@ Phrase melody::streamWithThemes(Phrase harmony, PitchRange range) {
     vector<vector<Timed<Note>>> themes;
     while (numberOfThemes-- > 0) {
       Duration themeLength = Beats(3 + numberOfThemes);
-      themes.push_back(shape(themeLength, subdivision, range));
+      themes.push_back(shape(themeLength, subdivision, range, density));
     }
 
     Position cursor = 0;

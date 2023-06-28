@@ -68,12 +68,20 @@ void Ensemble::writeSong() {
         randomVoicingProb,
         maximumCrunch,
         chordsRange);
+
+
+    // bass
+    // int burstLengthMin = 1 + bassDensity;
+    // int burstLengthMax = round(2 + 4 * bassDensity);
+    // vector<float> noteLengthChoices = { 1, (float) round(1.9 * bassDensity), (float) round(2.9 * bassDensity) };
     Phrase bassPhrase = melody::bass(harmony.loop(chordsPhraseLength), clavePhrase.loop(chordsPhraseLength),
-                        1, 4, { 1 }, // burst length min, max, and note length choices
-                        bassRange);
+                        // burstLengthMin, burstLengthMax, noteLengthChoices, // burst length min, max, and note length choices
+                        // 1, 4, { 1 }, // burst length min, max, and note length choices
+                        bassRange,
+                        bassDensity);
     // Phrase leadPhrase = melody::streamOfConsciousness(harmony.loop(leadPhraseLength));
     // Phrase leadPhrase = melody::repeatingShape(harmony.loop(leadPhraseLength), Beats(3));
-    Phrase leadPhrase = melody::streamWithThemes(harmony.loop(leadPhraseLength), melodyRange);
+    Phrase leadPhrase = melody::streamWithThemes(harmony.loop(leadPhraseLength), melodyRange, melodyDensity);
     chordsPhrase = rhythm::fillLegatoLongTones(chordsPhrase.loop(leadPhraseLength),
                                          {bassPhrase.loop(leadPhraseLength), leadPhrase});
     chordsPhrase = rhythm::leaveSpace(chordsPhrase, {leadPhrase});
