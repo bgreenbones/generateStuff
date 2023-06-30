@@ -43,7 +43,7 @@ namespace melody {
     
     // static Pitch bassHighPitch = Pitch(D, 5);
     // static Pitch bassLowPitch = Pitch(A, 2);
-    static Pitch bassHighPitch = Pitch(F, 5);
+    static Pitch bassHighPitch = Pitch(Bb, 4);
     static Pitch bassLowPitch = Pitch(F, 2);
     static PitchRange bassRange = { bassLowPitch, bassHighPitch };
 

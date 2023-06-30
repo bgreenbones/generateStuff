@@ -16,7 +16,7 @@
 
 
 
-Phrase rhythm::leaveSpace(Phrase tooBusy, vector<Phrase> competingVoices)
+Phrase rhythm::leaveSpace(Phrase tooBusy, vector<Phrase> competingVoices, float density)
 {
     
     // tooBusy.subdivisions.tie(true);
@@ -33,6 +33,10 @@ Phrase rhythm::leaveSpace(Phrase tooBusy, vector<Phrase> competingVoices)
     //     [](Time const &a, Time const &b) { return a.duration > b.duration; }); // longest to shortest
     
     for (Time time : timeToBeQuiet) {
+      if (flipWeightedCoin(1 - density) && // fill in less 
+          flipWeightedCoin(1 - time.startTime / tooBusy.getDuration())) { // fill in more as time goes on
+        continue;
+      }
       vector<Timed<Note>*> notesToCutOff = tooBusy.notes.pointersByPosition(time.startTime);
       for (auto note : notesToCutOff) {
         note->setEndTime(time.startTime);
@@ -48,7 +52,7 @@ Phrase rhythm::leaveSpace(Phrase tooBusy, vector<Phrase> competingVoices)
 }
 
 
-Phrase rhythm::fillLegatoLongTones(Phrase unfilled, vector<Phrase> competingVoices) {
+Phrase rhythm::fillLegatoLongTones(Phrase unfilled, vector<Phrase> competingVoices, float density) {
   unfilled.subdivisions.tie(true);
   
   Phrase filled(unfilled);
@@ -75,8 +79,12 @@ Phrase rhythm::fillLegatoLongTones(Phrase unfilled, vector<Phrase> competingVoic
     int subdivisionsInSpace = spaceToFill.duration / subdivision;
     int lengthInSubdivisions = rollDie(subdivisionsInSpace);
     
+    double modifyProportion = uniformDouble(0.4, 0.6);
+    double doubleProportion = 0.6 * (1. - density); 
+    double halfProportion = (doubleProportion / 2.) * 0.2 * density;
     vector<Time> times = rhythm::nOfLengthM(lengthInSubdivisions, subdivision);
-    times = rhythm::doublesAndDiddles(times, 0.5);
+    times = rhythm::doublesAndDiddles(times, modifyProportion, doubleProportion, halfProportion);
+    // times = rhythm::doublesAndDiddles(times, 0.5);
 
     double displacementInSubdivisions = uniformInt(0, subdivisionsInSpace - lengthInSubdivisions);
     Duration displacement = displacementInSubdivisions * subdivision;

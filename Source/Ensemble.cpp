@@ -83,8 +83,10 @@ void Ensemble::writeSong() {
     // Phrase leadPhrase = melody::repeatingShape(harmony.loop(leadPhraseLength), Beats(3));
     Phrase leadPhrase = melody::streamWithThemes(harmony.loop(leadPhraseLength), melodyRange, melodyDensity);
     chordsPhrase = rhythm::fillLegatoLongTones(chordsPhrase.loop(leadPhraseLength),
-                                         {bassPhrase.loop(leadPhraseLength), leadPhrase});
-    chordsPhrase = rhythm::leaveSpace(chordsPhrase, {leadPhrase});
+                                         {bassPhrase.loop(leadPhraseLength), leadPhrase}, chordsDensity);
+    if (flipWeightedCoin((1 - chordsDensity) * 0.5)) {
+        chordsPhrase = rhythm::leaveSpace(chordsPhrase, {leadPhrase}, chordsDensity);
+    }
     chordsPhrase = harmony::chordSteps(chordsPhrase);
     
     dynamics::randomFlux(clavePhrase.notes);

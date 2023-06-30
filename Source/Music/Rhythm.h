@@ -19,8 +19,8 @@ typedef string VoiceName;
 namespace rhythm {
 
   // todo: maybe this go in a orchestration namespace or something
-    Phrase leaveSpace(Phrase tooBusy, vector<Phrase> competingVoices);
-    Phrase fillLegatoLongTones(Phrase unfilled, vector<Phrase> competingVoices = {});
+    Phrase leaveSpace(Phrase tooBusy, vector<Phrase> competingVoices, float density = 0.5);
+    Phrase fillLegatoLongTones(Phrase unfilled, vector<Phrase> competingVoices = {}, float density = 0.5);
 
     vector<Time> busySpots(vector<Phrase> competingVoices, Duration threshold = 2*sixteenths);
     vector<Time> gaps(Phrase gapFiller, vector<Phrase> competingVoices);

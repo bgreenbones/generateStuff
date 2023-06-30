@@ -186,6 +186,18 @@ bool Sequence<T>::add(Timed<T> toAdd, PushBehavior pushBehavior, OverwriteBehavi
     return true;
 }
 
+
+template <class T>
+bool Sequence<T>::loop(Duration toLoopFor) {
+    while (parent.duration < toLoopFor) {
+        if (!this->concat(*this)) {
+            DBG("wt");
+        }
+        parent.duration += parent.duration;
+    }
+    return true;
+}
+
 template <class T>
 bool Sequence<T>::concat(Sequence<T> other, bool useLast, PushBehavior pushBehavior) {
     Duration endTime = useLast ? this->endTime() : parent.endTime();

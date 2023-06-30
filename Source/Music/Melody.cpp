@@ -116,12 +116,22 @@ Phrase melody::bass(Phrase harmony, Phrase rhythm,
   }
   for (Timed<ChordScale> tonality : phrase.chordScales) { harmonicKeyPoints.emplace(tonality); keyPoints.emplace(tonality); }
   
+  vector<Time> rhythmicKeyPointsVector;
+  rhythmicKeyPointsVector.insert(rhythmicKeyPointsVector.begin(), rhythmicKeyPoints.begin(), rhythmicKeyPoints.end());
+  vector<Time> rhythmicLoop = findLoop(rhythmicKeyPointsVector);
+  Duration loopLength = findLoopLength(rhythmicKeyPointsVector, rhythmicLoop);
+  Time loopTime(0, loopLength);
+  
   vector<Position> rhythmicPositions;
-  for (Time keyPoint : keyPoints) {
-    if (!contains<Time>(harmonicKeyPoints, keyPoint) && flipWeightedCoin(0.4)) { continue; }
+  Sequence<Note> bassRhythm(loopTime);
+  for (Time keyPoint : rhythmicLoop) {
+  // for (Time keyPoint : keyPoints) {
+    // if (!contains<Time>(harmonicKeyPoints, keyPoint) && flipWeightedCoin(0.4)) { continue; }
+    if (!contains<Time>(harmonicKeyPoints, keyPoint) && flipWeightedCoin(1 - density)) { continue; }
     rhythmicPositions.push_back(keyPoint.startTime);
     
-    vector<Time> times = rhythm::stabilityBased(keyPoint, rhythm.subdivisions, 0.1, 0.4);
+    // vector<Time> times = rhythm::stabilityBased(keyPoint, rhythm.subdivisions, 0.1, 0.4);
+    vector<Time> times = rhythm::stabilityBased(keyPoint, rhythm.subdivisions, 0.1, density);
     bool barIsEven = (int)floor(keyPoint.startTime.asBars()) % 2;
     if (barIsEven) {
       Duration subdiv = rhythm.subdivisions.drawByPosition(keyPoint.startTime);
@@ -140,10 +150,15 @@ Phrase melody::bass(Phrase harmony, Phrase rhythm,
     rhythm::multiplyTimeLength(times, toTriple, 3);
     
     vector<Timed<Note>> notes = Sequence<Note>::fromTimes(times);
-    bassPitches(toPointerVector<Timed<Note>>(notes), phrase.chordScales, keyPoint.startTime, range);
+    // bassPitches(toPointerVector<Timed<Note>>(notes), phrase.chordScales, keyPoint.startTime, range);
 
-    phrase.notes.insertVector(notes, keyPoint.startTime, PushBehavior::truncate, OverwriteBehavior::cutoff);
+    // phrase.notes.insertVector(notes, keyPoint.startTime, PushBehavior::truncate, OverwriteBehavior::cutoff);
+    bassRhythm.insertVector(notes, keyPoint.startTime, PushBehavior::truncate, OverwriteBehavior::cutoff);
   }
+
+  bassRhythm.loop(harmony.getDuration());
+  bassPitches(toPointerVector<Timed<Note>>(bassRhythm), phrase.chordScales, 0, range);
+  phrase.notes.insertVector(bassRhythm, 0, PushBehavior::truncate, OverwriteBehavior::cutoff);
   
   dynamics::followAccents(phrase.notes, rhythmicPositions, mf, ff);
 

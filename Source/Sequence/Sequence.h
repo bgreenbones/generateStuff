@@ -81,6 +81,7 @@ public:
     bool add(Timed<T> toAdd, PushBehavior pushBehavior = PushBehavior::ignorePush, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignoreOverwrite);
     Sequence<T> tie(bool fillBeginning = false);
     Sequence<T> legato();
+    bool loop(Duration toLoopFor);
     bool concat(Sequence<T> other, bool useLast = false, PushBehavior pushBehavior = PushBehavior::ignorePush);
     bool insertVector(vector<Timed<T>> other, Position startTime = Position(0), PushBehavior pushBehavior = PushBehavior::ignorePush, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignoreOverwrite);
     bool insertSequence(Sequence<T> other, Position startTime = Position(0), PushBehavior pushBehavior = PushBehavior::ignorePush, OverwriteBehavior overwriteBehavior = OverwriteBehavior::ignoreOverwrite);

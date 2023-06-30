@@ -44,6 +44,7 @@ public:
         return *this;
     };
     bool operator==(Time const& other) const { return startTime == other.startTime && duration == other.duration; };
+    bool operator!=(Time const& other) const { return !((*this) == other); };
     bool operator<(Time const& other) const { return startTime < other.startTime || (startTime == other.startTime && duration < other.duration); };
     bool operator>(Time const& other) const { return startTime > other.startTime || (startTime == other.startTime && duration > other.duration); };
     
@@ -106,3 +107,73 @@ public:
 
     operator T() const { return item; }
 };
+
+static vector<Time> findLoop(vector<Time> timed) {
+    Position previous(0);
+    Duration loopLength = Bars(1);
+    sort(timed);
+    while (loopLength < timed.back().startTime) {
+        bool loopFound = true;
+
+        vector<Time> loopToMatch = filter<Time>(timed, [loopLength](Time t) { return t.startTime < loopLength; });
+        sort(loopToMatch);
+        double i = 2.;
+        while (i * loopLength < timed.back().startTime) {
+            vector<Time> potentialMatch = filter<Time>(timed, [i, loopLength](Time t) {
+                return t.startTime >= (i - 1) * loopLength &&
+                        t.startTime < i * loopLength;
+            });
+            sort(potentialMatch);
+
+            for (Time timeToMatch : loopToMatch) {
+                for (Time potentialTimeMatch : potentialMatch) {
+                    potentialTimeMatch.startTime -= (i - 1) * loopLength;
+                    if (potentialTimeMatch != timeToMatch) {
+                        loopFound = false;
+                        break;
+                    }
+                }
+                if(!loopFound) { break; }
+            }
+            if(!loopFound) { break; }
+            i++;
+        }
+        if (loopFound) {
+            return loopToMatch;
+        }
+        loopLength += Bars(1);
+    }
+    return timed;
+}
+// to be called after findLoop. this...makes a lot of assumptions and will probably break or crash if called wrong
+// assumptions:
+// timed and loop not empty
+// timed has elements starting after loop ends
+static Duration findLoopLength(vector<Time> timed, vector<Time> loop) {
+    sort(timed);
+    if (timed.size() == loop.size()) {
+        return timed.back().endTime();
+    }
+    sort(loop);
+    Time firstAfterLoop = filter<Time>(timed, [loop](Time t) { return t.startTime >= loop.back().endTime(); }).front();
+    return firstAfterLoop.startTime - loop.front().startTime;
+}
+
+static vector<Time> concat(vector<Time> first, vector<Time> second, Duration firstDuration) {
+    for(Time t : second) {
+        t.startTime += firstDuration;
+        first.push_back(t);
+    }
+    return first;
+}
+
+static vector<Time> loop(vector<Time> toLoop, Duration loopDuration, Duration resultDuration) {
+    vector<Time> result = toLoop;
+    Duration currentResultDuration = loopDuration;
+    while(currentResultDuration < resultDuration) {
+        result = concat(result, toLoop, currentResultDuration);
+        currentResultDuration += loopDuration;
+    }
+    return result;
+}
+
