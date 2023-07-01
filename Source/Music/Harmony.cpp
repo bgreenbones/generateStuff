@@ -241,9 +241,8 @@ Phrase harmony::smoothVoicings(Phrase harmony, Phrase rhythm, Probability random
             ? chordScale.item.harmony.smoothVoicing(lastVoicing, range)
             : chordScale.item.harmony.randomVoicing(range);
 
-            // TODO: TAKE range into account in the next 3 calls.
         while (voicing::crunch(voicing) >= maximumCrunch) { // control clusters
-            voicing::decreaseCrunch(voicing);
+            voicing::decreaseCrunch(voicing, range);
         }
         voicing::decreaseSpread(voicing);
         voicing::preventRumble(voicing);

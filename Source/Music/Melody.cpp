@@ -127,11 +127,18 @@ Phrase melody::bass(Phrase harmony, Phrase rhythm,
   for (Time keyPoint : rhythmicLoop) {
   // for (Time keyPoint : keyPoints) {
     // if (!contains<Time>(harmonicKeyPoints, keyPoint) && flipWeightedCoin(0.4)) { continue; }
-    if (!contains<Time>(harmonicKeyPoints, keyPoint) && flipWeightedCoin(1 - density)) { continue; }
+
+    bool first = bassRhythm.empty();
+    double timeSinceLastNote = first // todo: i've used this idea a few times...when to abstract?
+      ? 1. / density
+      : (keyPoint.startTime - bassRhythm.back().endTime()).asSeconds();
+    if (!contains<Time>(harmonicKeyPoints, keyPoint)
+        // && flipWeightedCoin(0.8 - density)
+        && !flipWeightedCoin(density * timeSinceLastNote)) { continue; }
     rhythmicPositions.push_back(keyPoint.startTime);
     
     // vector<Time> times = rhythm::stabilityBased(keyPoint, rhythm.subdivisions, 0.1, 0.4);
-    vector<Time> times = rhythm::stabilityBased(keyPoint, rhythm.subdivisions, 0.1, density);
+    vector<Time> times = rhythm::stabilityBased(keyPoint, rhythm.subdivisions, 0.1, density, true);
     bool barIsEven = (int)floor(keyPoint.startTime.asBars()) % 2;
     if (barIsEven) {
       Duration subdiv = rhythm.subdivisions.drawByPosition(keyPoint.startTime);
@@ -141,7 +148,7 @@ Phrase melody::bass(Phrase harmony, Phrase rhythm,
       times = rhythm::nOfLengthM(numberOfNotes, noteLength);
     }
 
-    double portionToModify = (1 - density) * 0.7;
+    double portionToModify = (1.2 - density) * 0.6;
     vector<vector<Time*>> toDoubleOrTriple = rhythm::distinctSubsets<Time>(times, portionToModify, {0.7, 0.3});
     // vector<vector<Time*>> toDoubleOrTriple = rhythm::distinctSubsets<Time>(times, 0.4, {0.7, 0.3});
     vector<Time*> toDouble = toDoubleOrTriple[0];

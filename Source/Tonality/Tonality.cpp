@@ -14,7 +14,8 @@
 
 
 const Pitch Tonality::chordsHigh = Pitch(75);
-const Pitch Tonality::chordsLow = Pitch(20);
+// const Pitch Tonality::chordsLow = Pitch(20);
+const Pitch Tonality::chordsLow = Pitch(32);
 
 // const Pitch Tonality::chordsHigh = Pitch(90);
 // const Pitch Tonality::chordsLow = Pitch(26);
@@ -38,7 +39,7 @@ double voicing::crunch(vector<Pitch> const& voicing) {
   }
   return totalCrunch;
 }
-void voicing::decreaseCrunch(vector<Pitch> & voicing) {
+void voicing::decreaseCrunch(vector<Pitch> & voicing, PitchRange range) {
   if (voicing.size() < 2) {
     return;
   }
@@ -51,9 +52,11 @@ void voicing::decreaseCrunch(vector<Pitch> & voicing) {
       Interval interval = pitch_i - pitch_j;
       if(interval == M2) {
         Pitch & pitchToMove = flipCoin() ? pitch_i : pitch_j;
-        if (pitchToMove.getOctave() <= 3) {
+        if (pitchToMove - range.low <= octave) {
+        // if (pitchToMove.getOctave() <= 3) {
             pitchToMove += octave;
-        } else if (pitchToMove.getOctave() >= 5) {
+        } else if (range.high - pitchToMove >= octave) {
+        // } else if (pitchToMove.getOctave() >= 5) {
             pitchToMove -= octave;
         } else {
           if (flipCoin()) {

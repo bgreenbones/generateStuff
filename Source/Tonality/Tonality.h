@@ -77,7 +77,7 @@ static const vector<Interval> minor9chord = { unison, m3, P5, m7, M9 };
 
 namespace voicing {
   double crunch(vector<Pitch> const& voicing);
-  void decreaseCrunch(vector<Pitch> & voicing);
+  void decreaseCrunch(vector<Pitch> & voicing, PitchRange range);
   void decreaseSpread(vector<Pitch> & voicing);
   void preventRumble(vector<Pitch> & voicing);
 }

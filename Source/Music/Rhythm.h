@@ -31,7 +31,8 @@ namespace rhythm {
     vector<Time> stabilityBased(Time time, 
                                   Sequence<Duration> subdivisions, 
                                   double stabilityThreshold = 0., 
-                                  Probability filter = 0.6);
+                                  Probability filter = 0.6,
+                                  bool markBeginning = false);
     
     template <typename T>
     vector<T*> selectAtRandom(vector<T>& t, Probability prob);

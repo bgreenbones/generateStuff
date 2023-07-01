@@ -376,13 +376,21 @@ Phrase rhythm::stabilityBased(Phrase fromPhrase, Probability filter)
 vector<Time> rhythm::stabilityBased(Time time, 
                                     Sequence<Duration> subdivisions,
                                     double stabilityThreshold, 
-                                    Probability filter)
+                                    Probability filter,
+                                    bool markBeginning)
 {
     time.trim(subdivisions.parent);
     Position cursor = time.startTime;
     vector<Time> result;
     while (cursor < time.endTime()) {
         Duration subdiv = subdivisions.drawByPosition(cursor);
+        
+        if (cursor == time.startTime && markBeginning) {
+            result.push_back(Time(cursor - time.startTime, subdiv));
+            cursor += subdiv;
+            continue;
+        }
+
         double stability = rhythm::beatWiseStability(cursor); 
         double thresholdedStability = stability > stabilityThreshold 
             ? (stability - stabilityThreshold) / (1. - stabilityThreshold)
