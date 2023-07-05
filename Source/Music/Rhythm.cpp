@@ -364,7 +364,7 @@ Phrase rhythm::stabilityBased(Phrase fromPhrase, Probability filter)
         Duration subdiv = fromPhrase.subdivisions.drawByPosition(cursor);
         
         if(Probability(rhythm::beatWiseStability(cursor)) && filter) {
-            fromPhrase.addNote(Timed<Note>(Time(cursor, subdiv)));
+            fromPhrase.notes.add(Timed<Note>(Time(cursor, subdiv)));
         }
         
         cursor += subdiv;
@@ -672,7 +672,7 @@ Phrase rhythm::cascaraFrom(Phrase fromPhrase) {
     cascara.notes.clear();
     Timed<Note> firstNote = clave.notes.front().withDuration(subdivision);
     firstNote.item = firstNote.item.withAccent();
-    cascara.addNote(firstNote);
+    cascara.notes.add(firstNote);
 
     for (auto noteIt = clave.notes.begin();
          noteIt < clave.notes.end();
@@ -760,8 +760,50 @@ Phrase rhythm::cascaraFrom(Phrase fromPhrase) {
     return cascara;
 }
 
+
+Phrase rhythm::clave(Duration subdivision, double density) {
+    int minNoteLength = 2;
+    int maxNoteLength = 4;
+
+    if (subdivision == Beats(1./3.)) {
+            minNoteLength = 1;
+            maxNoteLength = 3;
+    } else if (subdivision == Beats(1./5.)) {
+            minNoteLength = 2;
+            maxNoteLength = 5;
+    }
+    // TODO: evaluate effects of these and other numbers for other subdivisions.
+
+    vector<double> weights = { 0 };
+    double noteLengthRange = maxNoteLength - minNoteLength;
+    double middleNoteLength = (double)(maxNoteLength + minNoteLength) / 2.;
+    double minWeight = INFINITY;
+    for (int noteLength = 1; noteLength <= maxNoteLength; noteLength++) {
+        if (noteLength < minNoteLength) {
+            weights.push_back(0);
+            continue;
+        }
+
+        double weight = 
+            (maxNoteLength - noteLength) * density +
+            (noteLength - minNoteLength) * density +
+            ((noteLengthRange - abs(noteLength - middleNoteLength)) * (1 - abs(0.5 - density)));
+        weights.push_back(weight);
+        minWeight = weight < minWeight ? weight : minWeight;
+    }
+
+    for (double &weight : weights) {
+        if (weight == 0) continue;
+        weight -= minWeight - 1;
+    }
+    
+
+    return rhythm::randomClave(Phrase(subdivision, 0, Bars(2)), minNoteLength, maxNoteLength, weights);
+}
+
 // todo: some way of preventing 0 syncopation from happening
-Phrase rhythm::randomClave(Phrase fromPhrase, int minNoteLengthInSubdivisions, int maxNoteLengthInSubdivisions) {
+Phrase rhythm::randomClave(Phrase fromPhrase, int minNoteLengthInSubdivisions, int maxNoteLengthInSubdivisions,
+                            vector<double> weights) {
     Phrase clave(fromPhrase);
     
     const Duration subdivision = clave.primarySubdivision();
@@ -770,21 +812,16 @@ Phrase rhythm::randomClave(Phrase fromPhrase, int minNoteLengthInSubdivisions, i
     
     // choose a random arrangement  of that num notes on each side such that
     // space between any two notes (even across sides, both ways) is 2, 3, or 4
-    std::array<double,17> weights = {0,1,1,2,1,2,2,2,1,2,1,1,1,1,1,1,1}; // three is most likely
-    for (int i = 0; i < minNoteLengthInSubdivisions; i++) { weights[i] = 0; }
-    for (int i = weights.size(); i > maxNoteLengthInSubdivisions; i--) { weights[i] = 0; }
+    // std::array<double,17> weights = {0,1,1,2,1,2,2,2,1,2,1,1,1,1,1,1,1}; // three is most likely
+    // for (int i = 0; i < minNoteLengthInSubdivisions; i++) { weights[i] = 0; }
+    // for (int i = weights.size(); i > maxNoteLengthInSubdivisions; i--) { weights[i] = 0; }
     std::discrete_distribution<int> randomNoteLengthInSubdivisions (weights.begin(), weights.end());
 
     // aspects of clave:
     //   1. groupings of 2, 3, and 4
     //   2. 2-sided - 2-3 and 3-2 - even 2-1 and 1-2 -  maybe 3-4 and 4-3 - maybe 2-4 and 4-2?
     //      a. the longer they are, the more can fit in?
-    clave.setDuration(Bars(1));
-    // const int maxClaveNotes = 10; // a regular clave rhythm should really not have too many notes.
-    // while (numNotes > maxClaveNotes) {
-        // clave.duration -= Bars(1);
-        // numNotes = getPotentialClaveNoteCount(clave, minNoteLength, maxNoteLength);
-    // }
+    clave.setDuration(Bars(1)); // todo: do this based on seconds? and/or num notes?
 
     bool constraintsBroken = false;
     int attempts = 0;
@@ -820,7 +857,7 @@ Phrase rhythm::randomClave(Phrase fromPhrase, int minNoteLengthInSubdivisions, i
                 note.duration = randomNum * subdivision;
             }
             notePosition += note.duration;
-            clave.addNote(note);
+            clave.notes.add(note);
         }
     } while (constraintsBroken);
     
@@ -881,7 +918,7 @@ Phrase rhythm::claveFrom(Phrase fromPhrase, int minNoteLengthInSubdivisions, int
             if (flipWeightedCoin(needToAcceptNote)) { // todo: check previous note's time and make it more likely the longer it gets, and definitely not if it's 1 subdivision since last note
                 candidateOnLeft ? notesNeededOnLeft-- : 0.;
                 candidateOnRight ? notesNeededOnRight-- : 0.;
-                clave.addNote(claveNote(noteIt->startTime));
+                clave.notes.add(claveNote(noteIt->startTime));
             }
         }
         

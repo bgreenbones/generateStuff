@@ -131,8 +131,6 @@ public:
     
     template <class T>
     static void addTimedEvent(T toAdd, vector<T>& eventList);
-    bool addNote(Timed<Note> toAdd);
-    bool addSubdivision(Timed<Duration> toAdd);
     void tieSubdivisions();
     void clear() { notes.clear(); subdivisions.clear(); };
     template <class T>

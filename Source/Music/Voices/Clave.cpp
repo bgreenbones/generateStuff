@@ -13,13 +13,14 @@
 
 
 Phrase Clave::newPhrase() const {
-    int minNoteLengthInSubdivisions = ensemble.editorState.getKnobValue(claveMinNoteLengthKey);
-    int maxNoteLengthInSubdivisions = ensemble.editorState.getKnobValue(claveMaxNoteLengthKey);
+    // int minNoteLengthInSubdivisions = ensemble.editorState.getKnobValue(claveMinNoteLengthKey);
+    // int maxNoteLengthInSubdivisions = ensemble.editorState.getKnobValue(claveMaxNoteLengthKey);
 
-    Phrase phrase = rhythm::randomClave(
-        ensemble.emptyPhrase(name), 
-        minNoteLengthInSubdivisions, 
-        maxNoteLengthInSubdivisions);
+    Phrase phrase = ensemble.emptyPhrase(name); 
+    // Phrase phrase = rhythm::randomClave(
+    //     ensemble.emptyPhrase(name), 
+    //     minNoteLengthInSubdivisions, 
+    //     maxNoteLengthInSubdivisions);
 
     dynamics::randomFlux(phrase.notes); // why the heck not give everything a little life.
     phrase.voice = name;

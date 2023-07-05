@@ -199,7 +199,7 @@ Phrase harmony::randomVoicings(Phrase phrase) {
     for (Timed<ChordScale> chordScale : phrase.chordScales) {
         for (Pitch pitchToAdd : chordScale.item.harmony.randomVoicing()) {
             Timed<Note> noteToAdd(chordScale, Note(pitchToAdd, 70));
-            phrase.addNote(noteToAdd);
+            phrase.notes.add(noteToAdd);
         }
     }
     

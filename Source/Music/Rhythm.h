@@ -88,9 +88,11 @@ namespace rhythm {
     Phrase randomCascara(Phrase fromPhrase,
                          Probability pDisplace = 0.5,
                          Probability pDouble = 0.75);
+    Phrase clave(Duration subdivision = Beats(.25), double density = .5);
     Phrase randomClave(Phrase fromPhrase,
                        int minNoteLengthInSubdivisions = 2,
-                       int maxNoteLengthInSubdivisions = 4);
+                       int maxNoteLengthInSubdivisions = 4,
+                       vector<double> weights = { 0, 0, 1, 2, 1 });
     Phrase cascaraFrom(Phrase fromPhrase);
     Phrase claveFrom(Phrase fromPhrase,
                      int minNoteLengthInSubdivisions = 2,

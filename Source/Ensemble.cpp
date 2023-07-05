@@ -15,6 +15,8 @@
 void Ensemble::writeSong() {
     Time form = Time(0, Bars(8));
 
+    Duration subdivision = editorState.getSubdivision();
+    float claveDensity = editorState.getKnobValue(voiceParameterKey(claveKey, densityKey));
 
     float chordsDensity = editorState.getKnobValue(voiceParameterKey(harmonyKey, densityKey));
     float chordsLowPitchParam = editorState.getKnobValue(voiceParameterKey(harmonyKey, lowPitchKey));
@@ -40,7 +42,8 @@ void Ensemble::writeSong() {
     Duration chordsPhraseLength = Bars(4);
     Duration leadPhraseLength = Bars(8);
 
-    Phrase clavePhrase = rhythm::randomClave(emptyPhrase(claveKey), 2, 4); // min and max note length
+    Phrase clavePhrase = rhythm::clave(subdivision, claveDensity    );
+    // Phrase clavePhrase = rhythm::randomClave(emptyPhrase(claveKey), 2, 4); // min and max note length
     Phrase cascaraPhrase = rhythm::cascaraFrom(clavePhrase);
     // Probability chordPerAccentProbability = 0.6;
     // double harmonicDensity = 0.7;

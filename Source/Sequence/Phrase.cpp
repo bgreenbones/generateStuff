@@ -64,22 +64,6 @@ void Phrase::addTimedEvent(T toAdd, vector<T>& eventList) {
          [](T const &a, T const &b) { return a.startTime < b.startTime; });
 }
 
-bool Phrase::addNote(Timed<Note> toAdd) {    
-    bool fitsInPhrase = this->time.containsPartially(toAdd);
-    if (fitsInPhrase) {
-        notes.add(toAdd);
-    }
-    return fitsInPhrase;
-}
-
-bool Phrase::addSubdivision(Timed<Duration> toAdd) {
-    bool fitsInPhrase = this->time.containsPartially(toAdd);
-    if (fitsInPhrase) {
-        subdivisions.add(toAdd);
-    }
-    return fitsInPhrase;
-}
-
 // TODO: call through to Sequence method. or actually this just shouldn't exist.
 template <class T>
 vector<T> Phrase::concatEvents(vector<T> eventList, vector<T> otherList) const {
