@@ -13,7 +13,8 @@
 #include "Ensemble.h"
 
 void Ensemble::writeSong() {
-    Time form = Time(0, Bars(8));
+    Duration phraseLength = editorState.getPhraseLength();
+    Time form = Time(0, phraseLength);
 
     Duration subdivision = editorState.getSubdivision();
     float claveDensity = editorState.getKnobValue(voiceParameterKey(claveKey, densityKey));
@@ -36,13 +37,24 @@ void Ensemble::writeSong() {
     
     PitchRange melodyRange = attenuatePitchRange(melody::pitchRange, melodyHighPitchParam, melodyLowPitchParam);
 
+    vector<int> possiblePhraseLengthsInBars = { 1 };
+    while (possiblePhraseLengthsInBars.back() * 2 <= phraseLength.asBars()) {
+        possiblePhraseLengthsInBars.push_back(possiblePhraseLengthsInBars.back() * 2);
+    }
     // Duration harmonyPhraseLength = Bars(draw<int>({1,2,4}));
     // Duration chordsPhraseLength = Bars(draw<int>({(int)harmonyPhraseLength.asBars(), 2*(int)harmonyPhraseLength.asBars(), 4, 8}));
-    Duration harmonyPhraseLength = Bars(2);
-    Duration chordsPhraseLength = Bars(4);
-    Duration leadPhraseLength = Bars(8);
+    Duration harmonyPhraseLength = Bars(draw<int>(possiblePhraseLengthsInBars));
+    vector<int> possibleChordsPhraseLengthsInBars = { (int)round(harmonyPhraseLength.asBars()) };
+    while (possibleChordsPhraseLengthsInBars.back() * 2 <= phraseLength.asBars()) {
+        possibleChordsPhraseLengthsInBars.push_back(possibleChordsPhraseLengthsInBars.back() * 2);
+    }
+    Duration chordsPhraseLength = Bars(draw<int>(possibleChordsPhraseLengthsInBars));
+    // Duration harmonyPhraseLength = Bars(2);
+    // Duration chordsPhraseLength = Bars(4);
+    // Duration leadPhraseLength = Bars(8);
+    Duration leadPhraseLength = phraseLength;
 
-    Phrase clavePhrase = rhythm::clave(subdivision, claveDensity    );
+    Phrase clavePhrase = rhythm::clave(subdivision, claveDensity);
     // Phrase clavePhrase = rhythm::randomClave(emptyPhrase(claveKey), 2, 4); // min and max note length
     Phrase cascaraPhrase = rhythm::cascaraFrom(clavePhrase);
     // Probability chordPerAccentProbability = 0.6;

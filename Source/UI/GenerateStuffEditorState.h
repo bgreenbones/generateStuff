@@ -53,11 +53,11 @@ public:
     GenerateStuffEditorState(juce::AudioProcessorValueTreeState const& apvts): apvts(apvts) {}
     // general
     beats subdivision = 1./4.;
-    bars phraseLengthBars = 2.;
-    beats phraseLengthBeats = 0.;
-    beats displace = 0.;
-    bars startBar = 1.;
-    bars stopBar = 3.;
+    bars phraseLengthBars = 8.;
+    // beats phraseLengthBeats = 0.;
+    // beats displace = 0.;
+     bars startBar = 1.;
+    // bars stopBar = 9.;
     bars phraseStartTime = 0;
     
     typedef string VoiceName;
@@ -74,7 +74,8 @@ public:
     Bars getStopTime() const { return Bars(startBar - 1., true); }
     
     Duration getPhraseLength() const {
-        Duration result = Bars(phraseLengthBars, true) + Beats(phraseLengthBeats, true);
+        // Duration result = Bars(phraseLengthBars, true) + Beats(phraseLengthBeats, true);
+        Duration result = Bars(phraseLengthBars, true);
         return result;
     }
     
@@ -82,7 +83,7 @@ public:
         return Beats(subdivision);
     }
     
-    Beats getDisplacement() const { return Beats(displace, true); }
+    // Beats getDisplacement() const { return Beats(displace, true); }
     
     
     float getKnobValue(string parameterId) const {

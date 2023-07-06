@@ -22,6 +22,7 @@ class Ensemble {
     // Schedule schedule;
 public:
     map<VoiceName, Voice&> queue;
+    // vector<Voice*> voices;
     GenerateStuffEditorState& editorState;
 
     Clave clave;
@@ -45,6 +46,11 @@ public:
       queue.emplace(chords.name, chords);
       queue.emplace(bass.name, bass);
       queue.emplace(lead.name, lead);
+      // voices.push_back(&clave);
+      // voices.push_back(&cascara);
+      // voices.push_back(&chords);
+      // voices.push_back(&bass);
+      // voices.push_back(&lead);
     }
 
     void writeSong();

@@ -548,19 +548,27 @@ Phrase rhythm::fillCascara(Phrase fromPhrase) {
 };
 
 
-int rhythm::getPotentialClaveNoteCount(Phrase fromPhrase, Duration minNoteLength, Duration maxNoteLength) {
+int rhythm::getPotentialClaveNoteCount(Phrase clave,
+                                        Duration minNoteLength,
+                                        Duration maxNoteLength,
+                                        double density) {
     cout << "get potential clave count" << std::endl;
-    Phrase clave(fromPhrase);
     Duration subdivision = clave.primarySubdivision();
+
     // aspects of clave:
     //   1. groupings of 2, 3, and 4
     //   2. 2-sided - 2-3 and 3-2 - even 2-1 and 1-2 -  maybe 3-4 and 4-3 - maybe 2-4 and 4-2?
     //      a. the longer they are, the more can fit in?
-    int maxNumNotes = floor(clave.getDuration() / minNoteLength) - 1;
-    int minNumNotes = ceil(clave.getDuration() / maxNoteLength) + 1;
+//    int maxNumNotes = floor(clave.getDuration() / minNoteLength) - 1;
+//    int minNumNotes = ceil(clave.getDuration() / maxNoteLength) + 1;
+    int maxNumNotes = floor(clave.getDuration() / minNoteLength);
+    int minNumNotes = ceil(clave.getDuration() / maxNoteLength);
     auto numNotesRange = maxNumNotes - minNumNotes;
     if (numNotesRange < 0) { throw exception(); }
-    auto numNotes = uniformInt(minNumNotes, maxNumNotes); // todo: parameterize, but keep random option
+    int numNotes = minNumNotes + density * (maxNumNotes - minNumNotes);
+    // auto numNotes = uniformInt(minNumNotes, maxNumNotes); // todo: parameterize, but keep random option
+    numNotes = min(numNotes, maxNumNotes);
+    numNotes = max(numNotes, minNumNotes);
     if (numNotes % 2 == 0) { // force odd nums for 2-3, 3-2, 3-4, 4-3, etc.
         if (numNotes + 1 > maxNumNotes) {
             numNotes--;
@@ -574,7 +582,6 @@ int rhythm::getPotentialClaveNoteCount(Phrase fromPhrase, Duration minNoteLength
             }
         }
     }
-    if (numNotes > maxNumNotes) { throw exception(); }
     return numNotes;
 }
 
@@ -786,8 +793,8 @@ Phrase rhythm::clave(Duration subdivision, double density) {
 
         double weight = 
             (maxNoteLength - noteLength) * density +
-            (noteLength - minNoteLength) * density +
-            ((noteLengthRange - abs(noteLength - middleNoteLength)) * (1 - abs(0.5 - density)));
+            (noteLength - minNoteLength) * (1 - density) +
+            ((noteLengthRange - abs(noteLength - middleNoteLength)) * (1 - 2 * abs(0.5 - density)));
         weights.push_back(weight);
         minWeight = weight < minWeight ? weight : minWeight;
     }
@@ -798,12 +805,12 @@ Phrase rhythm::clave(Duration subdivision, double density) {
     }
     
 
-    return rhythm::randomClave(Phrase(subdivision, 0, Bars(2)), minNoteLength, maxNoteLength, weights);
+    return rhythm::randomClave(Phrase(subdivision, 0, Bars(2)), minNoteLength, maxNoteLength, weights, density);
 }
 
 // todo: some way of preventing 0 syncopation from happening
 Phrase rhythm::randomClave(Phrase fromPhrase, int minNoteLengthInSubdivisions, int maxNoteLengthInSubdivisions,
-                            vector<double> weights) {
+                            vector<double> weights, double density) {
     Phrase clave(fromPhrase);
     
     const Duration subdivision = clave.primarySubdivision();
@@ -826,7 +833,7 @@ Phrase rhythm::randomClave(Phrase fromPhrase, int minNoteLengthInSubdivisions, i
     bool constraintsBroken = false;
     int attempts = 0;
     do {
-        int numNotes = getPotentialClaveNoteCount(clave, minNoteLength, maxNoteLength);
+        int numNotes = getPotentialClaveNoteCount(clave, minNoteLength, maxNoteLength, density);
         int notesOnLeft = chooseNumberOfNotesOnLeft(numNotes);
         constraintsBroken = false;
         clave.notes.clear();
@@ -879,7 +886,7 @@ Phrase rhythm::claveFrom(Phrase fromPhrase, int minNoteLengthInSubdivisions, int
     const Duration subdivision = clave.primarySubdivision();
     Duration minNoteLength = minNoteLengthInSubdivisions * subdivision;
     Duration maxNoteLength = maxNoteLengthInSubdivisions * subdivision;
-    int numNotes = getPotentialClaveNoteCount(clave, minNoteLength, maxNoteLength);
+    int numNotes = getPotentialClaveNoteCount(clave, minNoteLength, maxNoteLength, {});
     int notesOnLeft = chooseNumberOfNotesOnLeft(numNotes);
     int notesOnRight = numNotes - notesOnLeft;
     

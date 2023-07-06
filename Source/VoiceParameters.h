@@ -91,7 +91,7 @@ static const juce::StringArray harmonyApproaches = { randomHarmonyApproachKey, d
 HarmonyApproach getHarmonyApproach(juce::String approach);
 static const vector<Parameter> harmonyParameters {
     Parameter(harmonyApproachKey, "approach", harmonyApproaches, 1),
-    Parameter(harmonyDensityKey, "harmony density", densityRange, 0.7, ""),
+    // Parameter(harmonyDensityKey, "harmony density", densityRange, 0.7, ""),
     Parameter(harmonyProbabilityKey, "harmony probability", probabilityRange, 0.6, " probability"),
 };
 

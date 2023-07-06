@@ -37,6 +37,7 @@ private:
     
 //    juce::Slider probabilityOfDouble;
     juce::TextButton generateButton { "generate" };
+    juce::Label subdivisionLabel;
     juce::TextButton subDivButton1 { "1/1" };
     juce::TextButton subDivButton2 { "1/2" };
     juce::TextButton subDivButton3 { "1/3" };
@@ -52,15 +53,9 @@ private:
     };
     // 1st column
     juce::Label phraseLengthBarsLabel;
-    juce::Label phraseLengthBeatsLabel;
     juce::TextEditor phraseLengthBars;
-    juce::TextEditor phraseLengthBeats;
-    juce::Label displaceLabel; // displace beats
-    juce::TextEditor displace;
-    juce::Label startBarLabel; // start bar
-    juce::TextEditor startBar;// todo: these edit form
-    juce::Label stopBarLabel; // stop bar / just go forever? / loop going forward in timeline?
-    juce::TextEditor stopBar;
+    juce::Label startBarLabel;
+    juce::TextEditor startBar;
     
 
     void updateEditorState();

@@ -72,7 +72,7 @@ namespace rhythm {
     Phrase stabilityFilter(Phrase fromPhrase, Direction direction = Direction::up);
 
 
-    int getPotentialClaveNoteCount(Phrase fromPhrase, Duration minNoteLength, Duration maxNoteLength);
+    int getPotentialClaveNoteCount(Phrase fromPhrase, Duration minNoteLength, Duration maxNoteLength, double density);
     int chooseNumberOfNotesOnLeft(double numNotes);
     
     Phrase fillCascara(Phrase fromPhrase);
@@ -92,7 +92,8 @@ namespace rhythm {
     Phrase randomClave(Phrase fromPhrase,
                        int minNoteLengthInSubdivisions = 2,
                        int maxNoteLengthInSubdivisions = 4,
-                       vector<double> weights = { 0, 0, 1, 2, 1 });
+                       vector<double> weights = { 0, 0, 1, 2, 1 },
+                       double density = 0.5);
     Phrase cascaraFrom(Phrase fromPhrase);
     Phrase claveFrom(Phrase fromPhrase,
                      int minNoteLengthInSubdivisions = 2,
