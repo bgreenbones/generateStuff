@@ -71,7 +71,7 @@ public:
     double probabilityOfDouble; // not yet using for 'cascara' abstraction
     
     Bars getStartTime() const { return Bars(startBar - 1., true); }
-    Bars getStopTime() const { return Bars(startBar - 1., true); }
+    Bars getStopTime() const { return getStartTime() + getPhraseLength(); }
     
     Duration getPhraseLength() const {
         // Duration result = Bars(phraseLengthBars, true) + Beats(phraseLengthBeats, true);

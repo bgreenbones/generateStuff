@@ -110,9 +110,13 @@ void GenerateStuffAudioProcessorEditor::resized()
     int height = getHeight() - 2 * yPadding;
     int width = getWidth() - 2 * xPadding;
 
-    int numSliders = 6;
-    int buttonColumns = voiceManager.getNumberOfColumns() + 1;
-    int buttonWidth = (width - numSliders * ui::sliderWidth - ui::spaceBetweenControls * (numSliders + buttonColumns)) / buttonColumns;
+    int numSliders = 0;
+    // int numSliders = 6;
+    int globalColumns = 3;
+    int voiceColumns = voiceManager.getNumberOfColumns();
+    int columns = globalColumns + voiceColumns;
+    // int buttonWidth = (width - numSliders * ui::sliderWidth - ui::spaceBetweenControls * (numSliders + buttonColumns)) / buttonColumns;
+    int buttonWidth = (width - ui::spaceBetweenControls * columns) / columns;
     
     int xCursor = xPadding;
     int yCursor = yPadding;

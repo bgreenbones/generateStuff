@@ -14,7 +14,7 @@
 
 void Ensemble::writeSong() {
     Duration phraseLength = editorState.getPhraseLength();
-    Time form = Time(0, phraseLength);
+    Time form = Time(editorState.getStartTime(), phraseLength);
 
     Duration subdivision = editorState.getSubdivision();
     float claveDensity = editorState.getKnobValue(voiceParameterKey(claveKey, densityKey));

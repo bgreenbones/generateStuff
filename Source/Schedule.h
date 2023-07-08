@@ -44,8 +44,13 @@ public:
     bool schedulePhrase(Time time, Phrase phrase) {
       phrase.schedule.emplace(time);
       if (find(scheduleTimes.begin(), scheduleTimes.end(), time) == scheduleTimes.end()) {
+          for (Timed<Time> t: scheduleTimes) {
+              if (t.containsPartially(time) || t.containsCompletely(time) || time.containsCompletely(t)) {
+                  unschedulePhrase(t);
+              }
+          }
         if (!scheduleTimes.add(time)) {
-          return false;
+            return false;
         }
         //  else {
         //     schedule[time] = phrase;

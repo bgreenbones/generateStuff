@@ -19,10 +19,10 @@ VoiceManager::VoiceManager(GenerateStuffAudioProcessor& processor):
     processor(processor),
     ensemble(processor.ensemble)
 {
-    for (auto voiceEntry : ensemble.queue) {
-    // for (auto name : voiceKeys) {
-        // voices.emplace(name, VoiceControls(ensemble.queue.at(name), processor));
-        voices.emplace(voiceEntry.second.name, VoiceControls(voiceEntry.second, processor));
+    // for (auto voiceEntry : ensemble.queue) {
+    for (auto name : voiceKeys) {
+        voices.emplace(name, VoiceControls(ensemble.queue.at(name), processor));
+        // voices.emplace(voiceEntry.second.name, VoiceControls(voiceEntry.second, processor));
     }
 }
 
@@ -71,10 +71,10 @@ void VoiceManager::setBounds(int xCursor, int yCursor, int buttonWidth, int voic
     }
     incrementXCursor();
 //    sort(ensemble.queue.begin(), ensemble.queue.end(), [](auto it1, auto it2) { return it1.second.midiChannel < it2.second.midiChannel; });
-    for (auto voiceIt = ensemble.queue.begin(); voiceIt != ensemble.queue.end(); voiceIt++) {
-    // for (auto name : voiceKeys) {
-        voices.at(voiceIt->second.name).setBounds (xCursor, yCursor, buttonWidth, voiceTileHeight, spaceBetweenControls);
-        // voices.at(name).setBounds (xCursor, yCursor, buttonWidth, voiceTileHeight, spaceBetweenControls);
+    // for (auto voiceIt = ensemble.queue.begin(); voiceIt != ensemble.queue.end(); voiceIt++) {
+    for (auto name : voiceKeys) {
+        // voices.at(voiceIt->second.name).setBounds (xCursor, yCursor, buttonWidth, voiceTileHeight, spaceBetweenControls);
+        voices.at(name).setBounds (xCursor, yCursor, buttonWidth, voiceTileHeight, spaceBetweenControls);
         incrementXCursor();
     }
 }
@@ -84,7 +84,8 @@ size_t VoiceManager::getNumberOfButtons() {
 }
 
 size_t VoiceManager::getNumberOfColumns() {
-    return voices.begin()->second.getNumberOfColumns();
+    return voices.size() + 1;
+    // return voices.begin()->second.getNumberOfColumns();
 }
 
 size_t VoiceManager::getNumberOfVoices() {
