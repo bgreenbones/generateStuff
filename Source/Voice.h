@@ -34,13 +34,15 @@ static const VoiceName melodyKey = "melody";
 static const vector<VoiceName> voiceKeys = {
   claveKey, cascaraKey, harmonyKey, bassKey, melodyKey
 };
+static const vector<VoiceName> rhythmicVoiceKeys = { claveKey, cascaraKey };
+static const vector<VoiceName> tonalVoiceKeys = { harmonyKey, bassKey, melodyKey };
 
 static int claveChannel = 1;
 static int cascaraChannel = 2;
-static int subdivisionsChannel = 3;
-static int harmonyChannel = 4;
-static int bassChannel = 5;
-static int melodyChannel = 6;
+static int subdivisionsChannel = -1;
+static int harmonyChannel = 3;
+static int bassChannel = 4;
+static int melodyChannel = 5;
 //static int pulseAndDisplaceChannel = 4;
 
 

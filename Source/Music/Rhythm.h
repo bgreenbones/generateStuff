@@ -94,7 +94,7 @@ namespace rhythm {
                        int maxNoteLengthInSubdivisions = 4,
                        vector<double> weights = { 0, 0, 1, 2, 1 },
                        double density = 0.5);
-    Phrase cascaraFrom(Phrase fromPhrase);
+    Phrase cascaraFrom(Phrase fromPhrase, float density = .5);
     Phrase claveFrom(Phrase fromPhrase,
                      int minNoteLengthInSubdivisions = 2,
                      int maxNoteLengthInSubdivisions = 4);

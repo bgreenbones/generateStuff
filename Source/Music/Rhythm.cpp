@@ -666,7 +666,7 @@ Phrase rhythm::randomCascara(Phrase fromPhrase,
     return cascara;
 }
 
-Phrase rhythm::cascaraFrom(Phrase fromPhrase) {
+Phrase rhythm::cascaraFrom(Phrase fromPhrase, float density) {
     Phrase clave(fromPhrase);
     if (clave.notes.size() <= 0) {
         DBG ("no notes to generate a cascara from");
@@ -764,6 +764,28 @@ Phrase rhythm::cascaraFrom(Phrase fromPhrase) {
     cascara.notes.legato();
 //    applyCascaraAccents(cascara.notes, subdivision);
     
+    if (density < 0.5) {
+        Probability removeProbability((0.5 - density) * 2.);
+        for (auto note_it = cascara.notes.begin(); note_it != cascara.notes.end(); note_it++) {
+            bool noteStartsDouble = note_it->duration == subdivision;
+            if ((noteStartsDouble && flipWeightedCoin(removeProbability))) {
+                
+                note_it = cascara.notes.erase(note_it) - 1;
+            }
+        }
+    } else if (density > 0.5) {
+        Probability fillInProbability((density - 0.5) * 2.);
+
+        for (auto note_it = cascara.notes.begin(); note_it != cascara.notes.end(); note_it++) {
+            if (flipWeightedCoin(fillInProbability)) {
+                note_it->duration = 0.5 * note_it->duration;
+                Timed<Note> repetition(*note_it);
+                repetition.startTime = note_it->endTime();
+                note_it = cascara.notes.insert(note_it + 1, repetition);
+            }
+        }
+    }
+    cascara.notes.legato();
     return cascara;
 }
 
